@@ -28,13 +28,12 @@
   --accent-foreground: oklch(0.205 0 0);
 
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(44.4% 0.177 26.899); /* <-- missing before */
+  --destructive-foreground: oklch(44.4% 0.177 26.899);
 
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
 
-  /* optional extras you had */
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -123,7 +122,6 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* optional: charts / sidebar */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
