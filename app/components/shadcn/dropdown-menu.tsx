@@ -8,7 +8,20 @@ import { cn } from "@/lib/utils"
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 
-const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
+const DropdownMenuTrigger = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Trigger>
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.Trigger
+    ref={ref}
+    className={cn(
+      "flex h-9 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] focus-visible:outline-none focus-visible:border-ring/40 focus-visible:ring-0 focus-visible:shadow-input-focus focus-visible:scale-[1.001] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+      className
+    )}
+    {...props}
+  />
+))
+DropdownMenuTrigger.displayName = DropdownMenuPrimitive.Trigger.displayName
 
 const DropdownMenuGroup = DropdownMenuPrimitive.Group
 
@@ -212,6 +225,7 @@ export {
   DropdownMenuItem,
   DropdownMenuCheckboxItem,
   DropdownMenuRadioItem,
+  DropdownMenuRadioItemWithCheck,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
