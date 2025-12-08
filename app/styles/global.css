@@ -6,7 +6,7 @@
 :root {
   --radius: 0.625rem;
 
-  --background: oklch(1 0 0);
+  --background: #F9FAFB;
   --foreground: oklch(0.145 0 0);
 
   --card: oklch(1 0 0);
@@ -48,6 +48,8 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  --logo: #FACC15;
 }
 
 /* --- Dark tokens --- */
@@ -68,15 +70,15 @@
   --secondary-foreground: oklch(0.985 0 0);
 
   --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
+  --muted-foreground: #71717A;
 
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
 
   --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0); /* <-- add here too */
+  --destructive-foreground: oklch(0.985 0 0);
 
-  --border: oklch(1 0 0 / 10%);
+  --border: oklch(0 0 0);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
 
@@ -135,11 +137,59 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-logo: var(--logo);
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  /*---break---*/
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  /*---break---*/
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
 }
 
 @layer base {
   * { @apply border-border outline-ring/50; }
   body { @apply bg-background text-foreground; }
+}
+
+@layer utilities {
+  .text-logo {
+    @apply text-2xl font-extrabold leading-[32px] tracking-normal text-logo;
+  }
+  .text-logo-sub {
+    @apply text-sm font-normal leading-none tracking-normal;
+  }
+
+  .shadow-input-focus {
+    box-shadow: 
+      0 0 0 3px oklch(0.708 0 0 / 0.25),
+      0 2px 6px oklch(0.708 0 0 / 0.18),
+      0 6px 24px oklch(0.708 0 0 / 0.12),
+      inset 0 1px 2px oklch(1 0 0 / 0.5);
+  }
+
+  .dark .shadow-input-focus {
+    box-shadow: 
+      0 0 0 3px oklch(0.556 0 0 / 0.35),
+      0 2px 6px oklch(0.556 0 0 / 0.22),
+      0 6px 24px oklch(0.556 0 0 / 0.15),
+      inset 0 1px 2px oklch(0.205 0 0 / 0.4);
+  }
 }
 
 @custom-variant dark (&:is(.dark &));
