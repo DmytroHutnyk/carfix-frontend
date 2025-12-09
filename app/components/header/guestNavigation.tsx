@@ -12,6 +12,7 @@ import {
 import {ChevronDown} from "lucide-react";
 import { cn } from "@/lib/utils";
 import {Button} from "@/components/shadcn/button";
+import {useRouter} from "next/navigation";
 
 export type Language = "EN" | "PL" | "UKR";
 
@@ -22,6 +23,8 @@ export default function GuestNavigation({language, setLanguage}:
     language: Language;
     setLanguage: (value: Language) => void;
 }) {
+    const router = useRouter();
+
     return (
         <>
             <DropdownMenu>
@@ -43,7 +46,7 @@ export default function GuestNavigation({language, setLanguage}:
             </DropdownMenu>
 
             <div className= "inline-flex items-center justify-center gap-3">
-                <Button variant="default">Login/SignUp</Button>
+                <Button variant="default" onClick={() => router.push('/login')}>Login/SignUp</Button>
                 <Button variant="outline">For Business</Button>
             </div>
         </>

@@ -5,7 +5,7 @@ import {MapPin, Search} from "lucide-react";
 import {Input} from "@/components/shadcn/input";
 import GuestNavigation, {Language} from "@/components/header/guestNavigation";
 import UserNavigation from "@/components/header/userNavigation";
-import {ChangeEvent, useState} from "react";
+import {useState} from "react";
 
 export default function Header() {
     const loggedIn = false;

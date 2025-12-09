@@ -1,13 +1,15 @@
 'use client'
 
 
+
+import Header from "@/components/header/header";
+
 export default function Home() {
 
-
   return (
-    <>
-      <p>Hello</p>
-    </>
+    <div>
+      <Header/>
+    </div>
   )
 }
 
