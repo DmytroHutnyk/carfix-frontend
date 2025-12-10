@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
-import './styles/global.css'
-import Header from "@/components/header/header";
+import '@/util/styles/global.css'
+import Providers from "@/util/authContext/providers";
+
 
 export const metadata: Metadata = {
   title: 'CarFix',
@@ -15,8 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-      <Header />
-      {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   )

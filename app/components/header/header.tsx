@@ -5,10 +5,11 @@ import {MapPin, Search} from "lucide-react";
 import {Input} from "@/components/shadcn/input";
 import GuestNavigation, {Language} from "@/components/header/guestNavigation";
 import UserNavigation from "@/components/header/userNavigation";
-import {ChangeEvent, useState} from "react";
+import {useState} from "react";
+import {useAuth} from "@/util/authContext/auth-context";
 
 export default function Header() {
-    const loggedIn = false;
+    const authContext = useAuth();
     const [language, setLanguage] = useState<Language>("EN");
 
     const handleLanguageChange = (newLanguage: Language) => {
@@ -43,7 +44,7 @@ export default function Header() {
                 </div>
 
                 {/* Buttons for LoggedIn user and for guest*/}
-                {loggedIn ? (<UserNavigation />) : (<GuestNavigation language={language} setLanguage={handleLanguageChange} />)}
+                {authContext.isAuthenticated ? (<UserNavigation />) : (<GuestNavigation language={language} setLanguage={handleLanguageChange} />)}
 
 
             </div>
