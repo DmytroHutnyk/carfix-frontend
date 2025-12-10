@@ -6,7 +6,7 @@ import {Input} from "@/components/shadcn/input";
 import GuestNavigation, {Language} from "@/components/header/guestNavigation";
 import UserNavigation from "@/components/header/userNavigation";
 import {useState} from "react";
-import {useAuth} from "@/auth-context";
+import {useAuth} from "@/util/authContext/auth-context";
 
 export default function Header() {
     const authContext = useAuth();
