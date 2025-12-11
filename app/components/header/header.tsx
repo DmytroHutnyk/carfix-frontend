@@ -18,7 +18,7 @@ export default function Header() {
 
     return (
         <header className="w-full border-b-border bg-background shadow-[0px_1px_3px_rgba(0,0,0,0.1)]">
-            <div className="mx-auto flex max-w-[1425px] items-center gap-7 px-6 py-3 ">
+            <div className="mx-auto flex max-w-[1475px] items-center gap-7 px-6 py-3 ">
 
                 {/* Logo and slogan*/}
                 <Logo/>
