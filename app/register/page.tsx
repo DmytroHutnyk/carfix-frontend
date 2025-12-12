@@ -2,7 +2,7 @@
 
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/shadcn/card";
 import {Button} from "@/components/shadcn/button";
-import {AlertCircle, Check, ChevronsUpDown, Eye, EyeOff, X} from "lucide-react";
+import {AlertCircle, Eye, EyeOff, X} from "lucide-react";
 import {useRouter} from "next/navigation";
 import {Input} from "@/components/shadcn/input";
 import {useState} from "react";
@@ -12,6 +12,9 @@ import {OrbitProgress} from "react-loading-indicators";
 
 
 export default function Register(){
+    const [value, setValue] = useState<string>("");
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+
     const [error, setError] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const router = useRouter()
@@ -40,7 +43,7 @@ export default function Register(){
                 throw new Error(errorMessage);
             }
 
-            router.push("/login");
+            router.replace("/login");
 
         }catch(err){
             if(err instanceof TypeError){
@@ -55,9 +58,6 @@ export default function Register(){
         }
 
     }
-
-    const [value, setValue] = useState<string>("");
-    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     return (
         <div className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-background px-6 py-12">

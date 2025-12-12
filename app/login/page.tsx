@@ -75,11 +75,12 @@ export default function Login(){
                     variant="ghost"
                     size="icon"
                     className="absolute right-3 top-3 z-10"
-                    asChild
+                    onClick={() => {
+                        router.back();
+                    }}
                 >
-                    <Link href="/">
-                        <X className="h-5 w-5" />
-                    </Link>
+                    <X className="h-5 w-5" />
+
                 </Button>
 
                 <CardHeader>
@@ -162,7 +163,7 @@ export default function Login(){
                     <p className="text-center text-sm text-muted-foreground">
                         Don't have an account?{" "}
                         <Button variant="link" asChild className="p-0 h-auto">
-                            <Link href="/register">Register</Link>
+                            <Link href="/register" replace>Register</Link>
                         </Button>
                     </p>
                 </CardFooter>
