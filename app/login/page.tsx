@@ -36,12 +36,18 @@ export default function Login(){
                 credentials: "include",
             })
 
-            const result = await response.json();
-
             if(!response.ok){
-                const errorMessage = result.detail || result.title || "Login failed";
+                const result = await response.json();
+                let errorMessage = result.detail || result.title || "Login failed. Please try again";
+
+                if (result?.errors) {
+                    errorMessage = Object.values(result.errors).join("\n");
+                }
+
                 throw new Error(errorMessage);
             }
+
+            const result = await response.json();
 
             const user = result as User;
             authContext.login(user);
@@ -126,7 +132,7 @@ export default function Login(){
                         {error && (
                             <Alert variant="destructive">
                                 <AlertCircle className="h-4 w-4" />
-                                <AlertDescription>{error}</AlertDescription>
+                                <AlertDescription className="whitespace-pre-line">{error}</AlertDescription>
                             </Alert>
                         )}
 
