@@ -1,10 +1,10 @@
 'use client'
 
-import Header from "@/components/header/header";
+import Header from "@/_components/root/header/header";
 import { useAuth } from "@/util/authContext/auth-context";
 import { OrbitProgress } from "react-loading-indicators";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcn/card";
-import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/components/shadcn/carousel";
+import { Card, CardContent, CardHeader, CardTitle } from "@/_components/shadcn/card";
+import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/_components/shadcn/carousel";
 import Image from "next/image";
 
 const services = [
