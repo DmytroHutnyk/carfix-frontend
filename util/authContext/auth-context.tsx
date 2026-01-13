@@ -1,16 +1,5 @@
 import {createContext, useContext, useEffect, useState} from "react";
-
-export interface User {
-    id: string;
-    name: string;
-    surname: string;
-    phoneCountryCode: string;
-    phoneNumber: string;
-    email: string;
-    role: string;
-    dateOfBirth: string | null;
-    customerStatus: string;
-}
+import {User} from "@/util/types/app";
 
 interface AuthContextType{
     isLoading: boolean;

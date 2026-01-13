@@ -9,7 +9,8 @@ import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/_component
 import {useRouter} from "next/navigation";
 import {OrbitProgress} from "react-loading-indicators";
 import {Alert, AlertDescription} from "@/_components/shadcn/alert";
-import {useAuth, User} from "@/util/authContext/auth-context";
+import {useAuth} from "@/util/authContext/auth-context";
+import {User} from "@/util/types/app";
 
 export default function Login(){
     const [error, setError] = useState<string | null>(null)
