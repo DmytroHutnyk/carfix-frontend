@@ -1,6 +1,6 @@
 import {ApiError, ClientError, isProblemDetailError, NetworkError, ProblemDetailError, StandardError} from "@/util/types/api";
 
-const apiClient = {
+export const clientApi = {
     baseUrl: process.env.NEXT_PUBLIC_API_URL,
     defaultHeaders: {
         'Content-Type': 'application/json',

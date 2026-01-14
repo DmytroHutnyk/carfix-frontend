@@ -36,6 +36,18 @@ type Errors = {
     [key: string]: string;
 }
 
+export function isStandardError(obj: any): obj is StandardError {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        obj._tag === 'StandardError' &&
+        typeof obj.name === 'string' &&
+        typeof obj.message === 'string' &&
+        typeof obj.status === 'number' &&
+        (obj.body === undefined || typeof obj.body === 'object')
+    );
+}
+
 export function isProblemDetailError(obj: any): obj is ProblemDetailError {
     return (
         typeof obj === 'object' &&

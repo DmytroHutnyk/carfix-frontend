@@ -42,13 +42,13 @@ export interface AuthState {
 
 export interface AuthActions {
     login: (credentials: LoginCredentials) => Promise<User>
-    logout: () => Promise<void>;
-    refetchSession: () => Promise<void>;
+    // logout: () => Promise<void>;TODO
+    // refetchSession: () => Promise<void>;
     /* updateProfile: (data: UpdateProfilePayload) => Promise<User>;*/
 }
 
 export interface UseAuthReturn extends AuthState, AuthActions {
-    loginMutation: UseMutationResult<User, ApiError, LoginCredentials>;
-    logoutMutation: UseMutationResult<void, ApiError, void>;
+    // loginMutation: UseMutationResult<User, ApiError, LoginCredentials>; TODO
+    // logoutMutation: UseMutationResult<void, ApiError, void>;
     /*   updateProfileMutation: UseMutationResult<User, ApiError, UpdateProfilePayload>; */
 }
