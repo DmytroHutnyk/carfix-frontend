@@ -12,7 +12,7 @@ export interface StandardError extends ApiError {
     name: string;
     message: string;
     status: number;
-    body?: JSON;
+    body?: JSON | null;
 }
 
 export interface ProblemDetailError extends ApiError {

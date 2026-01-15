@@ -1,87 +1,16 @@
 'use client'
 
 import Header from "@/_components/root/header/header";
-import { useAuth } from "@/util/authContext/auth-context";
+import { useAuthOld } from "@/util/authContext/auth-context";
 import { OrbitProgress } from "react-loading-indicators";
 import { Card, CardContent, CardHeader, CardTitle } from "@/_components/shadcn/card";
 import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/_components/shadcn/carousel";
 import Image from "next/image";
-
-const services = [
-  { name: "Oil Change", imagePath: "/images/oil_change.png"},
-  { name: "Brake Repair", imagePath: "/images/brake_pads_replacement.png"},
-  { name: "Tire Service", imagePath: "/images/tire_replacement.png"},
-  { name: "Engine Diagnostics", imagePath: "/images/engine_diagnostics.png"},
-];
-
-const serviceStations = [
-    {name: "Serwis Ochota", imagePath: "/images/generic_service_station.png"},
-    {name: "Serwis Wola", imagePath: "/images/generic_service_station.png"},
-    {name: "Serwis Centrum", imagePath: "/images/generic_service_station.png"},
-    {name: "Serwis Praga-Południe", imagePath: "/images/generic_service_station.png"},
-]
-
-const reviews = [
-  {
-    name: "Sarah Johnson",
-    review: "Excellent service! They fixed my brakes quickly and the price was very reasonable. Highly recommend!",
-    initials: "SJ"
-  },
-  {
-    name: "Mike Chen",
-    review: "Found a great mechanic through CarFix. Professional, honest, and got my car running like new again.",
-    initials: "MC"
-  },
-  {
-    name: "Emma Davis",
-    review: "Super convenient booking system. Saved me so much time finding a reliable service center nearby.",
-    initials: "ED"
-  },
-  {
-    name: "John Smith",
-    review: "Great experience from start to finish. The mechanic was knowledgeable and explained everything clearly.",
-    initials: "JS"
-  },
-];
-
-const steps = [
-  {
-    number: 1,
-    title: "Search & Compare",
-    description: "Find service centers near you and compare prices, reviews, and services offered."
-  },
-  {
-    number: 2,
-    title: "Book Online",
-    description: "Schedule your appointment online at your convenience with instant confirmation."
-  },
-  {
-    number: 3,
-    title: "Get Service",
-    description: "Arrive at your scheduled time and enjoy professional, reliable car service."
-  },
-];
-
-function ServiceCard({ name, imagePath }: { name: string; imagePath: string }) {
-  return (
-    <Card className="overflow-hidden">
-      <div className="h-48 bg-muted flex items-center justify-center">
-         <Image
-             src={imagePath}
-             alt={name}
-             width={400}
-             height={300}
-             className="w-full h-full object-cover"/>
-      </div>
-      <CardHeader>
-        <CardTitle className="text-center">{name}</CardTitle>
-      </CardHeader>
-    </Card>
-  );
-}
+import ServiceCard from "@/_components/root/ServiceCard";
 
 export default function Home() {
-  const { isLoading } = useAuth();
+  const { isLoading } = useAuthOld();
+
 
   return (
     <div>
@@ -173,3 +102,57 @@ export default function Home() {
   )
 }
 
+const services = [
+    { name: "Oil Change", imagePath: "/images/oil_change.png"},
+    { name: "Brake Repair", imagePath: "/images/brake_pads_replacement.png"},
+    { name: "Tire Service", imagePath: "/images/tire_replacement.png"},
+    { name: "Engine Diagnostics", imagePath: "/images/engine_diagnostics.png"},
+];
+
+const serviceStations = [
+    {name: "Serwis Ochota", imagePath: "/images/generic_service_station.png"},
+    {name: "Serwis Wola", imagePath: "/images/generic_service_station.png"},
+    {name: "Serwis Centrum", imagePath: "/images/generic_service_station.png"},
+    {name: "Serwis Praga-Południe", imagePath: "/images/generic_service_station.png"},
+]
+
+const reviews = [
+    {
+        name: "Sarah Johnson",
+        review: "Excellent service! They fixed my brakes quickly and the price was very reasonable. Highly recommend!",
+        initials: "SJ"
+    },
+    {
+        name: "Mike Chen",
+        review: "Found a great mechanic through CarFix. Professional, honest, and got my car running like new again.",
+        initials: "MC"
+    },
+    {
+        name: "Emma Davis",
+        review: "Super convenient booking system. Saved me so much time finding a reliable service center nearby.",
+        initials: "ED"
+    },
+    {
+        name: "John Smith",
+        review: "Great experience from start to finish. The mechanic was knowledgeable and explained everything clearly.",
+        initials: "JS"
+    },
+];
+
+const steps = [
+    {
+        number: 1,
+        title: "Search & Compare",
+        description: "Find service centers near you and compare prices, reviews, and services offered."
+    },
+    {
+        number: 2,
+        title: "Book Online",
+        description: "Schedule your appointment online at your convenience with instant confirmation."
+    },
+    {
+        number: 3,
+        title: "Get Service",
+        description: "Arrive at your scheduled time and enjoy professional, reliable car service."
+    },
+];

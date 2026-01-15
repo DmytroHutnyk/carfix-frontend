@@ -1,7 +1,7 @@
 import {ApiError, ClientError, isProblemDetailError, NetworkError, ProblemDetailError, StandardError} from "@/util/types/api";
 
 export const clientApi = {
-    baseUrl: process.env.NEXT_PUBLIC_API_URL,
+    baseUrl: process.env.NEXT_PUBLIC_API_BASE,
     defaultHeaders: {
         'Content-Type': 'application/json',
     },
@@ -14,9 +14,20 @@ export const clientApi = {
                 credentials: 'include',
             });
 
-            const data = await response.json();
-
+            const text = await response.text();
+            const data = text ? JSON.parse(text) : null;
+            
             if(!response.ok){
+                if(!data) {
+                    const standardError: StandardError = {
+                        _tag: 'StandardError',
+                        name: 'HttpError',
+                        message: response.statusText || 'Request failed',
+                        status: response.status,
+                        body: null,
+                    };
+                    return standardError;
+                }
                 if(isProblemDetailError(data)){
                     const problemDetailError: ProblemDetailError = {
                         _tag: 'ProblemDetailError',
@@ -35,7 +46,7 @@ export const clientApi = {
                         message: data.message,
                         status: data.status,
                         body: data.body,
-                    }
+                    };
                     return standardError;
                 }
             }
@@ -51,6 +62,14 @@ export const clientApi = {
                     description: "Network error."
                 }
                 return networkError;
+            }
+
+            if(err instanceof SyntaxError){
+                const clientError: ClientError = {
+                    _tag: 'ClientError',
+                    description: "Invalid JSON response from server."
+                }
+                return clientError;
             }
 
             const clientError: ClientError = {

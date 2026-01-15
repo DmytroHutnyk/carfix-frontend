@@ -9,7 +9,7 @@ import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/_component
 import {useRouter} from "next/navigation";
 import {OrbitProgress} from "react-loading-indicators";
 import {Alert, AlertDescription} from "@/_components/shadcn/alert";
-import {useAuth} from "@/util/authContext/auth-context";
+import {useAuthOld} from "@/util/authContext/auth-context";
 import {User} from "@/util/types/app";
 
 export default function Login(){
@@ -17,7 +17,7 @@ export default function Login(){
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const router = useRouter();
-    const authContext = useAuth();
+    const authContext = useAuthOld();
 
     async function handleLogin (e: React.FormEvent<HTMLFormElement>)  {
         e.preventDefault();

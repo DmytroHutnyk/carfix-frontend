@@ -114,7 +114,7 @@ export default function Register(){
             <Card className="relative w-full max-w-md ">
                 {isSubmitting && (
                     <div className="absolute inset-0 z-20 flex items-center justify-center">
-                        <OrbitProgress
+                        <OrbitProgress //TODO color is green for some reason, must be yellow?
                             color="hsl(var(--primary))"
                             size="large"
                             text=""

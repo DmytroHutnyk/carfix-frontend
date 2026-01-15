@@ -6,10 +6,11 @@ import {Input} from "@/_components/shadcn/input";
 import GuestNavigation, {Language} from "@/_components/root/header/guestNavigation";
 import UserNavigation from "@/_components/root/header/userNavigation";
 import {useState} from "react";
-import {useAuth} from "@/util/authContext/auth-context";
+import {useAuthOld} from "@/util/authContext/auth-context";
+import {useAuth} from "@/util/auth/hooks/useAuth";
 
 export default function Header() {
-    const authContext = useAuth();
+    const { isAuthenticated } = useAuth();
     const [language, setLanguage] = useState<Language>("EN");
 
     const handleLanguageChange = (newLanguage: Language) => {
@@ -44,7 +45,7 @@ export default function Header() {
                 </div>
 
                 {/* Buttons for LoggedIn user and for guest*/}
-                {authContext.isAuthenticated ? (<UserNavigation />) : (<GuestNavigation language={language} setLanguage={handleLanguageChange} />)}
+                {isAuthenticated ? (<UserNavigation />) : (<GuestNavigation language={language} setLanguage={handleLanguageChange} />)}
 
 
             </div>

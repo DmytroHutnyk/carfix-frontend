@@ -3,7 +3,7 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {useRouter} from "next/navigation";
 import {authKeys} from "@/util/auth/keys";
 import {authApi} from "@/util/api/authApi"
-import {isApiError, isProblemDetailError} from "@/util/types/api";
+import {isApiError, isProblemDetailError, isStandardError} from "@/util/types/api";
 
 export function useAuth(): UseAuthReturn {
     const queryClient = useQueryClient();
@@ -14,8 +14,9 @@ export function useAuth(): UseAuthReturn {
         queryFn: authApi.getSession,
         retry: (count, error) => {
             // check is needed as we throw custom error in authApi.getSession
-            if(isProblemDetailError(error) || isProblemDetailError(error)) {
-                return error.status !== 401 && count < 3;
+            if(isProblemDetailError(error) || isStandardError(error)) {
+                console.log(error.status)
+                return error.status !== 401 && count < 3; //TODO if 401 user must be redirected to login, but not always! only on protected pages
             }
             return count < 3;
         },
@@ -68,9 +69,5 @@ export function useAuth(): UseAuthReturn {
         //     return updateProfileMutation.mutateAsync(data);
         // },
         // refetchSession: sessionQuery.refetch,
-
-
     }
-
-
 }
