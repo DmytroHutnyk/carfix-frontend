@@ -5,10 +5,15 @@ import {LoginCredentials, RegisterRequest} from "@/util/types/auth";
 import {isApiError} from "@/util/types/api";
 
 export const authApi = {
-    async getSession() : Promise<User>{
+    async getSession() : Promise<User | null>{
         const result  = await clientApi.get<User>('/customer/auth/me')
 
+        //TODO if 401 user must be redirected to login, but not always! only on protected pages
+
         if(isApiError(result)){
+            if('status' in result && result.status === 401){
+                return null;
+            }
             throw result;
         }
 

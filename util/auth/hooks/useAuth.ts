@@ -12,15 +12,10 @@ export function useAuth(): UseAuthReturn {
     const sessionQuery = useQuery({
         queryKey: authKeys.session(),
         queryFn: authApi.getSession,
-        retry: (count, error) => {
-            // check is needed as we throw custom error in authApi.getSession
-            if(isProblemDetailError(error) || isStandardError(error)) {
-                console.log(error.status)
-                return error.status !== 401 && count < 3; //TODO if 401 user must be redirected to login, but not always! only on protected pages
-            }
-            return count < 3;
-        },
+        retry: 3,
         staleTime: 5 * 60 * 1000,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
     });
 
     const loginMutation = useMutation({
@@ -53,7 +48,7 @@ export function useAuth(): UseAuthReturn {
     return{
         // State
         user,
-        isLoading: sessionQuery.isLoading,
+        isLoading: sessionQuery.isLoading, //initial session check
         isAuthenticated,
         isError: sessionQuery.isError,
         error: sessionQuery.error,
