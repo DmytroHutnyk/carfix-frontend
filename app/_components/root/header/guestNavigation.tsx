@@ -13,19 +13,16 @@ import {ChevronDown} from "lucide-react";
 import { cn } from "../../../../util/lib/utils";
 import {Button} from "@/_components/shadcn/button";
 import {useRouter} from "next/navigation";
+import {Language} from "@/util/types/app";
+import {useLanguage} from "@/util/state/store";
 
-export type Language = "EN" | "PL" | "UKR";
 
-
-
-export default function GuestNavigation({language, setLanguage}:
-{
-    language: Language;
-    setLanguage: (value: Language) => void;
-}) {
+export default function GuestNavigation() {
     const router = useRouter();
+    const language = useLanguage((state) => (state.language))
+    const setLanguage = useLanguage((state) => (state.setLanguage))
 
-    return (
+        return (
         <>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>

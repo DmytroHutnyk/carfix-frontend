@@ -14,7 +14,7 @@ export function useAuth(): UseAuthReturn {
         queryFn: authApi.getSession,
         retry: 3,
         staleTime: 5 * 60 * 1000,
-        refetchOnWindowFocus: false,
+        refetchOnWindowFocus: true,
         refetchOnMount: false,
     });
 

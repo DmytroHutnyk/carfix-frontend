@@ -7,9 +7,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/_components/shadcn/c
 import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/_components/shadcn/carousel";
 import Image from "next/image";
 import ServiceCard from "@/_components/root/ServiceCard";
+import {useAuth} from "@/util/auth/hooks/useAuth";
 
 export default function Home() {
-  const { isLoading } = useAuthOld();
+  const { isLoading } = useAuth();
 
 
   return (
@@ -17,7 +18,7 @@ export default function Home() {
       <Header/>
       {isLoading ? (
         <div className="flex min-h-[calc(100vh-80px)] items-center justify-center">
-          <OrbitProgress
+          <OrbitProgress                                                                //TODO color is green!!!!
             color="hsl(var(--primary))"
             size="large"
             text=""

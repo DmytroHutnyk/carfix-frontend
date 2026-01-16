@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import {Button} from "@/_components/shadcn/button";
 import {Input} from "@/_components/shadcn/input";
 import {AlertCircle, Eye, EyeOff, X} from 'lucide-react'

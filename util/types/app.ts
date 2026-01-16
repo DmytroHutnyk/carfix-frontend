@@ -9,3 +9,5 @@ export interface User {
     dateOfBirth: string | null;
     customerStatus: string;
 }
+
+export type Language = "EN" | "PL" | "UKR";
