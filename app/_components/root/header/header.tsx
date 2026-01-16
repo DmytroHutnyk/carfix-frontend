@@ -5,11 +5,7 @@ import {MapPin, Search} from "lucide-react";
 import {Input} from "@/_components/shadcn/input";
 import GuestNavigation from "@/_components/root/header/guestNavigation";
 import UserNavigation from "@/_components/root/header/userNavigation";
-import {useState} from "react";
-import {useAuthOld} from "@/util/authContext/auth-context";
 import {useAuth} from "@/util/auth/hooks/useAuth";
-import {Language} from "@/util/types/app";
-import {useLanguage} from "@/util/state/store";
 
 export default function Header() {
     const { isAuthenticated } = useAuth();
