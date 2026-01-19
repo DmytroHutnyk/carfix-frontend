@@ -11,8 +11,8 @@ import {OrbitProgress} from "react-loading-indicators";
 import {Alert, AlertDescription} from "@/_components/shadcn/alert";
 import {useAuth} from "@/util/auth/hooks/useAuth";
 import {useForm} from "react-hook-form";
-import {LoginCredentials, loginSchema, registerSchema} from "@/util/types/authTypes";
-import {ApiError, isProblemDetailError, isStandardError} from "@/util/types/apiTypes";
+import {LoginCredentials, loginSchema} from "@/util/types/authTypes";
+import {ApiError} from "@/util/types/apiTypes";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {handleError} from "@/util/func/errorHandler";
 

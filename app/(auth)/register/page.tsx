@@ -11,63 +11,74 @@ import {Alert, AlertDescription} from "@/_components/shadcn/alert";
 import {OrbitProgress} from "react-loading-indicators";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {RegisterFormData, registerSchema} from "@/util/types/authTypes";
+import {RegisterData, registerSchema} from "@/util/types/authTypes";
+import {useAuth} from "@/util/auth/hooks/useAuth";
+import {handleError} from "@/util/func/errorHandler";
+import {ApiError} from "@/util/types/apiTypes";
 
 
 
 export default function Register(){
-    const [value, setValue] = useState<string>("");
+    const [dropDownValue, setDropDownValue] = useState<string>("");
     const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
 
-    const [error, setError] = useState<string | null>(null)
-    const router = useRouter()
+    const router = useRouter();
+    const auth = useAuth();
 
      const {
          register,
          handleSubmit,
          formState: { errors, isSubmitting },
          setValue: setFormValue,
-    } = useForm<RegisterFormData>({
+    } = useForm<RegisterData>({
          resolver: zodResolver(registerSchema),
          mode: "onSubmit"
      });
 
-    const onSubmit = async (data: RegisterFormData) => {
+    const onSubmit = async (registerData: RegisterData) => {
         setError(null);
 
         try{
-            const response = await fetch("http://localhost:8080/api/customer/auth/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-                credentials: "include",
-            })
-
-            if(!response.ok){
-                const result = await response.json();
-                let errorMessage = result.detail || result.title || "Register failed. Please try again";
-
-                if (result?.errors) {
-                    errorMessage = Object.values(result.errors).join("\n");
-                }
-
-                throw new Error(errorMessage);
-            }
-
-            router.replace("/login");
-
-        }catch(err) {
-            if (err instanceof TypeError) {
-                setError("Network error. Please try again");
-            }
-            if (err instanceof Error) {
-                setError(err.message);
-            } else {
-                setError("Something went wrong. Please try again");
-            }
+            await auth.register(registerData);
+        }catch (err){
+            handleError(err as ApiError, setError); //TODO error mapping for "errors" object
         }
+
+        router.replace("/login"); //TODO redirect to staring page with instant login
+        // try{
+        //     const response = await fetch("http://localhost:8080/api/customer/auth/register", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify(data),
+        //         credentials: "include",
+        //     })
+        //
+        //     if(!response.ok){
+        //         const result = await response.json();
+        //         let errorMessage = result.detail || result.title || "Register failed. Please try again";
+        //
+        //         if (result?.errors) {
+        //             errorMessage = Object.values(result.errors).join("\n");
+        //         }
+        //
+        //         throw new Error(errorMessage);
+        //     }
+        //
+        //     router.replace("/login");
+        //
+        // }catch(err) {
+        //     if (err instanceof TypeError) {
+        //         setError("Network error. Please try again");
+        //     }
+        //     if (err instanceof Error) {
+        //         setError(err.message);
+        //     } else {
+        //         setError("Something went wrong. Please try again");
+        //     }
+        // }
     }
 
     return (
@@ -136,15 +147,15 @@ export default function Register(){
                                 id="phoneCountryCode"
                                 type="hidden"
                                 name="phoneCountryCode"
-                                value={value}
+                                value={dropDownValue}
                             />
 
                             <section className="flex space-x-2">
                                 <div className="flex w-[90px]">
                                     <CountryCodeInput 
-                                        value={value} 
+                                        value={dropDownValue}
                                         setValue={(newValue) => {
-                                            setValue(newValue);
+                                            setDropDownValue(newValue);
                                             setFormValue("phoneCountryCode", newValue);
                                         }}
                                     />

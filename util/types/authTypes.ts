@@ -2,20 +2,6 @@
 import {User} from "@/util/types/appTypes";
 import {z} from "zod";
 
-export interface LoginRequest{
-    email: string;
-    password: string;
-}
-
-export interface RegisterRequest{
-    name: string;
-    surname: string;
-    phoneCountryCode: string;
-    phoneNumber: string;
-    email: string;
-    password: string;
-}
-
 /* hooks */
 export interface AuthState {
     /* currently authenticated user, or null if not */
@@ -35,7 +21,8 @@ export interface AuthState {
 }
 
 export interface AuthActions {
-    login: (credentials: LoginCredentials) => Promise<User>
+    login: (credentials: LoginCredentials) => Promise<User>;
+    register: (registerData: RegisterData) => Promise<User>;
     // logout: () => Promise<void>;TODO
     // refetchSession: () => Promise<void>;
     /* updateProfile: (data: UpdateProfilePayload) => Promise<User>;*/
@@ -86,7 +73,7 @@ export const registerSchema = z.object({
         .regex(/[^a-zA-Z0-9]/, "Must contain at least one special character"),
 });
 
-export type RegisterFormData = z.infer<typeof registerSchema>;
+export type RegisterData = z.infer<typeof registerSchema>;
 
 
 //          Login

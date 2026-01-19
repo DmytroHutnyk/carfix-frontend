@@ -1,4 +1,4 @@
-import {ApiError, ClientError, isProblemDetailError, NetworkError, ProblemDetailError, StandardError} from "@/util/types/api";
+import {ApiError, ClientError, isProblemDetailError, NetworkError, ProblemDetailError, StandardError} from "@/util/types/apiTypes";
 
 export const clientApi = {
     baseUrl: process.env.NEXT_PUBLIC_API_BASE,
@@ -14,9 +14,11 @@ export const clientApi = {
                 credentials: 'include',
             });
 
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
             const text = await response.text();
             const data = text ? JSON.parse(text) : null;
-            
+
             if(!response.ok){
                 if(!data) {
                     const standardError: StandardError = {
@@ -88,6 +90,7 @@ export const clientApi = {
                 body: JSON.stringify(dataToSend),
                 credentials: 'include',
             });
+            await new Promise(resolve => setTimeout(resolve, 1000))
 
             const data = await response.json();
 
@@ -144,6 +147,8 @@ export const clientApi = {
                 credentials: 'include',
             });
 
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
             const data = await response.json();
 
             if(!response.ok){
@@ -199,6 +204,8 @@ export const clientApi = {
                 credentials: 'include',
             });
 
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
             const data = await response.json();
 
             if(!response.ok){
@@ -252,6 +259,8 @@ export const clientApi = {
                 headers: this.defaultHeaders,
                 credentials: 'include',
             });
+
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
             if(response.ok){
                 return;

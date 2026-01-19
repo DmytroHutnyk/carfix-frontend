@@ -1,4 +1,4 @@
-import {LoginCredentials, UseAuthReturn} from "@/util/types/authTypes";
+import {LoginCredentials, RegisterData, UseAuthReturn} from "@/util/types/authTypes";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {useRouter} from "next/navigation";
 import {authKeys} from "@/util/auth/keys";
@@ -25,6 +25,13 @@ export function useAuth(): UseAuthReturn {
         },
     });
 
+    const registerMutation = useMutation({
+        mutationFn: authApi.register,
+        onSuccess: (user) => {
+            queryClient.setQueryData(authKeys.session(), user);
+        }
+    })
+
     const user = sessionQuery.data ?? null;
     const isAuthenticated = user !== null;
 
@@ -48,8 +55,10 @@ export function useAuth(): UseAuthReturn {
     return{
         // State
         user,
-        isLoading: sessionQuery.isLoading, //initial session check
         isAuthenticated,
+
+        //initial session check
+        isLoading: sessionQuery.isLoading,
         isError: sessionQuery.isError,
         error: sessionQuery.error,
 
@@ -57,6 +66,11 @@ export function useAuth(): UseAuthReturn {
         login: async (credentials: LoginCredentials) => {
             return loginMutation.mutateAsync(credentials);
         },
+
+        register: async (registerData: RegisterData) => {
+            return registerMutation.mutateAsync(registerData);
+        }
+
         // logout: async () => {
         //     return logoutMutation.mutateAsync();
         // },

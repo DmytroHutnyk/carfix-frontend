@@ -1,7 +1,7 @@
 import {User} from "@/util/types/appTypes";
 import {clientApi} from "@/util/api/clientApi";
 import {ApiError} from "next/dist/server/api-utils";
-import {LoginCredentials, RegisterRequest} from "@/util/types/authTypes";
+import {LoginCredentials, RegisterData} from "@/util/types/authTypes";
 import {isApiError} from "@/util/types/apiTypes";
 
 export const authApi = {
@@ -31,8 +31,8 @@ export const authApi = {
         return result as User;
     },
 
-    async register(registerData: RegisterRequest): Promise<User>{
-        const result  = await clientApi.post<User, RegisterRequest>('/customer/auth/register', registerData);
+    async register(registerData: RegisterData): Promise<User>{
+        const result  = await clientApi.post<User, RegisterData>('/customer/auth/register', registerData);
 
         if(isApiError(result)){
             throw result;
