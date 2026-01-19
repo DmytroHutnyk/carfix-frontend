@@ -74,12 +74,13 @@ export default function Register(){
         <div className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-background px-6 py-12">
             <Card className="relative w-full max-w-md ">
                 {isSubmitting && (
-                    <div className="absolute inset-0 z-20 flex items-center justify-center">
-                        <OrbitProgress //TODO color is green for some reason, must be yellow?
-                            color="hsl(var(--primary))"
+                    <div className="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-card/75 ">
+                        <OrbitProgress
+                            color="var(--primary)"
                             size="large"
                             text=""
                             textColor=""
+                            dense
                         />
                     </div>
                 )}

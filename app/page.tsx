@@ -18,11 +18,12 @@ export default function Home() {
       <Header/>
       {isLoading ? (
         <div className="flex min-h-[calc(100vh-80px)] items-center justify-center">
-          <OrbitProgress                                                                //TODO color is green!!!!
-            color="hsl(var(--primary))"
+          <OrbitProgress
+            color="var(--primary)"
             size="large"
             text=""
             textColor=""
+            dense
           />
         </div>
       ) : (
