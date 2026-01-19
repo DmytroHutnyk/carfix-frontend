@@ -2,11 +2,6 @@ export interface ApiError {
     readonly _tag: string;
 }
 
-export interface ClientError extends ApiError {
-    readonly _tag: 'ClientError';
-    description: string;
-}
-
 export interface StandardError extends ApiError {
     readonly _tag: 'StandardError';
     name: string;
@@ -32,8 +27,23 @@ export interface NetworkError extends ApiError {
     description: string;
 }
 
+export interface ClientError extends ApiError {
+    readonly _tag: 'ClientError';
+    description: string;
+}
+
 type Errors = {
     [key: string]: string;
+}
+
+
+export function isApiError(obj: unknown): obj is ApiError {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        '_tag' in obj &&
+        typeof (obj as ApiError)._tag === 'string'
+    );
 }
 
 export function isStandardError(obj: any): obj is StandardError {
@@ -48,6 +58,8 @@ export function isStandardError(obj: any): obj is StandardError {
     );
 }
 
+//All fields of ProblemDetail object from Java in JSON format
+//Note: This checks raw server response (no _tag yet), used in clientApi to detect ProblemDetail format
 export function isProblemDetailError(obj: any): obj is ProblemDetailError {
     return (
         typeof obj === 'object' &&
@@ -63,11 +75,22 @@ export function isProblemDetailError(obj: any): obj is ProblemDetailError {
     );
 }
 
-export function isApiError(obj: unknown): obj is ApiError {
+export function isNetworkError(obj: any): obj is NetworkError {
     return (
         typeof obj === 'object' &&
         obj !== null &&
-        '_tag' in obj &&
-        typeof (obj as ApiError)._tag === 'string'
+        obj._tag === 'NetworkError' &&
+        typeof obj.name === 'string' &&
+        typeof obj.message === 'string' &&
+        typeof obj.description === 'string'
+    );
+}
+
+export function isClientError(obj: any): obj is ClientError {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        obj._tag === 'ClientError' &&
+        typeof obj.description === 'string'
     );
 }

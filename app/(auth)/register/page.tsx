@@ -9,49 +9,10 @@ import {useState} from "react";
 import CountryCodeInput from "@/(auth)/register/_components/countryCodeInput";
 import {Alert, AlertDescription} from "@/_components/shadcn/alert";
 import {OrbitProgress} from "react-loading-indicators";
-import {SubmitHandler, useForm} from "react-hook-form";
-import { z } from "zod";
+import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {RegisterFormData, registerSchema} from "@/util/types/authTypes";
 
-const registerSchema = z.object({
-    name: z.string()
-        .trim()
-        .min(1, "Name is required")
-        .max(50, "Name cannot exceed 50 characters"),
-
-    surname: z.string()
-        .trim()
-        .min(1, "Surname is required")
-        .max(50, "Surname cannot exceed 50 characters"),
-
-    phoneCountryCode: z.string()
-        .min(1, "Country code is required"),
-
-    phoneNumber: z.string()
-        .transform((val) => val.replace(/\s+/g, ""))
-        .pipe(
-            z.string()
-                .min(1, "Phone number is required")
-                .max(15, "Phone number cannot exceed 15 digits")
-                .regex(/^[0-9]{5,15}$/, "Phone number must contain from 5 to 15 digits")
-        ),
-
-    email: z.string()
-        .trim()
-        .min(1, "Email is required")
-        .email("Invalid email address")
-        .max(30, "Email cannot exceed 30 characters"),
-
-    password: z.string()
-        .min(8, "Password must be at least 8 characters")
-        .max(20, "Password must be at most 20 characters")
-        .regex(/[A-Z]/, "Must contain at least one uppercase letter")
-        .regex(/[a-z]/, "Must contain at least one lowercase letter")
-        .regex(/[0-9]/, "Must contain at least one digit")
-        .regex(/[^a-zA-Z0-9]/, "Must contain at least one special character"),
-});
-
-type RegisterFormData = z.infer<typeof registerSchema>;
 
 
 export default function Register(){
@@ -141,7 +102,6 @@ export default function Register(){
                                 {...register("name")}
                                 id="name"
                                 type="text"
-                                name="name"
                                 placeholder="Name"
                                 className={errors.name ? "border-destructive focus-visible:ring-destructive" : ""}
                             />

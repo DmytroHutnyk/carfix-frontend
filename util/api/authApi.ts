@@ -1,16 +1,17 @@
-import {User} from "@/util/types/app";
+import {User} from "@/util/types/appTypes";
 import {clientApi} from "@/util/api/clientApi";
 import {ApiError} from "next/dist/server/api-utils";
-import {LoginCredentials, RegisterRequest} from "@/util/types/auth";
-import {isApiError} from "@/util/types/api";
+import {LoginCredentials, RegisterRequest} from "@/util/types/authTypes";
+import {isApiError} from "@/util/types/apiTypes";
 
 export const authApi = {
     async getSession() : Promise<User | null>{
         const result  = await clientApi.get<User>('/customer/auth/me')
 
         //TODO if 401 user must be redirected to login, but not always! only on protected pages
-
+        console.log("refetched")
         if(isApiError(result)){
+            //401 is considered as expected normal behaviour when the user is not logged in, that is why null returned
             if('status' in result && result.status === 401){
                 return null;
             }

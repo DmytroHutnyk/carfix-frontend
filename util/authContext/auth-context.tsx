@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {User} from "@/util/types/app";
+import {User} from "@/util/types/appTypes";
 
 interface AuthContextType{
     isLoading: boolean;

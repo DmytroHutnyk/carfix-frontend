@@ -13,7 +13,7 @@ import {ChevronDown} from "lucide-react";
 import { cn } from "../../../../util/lib/utils";
 import {Button} from "@/_components/shadcn/button";
 import {useRouter} from "next/navigation";
-import {Language} from "@/util/types/app";
+import {Language} from "@/util/types/appTypes";
 import {useLanguage} from "@/util/state/store";
 
 
@@ -43,7 +43,7 @@ export default function GuestNavigation() {
             </DropdownMenu>
 
             <div className= "inline-flex items-center justify-center gap-3">
-                <Button variant="default" onClick={() => router.push('/login')}>Login/SignUp</Button>
+                <Button variant="default" onClick={() => router.push('/login')}>Login/SignUp</Button> {/*TODO use Link*/}
                 <Button variant="outline">For Business</Button>
             </div>
         </>

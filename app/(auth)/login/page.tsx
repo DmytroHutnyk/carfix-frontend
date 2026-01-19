@@ -9,66 +9,46 @@ import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/_component
 import {useRouter} from "next/navigation";
 import {OrbitProgress} from "react-loading-indicators";
 import {Alert, AlertDescription} from "@/_components/shadcn/alert";
-import {useAuthOld} from "@/util/authContext/auth-context";
-import {User} from "@/util/types/app";
+import {useAuth} from "@/util/auth/hooks/useAuth";
+import {useForm} from "react-hook-form";
+import {LoginCredentials, loginSchema, registerSchema} from "@/util/types/authTypes";
+import {ApiError, isProblemDetailError, isStandardError} from "@/util/types/apiTypes";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {handleError} from "@/util/func/errorHandler";
 
 export default function Login(){
     const [error, setError] = useState<string | null>(null)
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
+
+    const { login } = useAuth();
     const router = useRouter();
-    const authContext = useAuthOld();
 
-    async function handleLogin (e: React.FormEvent<HTMLFormElement>)  {
-        e.preventDefault();
+    const {
+        register,
+        handleSubmit,
+        formState: {isSubmitting, errors}
+    } = useForm<LoginCredentials>({
+        resolver: zodResolver(loginSchema),
+        mode: "onSubmit"
+    })
+
+    const onSubmit = async (data: LoginCredentials) => {
         setError(null)
-        setIsLoading(true)
-
-        const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData.entries());
-
         try{
-            const response = await fetch("http://localhost:8080/api/customer/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-                credentials: "include",
-            })
-
-            if(!response.ok){
-                const result = await response.json();
-                let errorMessage = result.detail || result.title || "Login failed. Please try again";
-
-                if (result?.errors) {
-                    errorMessage = Object.values(result.errors).join("\n");
-                }
-
-                throw new Error(errorMessage);
-            }
-
-            const result = await response.json();
-
-            const user = result as User;
-            authContext.login(user);
-
+            const response = await login(data);
+            console.log(response)
             router.back();
-        }catch(err){
-            if(err instanceof Error){
-                setError(err.message);
-            }else{
-                setError("Something went wrong. Please try again");
-            }
-        }finally {
-            setIsLoading(false);
+        }catch (err){
+            handleError(err as ApiError, setError);
         }
+
     }
+
 
     return (
         <div className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-background px-6 py-12">
-            <Card className={`relative w-full max-w-md transition-opacity ${isLoading ? 'opacity-60' : 'opacity-100'}`}>
-                {isLoading && (
+            <Card className={`relative w-full max-w-md transition-opacity ${isSubmitting ? 'opacity-60' : 'opacity-100'}`}>
+                {isSubmitting && (
                     <div className="absolute inset-0 z-20 flex items-center justify-center">
                         <OrbitProgress
                             color="hsl(var(--primary))"
@@ -87,7 +67,6 @@ export default function Login(){
                     }}
                 >
                     <X className="h-5 w-5" />
-
                 </Button>
 
                 <CardHeader>
@@ -95,25 +74,29 @@ export default function Login(){
                 </CardHeader>
 
                 <CardContent className="space-y-4">
-                    <form onSubmit={handleLogin} className="space-y-4">
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                         <div>
                             <Input
+                                {...register("email")}
                                 id="email"
-                                type="email"
-                                name="email"
+                                type="text"
                                 placeholder="Email"
-                                required
+                                className={errors.email ? "border-destructive focus-visible:ring-destructive" : ""}
                             />
+                            {errors.email && (
+                                <p id="name-error" className="text-sm text-destructive">
+                                    {errors.email.message}
+                                </p>
+                            )}
                         </div>
 
                         <div className="relative">
                             <Input
+                                {...register("password")}
                                 id="password"
                                 type={showPassword ? "text" : "password"}
-                                name="password"
                                 placeholder="Password"
-                                required
-                                className="pr-10"
+                                className={`pr-10 ${errors.password ? "border-destructive focus-visible:ring-destructive" : ""}`}
                             />
                             <Button
                                 type="button"
@@ -128,6 +111,11 @@ export default function Login(){
                                     <Eye className="h-4 w-4 text-muted-foreground" />
                                 )}
                             </Button>
+                            {errors.password && (
+                                <p id="password-error" className="text-sm text-destructive">
+                                    {errors.password.message}
+                                </p>
+                            )}
                         </div>
 
                         {error && (

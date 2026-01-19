@@ -1,9 +1,9 @@
-import {LoginCredentials, UseAuthReturn} from "@/util/types/auth";
+import {LoginCredentials, UseAuthReturn} from "@/util/types/authTypes";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {useRouter} from "next/navigation";
 import {authKeys} from "@/util/auth/keys";
 import {authApi} from "@/util/api/authApi"
-import {isApiError, isProblemDetailError, isStandardError} from "@/util/types/api";
+import {isApiError, isProblemDetailError, isStandardError} from "@/util/types/apiTypes";
 
 export function useAuth(): UseAuthReturn {
     const queryClient = useQueryClient();
