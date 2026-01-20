@@ -39,13 +39,12 @@ export default function Register(){
     const onSubmit = async (registerData: RegisterData) => {
         setError(null);
 
-        try{
+        try {
             await auth.register(registerData);
-        }catch (err){
-            handleError(err as ApiError, setError); //TODO error mapping for "errors" object
+            router.back();
+        } catch (err) {
+            handleError(err as ApiError, setError);
         }
-
-        router.replace("/login"); //TODO redirect to staring page with instant login
         // try{
         //     const response = await fetch("http://localhost:8080/api/customer/auth/register", {
         //         method: "POST",
