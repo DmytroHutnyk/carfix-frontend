@@ -24,10 +24,16 @@
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
 
-  --accent: #FCD34D;
-  --accent-foreground: #854D0E;
-  --accent-foreground-hov: #EAB308;
+  --accent: #FDE68A;
+  --accent-foreground: #18181B;
+  --accent-foreground-hov: #18181B;
   --accent-background: #FFFBEB;
+
+  /* Header outline button colors */
+  --header-outline: #FFFBEB;
+  --header-outline-foreground: #854D0E;
+  --header-outline-foreground-hov: #EAB308;
+  --header-outline-border-hov: #FCD34D;
 
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(44.4% 0.177 26.899);
@@ -123,6 +129,12 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-accent-background: var(--accent-background);
   --color-accent-foreground-hov: var(--accent-foreground-hov);
+
+    /* Header outline button colors */
+  --color-header-outline: var(--header-outline);
+  --color-header-outline-foreground: var(--header-outline-foreground);
+  --color-header-outline-foreground-hov: var(--header-outline-foreground-hov);
+  --color-header-outline-border-hov: var(--header-outline-border-hov);
 
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
