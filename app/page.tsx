@@ -1,7 +1,7 @@
 'use client'
 
 import Header from "@/_components/root/header/header";
-import { OrbitProgress } from "react-loading-indicators";
+import {OrbitProgress} from "react-loading-indicators";
 import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/_components/shadcn/carousel";
 import ServiceCard from "@/_components/root/ServiceCard";
 import {useAuth} from "@/util/auth/hooks/useAuth";

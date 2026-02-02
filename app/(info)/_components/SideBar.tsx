@@ -3,30 +3,6 @@ import {Button} from "@/_components/shadcn/button";
 import Link from "next/link";
 import {FileText, HelpCircle, Info, Phone} from "lucide-react";
 
-const menuItems = [
-    {
-        href: "/about-us",
-        label: "About Us",
-        icon: Info
-    },
-    {
-        href: "/contacts",
-        label: "Contacts",
-        icon: Phone
-    },
-    {
-        href: "/terms-of-use",
-        label: "Terms of Use",
-        icon: FileText
-    },
-    {
-        href: "/faq",
-        label: "FAQ",
-        icon: HelpCircle
-    },
-];
-
-
 export default function SideBar({ pathName }: { pathName: string}){
     return(
         <aside className="flex flex-col">
@@ -57,3 +33,26 @@ export default function SideBar({ pathName }: { pathName: string}){
         </aside>
     )
 }
+
+const menuItems = [
+    {
+        href: "/about-us",
+        label: "About Us",
+        icon: Info
+    },
+    {
+        href: "/contacts",
+        label: "Contacts",
+        icon: Phone
+    },
+    {
+        href: "/terms-of-use",
+        label: "Terms of Use",
+        icon: FileText
+    },
+    {
+        href: "/faq",
+        label: "FAQ",
+        icon: HelpCircle
+    },
+];
