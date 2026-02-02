@@ -44,7 +44,7 @@ export default function GuestNavigation() {
 
             <div className= "inline-flex items-center justify-center gap-3">
                 <Button variant="default" onClick={() => router.push('/login')}>Login/SignUp</Button> {/*TODO use Link*/}
-                <Button variant="outline">For Business</Button>
+                <Button variant="headerOutline">For Business</Button>
             </div>
         </>
     )

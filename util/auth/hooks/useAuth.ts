@@ -15,7 +15,7 @@ export function useAuth(): UseAuthReturn {
         retry: 3,
         staleTime: 5 * 60 * 1000,
         refetchOnWindowFocus: true,
-        refetchOnMount: false,
+        refetchOnMount: true,
     });
 
     const loginMutation = useMutation({
