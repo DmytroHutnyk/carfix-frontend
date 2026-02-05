@@ -29,7 +29,7 @@ export default function Page(){
                     <Separator className="my-6" />
 
                     <section className="flex flex-col gap-y-2">
-                        <p className="text-lg pl-1.5">Key Features</p>
+                        <p className="text-lg font-semibold pl-1.5">Key Features</p>
                         <div className="grid grid-cols-2 gap-4">
                             {keyFeatures.map((item) => {
                                 const Icon = item.icon;
@@ -38,7 +38,7 @@ export default function Page(){
                                         <CardHeader>
                                             <div className="flex gap-x-2 items-center">
                                                 <Icon className="size-5"></Icon>
-                                                <CardTitle className="font-normal">{item.title}</CardTitle>
+                                                <CardTitle>{item.title}</CardTitle>
                                             </div>
                                             <CardDescription className="pl-[28px]">
                                                 {item.description}
@@ -53,7 +53,7 @@ export default function Page(){
                     <Separator className="my-6"/>
 
                     <section className="flex flex-col gap-y-2">
-                        <p className="text-lg pl-1.5">How It Works</p>
+                        <p className="text-lg font-semibold pl-1.5">How It Works</p>
                         <Card className="py-4">
                             <div className="flex flex-col gap-y-4">
                                 {howItWorks.map((step) => (
@@ -62,7 +62,7 @@ export default function Page(){
                                             {step.number}
                                         </div>
                                         <div className="h-10 flex flex-col justify-between">
-                                            <CardTitle className="font-normal">
+                                            <CardTitle>
                                                 {step.title}
                                             </CardTitle>
                                             <CardDescription>
@@ -80,7 +80,7 @@ export default function Page(){
                             <CardHeader>
                                 <div className="flex gap-x-2 items-center">
                                     <Shield className="size-5"></Shield>
-                                    <CardTitle className="font-normal">Trust & Safety</CardTitle>
+                                    <CardTitle className="font-semibold">Trust & Safety</CardTitle>
                                     <Badge variant="outline">No prepayment</Badge>
                                 </div>
                                 <CardDescription className="pl-[28px]">
@@ -97,7 +97,7 @@ export default function Page(){
 
                     <Separator className="my-6" />
                     <section className="flex flex-col gap-y-2">
-                        <p className="text-lg pl-1.5">What Our Customers Say</p>
+                        <p className="text-lg font-semibold pl-1.5">What Our Customers Say</p>
                         <div className="grid grid-cols-2 gap-4">
                             {reviews.map((testimonial) => (
                                 <Card key={testimonial.name}>
@@ -109,7 +109,7 @@ export default function Page(){
                                                 </AvatarFallback>
                                             </Avatar>
                                             <div className="flex flex-col">
-                                                <CardTitle className="font-normal">{testimonial.name}</CardTitle>
+                                                <CardTitle>{testimonial.name}</CardTitle>
                                                 <div className="flex gap-0.5 mt-0.5">
                                                     {[...Array(5)].map((_, i) => (
                                                         <Star
