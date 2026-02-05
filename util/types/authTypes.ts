@@ -86,3 +86,24 @@ export const loginSchema = z.object({
 })
 
 export type LoginCredentials = z.infer<typeof loginSchema>
+
+
+//          Message form - /contacts page
+export const messageSchema = z.object({
+    name: z.string()
+        .trim()
+        .min(1, "Name is required")
+        .max(50, "Name cannot exceed 50 characters"),
+
+    email: z.string()
+        .trim()
+        .min(1, "Email is required")
+        .email("Invalid email address"),
+
+    message: z.string()
+        .trim()
+        .min(5, "Message is too short")
+        .max(5000, "Message is too long")
+})
+
+export type HelpMessage = z.infer<typeof messageSchema>;
