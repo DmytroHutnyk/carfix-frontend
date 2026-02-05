@@ -3,8 +3,10 @@
 import {usePathname} from "next/navigation";
 import SideBar from "@/(info)/_components/SideBar";
 import {Separator} from "@/_components/shadcn/separator";
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/_components/shadcn/card";
-import {Clock, CreditCard, FileText, Headphones, Search, Wrench} from "lucide-react";
+import {Card, CardDescription, CardHeader, CardTitle} from "@/_components/shadcn/card";
+import {Clock, CreditCard, FileText, Headphones, Search, Shield, Star, Wrench} from "lucide-react";
+import {Avatar, AvatarFallback} from "@/_components/shadcn/avatar";
+import {Badge} from "@/_components/shadcn/badge";
 
 export default function Page(){
     const pathname = usePathname();
@@ -27,16 +29,16 @@ export default function Page(){
                     <Separator className="my-6" />
 
                     <section className="flex flex-col gap-y-2">
-                        <p className="text-lg font-bold pl-1.5" >Key Features</p>
+                        <p className="text-lg pl-1.5">Key Features</p>
                         <div className="grid grid-cols-2 gap-4">
                             {keyFeatures.map((item) => {
                                 const Icon = item.icon;
                                 return(
                                     <Card key={item.title}>
                                         <CardHeader>
-                                            <div className="flex gap-x-2">
+                                            <div className="flex gap-x-2 items-center">
                                                 <Icon className="size-5"></Icon>
-                                                <CardTitle>{item.title}</CardTitle>
+                                                <CardTitle className="font-normal">{item.title}</CardTitle>
                                             </div>
                                             <CardDescription className="pl-[28px]">
                                                 {item.description}
@@ -51,16 +53,16 @@ export default function Page(){
                     <Separator className="my-6"/>
 
                     <section className="flex flex-col gap-y-2">
-                        <p className="text-lg font-bold pl-1.5">How It Works</p>
-                        <Card>
-                            <div className="flex flex-col gap-y-2">
+                        <p className="text-lg pl-1.5">How It Works</p>
+                        <Card className="py-4">
+                            <div className="flex flex-col gap-y-4">
                                 {howItWorks.map((step) => (
-                                    <CardHeader className="flex flex-row gap-x-2">
+                                    <CardHeader key={step.number} className="flex flex-row gap-x-2 py-2">
                                         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-amber-400 flex items-center justify-center text-white font-semibold text-lg shadow-sm">
                                             {step.number}
                                         </div>
                                         <div className="h-10 flex flex-col justify-between">
-                                            <CardTitle>
+                                            <CardTitle className="font-normal">
                                                 {step.title}
                                             </CardTitle>
                                             <CardDescription>
@@ -73,6 +75,59 @@ export default function Page(){
                         </Card>
                     </section>
                     <Separator className="my-6" />
+                    <section className="flex flex-col gap-y-2">
+                        <Card className="bg-muted">
+                            <CardHeader>
+                                <div className="flex gap-x-2 items-center">
+                                    <Shield className="size-5"></Shield>
+                                    <CardTitle className="font-normal">Trust & Safety</CardTitle>
+                                    <Badge variant="outline">No prepayment</Badge>
+                                </div>
+                                <CardDescription className="pl-[28px]">
+                                    <ul className="list-disc list-inside space-y-1">
+                                        <li>All service providers are verified and background-checked</li>
+                                        <li>Clear, upfront pricing with no hidden fees</li>
+                                        <li>Service warranties shown where provided by partners</li>
+                                        <li>Your personal data is protected with industry-standard encryption</li>
+                                    </ul>
+                                </CardDescription>
+                            </CardHeader>
+                        </Card>
+                    </section>
+
+                    <Separator className="my-6" />
+                    <section className="flex flex-col gap-y-2">
+                        <p className="text-lg pl-1.5">What Our Customers Say</p>
+                        <div className="grid grid-cols-2 gap-4">
+                            {reviews.map((testimonial) => (
+                                <Card key={testimonial.name}>
+                                    <CardHeader>
+                                        <div className="flex gap-x-3 items-start">
+                                            <Avatar>
+                                                <AvatarFallback className="bg-muted text-muted-foreground font-medium">
+                                                    {testimonial.initials}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <div className="flex flex-col">
+                                                <CardTitle className="font-normal">{testimonial.name}</CardTitle>
+                                                <div className="flex gap-0.5 mt-0.5">
+                                                    {[...Array(5)].map((_, i) => (
+                                                        <Star
+                                                            key={i}
+                                                            className="size-4 fill-foreground text-foreground"
+                                                        />
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <CardDescription className="pt-2">
+                                            "{testimonial.review}"
+                                        </CardDescription>
+                                    </CardHeader>
+                                </Card>
+                            ))}
+                        </div>
+                    </section>
                     {/*TODO rest of the page*/}
                 </div>
             </div>
@@ -133,5 +188,18 @@ const howItWorks = [
         number: 4,
         title: "Pay on site",
         description: "Complete payment after service is done"
+    }
+]
+
+const reviews = [
+    {
+        initials: "MK",
+        name: "Michat K.",
+        review: "Quick booking, fair prices, and excellent service. My car was ready exactly when promised."
+    },
+    {
+        initials: "AN",
+        name: "Anna N.",
+        review: "Finally found a reliable way to book car services. The platform is easy to use and trustworthy."
     }
 ]
