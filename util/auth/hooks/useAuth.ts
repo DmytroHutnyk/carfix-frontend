@@ -3,7 +3,6 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {useRouter} from "next/navigation";
 import {authKeys} from "@/util/auth/keys";
 import {authApi} from "@/util/api/authApi"
-import {isApiError, isProblemDetailError, isStandardError} from "@/util/types/apiTypes";
 
 export function useAuth(): UseAuthReturn {
     const queryClient = useQueryClient();
@@ -12,7 +11,7 @@ export function useAuth(): UseAuthReturn {
     const sessionQuery = useQuery({
         queryKey: authKeys.session(),
         queryFn: authApi.getSession,
-        retry: 3,
+        retry: 3, //TODO, found a bug where it retires forever for some reason, when backend is not running
         staleTime: 5 * 60 * 1000,
         refetchOnWindowFocus: true,
         refetchOnMount: true,

@@ -45,39 +45,6 @@ export default function Register(){
         } catch (err) {
             handleError(err as ApiError, setError);
         }
-        // try{
-        //     const response = await fetch("http://localhost:8080/api/customer/auth/register", {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify(data),
-        //         credentials: "include",
-        //     })
-        //
-        //     if(!response.ok){
-        //         const result = await response.json();
-        //         let errorMessage = result.detail || result.title || "Register failed. Please try again";
-        //
-        //         if (result?.errors) {
-        //             errorMessage = Object.values(result.errors).join("\n");
-        //         }
-        //
-        //         throw new Error(errorMessage);
-        //     }
-        //
-        //     router.replace("/login");
-        //
-        // }catch(err) {
-        //     if (err instanceof TypeError) {
-        //         setError("Network error. Please try again");
-        //     }
-        //     if (err instanceof Error) {
-        //         setError(err.message);
-        //     } else {
-        //         setError("Something went wrong. Please try again");
-        //     }
-        // }
     }
 
     return (
