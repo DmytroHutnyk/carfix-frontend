@@ -1,6 +1,4 @@
 'use client'
-
-
 import * as React from "react"
 import {
     DropdownMenu,
@@ -15,6 +13,7 @@ import {Button} from "@/_components/shadcn/button";
 import {useRouter} from "next/navigation";
 import {Language} from "@/util/types/appTypes";
 import {useLanguage} from "@/util/state/store";
+import Link from "next/link";
 
 
 export default function GuestNavigation() {
@@ -43,7 +42,11 @@ export default function GuestNavigation() {
             </DropdownMenu>
 
             <div className= "inline-flex items-center justify-center gap-3">
-                <Button variant="default" onClick={() => router.push('/login')}>Login/SignUp</Button> {/*TODO use Link*/}
+                <Button variant="default" asChild>
+                    <Link href="/login">
+                        Login/SignUp
+                    </Link>
+                </Button>
                 <Button variant="headerOutline">For Business</Button>
             </div>
         </>

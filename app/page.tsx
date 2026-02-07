@@ -1,106 +1,88 @@
-'use client'  //TODO REMOVE!!!
-
 import Header from "@/_components/root/header/header";
-import {OrbitProgress} from "react-loading-indicators";
 import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/_components/shadcn/carousel";
 import ServiceCard from "@/_components/root/ServiceCard";
-import {useAuth} from "@/util/auth/hooks/useAuth";
 import Footer from "@/_components/root/footer";
 
 export default function Home() {
-  const { isLoading } = useAuth();
-
 
   return (
     <div>
-      {isLoading ? (
-        <div className="flex min-h-[calc(100vh-80px)] items-center justify-center">
-          <OrbitProgress
-            color="var(--primary)"
-            size="large"
-            text=""
-            textColor=""
-            dense
-          />
-        </div>
-      ) : (
-          <div>
-              <Header/>
-                <main className="mx-auto max-w-[1425px] px-[72px] py-15 space-y-16">
-                  {/* Intro Section */}
-                  <section className="text-center space-y-4 max-w-3xl mx-auto">
-                    <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-                      Find the Best Car Service Near You
-                    </h1>
-                    <p className="text-lg text-muted-foreground">
-                      Connect with trusted mechanics, compare prices, and book your car service with confidence. Your vehicle deserves the best care.
-                    </p>
-                  </section>
+      <div>
+          <Header/>
+            <main className="mx-auto max-w-[1425px] px-[72px] py-15 space-y-16">
+              {/* Intro Section */}
+              <section className="text-center space-y-4 max-w-3xl mx-auto">
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+                  Find the Best Car Service Near You
+                </h1>
+                <p className="text-lg text-muted-foreground">
+                  Connect with trusted mechanics, compare prices, and book your car service with confidence. Your vehicle deserves the best care.
+                </p>
+              </section>
 
-                  {/* Services Grid */}
-                  <section className="space-y-8">
-                      <h2 className="text-3xl font-bold text-center">Popular Services</h2>
-                    <Carousel opts={{
-                        align: "start",
-                        loop: true,
-                    }} className="w-full">
-                        <CarouselContent>
-                            {services.map((service) => (
-                                <CarouselItem key={service.name} className="md:basis-1/2 lg:basis-1/3">
-                                    <ServiceCard name={service.name} imagePath={service.imagePath}/>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                        <CarouselPrevious />
-                        <CarouselNext />
-                    </Carousel>
-                  </section>
+              {/* Services Grid */}
+              <section className="space-y-8">
+                  <h2 className="text-3xl font-bold text-center">Popular Services</h2>
+                <Carousel opts={{
+                    align: "start",
+                    loop: true,
+                }} className="w-full">
+                    <CarouselContent>
+                        {services.map((service) => (
+                            <CarouselItem key={service.name} className="md:basis-1/2 lg:basis-1/3">
+                                <ServiceCard name={service.name} imagePath={service.imagePath}/>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                </Carousel>
+              </section>
 
-                    {/* Service stations */}
-                  <section className="space-y-8">
-                      <p className="text-3xl font-bold text-center">Recommended service points</p>
-                      <Carousel opts={{
-                          align: "start",
-                          loop: true,
-                      }} className="w-full">
-                          <CarouselContent>
-                              {serviceStations.map(station => (
-                                  <CarouselItem key={station.name} className="md:basis-1/2 lg:basis-1/3">
-                                      <ServiceCard name={station.name} imagePath={station.imagePath}/>
-                                  </CarouselItem>
-                              ))}
-                          </CarouselContent>
-                          <CarouselPrevious/>
-                          <CarouselNext />
-                      </Carousel>
-                  </section>
+                {/* Service stations */}
+              <section className="space-y-8">
+                  <p className="text-3xl font-bold text-center">Recommended service points</p>
+                  <Carousel opts={{
+                      align: "start",
+                      loop: true,
+                  }} className="w-full">
+                      <CarouselContent>
+                          {serviceStations.map(station => (
+                              <CarouselItem key={station.name} className="md:basis-1/2 lg:basis-1/3">
+                                  <ServiceCard name={station.name} imagePath={station.imagePath}/>
+                              </CarouselItem>
+                          ))}
+                      </CarouselContent>
+                      <CarouselPrevious/>
+                      <CarouselNext />
+                  </Carousel>
+              </section>
 
-                  {/* How to Use CarFix Section */}
-                  <section className="space-y-8">
-                    <div className="text-center space-y-4 max-w-2xl mx-auto">
-                      <h2 className="text-3xl font-bold">How to Use CarFix</h2>
-                      <p className="text-muted-foreground">
-                        Getting your car serviced has never been easier. Follow these simple steps to connect with trusted mechanics in your area.
-                      </p>
+              {/* How to Use CarFix Section */}
+              <section className="space-y-8">
+                <div className="text-center space-y-4 max-w-2xl mx-auto">
+                  <h2 className="text-3xl font-bold">How to Use CarFix</h2>
+                  <p className="text-muted-foreground">
+                    Getting your car serviced has never been easier. Follow these simple steps to connect with trusted mechanics in your area.
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {steps.map((step) => (
+                    <div key={step.number} className="flex flex-col items-center text-center space-y-4">
+                      <div className="h-16 w-16 rounded-full bg-primary flex items-center justify-center">
+                        <span className="text-2xl font-bold text-white">{step.number}</span>
+                      </div>
+                      <div className="space-y-2">
+                        <h3 className="text-xl font-semibold">{step.title}</h3>
+                        <p className="text-sm text-muted-foreground">{step.description}</p>
+                      </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                      {steps.map((step) => (
-                        <div key={step.number} className="flex flex-col items-center text-center space-y-4">
-                          <div className="h-16 w-16 rounded-full bg-primary flex items-center justify-center">
-                            <span className="text-2xl font-bold text-white">{step.number}</span>
-                          </div>
-                          <div className="space-y-2">
-                            <h3 className="text-xl font-semibold">{step.title}</h3>
-                            <p className="text-sm text-muted-foreground">{step.description}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-                </main>
-              <Footer/>
-          </div>
-      )}
+                  ))}
+                </div>
+              </section>
+            </main>
+          <Footer/>
+      </div>
     </div>
   )
 }

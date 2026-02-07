@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import '@/styles/global.css'
-import Providers from "@/util/authContext/providers";
+import Providers from "@/util/providers/providers";
 
 
 export const metadata: Metadata = {

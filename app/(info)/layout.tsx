@@ -1,5 +1,4 @@
 import '@/styles/global.css'
-import Footer from "@/_components/root/footer";
 import Header from "@/_components/root/header/header";
 
 export default function Layout({

@@ -16,8 +16,6 @@ import {useAuth} from "@/util/auth/hooks/useAuth";
 import {handleError} from "@/util/func/errorHandler";
 import {ApiError} from "@/util/types/apiTypes";
 
-
-
 export default function Register(){
     const [dropDownValue, setDropDownValue] = useState<string>("");
     const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -48,7 +46,6 @@ export default function Register(){
     }
 
     return (
-        <div className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-background px-6 py-12">
             <Card className="relative w-full max-w-md ">
                 {isSubmitting && (
                     <div className="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-card/75 ">
@@ -212,6 +209,5 @@ export default function Register(){
                     </form>
                 </CardContent>
             </Card>
-        </div>
     )
 }
