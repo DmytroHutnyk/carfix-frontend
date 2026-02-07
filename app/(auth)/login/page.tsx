@@ -47,7 +47,6 @@ export default function Login(){
 
 
     return (
-        <div className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-background px-6 py-12">
             <Card className={`relative w-full max-w-md transition-opacity ${isSubmitting ? 'opacity-60' : 'opacity-100'}`}>
                 {isSubmitting && (
                     <div className="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-card/75 ">
@@ -165,6 +164,5 @@ export default function Login(){
                     </p>
                 </CardFooter>
             </Card>
-        </div>
     )
 }
