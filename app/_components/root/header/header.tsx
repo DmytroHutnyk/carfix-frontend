@@ -1,14 +1,9 @@
-'use client'
-
 import Logo from "@/_components/root/header/logo";
 import {MapPin, Search} from "lucide-react";
 import {Input} from "@/_components/shadcn/input";
-import GuestNavigation from "@/_components/root/header/guestNavigation";
-import UserNavigation from "@/_components/root/header/userNavigation";
-import {useAuth} from "@/util/auth/hooks/useAuth";
+import AuthNavigation from "@/_components/root/header/AuthNavigation";
 
 export default function Header() {
-    const { isAuthenticated } = useAuth();
 
     return (
         <header className="w-full border-b-border bg-background shadow-[0px_1px_3px_rgba(0,0,0,0.1)]">
@@ -38,8 +33,7 @@ export default function Header() {
                 </div>
 
                 {/* Buttons for LoggedIn user and for guest*/}
-                {isAuthenticated ? (<UserNavigation />) : (<GuestNavigation/>)}
-
+                <AuthNavigation/>
 
             </div>
         </header>

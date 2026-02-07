@@ -16,8 +16,6 @@ import {useAuth} from "@/util/auth/hooks/useAuth";
 import {handleError} from "@/util/func/errorHandler";
 import {ApiError} from "@/util/types/apiTypes";
 
-
-
 export default function Register(){
     const [dropDownValue, setDropDownValue] = useState<string>("");
     const [showPassword, setShowPassword] = useState<boolean>(false);
