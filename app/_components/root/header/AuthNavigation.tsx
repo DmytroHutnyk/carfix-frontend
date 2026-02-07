@@ -3,13 +3,16 @@
 import {useAuth} from "@/util/auth/hooks/useAuth";
 import UserNavigation from "@/_components/root/header/userNavigation";
 import GuestNavigation from "@/_components/root/header/guestNavigation";
+import NavigationSkeleton from "@/_components/root/header/NavigationSkeleton";
 
 export default function AuthNavigation(){
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, isLoading } = useAuth();
+
+    if (isLoading) return <NavigationSkeleton/>;
 
     return(
         <>
-            {isAuthenticated ? (<UserNavigation />) : (<GuestNavigation/>)} {/*TODO add placeholder while the auth is loading*/}
+            {isAuthenticated ? (<UserNavigation />) : (<GuestNavigation/>)}
         </>
     )
 }
