@@ -1,9 +1,13 @@
+'use client'
+
+import {usePathname} from "next/navigation";
 import {Card, CardContent} from "@/_components/shadcn/card";
 import {Button} from "@/_components/shadcn/button";
 import Link from "next/link";
 import {FileText, HelpCircle, Info, Phone} from "lucide-react";
 
-export default function SideBar({ pathName }: { pathName: string}){
+export default function SideBar(){
+    const pathName = usePathname();
     return(
         <aside className="flex flex-col">
             <Card className="p-4">

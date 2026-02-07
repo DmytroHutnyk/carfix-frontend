@@ -1,6 +1,3 @@
-'use client'
-
-import {usePathname} from "next/navigation";
 import SideBar from "@/(info)/_components/SideBar";
 import {Separator} from "@/_components/shadcn/separator";
 import {Card, CardDescription, CardHeader, CardTitle} from "@/_components/shadcn/card";
@@ -9,12 +6,10 @@ import {Avatar, AvatarFallback} from "@/_components/shadcn/avatar";
 import {Badge} from "@/_components/shadcn/badge";
 
 export default function Page(){
-    const pathname = usePathname();
-
     return(
         <div className="flex mx-auto max-w-[1425px] px-[72px] py-6 min-h-[calc(100vh-115px)]">
             <div className="grid grid-cols-[256px_1fr] gap-5 flex-1">
-                <SideBar pathName={pathname}/>
+                <SideBar/>
                 <div className="py-3">
                     <section className="text-center space-y-3">
                         <h1 className="text-3xl font-bold tracking-tight">

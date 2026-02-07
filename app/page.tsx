@@ -1,4 +1,4 @@
-'use client'
+'use client'  //TODO REMOVE!!!
 
 import Header from "@/_components/root/header/header";
 import {OrbitProgress} from "react-loading-indicators";

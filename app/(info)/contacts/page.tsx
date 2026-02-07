@@ -1,6 +1,5 @@
 'use client'
 
-import {usePathname} from "next/navigation";
 import SideBar from "@/(info)/_components/SideBar";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import {Separator} from "@/_components/shadcn/separator";
@@ -15,7 +14,6 @@ import {OrbitProgress} from "react-loading-indicators";
 
 
 export default function Page(){
-    const pathname = usePathname();
     const {
         register,
         handleSubmit,
@@ -35,7 +33,7 @@ export default function Page(){
     return(
         <div className="flex mx-auto max-w-[1425px] px-[72px] py-6 min-h-[calc(100vh-115px)]">
             <div className="grid grid-cols-[256px_1fr] gap-5 flex-1">
-                <SideBar pathName={pathname}/>
+                <SideBar/>
                 <div className="py-3">
                     {/*-==-==-=-=-=-=--==-=-=-=-header-==-==-=-=-=-=-=-=-=---==*/}
                     <section className="space-y-3">
