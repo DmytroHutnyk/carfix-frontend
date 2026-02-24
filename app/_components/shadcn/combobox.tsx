@@ -45,16 +45,18 @@ function ComboboxClear({ className, ...props }: ComboboxPrimitive.Clear.Props) {
 
 function ComboboxInput(
     {
-       className,
-       children,
-       disabled = false,
-       showTrigger = true,
-       showClear = false,
-       ...props
+        className,
+        children,
+        disabled = false,
+        showTrigger = true,
+        showClear = false,
+        disableChevron = false,
+        ...props
     }: ComboboxPrimitive.Input.Props & {
-    showTrigger?: boolean
-    showClear?: boolean
-}) {
+        showTrigger?: boolean
+        showClear?: boolean
+        disableChevron?: boolean
+    }) {
     return (
         <InputGroup className={cn("w-auto", className)}>
             <ComboboxPrimitive.Input
@@ -75,7 +77,7 @@ function ComboboxInput(
                             />
                         }
                     >
-                        <ChevronDownIcon className="text-muted-foreground size-4 pointer-events-none" />
+                        {disableChevron || <ChevronDownIcon className="text-muted-foreground size-4 pointer-events-none" />}
                     </ComboboxPrimitive.Trigger>
                 )}
                 {showClear && <ComboboxClear disabled={disabled} />}
