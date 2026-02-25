@@ -16,7 +16,9 @@ import {cn} from "@/util/lib/utils";
 
 const ComboboxInputGroupContext = React.createContext<React.RefObject<HTMLDivElement | null> | null>(null)
 
-function Combobox({ ...props }: React.ComponentProps<typeof ComboboxPrimitive.Root>) {
+function Combobox<Value, Multiple extends boolean | undefined = false>(
+    props: ComboboxPrimitive.Root.Props<Value, Multiple>
+) {
     const inputGroupRef = React.useRef<HTMLDivElement | null>(null)
     return (
         <ComboboxInputGroupContext.Provider value={inputGroupRef}>
