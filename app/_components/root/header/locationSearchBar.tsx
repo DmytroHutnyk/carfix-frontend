@@ -1,5 +1,4 @@
 "use client"
-import {APIProvider} from "@vis.gl/react-google-maps";
 import {MapPin} from "lucide-react";
 import {
     Combobox,
@@ -12,20 +11,7 @@ import {
 import {useCallback, useMemo, useState} from "react";
 import {useAutocompleteSuggestions} from "@/util/hooks/use-autocomplete-suggestions";
 
-const API_KEY: string = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string;
-
-/*acts as context provider*/
 export default function LocationSearchBar(
-    { onPlaceSelect }: { onPlaceSelect: (place: google.maps.places.Place | null) => void}
-) {
-    return (
-        <APIProvider apiKey={API_KEY}>
-            <LocationCombobox onPlaceSelect={onPlaceSelect} />
-        </APIProvider>
-    );
-}
-
-function LocationCombobox(
     { onPlaceSelect }: { onPlaceSelect: (place: google.maps.places.Place | null) => void}
 ) {
     const [inputValue, setInputValue] = useState<string>('');

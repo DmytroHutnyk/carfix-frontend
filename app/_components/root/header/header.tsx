@@ -5,6 +5,7 @@ import {Input} from "@/_components/shadcn/input";
 import AuthNavigation from "@/_components/root/header/AuthNavigation";
 import LocationSearchBar from "@/_components/root/header/locationSearchBar";
 import {useState} from "react";
+import GoogleApiProvider from "@/util/providers/googleApiProvider";
 
 export default function Header() {
     
@@ -31,7 +32,9 @@ export default function Header() {
                     </div>
 
                     <div className="relative w-56">
-                        <LocationSearchBar onPlaceSelect={setSelectedPlace}/>
+                        <GoogleApiProvider>
+                            <LocationSearchBar onPlaceSelect={setSelectedPlace}/>
+                        </GoogleApiProvider>
                     </div>
                 </div>
 
