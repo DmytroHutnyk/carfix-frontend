@@ -12,15 +12,22 @@ import {
 import {useCallback, useMemo, useState} from "react";
 import {useAutocompleteSuggestions} from "@/util/hooks/use-autocomplete-suggestions";
 
-const API_KEY: string = process.env.GOOGLE_MAPS_API_KEY as string;
+const API_KEY: string = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string;
 
-
-
-
-
-export default function (
+/*acts as context provider*/
+export default function LocationSearchBar(
     { onPlaceSelect }: { onPlaceSelect: (place: google.maps.places.Place | null) => void}
-){
+) {
+    return (
+        <APIProvider apiKey={API_KEY}>
+            <LocationCombobox onPlaceSelect={onPlaceSelect} />
+        </APIProvider>
+    );
+}
+
+function LocationCombobox(
+    { onPlaceSelect }: { onPlaceSelect: (place: google.maps.places.Place | null) => void}
+) {
     const [inputValue, setInputValue] = useState<string>('');
     const {suggestions, resetSession, isLoading} = useAutocompleteSuggestions(inputValue);
 
@@ -64,35 +71,30 @@ export default function (
         [onPlaceSelect]
     );
 
-
-
-
-    return(
-        <APIProvider apiKey={API_KEY}>
-            <Combobox
-                items={predictions}
-                inputValue={inputValue}
-                onInputValueChange={handleInputChange}
-                onValueChange={handleSelect}>
-                <ComboboxInput
-                    placeholder="Location"
-                    startAddon={<MapPin className="h-4 w-4" />}
-
-                    showClear
-                    disableChevron
-                    />
-                <ComboboxContent>
-                    <ComboboxEmpty>No matching results - from combobox</ComboboxEmpty>
-                    <ComboboxList>
-                        {(item) => (
-                            <ComboboxItem key={item.placeId} value={item.text}>
-                                {item.text}
-                            </ComboboxItem>
-                        )}
-                    </ComboboxList>
-                </ComboboxContent>
-            </Combobox>
-
-        </APIProvider>
-    )
+    return (
+        <Combobox
+            items={predictions}
+            inputValue={inputValue}
+            onInputValueChange={handleInputChange}
+            onValueChange={handleSelect}
+            itemToStringLabel={(item) => item.text.text}
+        >
+            <ComboboxInput
+                placeholder="Location"
+                startAddon={<MapPin className="h-4 w-4" />}
+                showClear
+                disableChevron
+            />
+            <ComboboxContent>
+                <ComboboxEmpty>No results found</ComboboxEmpty>
+                <ComboboxList>
+                    {(item) => (
+                        <ComboboxItem key={item.placeId} value={item}>
+                            {item.text.text}
+                        </ComboboxItem>
+                    )}
+                </ComboboxList>
+            </ComboboxContent>
+        </Combobox>
+    );
 }
