@@ -11,9 +11,12 @@
 
 import {useEffect, useRef, useState} from 'react';
 import {useMapsLibrary} from '@vis.gl/react-google-maps';
+type AutocompleteSessionToken = google.maps.places.AutocompleteSessionToken;
+type AutocompleteSuggestion = google.maps.places.AutocompleteSuggestion;
+type AutocompleteRequest = google.maps.places.AutocompleteRequest;
 
 export type UseAutocompleteSuggestionsReturn = {
-  suggestions: google.maps.places.AutocompleteSuggestion[];
+  suggestions: AutocompleteSuggestion[];
   isLoading: boolean;
   resetSession: () => void;
 };
@@ -53,18 +56,16 @@ export type UseAutocompleteSuggestionsReturn = {
  */
 export function useAutocompleteSuggestions(
   inputString: string,
-  requestOptions: Partial<google.maps.places.AutocompleteRequest> = {}
+  requestOptions: Partial<AutocompleteRequest> = {}
 ): UseAutocompleteSuggestionsReturn {
   const placesLib = useMapsLibrary('places');
 
   // stores the current sessionToken
   const sessionTokenRef =
-    useRef<google.maps.places.AutocompleteSessionToken>(null);
+      useRef<AutocompleteSessionToken>(null);
 
   // the suggestions based on the specified input
-  const [suggestions, setSuggestions] = useState<
-    google.maps.places.AutocompleteSuggestion[]
-  >([]);
+  const [suggestions, setSuggestions] = useState<AutocompleteSuggestion[]>([]);
 
   // indicates if there is currently an incomplete request to the places API
   const [isLoading, setIsLoading] = useState(false);
@@ -83,7 +84,7 @@ export function useAutocompleteSuggestions(
       sessionTokenRef.current = new AutocompleteSessionToken();
     }
 
-    const request: google.maps.places.AutocompleteRequest = {
+    const request: AutocompleteRequest = {
       ...requestOptions,
       input: inputString,
       sessionToken: sessionTokenRef.current

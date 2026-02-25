@@ -10,13 +10,16 @@ import {
 } from "@/_components/shadcn/combobox";
 import {useCallback, useMemo, useState} from "react";
 import {useAutocompleteSuggestions} from "@/util/hooks/use-autocomplete-suggestions";
+type PlacePrediction = google.maps.places.PlacePrediction;
+type Place = google.maps.Place;
 
 export default function LocationSearchBar(
-    { onPlaceSelect }: { onPlaceSelect: (place: google.maps.places.Place | null) => void}
+    { onPlaceSelect }: { onPlaceSelect: (place: Place | null) => void}
 ) {
     const [inputValue, setInputValue] = useState<string>('');
     const {suggestions, resetSession, isLoading} = useAutocompleteSuggestions(inputValue);
 
+    // map AutocompleteSuggestion[] to placePrediction[]
     const predictions = useMemo(
         () =>
             suggestions
@@ -25,26 +28,15 @@ export default function LocationSearchBar(
         [suggestions]
     );
 
-    const handleInputChange = useCallback(
-        (value: google.maps.places.PlacePrediction | string) => {
-            if (typeof value === 'string') {
-                setInputValue(value);
-            }
-        },
-        []
-    );
-
     const handleSelect = useCallback(
-        (value: unknown) => {
-            if (!(value instanceof google.maps.places.PlacePrediction)) return;
+        (prediction: PlacePrediction | null) => {
+            if (!prediction) return;
 
-            const place = value.toPlace();
+            const place = prediction.toPlace();
             place
                 .fetchFields({
                     fields: [
-                        'viewport',
                         'location',
-                        'svgIconMaskURI',
                         'iconBackgroundColor'
                     ]
                 })
@@ -54,16 +46,15 @@ export default function LocationSearchBar(
                     setInputValue('');
                 });
         },
-        [onPlaceSelect]
+        [onPlaceSelect, resetSession]
     );
 
     return (
         <Combobox
             items={predictions}
-            inputValue={inputValue}
-            onInputValueChange={handleInputChange}
+            onInputValueChange={setInputValue}
             onValueChange={handleSelect}
-            itemToStringLabel={(item) => item.text.text}
+            itemToStringLabel={(item: PlacePrediction) => item.text.text}
         >
             <ComboboxInput
                 placeholder="Location"
