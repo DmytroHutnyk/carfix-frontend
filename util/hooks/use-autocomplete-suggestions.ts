@@ -55,63 +55,64 @@ export type UseAutocompleteSuggestionsReturn = {
  * ```
  */
 export function useAutocompleteSuggestions(
-  inputString: string,
-  requestOptions: Partial<AutocompleteRequest> = {}
+    inputString: string,
+    requestOptions: Partial<AutocompleteRequest> = {}
 ): UseAutocompleteSuggestionsReturn {
-  const placesLib = useMapsLibrary('places');
+    const placesLib = useMapsLibrary('places');
 
-  // stores the current sessionToken
-  const sessionTokenRef =
-      useRef<AutocompleteSessionToken>(null);
+    // stores the current sessionToken
+    const sessionTokenRef =
+        useRef<AutocompleteSessionToken>(null);
 
-  // the suggestions based on the specified input
-  const [suggestions, setSuggestions] = useState<AutocompleteSuggestion[]>([]);
+    // the suggestions based on the specified input
+    const [suggestions, setSuggestions] = useState<AutocompleteSuggestion[]>([]);
 
-  // indicates if there is currently an incomplete request to the places API
-  const [isLoading, setIsLoading] = useState(false);
+    // indicates if there is currently an incomplete request to the places API
+    const [isLoading, setIsLoading] = useState(false);
 
-  // once the PlacesLibrary is loaded and whenever the input changes, a query
-  // is sent to the Autocomplete Data API.
-  useEffect(() => {
-    if (!placesLib) return;
+    // once the PlacesLibrary is loaded and whenever the input changes, a query
+    // is sent to the Autocomplete Data API.
+    useEffect(() => {
+        if (!placesLib) return;
 
-    const {AutocompleteSessionToken, AutocompleteSuggestion} = placesLib;
+        const {AutocompleteSessionToken, AutocompleteSuggestion} = placesLib;
 
-    // Create a new session if one doesn't already exist. This has to be reset
-    // after `fetchFields` for one of the returned places is called by calling
-    // the `resetSession` function returned from this hook.
-    if (!sessionTokenRef.current) {
-      sessionTokenRef.current = new AutocompleteSessionToken();
-    }
+        // Create a new session if one doesn't already exist. This has to be reset
+        // after `fetchFields` for one of the returned places is called by calling
+        // the `resetSession` function returned from this hook.
+        if (!sessionTokenRef.current) {
+            sessionTokenRef.current = new AutocompleteSessionToken();
+        }
 
-    const request: AutocompleteRequest = {
-      ...requestOptions,
-      input: inputString,
-      sessionToken: sessionTokenRef.current
+        const request: AutocompleteRequest = {
+            ...requestOptions,
+            input: inputString,
+            includedPrimaryTypes: ["locality", "administrative_area_level_1", "country"],
+            sessionToken: sessionTokenRef.current
+        };
+
+        if (inputString === '') {
+            if (suggestions.length > 0) setSuggestions([]);
+            return;
+        }
+
+        setIsLoading(true);
+        AutocompleteSuggestion.fetchAutocompleteSuggestions(request).then(res => {
+            setSuggestions(res.suggestions);
+            setIsLoading(false);
+        });
+        // is intentionally excluded to avoid re-fetching on every render (object
+        // reference changes), and suggestions.length is only used in the
+        // early-return guard.
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- requestOptions
+    }, [placesLib, inputString]);
+
+    return {
+        suggestions,
+        isLoading,
+        resetSession: () => {
+            sessionTokenRef.current = null;
+            setSuggestions([]);
+        }
     };
-
-    if (inputString === '') {
-      if (suggestions.length > 0) setSuggestions([]);
-      return;
-    }
-
-    setIsLoading(true);
-    AutocompleteSuggestion.fetchAutocompleteSuggestions(request).then(res => {
-      setSuggestions(res.suggestions);
-      setIsLoading(false);
-    });
-    // is intentionally excluded to avoid re-fetching on every render (object
-    // reference changes), and suggestions.length is only used in the
-    // early-return guard.
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- requestOptions
-  }, [placesLib, inputString]);
-
-  return {
-    suggestions,
-    isLoading,
-    resetSession: () => {
-      sessionTokenRef.current = null;
-      setSuggestions([]);
-    }
-  };
 }
