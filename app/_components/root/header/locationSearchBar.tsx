@@ -32,6 +32,10 @@ export default function LocationSearchBar(
         (prediction: PlacePrediction | null) => {
             if (!prediction) return;
 
+            console.log("PlacePrediction is set, text: ", prediction.text.text)
+            console.log("main text: ", prediction.mainText?.text)
+            console.log("secondary text: ", prediction.secondaryText?.text)
+
             const place = prediction.toPlace();
             place
                 .fetchFields({
@@ -45,6 +49,7 @@ export default function LocationSearchBar(
                     onPlaceSelect(place);
                     setInputValue('');
                 });
+            console.log("toPlace is called, result: ", place)
         },
         [onPlaceSelect, resetSession]
     );
