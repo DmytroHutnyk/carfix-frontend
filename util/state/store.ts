@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Language } from "@/util/types/appTypes";
+import { Language, RegionCode } from "@/util/types/appTypes";
 
 type LanguageStore = {
     language: Language;
@@ -14,5 +14,20 @@ export const useLanguage = create<LanguageStore>()(
             setLanguage: (language) => set({ language }),
         }),
         { name: 'language-storage' }
+    )
+);
+
+type RegionStore = {
+    region: RegionCode;
+    setRegion: (region: RegionCode) => void;
+};
+
+export const useRegion = create<RegionStore>()(
+    persist(
+        (set) => ({
+            region: "PL",
+            setRegion: (region) => set({ region }),
+        }),
+        { name: 'region-storage' }
     )
 );
