@@ -8,16 +8,17 @@ import {
     ComboboxItem,
     ComboboxList
 } from "@/_components/shadcn/combobox";
-import {useCallback, useMemo, useState} from "react";
+import {useCallback, useMemo, useRef, useState} from "react";
 import {useAutocompleteSuggestions} from "@/util/hooks/use-autocomplete-suggestions";
 type PlacePrediction = google.maps.places.PlacePrediction;
-type Place = google.maps.Place;
+type Place = google.maps.places.Place;
 
 export default function LocationSearchBar(
     { onPlaceSelect }: { onPlaceSelect: (place: Place | null) => void}
 ) {
     const [inputValue, setInputValue] = useState<string>('');
     const {suggestions, resetSession, isLoading} = useAutocompleteSuggestions(inputValue);
+    const geocoderRef = useRef<google.maps.Geocoder | null>(null);
 
     // map AutocompleteSuggestion[] to placePrediction[]
     const predictions = useMemo(
@@ -32,24 +33,47 @@ export default function LocationSearchBar(
         (prediction: PlacePrediction | null) => {
             if (!prediction) return;
 
-            console.log("PlacePrediction is set, text: ", prediction.text.text)
-            console.log("main text: ", prediction.mainText?.text)
-            console.log("secondary text: ", prediction.secondaryText?.text)
+            const place: google.maps.places.Place = prediction.toPlace();
 
-            const place = prediction.toPlace();
+            // fetchFields closes the autocomplete session (bundled billing)
             place
                 .fetchFields({
-                    fields: [
-                        'location',
-                        'iconBackgroundColor'
-                    ]
+                    fields: ['displayName', 'location']
                 })
                 .then(() => {
                     resetSession();
+
+                    if (!geocoderRef.current) {
+                        geocoderRef.current = new google.maps.Geocoder();
+                    }
+
+                    return geocoderRef.current.geocode({
+                        placeId: place.id,
+                        language: "en",
+                    });
+                })
+                .then((response) => {
+                    const result = response.results[0];
+                    const components = result?.address_components ?? [];
+                    const get = (type: string) =>
+                        components.find(c => c.types.includes(type))?.long_name;
+
+                    const locality = get("locality");
+                    const region = get("administrative_area_level_1");
+                    const country = get("country");
+                    const englishAddress = [locality, region, country]
+                        .filter(Boolean)
+                        .join(", ");
+
+                    console.log("displayName:", place.displayName);
+                    console.log("placeId:", place.id);
+                    console.log("location:", place.location?.toJSON());
+                    console.log("formattedAddress (en):", englishAddress);
+                    console.log("address_components:", components);
+
                     onPlaceSelect(place);
                     setInputValue('');
                 });
-            console.log("toPlace is called, result: ", place)
         },
         [onPlaceSelect, resetSession]
     );
