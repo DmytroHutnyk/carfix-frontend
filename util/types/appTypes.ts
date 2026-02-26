@@ -10,7 +10,8 @@ export interface User {
     customerStatus: string;
 }
 
-export type Language = "EN" | "PL" | "UKR";
+export type Language = "EN" | "PL" | "UK";
+export const LANGUAGES: Language[] = ["EN", "PL", "UK"];
 
 export type RegionCode = "PL" | "DE" | "FR" | "ES" | "IT" | "GB" | "US" | "CA" | "MX";
 

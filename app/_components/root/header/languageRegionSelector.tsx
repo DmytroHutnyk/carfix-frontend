@@ -10,7 +10,7 @@ import {
 } from "@/_components/shadcn/dropdown-menu";
 import {ChevronDown, Globe} from "lucide-react";
 import {cn} from "../../../../util/lib/utils";
-import {FLAG_PLACEHOLDERS, Language, Region, REGIONS} from "@/util/types/appTypes";
+import {FLAG_PLACEHOLDERS, Language, LANGUAGES, Region, REGIONS} from "@/util/types/appTypes";
 import {useLanguage, useRegion} from "@/util/state/store";
 
 const regionsByContinent = REGIONS.reduce<Record<string, Region[]>>((acc, region) => {
@@ -51,7 +51,7 @@ export default function LanguageRegionSelector() {
                     onValueChange={(v) => setLanguage(v as Language)}
                 >
                     <div className="flex gap-1">
-                        {(["EN", "PL", "UKR"] as Language[]).map((lang) => (
+                        {LANGUAGES.map((lang) => (
                             <DropdownMenuRadioItemWithCheck
                                 key={lang}
                                 value={lang}
