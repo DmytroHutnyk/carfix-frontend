@@ -1,7 +1,12 @@
+"use client"
 import Logo from "@/_components/root/header/logo";
-import {MapPin, Search} from "lucide-react";
+import {Search} from "lucide-react";
 import {Input} from "@/_components/shadcn/input";
-import AuthNavigation from "@/_components/root/header/AuthNavigation";
+import AuthNavigation from "@/_components/root/header/authNavigation";
+import LocationSearchBar from "@/_components/root/header/locationSearchBar";
+import GoogleApiProvider from "@/util/providers/googleApiProvider";
+
+type Place = google.maps.places.Place;
 
 export default function Header() {
 
@@ -24,11 +29,9 @@ export default function Header() {
                     </div>
 
                     <div className="relative w-56">
-                        <MapPin className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                        <Input
-                            placeholder="Location..."
-                            className="pl-9"
-                        />
+                        <GoogleApiProvider>
+                            <LocationSearchBar/>
+                        </GoogleApiProvider>
                     </div>
                 </div>
 
