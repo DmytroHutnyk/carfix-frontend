@@ -60,7 +60,7 @@ export function useAutocompleteSuggestions(
     requestOptions: Partial<AutocompleteRequest> = {}
 ): UseAutocompleteSuggestionsReturn {
     const placesLib = useMapsLibrary('places');
-    const { country } = useSearchLocation((s) => s.searchLocation);
+    const country = useSearchLocation((s) => s.searchLocation.country);
     const language = useLanguage((s) => s.language);
 
     // stores the current sessionToken

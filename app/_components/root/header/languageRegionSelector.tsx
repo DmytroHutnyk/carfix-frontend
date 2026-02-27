@@ -23,7 +23,7 @@ export default function LanguageRegionSelector() {
     const language = useLanguage((s) => s.language);
     const setLanguage = useLanguage((s) => s.setLanguage);
 
-    const { country } = useSearchLocation((s) => s.searchLocation);
+    const country = useSearchLocation((s) => s.searchLocation.country);
     const setSearchLocation = useSearchLocation((s) => s.setSearchLocation);
 
 
