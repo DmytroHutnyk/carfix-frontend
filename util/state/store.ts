@@ -28,7 +28,7 @@ export const useSearchLocation = create<SearchLocationStore>()(
             searchLocation: {
                     city: null,
                     region: null,
-                    country: "PL"
+                    country: "PL" /*infer from browser or ip, idk TODO*/
             },
             setSearchLocation: (update) =>
                 set((state) => ({

@@ -65,12 +65,9 @@ export default function LocationSearchBar() {
                     const country = get("country");
 
                     const englishAddress = [locality, region, country]
-                        .filter(Boolean)
+                        .filter(Boolean)            /*almost always true, to remove?*/
                         .join(", ");
 
-                    console.log("displayName:", place.displayName);
-                    console.log("placeId:", place.id);
-                    console.log("location:", place.location?.toJSON());
                     console.log("formattedAddress (en):", englishAddress);
                     console.log("address_components:", components);
 

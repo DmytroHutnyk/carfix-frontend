@@ -2,7 +2,7 @@
 import Logo from "@/_components/root/header/logo";
 import {Search} from "lucide-react";
 import {Input} from "@/_components/shadcn/input";
-import AuthNavigation from "@/_components/root/header/AuthNavigation";
+import AuthNavigation from "@/_components/root/header/authNavigation";
 import LocationSearchBar from "@/_components/root/header/locationSearchBar";
 import GoogleApiProvider from "@/util/providers/googleApiProvider";
 

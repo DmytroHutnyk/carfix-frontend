@@ -3,7 +3,7 @@
 import {useAuth} from "@/util/auth/hooks/useAuth";
 import UserNavigation from "@/_components/root/header/userNavigation";
 import GuestNavigation from "@/_components/root/header/guestNavigation";
-import NavigationSkeleton from "@/_components/root/header/NavigationSkeleton";
+import NavigationSkeleton from "@/_components/root/header/navigationSkeleton";
 
 export default function AuthNavigation(){
     const { isAuthenticated, isLoading } = useAuth();
