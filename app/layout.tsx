@@ -1,5 +1,5 @@
 import '@/styles/global.css'
-import Header from "@/_components/root/header/header";
+import Providers from "@/util/providers/providers";
 
 export default function RootLayout({ children }: {
     children: React.ReactNode
@@ -7,8 +7,9 @@ export default function RootLayout({ children }: {
     return (
         <html lang="en">
         <body>
-            <Header/>
+        <Providers>
             {children}
+        </Providers>
         </body>
         </html>
     )
