@@ -1,14 +1,11 @@
-import Header from "@/_components/root/header/header";
 import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/_components/shadcn/carousel";
 import ServiceCard from "@/_components/root/ServiceCard";
-import Footer from "@/_components/root/footer";
 
 export default function Home() {
 
   return (
     <div>
       <div>
-          <Header/>
             <main className="mx-auto max-w-[1425px] px-[72px] py-15 space-y-16">
               {/* Intro Section */}
               <section className="text-center space-y-4 max-w-3xl mx-auto">
@@ -81,7 +78,6 @@ export default function Home() {
                 </div>
               </section>
             </main>
-          <Footer/>
       </div>
     </div>
   )
