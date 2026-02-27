@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Language, RegionCode } from "@/util/types/appTypes";
+import {Language, CountryCode, SearchLocation} from "@/util/types/appTypes";
 
 type LanguageStore = {
     language: Language;
@@ -17,17 +17,25 @@ export const useLanguage = create<LanguageStore>()(
     )
 );
 
-type RegionStore = {
-    region: RegionCode;
-    setRegion: (region: RegionCode) => void;
-};
+type SearchLocationStore ={
+    searchLocation: SearchLocation;
+    setSearchLocation: (update: Partial<SearchLocation>) => void;
+}
 
-export const useRegion = create<RegionStore>()(
+export const useSearchLocation = create<SearchLocationStore>()(
     persist(
         (set) => ({
-            region: "PL",
-            setRegion: (region) => set({ region }),
+            searchLocation: {
+                    city: null,
+                    region: null,
+                    country: "PL"
+            },
+            setSearchLocation: (update) =>
+                set((state) => ({
+                        searchLocation: {...state.searchLocation, ...update},
+                    })
+                ),
         }),
-        { name: 'region-storage' }
+        { name: 'search-location-storage'}
     )
 );

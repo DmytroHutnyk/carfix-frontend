@@ -11,7 +11,7 @@
 
 import {useEffect, useRef, useState} from 'react';
 import {useMapsLibrary} from '@vis.gl/react-google-maps';
-import {useLanguage, useRegion} from "@/util/state/store";
+import {useLanguage, useSearchLocation} from "@/util/state/store";
 type AutocompleteSessionToken = google.maps.places.AutocompleteSessionToken;
 type AutocompleteSuggestion = google.maps.places.AutocompleteSuggestion;
 type AutocompleteRequest = google.maps.places.AutocompleteRequest;
@@ -60,7 +60,7 @@ export function useAutocompleteSuggestions(
     requestOptions: Partial<AutocompleteRequest> = {}
 ): UseAutocompleteSuggestionsReturn {
     const placesLib = useMapsLibrary('places');
-    const region = useRegion((s) => s.region);
+    const { country } = useSearchLocation((s) => s.searchLocation);
     const language = useLanguage((s) => s.language);
 
     // stores the current sessionToken
@@ -92,9 +92,9 @@ export function useAutocompleteSuggestions(
             input: inputString,
             includedPrimaryTypes: ["locality", "administrative_area_level_1", "country"],
             locationBias: "IP_BIAS",        /*Bias results to a specified location.*/
-            includedRegionCodes: [region],  /*Only include results in the specified regions*/
+            includedRegionCodes: [country],  /*Only include results in the specified regions*/
             language: language,             /*The results may be in mixed languages if the language used in input is different from language, or if the returned Place does not have a translation from the local language to language.*/
-            region: region,                 /*This affects address formatting, result ranking, and may influence what results are returned. This does not restrict results to the specified region.*/
+            region: country,                 /*This affects address formatting, result ranking, and may influence what results are returned. This does not restrict results to the specified region.*/
             sessionToken: sessionTokenRef.current
         };
 
@@ -112,7 +112,7 @@ export function useAutocompleteSuggestions(
         // reference changes), and suggestions.length is only used in the
         // early-return guard.
         // eslint-disable-next-line react-hooks/exhaustive-deps -- requestOptions
-    }, [placesLib, inputString, region, language]);
+    }, [placesLib, inputString, country, language]);
 
     return {
         suggestions,

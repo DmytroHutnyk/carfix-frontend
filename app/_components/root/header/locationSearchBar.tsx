@@ -10,14 +10,14 @@ import {
 } from "@/_components/shadcn/combobox";
 import {useCallback, useMemo, useRef, useState} from "react";
 import {useAutocompleteSuggestions} from "@/util/hooks/use-autocomplete-suggestions";
-type PlacePrediction = google.maps.places.PlacePrediction;
-type Place = google.maps.places.Place;
+import {useSearchLocation} from "@/util/state/store";
 
-export default function LocationSearchBar(
-    { onPlaceSelect }: { onPlaceSelect: (place: Place | null) => void}
-) {
+type PlacePrediction = google.maps.places.PlacePrediction;
+
+export default function LocationSearchBar() {
     const [inputValue, setInputValue] = useState<string>('');
     const {suggestions, resetSession, isLoading} = useAutocompleteSuggestions(inputValue);
+    const setSearchLocation = useSearchLocation((s) => s.setSearchLocation);
     const geocoderRef = useRef<google.maps.Geocoder | null>(null);
 
     // map AutocompleteSuggestion[] to placePrediction[]
@@ -38,7 +38,7 @@ export default function LocationSearchBar(
             // fetchFields closes the autocomplete session (bundled billing)
             place
                 .fetchFields({
-                    fields: ['displayName', 'location']
+                    fields: []
                 })
                 .then(() => {
                     resetSession();
@@ -54,13 +54,16 @@ export default function LocationSearchBar(
                 })
                 .then((response) => {
                     const result = response.results[0];
+
                     const components = result?.address_components ?? [];
+
                     const get = (type: string) =>
                         components.find(c => c.types.includes(type))?.long_name;
 
                     const locality = get("locality");
                     const region = get("administrative_area_level_1");
                     const country = get("country");
+
                     const englishAddress = [locality, region, country]
                         .filter(Boolean)
                         .join(", ");
@@ -71,11 +74,14 @@ export default function LocationSearchBar(
                     console.log("formattedAddress (en):", englishAddress);
                     console.log("address_components:", components);
 
-                    onPlaceSelect(place);
+                    setSearchLocation({
+                        region: region,
+                        city: locality
+                    })
                     setInputValue('');
                 });
         },
-        [onPlaceSelect, resetSession]
+        [setSearchLocation, resetSession]
     );
 
     return (

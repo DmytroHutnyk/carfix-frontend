@@ -10,10 +10,10 @@ import {
 } from "@/_components/shadcn/dropdown-menu";
 import {ChevronDown, Globe} from "lucide-react";
 import {cn} from "../../../../util/lib/utils";
-import {FLAG_PLACEHOLDERS, Language, LANGUAGES, Region, REGIONS} from "@/util/types/appTypes";
-import {useLanguage, useRegion} from "@/util/state/store";
+import {FLAG_PLACEHOLDERS, Language, LANGUAGES, Country, COUNTRIES, SearchLocation} from "@/util/types/appTypes";
+import {useLanguage, useSearchLocation} from "@/util/state/store";
 
-const regionsByContinent = REGIONS.reduce<Record<string, Region[]>>((acc, region) => {
+const regionsByContinent = COUNTRIES.reduce<Record<string, Country[]>>((acc, region) => {
     (acc[region.continent] ??= []).push(region);
     return acc;
 }, {});
@@ -23,8 +23,9 @@ export default function LanguageRegionSelector() {
     const language = useLanguage((s) => s.language);
     const setLanguage = useLanguage((s) => s.setLanguage);
 
-    const region = useRegion((s) => s.region);
-    const setRegion = useRegion((s) => s.setRegion);
+    const { country } = useSearchLocation((s) => s.searchLocation);
+    const setSearchLocation = useSearchLocation((s) => s.setSearchLocation);
+
 
     const [open, setOpen] = useState(false);
 
@@ -33,7 +34,7 @@ export default function LanguageRegionSelector() {
             <DropdownMenuTrigger asChild>
                 <button className="group inline-flex h-9 w-25 items-center justify-start">
                     <span className="inline-flex w-16 items-center justify-start gap-x-1">
-                        <span className="text-base leading-none">{FLAG_PLACEHOLDERS[region]}</span>
+                        <span className="text-base leading-none">{FLAG_PLACEHOLDERS[country]}</span>
                         <span className="text-sm font-medium">{language}</span>
                     </span>
                     <ChevronDown className="h-3 w-3 text-muted-foreground transition duration-300 group-data-[state=open]:rotate-180" aria-hidden="true" />
@@ -84,13 +85,13 @@ export default function LanguageRegionSelector() {
                                 <button
                                     key={r.code}
                                     onClick={() => {
-                                        setRegion(r.code);
+                                        setSearchLocation({country: r.code});
                                         setOpen(false);
                                     }}
                                     className={cn(
                                         "flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm transition-colors",
                                         "hover:bg-accent hover:text-accent-foreground",
-                                        region === r.code && "bg-primary text-primary-foreground"
+                                        country === r.code && "bg-primary text-primary-foreground"
                                     )}
                                 >
                                     <span className="text-base leading-none">{FLAG_PLACEHOLDERS[r.code]}</span>

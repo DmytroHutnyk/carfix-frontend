@@ -10,30 +10,44 @@ export interface User {
     customerStatus: string;
 }
 
+/*Interface and location search engine language*/
 export type Language = "EN" | "PL" | "UK";
-export const LANGUAGES: Language[] = ["EN", "PL", "UK"];
 
-export type RegionCode = "PL" | "DE" | "FR" | "ES" | "IT" | "GB" | "US" | "CA" | "MX";
+/*location search engine country restriction*/
+export type CountryCode = "PL" | "DE" | "FR" | "ES" | "IT" | "GB" | "UA" | "US" | "CA";
 
-export interface Region {
-    code: RegionCode;
-    name: string;
-    continent: "Europe" | "North America";
+/*used for grouping the countries in selection bar*/
+type Continent = "Europe" | "North America";
+
+/*Used for zustand state (useSearchLocation) to keep one source of truth location restriction for location search engine */
+export interface SearchLocation {
+    city: string | null,
+    region: string | null,
+    country: CountryCode
 }
 
-export const REGIONS: Region[] = [
+export interface Country {
+    code: CountryCode;
+    name: string;
+    continent: Continent;
+}
+
+/*to move somewhere else?*/
+export const LANGUAGES: Language[] = ["EN", "PL", "UK"];
+
+export const COUNTRIES: Country[] = [
     { code: "PL", name: "Poland",  continent: "Europe" },
     { code: "DE", name: "Germany", continent: "Europe" },
     { code: "FR", name: "France",  continent: "Europe" },
     { code: "ES", name: "Spain",   continent: "Europe" },
     { code: "IT", name: "Italy",   continent: "Europe" },
     { code: "GB", name: "United Kingdom", continent: "Europe" },
+    { code: "UA", name: "Ukraine", continent: "Europe" },
     { code: "US", name: "United States",  continent: "North America" },
     { code: "CA", name: "Canada",  continent: "North America" },
-    { code: "MX", name: "Mexico",  continent: "North America" },
 ];
 
-export const FLAG_PLACEHOLDERS: Record<RegionCode, string> = {
+export const FLAG_PLACEHOLDERS: Record<CountryCode, string> = {
     PL: "🇵🇱", DE: "🇩🇪", FR: "🇫🇷", ES: "🇪🇸",
-    IT: "🇮🇹", GB: "🇬🇧", US: "🇺🇸", CA: "🇨🇦", MX: "🇲🇽",
+    IT: "🇮🇹", GB: "🇬🇧", UA: "🇺🇦", US: "🇺🇸", CA: "🇨🇦",
 };
