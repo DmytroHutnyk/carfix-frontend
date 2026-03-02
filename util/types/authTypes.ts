@@ -1,6 +1,7 @@
 /* auth request response */
 import {User} from "@/util/types/appTypes";
 import {z} from "zod";
+import {UpdateProfile} from "@/util/types/profileTypes";
 
 /* hooks */
 export interface AuthState {
@@ -25,7 +26,6 @@ export interface AuthActions {
     register: (registerData: RegisterData) => Promise<User>;
     // logout: () => Promise<void>;TODO
     // refetchSession: () => Promise<void>;
-    /* updateProfile: (data: UpdateProfilePayload) => Promise<User>;*/
 }
 
 export interface UseAuthReturn extends AuthState, AuthActions {

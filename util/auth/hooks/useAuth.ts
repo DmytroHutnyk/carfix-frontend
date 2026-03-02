@@ -1,12 +1,11 @@
 import {LoginCredentials, RegisterData, UseAuthReturn} from "@/util/types/authTypes";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {useRouter} from "next/navigation";
 import {authKeys} from "@/util/auth/keys";
 import {authApi} from "@/util/api/authApi"
+import {UpdateProfile} from "@/util/types/profileTypes";
 
 export function useAuth(): UseAuthReturn {
     const queryClient = useQueryClient();
-    const router = useRouter();
 
     const sessionQuery = useQuery({
         queryKey: authKeys.session(),
@@ -43,13 +42,6 @@ export function useAuth(): UseAuthReturn {
     //     },
     // });
     //
-    // // Update Profile Mutation
-    // const updateProfileMutation = useMutation({
-    //     mutationFn: authApi.updateProfile,
-    //     onSuccess: (updatedUser) => {
-    //         queryClient.setQueryData(authKeys.session(), updatedUser);
-    //     },
-    // });
 
     return{
         // State
@@ -68,7 +60,7 @@ export function useAuth(): UseAuthReturn {
 
         register: async (registerData: RegisterData) => {
             return registerMutation.mutateAsync(registerData);
-        }
+        },
 
         // logout: async () => {
         //     return logoutMutation.mutateAsync();

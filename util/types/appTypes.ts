@@ -5,10 +5,13 @@ export interface User {
     phoneCountryCode: string;
     phoneNumber: string;
     email: string;
-    role: string;
+    role: UserRole;
     dateOfBirth: string | null;
-    customerStatus: string;
+    customerStatus: CustomerStatus;
 }
+
+export type CustomerStatus = "ACTIVE" | "SUSPENDED";
+export type UserRole = "CUSTOMER" | "OWNER" | "ADMIN" | "EMPLOYEE";
 
 /*Interface and location search engine language*/
 export type Language = "EN" | "PL" | "UK";

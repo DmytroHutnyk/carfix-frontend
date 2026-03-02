@@ -1,79 +1,144 @@
-import SideBar from "@/_components/SideBar";
-import {Card, CardContent, CardHeader, CardTitle} from "@/_components/shadcn/card";
-import {Separator} from "@/_components/shadcn/separator";
-import ContactForm from "@/(main)/(info)/contacts/_components/ContactForm";
+'use client'
+
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/_components/shadcn/card";
+import {useForm, Controller} from "react-hook-form";
+import {UpdateProfile, updateProfileSchema} from "@/util/types/profileTypes";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {OrbitProgress} from "react-loading-indicators";
+import {useState} from "react";
+import {handleError} from "@/util/func/errorHandler";
+import {ApiError} from "@/util/types/apiTypes";
+import {useProfile} from "@/util/auth/hooks/useProfile";
+import {useAuth} from "@/util/auth/hooks/useAuth";
+import {Input} from "@/_components/shadcn/input";
+import {DatePicker} from "@/(main)/(withFooter)/(myAccount)/profile/_components/DatePicker";
+import {Button} from "@/_components/shadcn/button";
+import {Alert, AlertDescription} from "@/_components/shadcn/alert";
+import {AlertCircle} from "lucide-react";
 
 export default function Page(){
+    const [error, setError] = useState<string | null>(null);
+    const profile = useProfile();
+    const { user } = useAuth();
+
+    const {
+        register,
+        handleSubmit,
+        control,
+        formState: {errors, isSubmitting, isDirty}
+    } = useForm<UpdateProfile>({
+        resolver: zodResolver(updateProfileSchema),
+        mode: "onSubmit",
+        values: {
+            name: user?.name ?? "",
+            surname: user?.surname ?? "",
+            dateOfBirth: user?.dateOfBirth ?? ""
+        },
+    })
+
+    const onSubmit = async (updateData: UpdateProfile) => {
+        setError(null);
+
+        const userId: string = user?.id ?? "1"; /*TODO call login redirect!!!!!!!!!*/
+
+        try {
+            await profile.updateProfile({id: userId, data: updateData})
+        } catch (err) {
+            handleError(err as ApiError, setError);
+        }
+    }
+
     return(
-        <div className="flex mx-auto max-w-[1425px] px-[72px] py-6 min-h-[calc(100vh-115px)]">
-            <div className="grid grid-cols-[256px_1fr] gap-5 flex-1">
-                {/*<SideBar menuItems={}/>*/}
-                <div className="py-3">
-                    {/*-==-==-=-=-=-=--==-=-=-=-header-==-==-=-=-=-=-=-=-=---==*/}
-                    <section className="space-y-3">
-                        <h1 className="text-3xl font-bold tracking-tight">
-                            Contact Us
-                        </h1>
-                        <p className="text-muted-foreground">
-                            Get in touch with our support team
-                        </p>
-                    </section>
-
-                    <Separator className="my-6" />
-
-                    {/*-==-==-=-=-=-=--==-=-=-=-Cards-==-==-=-=-=-=-=-=-=---==*/}
-                    <section className="flex flex-col gap-y-2">
-                        <div className="grid grid-cols-2 gap-4">
-                            {/*-==-==-=-=-=-=--==-=-=-=-Support Info-==-==-=-=-=-=-=-=-=---==*/}
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle className="text-xl">Support Information</CardTitle>
-                                </CardHeader>
-                                <CardContent className="space-y-6">
-
-                                    {/*-==-==-=-=-=-=--==-=-=-=-Email-==-==-=-=-=-=-=-=-=---==*/}
-                                    <div className="space-y-1">
-                                        <p className="font-semibold">Email Support</p>
-                                        <a
-                                            href="mailto:support@carfix.pl"
-                                            className="text-muted-foreground hover:underline"
-                                        >
-                                            support@carfix.pl
-                                        </a>
-                                    </div>
-
-                                    {/*-==-==-=-=-=-=--==-=-=-=-Phone-==-==-=-=-=-=-=-=-=---==*/}
-                                    <div className="space-y-1">
-                                        <p className="font-semibold">Phone Support</p>
-                                        <a
-                                            href="tel:+48221234567"
-                                            className="text-muted-foreground hover:underline"
-                                        >
-                                            +48 22 123 4567
-                                        </a>
-                                        <p className="text-sm text-muted-foreground">Mon-Fri 8:00-18:00</p>
-                                    </div>
-
-                                    {/*-==-==-=-=-=-=--==-=-=-=-Address-==-==-=-=-=-=-=-=-=---==*/}
-                                    <div className="space-y-1">
-                                        <p className="font-semibold">Business Address</p>
-                                        <div className="text-muted-foreground">
-                                            <p>CarFix Sp. z o.o.</p>
-                                            <p>ul. Marszałkowska 100</p>
-                                            <p>00-026 Warszawa, Poland</p>
-                                        </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
+        <div className="py-3">
+            {/*-==-==-=-=-=-=--==-=-=-=-header-==-==-=-=-=-=-=-=-=---==*/}
+            <section className="space-y-3">
+                <h1 className="text-3xl font-bold tracking-tight">
+                    Profile
+                </h1>
+            </section>
 
 
-                            {/*-==-==-=-=-=-=--==-=-=-=-Message form-==-==-=-=-=-=-=-=-=---==*/}
-                            <ContactForm/>
+            {/*-==-==-=-=-=-=--==-=-=-=-Cards-==-==-=-=-=-=-=-=-=---==*/}
+            <section className="flex flex-col gap-y-2 pt-5">
+                <Card className="relative">
+                    {isSubmitting && (
+                        <div className="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-card/75 ">
+                            <OrbitProgress
+                                color="var(--primary)"
+                                size="large"
+                                text=""
+                                textColor=""
+                                dense
+                            />
                         </div>
-                    </section>
-                </div>
-            </div>
+                    )}
+                    <CardHeader>
+                        <CardTitle>Personal Information</CardTitle>
+                        <CardDescription>Your personal details and preferences</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                            <div className="space-y-1">
+                                <Input
+                                    {...register("name")}
+                                    id="name"
+                                    type="text"
+                                    placeholder="Name"
+                                    className={errors.name ? "border-destructive focus-visible:ring-destructive" : ""}
+                                />
+                                {errors.name && (
+                                    <p id="name-error" className="text-sm text-destructive">
+                                        {errors.name.message}
+                                    </p>
+                                )}
+
+                                <Input
+                                    {...register("surname")}
+                                    id="surname"
+                                    type="text"
+                                    placeholder="Surname"
+                                    className={errors.surname ? "border-destructive focus-visible:ring-destructive" : ""}
+                                />
+                                {errors.surname && (
+                                    <p id="surname-error" className="text-sm text-destructive">
+                                        {errors.surname.message}
+                                    </p>
+                                )}
+
+                                <Controller
+                                    name="dateOfBirth"
+                                    control={control}
+                                    render={({field}) => (
+                                        <DatePicker
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            error={!!errors.dateOfBirth}
+                                        />
+                                    )}
+                                />
+                                {errors.dateOfBirth && (
+                                    <p id="surname-error" className="text-sm text-destructive">
+                                        {errors.dateOfBirth.message}
+                                    </p>
+                                )}
+                            </div>
+
+                            <Button type="submit" variant="default" disabled={!isDirty || isSubmitting}>
+                                {isSubmitting ? "Saving..." : "Save Changes"}
+                            </Button>
+                        </form>
+
+                        {error && (
+                            <Alert variant="destructive">
+                                <AlertCircle className="h-4 w-4" />
+                                <AlertDescription className="whitespace-pre-line">{error}</AlertDescription>
+                            </Alert>
+                        )}
+                    </CardContent>
+                </Card>
+            </section>
         </div>
+
 
     )
 }
