@@ -1,15 +1,12 @@
-import '@/styles/global.css'
 import Header from "@/_components/root/header/header";
 
-export default function RootLayout({ children }: {
+export default function MainLayout({ children }: {
     children: React.ReactNode
 }) {
     return (
-        <html lang="en">
-        <body>
+        <>
             <Header/>
             {children}
-        </body>
-        </html>
+        </>
     )
 }
