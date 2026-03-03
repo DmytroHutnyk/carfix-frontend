@@ -18,7 +18,7 @@ export function DatePicker({ value, onChange, error }: DatePickerProps) {
     const selectedDate = value ? new Date(value + "T00:00:00") : undefined
 
     return (
-        <Field className="mx-auto w-44">
+        <Field className="w-44">
             <FieldLabel htmlFor="date">Date of birth</FieldLabel>
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
