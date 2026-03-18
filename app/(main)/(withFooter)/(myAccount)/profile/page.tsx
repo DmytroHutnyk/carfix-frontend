@@ -25,7 +25,8 @@ export default function Page(){
         register,
         handleSubmit,
         control,
-        formState: {errors, isSubmitting, isDirty}
+        formState: {errors, isSubmitting, isDirty},
+        reset
     } = useForm<UpdateProfile>({
         resolver: zodResolver(updateProfileSchema),
         mode: "onSubmit",
@@ -44,6 +45,7 @@ export default function Page(){
         try {
             await profile.updateProfile({id: userId, data: updateData})
         } catch (err) {
+            reset();
             handleError(err as ApiError, setError);
         }
     }
@@ -78,33 +80,35 @@ export default function Page(){
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                            <div className="space-y-1">
-                                <Input
-                                    {...register("name")}
-                                    id="name"
-                                    type="text"
-                                    placeholder="Name"
-                                    className={errors.name ? "border-destructive focus-visible:ring-destructive" : ""}
-                                />
-                                {errors.name && (
-                                    <p id="name-error" className="text-sm text-destructive">
-                                        {errors.name.message}
-                                    </p>
-                                )}
+                            <div className="flex space-y-1 space-x-4">
+                                    <Input
+                                        {...register("name")}
+                                        id="name"
+                                        type="text"
+                                        placeholder="Name"
+                                        className={errors.name ? "border-destructive focus-visible:ring-destructive" : ""}
+                                    />
+                                    {errors.name && (
+                                        <p id="name-error" className="text-sm text-destructive">
+                                            {errors.name.message}
+                                        </p>
+                                    )}
 
-                                <Input
-                                    {...register("surname")}
-                                    id="surname"
-                                    type="text"
-                                    placeholder="Surname"
-                                    className={errors.surname ? "border-destructive focus-visible:ring-destructive" : ""}
-                                />
-                                {errors.surname && (
-                                    <p id="surname-error" className="text-sm text-destructive">
-                                        {errors.surname.message}
-                                    </p>
-                                )}
+                                    <Input
+                                        {...register("surname")}
+                                        id="surname"
+                                        type="text"
+                                        placeholder="Surname"
+                                        className={errors.surname ? "border-destructive focus-visible:ring-destructive" : ""}
+                                    />
+                                    {errors.surname && (
+                                        <p id="surname-error" className="text-sm text-destructive">
+                                            {errors.surname.message}
+                                        </p>
+                                    )}
+                            </div>
 
+                            <div className="flex flex-row justify-start space-y-1">
                                 <Controller
                                     name="dateOfBirth"
                                     control={control}
@@ -123,9 +127,16 @@ export default function Page(){
                                 )}
                             </div>
 
-                            <Button type="submit" variant="default" disabled={!isDirty || isSubmitting}>
-                                {isSubmitting ? "Saving..." : "Save Changes"}
-                            </Button>
+                            <div className="flex flex-row justify-end space-x-2 w-full">
+                                <Button className="w-35" variant="default" onClick={() => reset()} disabled={!isDirty || isSubmitting}>
+                                    Reset
+                                </Button>
+
+                                <Button className="w-35" type="submit" variant="default" disabled={!isDirty || isSubmitting}>
+                                    {isSubmitting ? "Saving..." : "Save Changes"}
+                                </Button>
+                            </div>
+
                         </form>
 
                         {error && (

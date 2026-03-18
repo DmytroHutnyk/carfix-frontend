@@ -204,7 +204,7 @@ export const clientApi = {
                 credentials: 'include',
             });
 
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise(resolve => setTimeout(resolve, 10000));
 
             const data = await response.json();
 
