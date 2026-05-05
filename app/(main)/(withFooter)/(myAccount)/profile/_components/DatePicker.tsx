@@ -37,7 +37,7 @@ export function DatePicker({ value, onChange, error }: DatePickerProps) {
                         defaultMonth={selectedDate}
                         captionLayout="dropdown"
                         onSelect={(date) => {
-                            onChange?.(date ? date.toISOString().split("T")[0] : null)
+                            onChange?.(date ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}` : null)
                             setOpen(false)
                         }}
                     />
