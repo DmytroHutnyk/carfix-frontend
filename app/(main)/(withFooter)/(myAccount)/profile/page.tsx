@@ -6,6 +6,7 @@ import {UpdateProfile, updateProfileSchema} from "@/util/types/profileTypes";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {OrbitProgress} from "react-loading-indicators";
 import {useState} from "react";
+import {useRouter} from "next/navigation";
 import {handleError} from "@/util/func/errorHandler";
 import {ApiError} from "@/util/types/apiTypes";
 import {useProfile} from "@/util/auth/hooks/useProfile";
@@ -18,8 +19,9 @@ import {AlertCircle} from "lucide-react";
 
 export default function Page(){
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
     const profile = useProfile();
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
 
     const {
         register,
@@ -148,6 +150,12 @@ export default function Page(){
                     </CardContent>
                 </Card>
             </section>
+
+            <div className="flex justify-end pt-2">
+                <Button variant="destructive" onClick={() => logout().then(() => router.replace('/login'))}>
+                    Log out
+                </Button>
+            </div>
         </div>
 
 

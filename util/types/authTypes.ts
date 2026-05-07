@@ -24,8 +24,7 @@ export interface AuthState {
 export interface AuthActions {
     login: (credentials: LoginCredentials) => Promise<User>;
     register: (registerData: RegisterData) => Promise<User>;
-    // logout: () => Promise<void>;TODO
-    // refetchSession: () => Promise<void>;
+    logout: () => Promise<void>;
 }
 
 export interface UseAuthReturn extends AuthState, AuthActions {

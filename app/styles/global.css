@@ -38,6 +38,12 @@
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(44.4% 0.177 26.899);
 
+  --destructive-btn: #EF4444;
+  --destructive-btn-foreground: #000000;
+
+  --destructive-badge: #FCA5A5;
+  --destructive-badge-foreground: #991B1B;
+
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
@@ -138,6 +144,12 @@
 
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-destructive-btn: var(--destructive-btn);
+  --color-destructive-btn-foreground: var(--destructive-btn-foreground);
+
+  --color-destructive-badge: var(--destructive-badge);
+  --color-destructive-badge-foreground: var(--destructive-badge-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);

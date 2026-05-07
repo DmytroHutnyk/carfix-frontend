@@ -41,6 +41,14 @@ export const authApi = {
         return result as User;
     },
 
+    async logout(): Promise<void> {
+        const result = await clientApi.post('/customer/auth/logout');
+
+        if (isApiError(result)) {
+            throw result;
+        }
+    },
+
     async updateProfile({ id, data }: { id: string; data: UpdateProfile }): Promise<User>{
         const result = await clientApi.patch(`/users/${id}`, data);
 

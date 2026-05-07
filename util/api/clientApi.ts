@@ -82,7 +82,7 @@ export const clientApi = {
         }
     },
 
-    async post<TResponse, TRequest>(url: string, dataToSend: TRequest): Promise<TResponse | ApiError> {
+    async post<TResponse, TRequest>(url: string, dataToSend?: TRequest): Promise<TResponse | ApiError> {
         try{
             const response = await fetch(`${this.baseUrl}${url}`,{
                 method: 'POST',

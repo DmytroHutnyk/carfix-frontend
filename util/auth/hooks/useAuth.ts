@@ -33,15 +33,12 @@ export function useAuth(): UseAuthReturn {
     const user = sessionQuery.data ?? null;
     const isAuthenticated = user !== null;
 
-    // // Logout Mutation
-    // const logoutMutation = useMutation({
-    //     mutationFn: authApi.logout,
-    //     onSuccess: () => {
-    //         queryClient.removeQueries({ queryKey: authKeys.all });
-    //         router.push('/login');
-    //     },
-    // });
-    //
+    const logoutMutation = useMutation({
+        mutationFn: authApi.logout,
+        onSuccess: () => {
+            queryClient.removeQueries({ queryKey: authKeys.all });
+        },
+    });
 
     return{
         // State
@@ -62,12 +59,8 @@ export function useAuth(): UseAuthReturn {
             return registerMutation.mutateAsync(registerData);
         },
 
-        // logout: async () => {
-        //     return logoutMutation.mutateAsync();
-        // },
-        // updateProfile: async (data: UpdateProfilePayload) => {
-        //     return updateProfileMutation.mutateAsync(data);
-        // },
-        // refetchSession: sessionQuery.refetch,
+        logout: async () => {
+            return logoutMutation.mutateAsync();
+        },
     }
 }
