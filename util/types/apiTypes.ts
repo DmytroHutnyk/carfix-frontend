@@ -1,7 +1,12 @@
+/** General error type occurred within API scope. */
 export interface ApiError {
     readonly _tag: string;
 }
 
+/**
+ * Returned when the backend responds with a non-OK status AND either the body IS empty,
+ * or the body is present but DOES NOT match {@link ProblemDetailError}.
+ */
 export interface StandardError extends ApiError {
     readonly _tag: 'StandardError';
     name: string;
@@ -10,6 +15,10 @@ export interface StandardError extends ApiError {
     body?: JSON | null;
 }
 
+/**
+ * Returned when the backend responds with a non-OK status and the body matches
+ * Spring's `ProblemDetail` format — i.e. errors handled by `@ControllerAdvice`.
+ */
 export interface ProblemDetailError extends ApiError {
     readonly _tag: 'ProblemDetailError';
     type: string;
@@ -20,6 +29,7 @@ export interface ProblemDetailError extends ApiError {
     errors?: Errors;
 }
 
+/** Produced when `fetch()` throws a `TypeError` before the request ever reaches the server. */
 export interface NetworkError extends ApiError {
     readonly _tag: 'NetworkError';
     name: string;
@@ -27,6 +37,10 @@ export interface NetworkError extends ApiError {
     description: string;
 }
 
+/**
+ * Catch-all for unexpected JS errors thrown inside `clientApi` —
+ * e.g. a `SyntaxError` from `JSON.parse()` if the response is not valid JSON.
+ */
 export interface ClientError extends ApiError {
     readonly _tag: 'ClientError';
     description: string;
@@ -36,7 +50,7 @@ type Errors = {
     [key: string]: string;
 }
 
-
+/** Pattern matching for error types. */
 export function isApiError(obj: unknown): obj is ApiError {
     return (
         typeof obj === 'object' &&
@@ -58,8 +72,10 @@ export function isStandardError(obj: any): obj is StandardError {
     );
 }
 
-//All fields of ProblemDetail object from Java in JSON format
-//Note: This checks raw server response (no _tag yet), used in clientApi to detect ProblemDetail format
+/**
+ * Checks all fields of the raw Java `ProblemDetail` object as it arrives in JSON —
+ * before `_tag` is assigned. Used inside `clientApi` to detect the error type from the server response.
+ */
 export function isProblemDetailError(obj: any): obj is ProblemDetailError {
     return (
         typeof obj === 'object' &&
