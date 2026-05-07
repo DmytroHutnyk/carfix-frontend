@@ -87,14 +87,25 @@ export const clientApi = {
             const response = await fetch(`${this.baseUrl}${url}`,{
                 method: 'POST',
                 headers: this.defaultHeaders,
-                body: JSON.stringify(dataToSend),
+                body: dataToSend !== undefined ? JSON.stringify(dataToSend) : undefined,
                 credentials: 'include',
             });
             await new Promise(resolve => setTimeout(resolve, 1000))
 
-            const data = await response.json();
+            const text = await response.text();
+            const data = text ? JSON.parse(text) : null;
 
             if(!response.ok){
+                if(!data) {
+                    const standardError: StandardError = {
+                        _tag: 'StandardError',
+                        name: 'HttpError',
+                        message: response.statusText || 'Request failed',
+                        status: response.status,
+                        body: null,
+                    };
+                    return standardError;
+                }
                 if(isProblemDetailError(data)){
                     const problemDetailError: ProblemDetailError = {
                         _tag: 'ProblemDetailError',
@@ -149,9 +160,20 @@ export const clientApi = {
 
             await new Promise(resolve => setTimeout(resolve, 1000));
 
-            const data = await response.json();
+            const text = await response.text();
+            const data = text ? JSON.parse(text) : null;
 
             if(!response.ok){
+                if(!data) {
+                    const standardError: StandardError = {
+                        _tag: 'StandardError',
+                        name: 'HttpError',
+                        message: response.statusText || 'Request failed',
+                        status: response.status,
+                        body: null,
+                    };
+                    return standardError;
+                }
                 if(isProblemDetailError(data)){
                     const problemDetailError: ProblemDetailError = {
                         _tag: 'ProblemDetailError',
@@ -206,9 +228,20 @@ export const clientApi = {
 
             await new Promise(resolve => setTimeout(resolve, 10000));
 
-            const data = await response.json();
+            const text = await response.text();
+            const data = text ? JSON.parse(text) : null;
 
             if(!response.ok){
+                if(!data) {
+                    const standardError: StandardError = {
+                        _tag: 'StandardError',
+                        name: 'HttpError',
+                        message: response.statusText || 'Request failed',
+                        status: response.status,
+                        body: null,
+                    };
+                    return standardError;
+                }
                 if(isProblemDetailError(data)){
                     const problemDetailError: ProblemDetailError = {
                         _tag: 'ProblemDetailError',
@@ -266,7 +299,19 @@ export const clientApi = {
                 return;
             }
 
-            const data = await response.json();
+            const text = await response.text();
+            const data = text ? JSON.parse(text) : null;
+
+            if(!data) {
+                const standardError: StandardError = {
+                    _tag: 'StandardError',
+                    name: 'HttpError',
+                    message: response.statusText || 'Request failed',
+                    status: response.status,
+                    body: null,
+                };
+                return standardError;
+            }
 
             if(!response.ok){
                 if(isProblemDetailError(data)){
