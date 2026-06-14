@@ -3,7 +3,7 @@ import {User} from "@/util/types/appTypes";
 import {z} from "zod";
 import {UpdateProfile} from "@/util/types/profileTypes";
 
-/* hooks */
+/* hooksa */
 export interface AuthState {
     /* currently authenticated user, or null if not */
     user: User | null;

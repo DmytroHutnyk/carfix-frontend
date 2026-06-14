@@ -2,7 +2,6 @@ import {User} from "@/util/types/appTypes";
 import {clientApi} from "@/util/api/clientApi";
 import {LoginCredentials, RegisterData} from "@/util/types/authTypes";
 import {isApiError} from "@/util/types/apiTypes";
-import {UpdateProfile} from "@/util/types/profileTypes";
 
 export const authApi = {
     async getSession() : Promise<User | null>{
@@ -48,14 +47,4 @@ export const authApi = {
             throw result;
         }
     },
-
-    async updateProfile({ id, data }: { id: string; data: UpdateProfile }): Promise<User>{
-        const result = await clientApi.patch(`/users/${id}`, data);
-
-        if(isApiError(result)){
-            throw result;
-        }
-
-        return result as User;
-    }
 }

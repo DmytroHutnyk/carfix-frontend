@@ -1,8 +1,7 @@
 import {LoginCredentials, RegisterData, UseAuthReturn} from "@/util/types/authTypes";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {authKeys} from "@/util/auth/keys";
-import {authApi} from "@/util/api/authApi"
-import {UpdateProfile} from "@/util/types/profileTypes";
+import {authKeys} from "@/util/api/auth/keys";
+import {authApi} from "@/util/api/auth/authApi"
 
 export function useAuth(): UseAuthReturn {
     const queryClient = useQueryClient();

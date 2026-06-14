@@ -10,7 +10,7 @@ import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/_component
 import {useRouter} from "next/navigation";
 import {OrbitProgress} from "react-loading-indicators";
 import {Alert, AlertDescription} from "@/_components/shadcn/alert";
-import {useAuth} from "@/util/auth/hooks/useAuth";
+import {useAuth} from "@/util/hooks/useAuth";
 import {useForm} from "react-hook-form";
 import {LoginCredentials, loginSchema} from "@/util/types/authTypes";
 import {ApiError} from "@/util/types/apiTypes";
