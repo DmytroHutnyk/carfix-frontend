@@ -8,7 +8,7 @@ import {OrbitProgress} from "react-loading-indicators";
 import {useState} from "react";
 import {handleError} from "@/util/func/errorHandler";
 import {ApiError} from "@/util/types/apiTypes";
-import {useProfile} from "@/util/auth/hooks/useProfile";
+import {useProfile} from "@/util/hooks/useProfile";
 import {useAuth} from "@/util/auth/hooks/useAuth";
 import {Input} from "@/_components/shadcn/input";
 import {DatePicker} from "@/(main)/(withFooter)/(myAccount)/profile/_components/DatePicker";
