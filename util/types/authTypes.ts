@@ -1,7 +1,7 @@
 /* auth request response */
-import {User} from "@/util/types/appTypes";
+import {User} from "@/util/types/userTypes";
 import {z} from "zod";
-import {UpdateProfile} from "@/util/types/profileTypes";
+import {UpdateProfile} from "@/util/types/profileManagementTypes";
 
 /* hooksa */
 export interface AuthState {

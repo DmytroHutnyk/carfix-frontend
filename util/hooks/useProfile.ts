@@ -1,4 +1,4 @@
-import {UpdateProfile, UseProfileReturn} from "@/util/types/profileTypes";
+import {UpdateProfile, UseProfileReturn} from "@/util/types/profileManagementTypes";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {profileApi} from "@/util/api/profile/profileApi";
 import {authKeys} from "@/util/api/auth/keys";

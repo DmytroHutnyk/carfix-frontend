@@ -1,4 +1,4 @@
-import {User} from "@/util/types/appTypes";
+import {User} from "@/util/types/userTypes";
 
 export interface ProfileActions{
     updateProfile: (params: { id: string; data: UpdateProfile }) => Promise<User>;

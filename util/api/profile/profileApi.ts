@@ -1,7 +1,7 @@
-import {User} from "@/util/types/appTypes";
+import {User} from "@/util/types/userTypes";
 import {clientApi} from "@/util/api/clientApi";
 import {isApiError} from "@/util/types/apiTypes";
-import {UpdateProfile} from "@/util/types/profileTypes";
+import {UpdateProfile} from "@/util/types/profileManagementTypes";
 
 export const profileApi = {
     async updateProfile({ id, data }: { id: string; data: UpdateProfile }): Promise<User> {

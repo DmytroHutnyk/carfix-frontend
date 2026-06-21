@@ -2,7 +2,7 @@
 
 import {KeyRound, Mail, Phone} from "lucide-react";
 
-import {User} from "@/util/types/appTypes";
+import {User} from "@/util/types/userTypes";
 
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import {Field, FieldDescription, FieldLabel} from "@/_components/shadcn/field";

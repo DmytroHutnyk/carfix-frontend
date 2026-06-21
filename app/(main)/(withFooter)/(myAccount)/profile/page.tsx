@@ -9,7 +9,7 @@ import {OrbitProgress} from "react-loading-indicators";
 
 import {useAuth} from "@/util/hooks/useAuth";
 import {useProfile} from "@/util/hooks/useProfile";
-import {UpdateProfile, updateProfileSchema} from "@/util/types/profileTypes";
+import {UpdateProfile, updateProfileSchema} from "@/util/types/profileManagementTypes";
 import {handleError} from "@/util/func/errorHandler";
 import {ApiError} from "@/util/types/apiTypes";
 import {cn} from "@/util/lib/utils";
