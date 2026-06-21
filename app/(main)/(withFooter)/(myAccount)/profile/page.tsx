@@ -1,23 +1,29 @@
 'use client'
 
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/_components/shadcn/card";
-import {useForm, Controller} from "react-hook-form";
-import {UpdateProfile, updateProfileSchema} from "@/util/types/profileTypes";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {OrbitProgress} from "react-loading-indicators";
 import {useState} from "react";
 import {useRouter} from "next/navigation";
+import {Controller, useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {AlertCircle} from "lucide-react";
+import {OrbitProgress} from "react-loading-indicators";
+
+import {useAuth} from "@/util/hooks/useAuth";
+import {useProfile} from "@/util/hooks/useProfile";
+import {UpdateProfile, updateProfileSchema} from "@/util/types/profileTypes";
 import {handleError} from "@/util/func/errorHandler";
 import {ApiError} from "@/util/types/apiTypes";
-import {useProfile} from "@/util/auth/hooks/useProfile";
-import {useAuth} from "@/util/auth/hooks/useAuth";
+import {cn} from "@/util/lib/utils";
+
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/_components/shadcn/card";
+import {Field, FieldDescription, FieldError, FieldLabel} from "@/_components/shadcn/field";
 import {Input} from "@/_components/shadcn/input";
-import {DatePicker} from "@/(main)/(withFooter)/(myAccount)/profile/_components/DatePicker";
 import {Button} from "@/_components/shadcn/button";
 import {Alert, AlertDescription} from "@/_components/shadcn/alert";
-import {AlertCircle} from "lucide-react";
+import {DatePicker} from "@/(main)/(withFooter)/(myAccount)/profile/_components/DatePicker";
+import ContactSecurityCard from "@/(main)/(withFooter)/(myAccount)/profile/_components/contactSecurityCard";
+import AddressCard from "@/(main)/(withFooter)/(myAccount)/profile/_components/addressCard";
 
-export default function Page(){
+export default function Page() {
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
     const profile = useProfile();
@@ -129,30 +135,47 @@ export default function Page(){
                                 )}
                             </div>
 
-                            <div className="flex flex-row justify-end space-x-2 w-full">
-                                <Button className="w-35" variant="default" onClick={() => reset()} disabled={!isDirty || isSubmitting}>
-                                    Reset
-                                </Button>
+                        {/* Preferred location */}
+                        <Field>
+                            <FieldLabel htmlFor="location">Location</FieldLabel>
+                            <Input id="location" type="text" placeholder="Coming soon" disabled/>
+                            <FieldDescription>Your preferred location will be available soon.</FieldDescription>
+                        </Field>
 
-                                <Button className="w-35" type="submit" variant="default" disabled={!isDirty || isSubmitting}>
-                                    {isSubmitting ? "Saving..." : "Save Changes"}
-                                </Button>
-                            </div>
+                        <div className="flex w-full justify-end gap-2 pt-2">
+                            <Button
+                                type="button"
+                                variant="white"
+                                className="w-35"
+                                onClick={() => reset()}
+                                disabled={!isDirty || isSubmitting}
+                            >
+                                Reset
+                            </Button>
+                            <Button type="submit" className="w-35" disabled={!isDirty || isSubmitting}>
+                                {isSubmitting ? "Saving..." : "Save Changes"}
+                            </Button>
+                        </div>
+                    </form>
 
-                        </form>
-
-                        {error && (
-                            <Alert variant="destructive">
-                                <AlertCircle className="h-4 w-4" />
-                                <AlertDescription className="whitespace-pre-line">{error}</AlertDescription>
-                            </Alert>
-                        )}
+                    {error && (
+                        <Alert variant="destructive" className="mt-4">
+                            <AlertCircle className="h-4 w-4"/>
+                            <AlertDescription className="whitespace-pre-line">{error}</AlertDescription>
+                        </Alert>
+                    )}
                     </CardContent>
                 </Card>
+
+                <ContactSecurityCard user={user}/>
+                <AddressCard/>
             </section>
 
             <div className="flex justify-end pt-2">
-                <Button variant="destructive" onClick={() => logout().then(() => router.replace('/login'))}>
+                <Button
+                    variant="destructive"
+                    onClick={() => logout().then(() => router.replace("/login"))}
+                >
                     Log out
                 </Button>
             </div>

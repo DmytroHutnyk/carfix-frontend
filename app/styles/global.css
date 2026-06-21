@@ -44,6 +44,9 @@
   --destructive-badge: #FCA5A5;
   --destructive-badge-foreground: #991B1B;
 
+  --success-badge: #BBF7D0;
+  --success-badge-foreground: #166534;
+
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
@@ -91,6 +94,9 @@
 
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.985 0 0);
+
+  --success-badge: #BBF7D0;
+  --success-badge-foreground: #166534;
 
   --border: oklch(0 0 0);
   --input: oklch(1 0 0 / 15%);
@@ -150,6 +156,9 @@
 
   --color-destructive-badge: var(--destructive-badge);
   --color-destructive-badge-foreground: var(--destructive-badge-foreground);
+
+  --color-success-badge: var(--success-badge);
+  --color-success-badge-foreground: var(--success-badge-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
