@@ -17,20 +17,17 @@ export function useAuth(): UseAuthReturn {
 
     const loginMutation = useMutation({
         mutationFn: authApi.login,
-        onSuccess: (user) => {
-            queryClient.setQueryData(authKeys.session(), user);
+        onSuccess: (account) => {
+            queryClient.setQueryData(authKeys.session(), account);
         },
     });
 
     const registerMutation = useMutation({
-        mutationFn: authApi.register,
-        onSuccess: (user) => {
-            queryClient.setQueryData(authKeys.session(), user);
+        mutationFn: authApi.registerCustomer,
+        onSuccess: (account) => {
+            queryClient.setQueryData(authKeys.session(), account);
         }
     })
-
-    const user = sessionQuery.data ?? null;
-    const isAuthenticated = user !== null;
 
     const logoutMutation = useMutation({
         mutationFn: authApi.logout,
@@ -39,9 +36,12 @@ export function useAuth(): UseAuthReturn {
         },
     });
 
-    return{
+    const account = sessionQuery.data ?? null;
+    const isAuthenticated = account !== null;
+
+    return {
         // State
-        user,
+        account,
         isAuthenticated,
 
         //initial session check
@@ -50,16 +50,9 @@ export function useAuth(): UseAuthReturn {
         error: sessionQuery.error,
 
         // Actions
-        login: async (credentials: LoginCredentials) => {
-            return loginMutation.mutateAsync(credentials);
-        },
-
-        register: async (registerData: RegisterData) => {
-            return registerMutation.mutateAsync(registerData);
-        },
-
-        logout: async () => {
-            return logoutMutation.mutateAsync();
-        },
+        login: (credentials: LoginCredentials) => loginMutation.mutateAsync(credentials),
+        //TODO rename RegisterData to RegisterCustomerData
+        register: (registerData: RegisterData) => registerMutation.mutateAsync(registerData),
+        logout: () => logoutMutation.mutateAsync(),
     }
 }

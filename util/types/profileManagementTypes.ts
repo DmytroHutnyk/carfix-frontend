@@ -1,18 +1,14 @@
+import {z} from "zod";
 import {User} from "@/util/types/userTypes";
 
-export interface ProfileActions{
-    updateProfile: (params: { id: string; data: UpdateProfile }) => Promise<User>;
+export interface UseUpdateCoreReturn {
+    updateCore: (data: UpdateUserCore) => Promise<User>;
 }
 
-/*Do we actually need this?*/
-export interface UseProfileReturn extends ProfileActions{
-
-}
-
-/*Update profile*/
-import {z} from "zod";
-
-export const updateProfileSchema = z.object({
+/* Shared user-core fields editable from the profile page. The backend resolves the
+ * principal from the session, so no id is sent. Role tails get
+ * their own schema + endpoint. */
+export const updateUserCoreSchema = z.object({
     name: z.string()
         .trim()
         .min(1, "Name is required")
@@ -36,5 +32,4 @@ export const updateProfileSchema = z.object({
         ),
 })
 
-
-export type UpdateProfile = z.infer<typeof updateProfileSchema>;
+export type UpdateUserCore = z.infer<typeof updateUserCoreSchema>;

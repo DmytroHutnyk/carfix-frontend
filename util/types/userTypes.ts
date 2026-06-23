@@ -1,3 +1,5 @@
+// Shared identity core
+//TODO the backend wire does not send `address` yet, so it is intentionally absent here
 export interface User {
     id: string;
     name: string;
@@ -5,10 +7,35 @@ export interface User {
     phoneCountryCode: string;
     phoneNumber: string;
     email: string;
-    role: UserRole;
     dateOfBirth: string | null;
-    customerStatus: CustomerStatus;
 }
 
 export type CustomerStatus = "ACTIVE" | "SUSPENDED";
-export type UserRole = "CUSTOMER" | "OWNER" | "ADMIN" | "EMPLOYEE";
+export const ROLE = {
+    CUSTOMER: "CUSTOMER",
+    OWNER: "OWNER",
+    ADMIN: "ADMIN",
+    EMPLOYEE: "EMPLOYEE",
+} as const;
+
+export type UserRole = (typeof ROLE)[keyof typeof ROLE];
+
+// Specific user types
+export interface CustomerAccount {
+    role: typeof ROLE.CUSTOMER;
+    user: User;
+    customerStatus: CustomerStatus;
+}
+
+export interface OwnerAccount {
+    role: typeof ROLE.OWNER;
+    user: User;
+    businessName: string;
+    vatIn: string;
+    regon: string;
+}
+
+export type Account = CustomerAccount | OwnerAccount;
+
+export const isCustomer = (account: Account): account is CustomerAccount => account.role === ROLE.CUSTOMER;
+export const isOwner = (account: Account): account is OwnerAccount => account.role === ROLE.OWNER;

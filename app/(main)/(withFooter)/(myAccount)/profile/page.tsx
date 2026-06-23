@@ -8,8 +8,8 @@ import {AlertCircle} from "lucide-react";
 import {OrbitProgress} from "react-loading-indicators";
 
 import {useAuth} from "@/util/hooks/useAuth";
-import {useProfile} from "@/util/hooks/useProfile";
-import {UpdateProfile, updateProfileSchema} from "@/util/types/profileManagementTypes";
+import {useUpdateCore} from "@/util/hooks/useUpdateCore";
+import {UpdateUserCore, updateUserCoreSchema} from "@/util/types/profileManagementTypes";
 import {handleError} from "@/util/func/errorHandler";
 import {ApiError} from "@/util/types/apiTypes";
 import {cn} from "@/util/lib/utils";
@@ -26,8 +26,9 @@ import AddressCard from "@/(main)/(withFooter)/(myAccount)/profile/_components/a
 export default function Page() {
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
-    const profile = useProfile();
-    const { user, logout } = useAuth();
+    const { updateCore } = useUpdateCore();
+    const { account, logout } = useAuth();
+    const user = account?.user ?? null;
 
     const {
         register,
@@ -35,8 +36,8 @@ export default function Page() {
         control,
         formState: {errors, isSubmitting, isDirty},
         reset
-    } = useForm<UpdateProfile>({
-        resolver: zodResolver(updateProfileSchema),
+    } = useForm<UpdateUserCore>({
+        resolver: zodResolver(updateUserCoreSchema),
         mode: "onSubmit",
         values: {
             name: user?.name ?? "",
@@ -45,13 +46,11 @@ export default function Page() {
         },
     })
 
-    const onSubmit = async (updateData: UpdateProfile) => {
+    const onSubmit = async (updateData: UpdateUserCore) => {
         setError(null);
 
-        const userId: string = user?.id ?? "1"; /*TODO call login redirect!!!!!!!!!*/
-
         try {
-            await profile.updateProfile({id: userId, data: updateData})
+            await updateCore(updateData)
         } catch (err) {
             reset();
             handleError(err as ApiError, setError);

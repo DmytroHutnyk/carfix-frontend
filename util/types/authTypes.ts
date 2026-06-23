@@ -1,17 +1,15 @@
 /* auth request response */
-import {User} from "@/util/types/userTypes";
+import {Account} from "@/util/types/userTypes";
 import {z} from "zod";
-import {UpdateProfile} from "@/util/types/profileManagementTypes";
 
-/* hooksa */
 export interface AuthState {
-    /* currently authenticated user, or null if not */
-    user: User | null;
+    /* the authenticated account (role + user core + role tail); */
+    account: Account | null;
 
     /* True during initial session validity check */
     isLoading: boolean;
 
-    /* True if is user is authenticated (authenticated means that user property is not null) */
+    /* True if the account is authenticated (account is not null) */
     isAuthenticated: boolean;
 
     /* True if session check is failed with an error 401 */
@@ -22,15 +20,12 @@ export interface AuthState {
 }
 
 export interface AuthActions {
-    login: (credentials: LoginCredentials) => Promise<User>;
-    register: (registerData: RegisterData) => Promise<User>;
+    login: (credentials: LoginCredentials) => Promise<Account>;
+    register: (registerData: RegisterData) => Promise<Account>;
     logout: () => Promise<void>;
 }
 
 export interface UseAuthReturn extends AuthState, AuthActions {
-    // loginMutation: UseMutationResult<User, ApiError, LoginCredentials>; TODO
-    // logoutMutation: UseMutationResult<void, ApiError, void>;
-    /*   updateProfileMutation: UseMutationResult<User, ApiError, UpdateProfilePayload>; */
 }
 
 //          Register
