@@ -1,7 +1,16 @@
 import {User} from "@/util/types/userTypes";
 import {clientApi} from "@/util/api/clientApi";
 import {isApiError} from "@/util/types/apiTypes";
-import {UpdateUserCore} from "@/util/types/profileManagementTypes";
+import {UpdateUserCore, UpdateUserRequest} from "@/util/types/profileManagementTypes";
+
+//not sure this is the best appraoch, to have a look later
+function toUpdateUserRequest(form: UpdateUserCore): UpdateUserRequest {
+    return {
+        name: form.name.trim(),
+        surname: form.surname.trim(),
+        dateOfBirth: form.dateOfBirth || null,
+    };
+}
 
 /* Shared user-core writes — role-agnostic. The backend resolves the principal from the
  * session and returns the updated core, which the hook splices into `account.user`.
@@ -9,7 +18,7 @@ import {UpdateUserCore} from "@/util/types/profileManagementTypes";
 export const userApi = {
     //TODO extend UpdateUserCore to contain all user fields
     async updateCore(data: UpdateUserCore): Promise<User> {
-        const result = await clientApi.patch<User, UpdateUserCore>('/users/me', data);
+        const result = await clientApi.put<User, UpdateUserRequest>('/users/me', toUpdateUserRequest(data));
 
         if (isApiError(result)) {
             throw result;
