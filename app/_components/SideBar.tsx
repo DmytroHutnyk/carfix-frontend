@@ -4,9 +4,9 @@ import {usePathname} from "next/navigation";
 import {Card, CardContent} from "@/_components/shadcn/card";
 import {Button} from "@/_components/shadcn/button";
 import Link from "next/link";
-import {FileText, HelpCircle, Info, Phone} from "lucide-react";
+import {icons, LucideIcon} from "lucide-react";
 
-export default function SideBar(){
+export default function SideBar({menuItems}: {menuItems: SideBarItem[]}){
     const pathName = usePathname();
     return(
         <aside className="flex flex-col">
@@ -15,7 +15,7 @@ export default function SideBar(){
                     <nav className="flex flex-col gap-y-2">
                         {menuItems.map((item) => {
                             const isActive = pathName === item.href;
-                            const Icon = item.icon;
+                            const Icon: LucideIcon = icons[item.icon];
                             return (
                                 <Button
                                     key={item.href}
@@ -38,25 +38,8 @@ export default function SideBar(){
     )
 }
 
-const menuItems = [
-    {
-        href: "/about-us",
-        label: "About Us",
-        icon: Info
-    },
-    {
-        href: "/contacts",
-        label: "Contacts",
-        icon: Phone
-    },
-    {
-        href: "/terms-of-use",
-        label: "Terms of Use",
-        icon: FileText
-    },
-    {
-        href: "/faq",
-        label: "FAQ",
-        icon: HelpCircle
-    },
-];
+export interface SideBarItem{
+    href: string,
+    label: string,
+    icon: keyof typeof icons
+}

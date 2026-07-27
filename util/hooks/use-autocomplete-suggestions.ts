@@ -111,7 +111,7 @@ export function useAutocompleteSuggestions(
         // is intentionally excluded to avoid re-fetching on every render (object
         // reference changes), and suggestions.length is only used in the
         // early-return guard.
-        // eslint-disable-next-line react-hooks/exhaustive-deps -- requestOptions
+        // eslint-disable-next-line react-hooksa/exhaustive-deps -- requestOptions
     }, [placesLib, inputString, country, language]);
 
     return {

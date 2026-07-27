@@ -14,6 +14,12 @@ import {useSearchLocation} from "@/util/state/store";
 
 type PlacePrediction = google.maps.places.PlacePrediction;
 
+function suggestionLabel(prediction: PlacePrediction) {
+    const city = prediction.mainText?.text ?? prediction.text.text;
+    const voivodeship = prediction.secondaryText?.text.split(", ").pop();
+    return voivodeship ? `${city}, ${voivodeship}` : city;
+}
+
 export default function LocationSearchBar() {
     const [inputValue, setInputValue] = useState<string>('');
     const {suggestions, resetSession, isLoading} = useAutocompleteSuggestions(inputValue);
@@ -86,7 +92,7 @@ export default function LocationSearchBar() {
             items={predictions}
             onInputValueChange={setInputValue}
             onValueChange={handleSelect}
-            itemToStringLabel={(item: PlacePrediction) => item.text.text}
+            itemToStringLabel={suggestionLabel}
         >
             <ComboboxInput
                 placeholder="Location"
@@ -99,7 +105,7 @@ export default function LocationSearchBar() {
                 <ComboboxList>
                     {(item) => (
                         <ComboboxItem key={item.placeId} value={item}>
-                            {item.text.text}
+                            {suggestionLabel(item)}
                         </ComboboxItem>
                     )}
                 </ComboboxList>
