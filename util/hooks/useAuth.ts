@@ -17,11 +17,12 @@ export function useAuth(): UseAuthReturn {
 
     const loginMutation = useMutation({
         mutationFn: authApi.login,
-        onSuccess: (account) => {
+        onSuccess: (account) => { // TODO setQueryData is not type checked
             queryClient.setQueryData(authKeys.session(), account);
         },
     });
 
+    // for now that is actually registerCustomerMutation, but it is a subject to change
     const registerMutation = useMutation({
         mutationFn: authApi.registerCustomer,
         onSuccess: (account) => {

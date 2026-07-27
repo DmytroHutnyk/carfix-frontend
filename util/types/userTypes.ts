@@ -1,5 +1,6 @@
 // Shared identity core
 //TODO the backend wire does not send `address` yet, so it is intentionally absent here
+//TODO infer from zod schema
 export interface User {
     id: string;
     name: string;
