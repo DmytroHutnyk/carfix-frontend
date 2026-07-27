@@ -149,7 +149,7 @@ export const clientApi = {
         }
     },
 
-    async put<T>(url: string, dataToSend: T): Promise<T | ApiError> {
+    async put<TResponse, TRequest>(url: string, dataToSend: TRequest): Promise<TResponse | ApiError> {
         try{
             const response = await fetch(`${this.baseUrl}${url}`,{
                 method: 'PUT',
@@ -197,7 +197,7 @@ export const clientApi = {
                 }
             }
 
-            return data as T;
+            return data as TResponse;
         }catch(err){
             if(err instanceof TypeError){
                 const networkError: NetworkError = {
