@@ -33,3 +33,9 @@ export const updateUserCoreSchema = z.object({
 })
 
 export type UpdateUserCore = z.infer<typeof updateUserCoreSchema>;
+
+export interface UpdateUserRequest {
+    name: string;
+    surname: string;
+    dateOfBirth: string | null;
+}
