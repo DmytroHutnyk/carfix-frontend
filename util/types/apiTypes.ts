@@ -12,7 +12,8 @@ export interface StandardError extends ApiError {
     name: string;
     message: string;
     status: number;
-    body?: JSON | null;
+    // only for debugging
+    body?: unknown;
 }
 
 /**
@@ -27,6 +28,7 @@ export interface ProblemDetailError extends ApiError {
     detail: string;
     instance: string;
     errors?: Errors;
+    code?: string;
 }
 
 /** Produced when `fetch()` throws a `TypeError` before the request ever reaches the server. */
@@ -50,6 +52,16 @@ type Errors = {
     [key: string]: string;
 }
 
+/**
+ * An ApiError reduced to what the UI needs
+ */
+export type DisplayError = {
+    message: string;
+    field?: string;
+    code?: string;
+    status?: number;
+};
+
 /** Pattern matching for error types. */
 export function isApiError(obj: unknown): obj is ApiError {
     return (
@@ -60,15 +72,16 @@ export function isApiError(obj: unknown): obj is ApiError {
     );
 }
 
-export function isStandardError(obj: any): obj is StandardError {
+export function isStandardError(obj: unknown): obj is StandardError {
+    if (typeof obj !== 'object' || obj === null) {
+        return false;
+    }
+    const candidate = obj as Record<string, unknown>;
     return (
-        typeof obj === 'object' &&
-        obj !== null &&
-        obj._tag === 'StandardError' &&
-        typeof obj.name === 'string' &&
-        typeof obj.message === 'string' &&
-        typeof obj.status === 'number' &&
-        (obj.body === undefined || typeof obj.body === 'object')
+        candidate._tag === 'StandardError' &&
+        typeof candidate.name === 'string' &&
+        typeof candidate.message === 'string' &&
+        typeof candidate.status === 'number'
     );
 }
 
@@ -76,37 +89,41 @@ export function isStandardError(obj: any): obj is StandardError {
  * Checks all fields of the raw Java `ProblemDetail` object as it arrives in JSON —
  * before `_tag` is assigned. Used inside `clientApi` to detect the error type from the server response.
  */
-export function isProblemDetailError(obj: any): obj is ProblemDetailError {
+export function isProblemDetailError(obj: unknown): obj is ProblemDetailError {
+    if (typeof obj !== 'object' || obj === null) {
+        return false;
+    }
+    const candidate = obj as Record<string, unknown>;
     return (
-        typeof obj === 'object' &&
-        obj !== null &&
-        typeof obj.type === 'string' &&
-        typeof obj.title === 'string' &&
-        typeof obj.status === 'number' &&
-        typeof obj.detail === 'string' &&
-        typeof obj.instance === 'string' &&
-        (obj.errors === undefined ||
-            typeof obj.errors === 'object' ||
-            obj.errors === '')
+        typeof candidate.type === 'string' &&
+        typeof candidate.title === 'string' &&
+        typeof candidate.status === 'number' &&
+        typeof candidate.detail === 'string' &&
+        typeof candidate.instance === 'string' &&
+        (candidate.errors === undefined || typeof candidate.errors === 'object')
     );
 }
 
-export function isNetworkError(obj: any): obj is NetworkError {
+export function isNetworkError(obj: unknown): obj is NetworkError {
+    if (typeof obj !== 'object' || obj === null) {
+        return false;
+    }
+    const candidate = obj as Record<string, unknown>;
     return (
-        typeof obj === 'object' &&
-        obj !== null &&
-        obj._tag === 'NetworkError' &&
-        typeof obj.name === 'string' &&
-        typeof obj.message === 'string' &&
-        typeof obj.description === 'string'
+        candidate._tag === 'NetworkError' &&
+        typeof candidate.name === 'string' &&
+        typeof candidate.message === 'string' &&
+        typeof candidate.description === 'string'
     );
 }
 
-export function isClientError(obj: any): obj is ClientError {
+export function isClientError(obj: unknown): obj is ClientError {
+    if (typeof obj !== 'object' || obj === null) {
+        return false;
+    }
+    const candidate = obj as Record<string, unknown>;
     return (
-        typeof obj === 'object' &&
-        obj !== null &&
-        obj._tag === 'ClientError' &&
-        typeof obj.description === 'string'
+        candidate._tag === 'ClientError' &&
+        typeof candidate.description === 'string'
     );
 }
