@@ -1,21 +1,52 @@
-import {ApiError, isClientError, isNetworkError, isProblemDetailError, isStandardError} from "@/util/types/apiTypes";
+import {
+    ApiError,
+    DisplayError,
+    isClientError,
+    isNetworkError,
+    isProblemDetailError,
+    isStandardError
+} from "@/util/types/apiTypes";
 
-export const handleError = (error: ApiError, setError: (message: string) => void) => {
-    let errorMessage = "Unknown error. Please try again";
-    if(isProblemDetailError(error)){
-        errorMessage = error.detail || error.title || "Request failed. Please try again"
-        if (error.errors) {
-            const errorMessages = Object.values(error.errors);
-            if (errorMessages.length > 0) {
-                errorMessage += "\n" + errorMessages.join("\n");
-            }
+const FALLBACK_MESSAGE = "Unknown error. Please try again";
+const FIELD_ALIASES: Record<string, string> = {
+    phoneCountryCodeAndPhoneNumber: "phoneNumber",
+};
+
+export function toDisplayError(error: ApiError): DisplayError {
+    if (isProblemDetailError(error)) {
+        const entries = Object.entries(error.errors ?? {});
+
+        if (entries.length === 1) {
+            const [rawField, fieldMessage] = entries[0];
+            return {
+                message: fieldMessage,
+                field: FIELD_ALIASES[rawField] ?? rawField,
+                code: error.code,
+                status: error.status,
+            };
         }
-    }else if (isStandardError(error)){
-        errorMessage = error.message || error.name || "Request failed. Please try again"
-    }else if(isNetworkError(error)){
-        errorMessage = error.message || error.name || "Network error. Please try again"
-    }else if(isClientError(error)){
-        errorMessage = error.description || "Client error. Please try again"
+
+        const message = entries.length > 1
+            ? `${error.detail}\n${entries.map(([, value]) => value).join("\n")}`
+            : error.detail || error.title || FALLBACK_MESSAGE;
+
+        return { message, code: error.code, status: error.status };
     }
-    setError(errorMessage);
+
+    if (isStandardError(error)) {
+        return {
+            message: error.message || error.name || FALLBACK_MESSAGE,
+            status: error.status,
+        };
+    }
+
+    if (isNetworkError(error)) {
+        return { message: error.message || error.name || "Network error. Please try again" };
+    }
+
+    if (isClientError(error)) {
+        return { message: error.description || "Client error. Please try again" };
+    }
+
+    return { message: FALLBACK_MESSAGE };
 }

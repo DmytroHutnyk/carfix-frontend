@@ -4,13 +4,12 @@ import {useState} from "react";
 import {useRouter} from "next/navigation";
 import {Controller, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {AlertCircle} from "lucide-react";
 import {OrbitProgress} from "react-loading-indicators";
 
 import {useAuth} from "@/util/hooks/useAuth";
 import {useUpdateCore} from "@/util/hooks/useUpdateCore";
 import {UpdateUserCore, updateUserCoreSchema} from "@/util/types/profileManagementTypes";
-import {handleError} from "@/util/func/errorHandler";
+import {toDisplayError} from "@/util/func/errorHandler";
 import {ApiError} from "@/util/types/apiTypes";
 import {cn} from "@/util/lib/utils";
 
@@ -18,7 +17,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/_comp
 import {Field, FieldDescription, FieldError, FieldLabel} from "@/_components/shadcn/field";
 import {Input} from "@/_components/shadcn/input";
 import {Button} from "@/_components/shadcn/button";
-import {Alert, AlertDescription} from "@/_components/shadcn/alert";
+import FormErrorAlert from "@/_components/formErrorAlert";
 import {DatePicker} from "@/(main)/(withFooter)/(myAccount)/profile/_components/DatePicker";
 import ContactSecurityCard from "@/(main)/(withFooter)/(myAccount)/profile/_components/contactSecurityCard";
 import AddressCard from "@/(main)/(withFooter)/(myAccount)/profile/_components/addressCard";
@@ -53,7 +52,7 @@ export default function Page() {
             await updateCore(updateData)
         } catch (err) {
             reset();
-            handleError(err as ApiError, setError);
+            setError(toDisplayError(err as ApiError).message);
         }
     }
 
@@ -157,12 +156,7 @@ export default function Page() {
                         </div>
                     </form>
 
-                    {error && (
-                        <Alert variant="destructive" className="mt-4">
-                            <AlertCircle className="h-4 w-4"/>
-                            <AlertDescription className="whitespace-pre-line">{error}</AlertDescription>
-                        </Alert>
-                    )}
+                    <FormErrorAlert message={error} className="mt-4" />
                     </CardContent>
                 </Card>
 

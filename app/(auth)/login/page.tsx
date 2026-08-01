@@ -2,20 +2,20 @@
 
 import {Button} from "@/_components/shadcn/button";
 import {Input} from "@/_components/shadcn/input";
-import {AlertCircle, Eye, EyeOff, X} from 'lucide-react'
+import {Eye, EyeOff, X} from 'lucide-react'
 import {useState} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import {useRouter} from "next/navigation";
 import {OrbitProgress} from "react-loading-indicators";
-import {Alert, AlertDescription} from "@/_components/shadcn/alert";
+import FormErrorAlert from "@/_components/formErrorAlert";
 import {useAuth} from "@/util/hooks/useAuth";
 import {useForm} from "react-hook-form";
 import {LoginCredentials, loginSchema} from "@/util/types/authTypes";
 import {ApiError} from "@/util/types/apiTypes";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {handleError} from "@/util/func/errorHandler";
+import {toDisplayError} from "@/util/func/errorHandler";
 
 export default function Login(){
     const [error, setError] = useState<string | null>(null)
@@ -40,7 +40,7 @@ export default function Login(){
             console.log(response)
             router.back();
         }catch (err){
-            handleError(err as ApiError, setError);
+            setError(toDisplayError(err as ApiError).message);
         }
 
     }
@@ -119,12 +119,7 @@ export default function Login(){
                             )}
                         </div>
 
-                        {error && (
-                            <Alert variant="destructive">
-                                <AlertCircle className="h-4 w-4" />
-                                <AlertDescription className="whitespace-pre-line">{error}</AlertDescription>
-                            </Alert>
-                        )}
+                        <FormErrorAlert message={error} />
 
                         <Button
                             type="submit"
