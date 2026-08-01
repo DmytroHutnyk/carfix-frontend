@@ -1,6 +1,7 @@
 import {LoginCredentials, RegisterData, UseAuthReturn} from "@/util/types/authTypes";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {authKeys} from "@/util/api/auth/keys";
+import {privateScope} from "@/util/api/scopes";
 import {authApi} from "@/util/api/auth/authApi"
 
 export function useAuth(): UseAuthReturn {
@@ -32,8 +33,9 @@ export function useAuth(): UseAuthReturn {
 
     const logoutMutation = useMutation({
         mutationFn: authApi.logout,
+        /* Wipe every private-scoped cache (session, cars, bookings, …) */
         onSuccess: () => {
-            queryClient.removeQueries({ queryKey: authKeys.all });
+            queryClient.removeQueries({ queryKey: privateScope });
         },
     });
 

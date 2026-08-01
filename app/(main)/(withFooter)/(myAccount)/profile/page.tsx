@@ -18,7 +18,7 @@ import {Field, FieldDescription, FieldError, FieldLabel} from "@/_components/sha
 import {Input} from "@/_components/shadcn/input";
 import {Button} from "@/_components/shadcn/button";
 import FormErrorAlert from "@/_components/formErrorAlert";
-import {DatePicker} from "@/(main)/(withFooter)/(myAccount)/profile/_components/DatePicker";
+import DatePicker from "@/_components/datePicker";
 import ContactSecurityCard from "@/(main)/(withFooter)/(myAccount)/profile/_components/contactSecurityCard";
 import AddressCard from "@/(main)/(withFooter)/(myAccount)/profile/_components/addressCard";
 
@@ -120,6 +120,8 @@ export default function Page() {
                                     control={control}
                                     render={({field}) => (
                                         <DatePicker
+                                            id="dateOfBirth"
+                                            label="Date of birth"
                                             value={field.value}
                                             onChange={field.onChange}
                                             error={!!errors.dateOfBirth}
