@@ -11,7 +11,6 @@ export const authApi = {
     async getSession(): Promise<Account | null> {
         const result = await clientApi.get<Account>('/auth/me')
 
-        //TODO if 401 user must be redirected to login, but not always! only on protected pages
         console.log("refetched")
         if (isApiError(result)) {
             //401 is expected normal behaviour when the user is not logged in, that is why null returned
