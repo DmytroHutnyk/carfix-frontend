@@ -1,3 +1,4 @@
+import {Fragment} from "react";
 import {format} from "date-fns";
 import {Car, Pencil, Trash2} from "lucide-react";
 
@@ -21,6 +22,11 @@ export default function CarCard({carProfile, onEdit, onDelete}: {
     onEdit: () => void;
     onDelete: () => void;
 }) {
+    const expiryDates = [
+        {label: "Insurance", value: carProfile.insuranceDate},
+        {label: "Certificate", value: carProfile.serviceCertificateDate},
+    ];
+
     return (
         <Card>
             <CardContent className="flex gap-6 p-6">
@@ -46,19 +52,25 @@ export default function CarCard({carProfile, onEdit, onDelete}: {
                         </p>
                     </div>
 
-                    <div className="flex items-center gap-2 pt-1">
-                        <p>
-                            <span className="text-muted-foreground">Certificate: </span>
-                            <span className="font-semibold">
-                                {carProfile.serviceCertificateDate ? formatDate(carProfile.serviceCertificateDate) : "—"}
-                            </span>
-                        </p>
-                        {carProfile.serviceCertificateDate && (
-                            isExpired(carProfile.serviceCertificateDate)
-                                ? <Badge variant="destructiveSoft">Expired</Badge>
-                                : <Badge variant="success">Valid</Badge>
-                        )}
-                    </div>
+                    <dl className="grid w-fit grid-cols-[max-content_max-content_auto] items-center gap-x-3 gap-y-1 pt-1">
+                        {expiryDates.map(({label, value}) => (
+                            <Fragment key={label}>
+                                <dt className="text-muted-foreground">{label}</dt>
+                                <dd className="font-semibold tabular-nums">
+                                    {value ? formatDate(value) : "—"}
+                                </dd>
+                                {/* Own column so the chips share an edge; stays rendered when
+                                    empty, or the next row would slide into this cell. */}
+                                <dd>
+                                    {value && (
+                                        isExpired(value)
+                                            ? <Badge variant="destructiveSoft">Expired</Badge>
+                                            : <Badge variant="success">Valid</Badge>
+                                    )}
+                                </dd>
+                            </Fragment>
+                        ))}
+                    </dl>
 
                     {/*-==-==-=-=-=-=--==-=-=-=-Actions-==-==-=-=-=-=-=-=-=---==*/}
                     <div className="flex justify-end gap-2 pt-2">
