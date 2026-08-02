@@ -38,7 +38,7 @@ export default function CarCard({carProfile, onEdit, onDelete}: {
                 <div className="flex flex-1 flex-col gap-1">
                     <h2 className="text-2xl font-bold tracking-tight">{carProfile.name}</h2>
                     <p className="text-muted-foreground">
-                        {carProfile.brandName} {carProfile.modelName} {carProfile.generationName}
+                        {carProfile.brandName} {carProfile.modelName} {carProfile.versionName}
                     </p>
 
                     <div className="flex items-center gap-4 pt-2">

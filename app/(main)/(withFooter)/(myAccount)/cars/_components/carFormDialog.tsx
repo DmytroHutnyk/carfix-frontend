@@ -5,7 +5,7 @@ import {Controller, useForm, useWatch} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {OrbitProgress} from "react-loading-indicators";
 
-import {CarProfile, CarProfileForm, carProfileFormSchema, ModelGeneration} from "@/util/types/carProfileTypes";
+import {CarProfile, CarProfileForm, carProfileFormSchema, ModelVersion} from "@/util/types/carProfileTypes";
 import {useCarCatalog} from "@/util/hooks/useCarCatalog";
 import {useCarProfiles} from "@/util/hooks/useCarProfiles";
 import {toDisplayError} from "@/util/func/errorHandler";
@@ -26,20 +26,20 @@ const ALL_YEARS = "all";
 const COVERAGE_YEARS_BACK = -20;
 const COVERAGE_YEARS_AHEAD = 10;
 
-function toYearOptions(generations: ModelGeneration[]): number[] {
+function toYearOptions(versions: ModelVersion[]): number[] {
     const currentYear = new Date().getFullYear();
     const years = new Set<number>();
-    for (const g of generations) {
-        const start = g.startProduction ?? currentYear;
-        const end = g.endProduction ?? currentYear;
+    for (const v of versions) {
+        const start = v.startProduction ?? currentYear;
+        const end = v.endProduction ?? currentYear;
         for (let y = start; y <= end; y++) years.add(y);
     }
     return [...years].sort((a, b) => b - a);
 }
 
-function coversYear(g: ModelGeneration, year: number): boolean {
+function coversYear(v: ModelVersion, year: number): boolean {
     const currentYear = new Date().getFullYear();
-    return (g.startProduction ?? currentYear) <= year && year <= (g.endProduction ?? currentYear);
+    return (v.startProduction ?? currentYear) <= year && year <= (v.endProduction ?? currentYear);
 }
 
 export default function CarFormDialog({open, onOpenChange, carProfile}: {
@@ -70,7 +70,7 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
             brandId: carProfile.brandId,
             modelId: carProfile.modelId,
             year: null,
-            modelGenerationId: carProfile.generationId,
+            modelVersionId: carProfile.versionId,
             vin: carProfile.vin ?? "",
             plates: carProfile.plates ?? "",
             insuranceDate: carProfile.insuranceDate,
@@ -80,7 +80,7 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
             brandId: null,
             modelId: null,
             year: null,
-            modelGenerationId: undefined,
+            modelVersionId: undefined,
             vin: "",
             plates: "",
             insuranceDate: null,
@@ -92,12 +92,12 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
     const modelId = useWatch({control, name: "modelId"});
     const year = useWatch({control, name: "year"});
 
-    const {brands, models, generations} = useCarCatalog(brandId, modelId);
+    const {brands, models, versions} = useCarCatalog(brandId, modelId);
 
-    const yearOptions = useMemo(() => toYearOptions(generations), [generations]);
-    const engineOptions = useMemo(
-        () => (year === null ? generations : generations.filter((g) => coversYear(g, year))),
-        [generations, year]
+    const yearOptions = useMemo(() => toYearOptions(versions), [versions]);
+    const versionOptions = useMemo(
+        () => (year === null ? versions : versions.filter((v) => coversYear(v, year))),
+        [versions, year]
     );
 
     const onSubmit = async (form: CarProfileForm) => {
@@ -158,7 +158,7 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                                                 setValue("modelId", null);
                                                 setValue("year", null);
                                                 // @ts-expect-error intentional reset to empty required field
-                                                setValue("modelGenerationId", undefined);
+                                                setValue("modelVersionId", undefined);
                                             }}
                                         >
                                             <SelectTrigger><SelectValue placeholder="Select a brand"/></SelectTrigger>
@@ -184,7 +184,7 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                                             onValueChange={(v) => {
                                                 field.onChange(Number(v));
                                                 setValue("year", null);
-                                                setValue("modelGenerationId", undefined);
+                                                setValue("modelVersionId", undefined);
                                             }}
                                         >
                                             <SelectTrigger><SelectValue placeholder="Select a model"/></SelectTrigger>
@@ -223,11 +223,11 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                         </>
                     )}
 
-                    {/*-==-==-=-=-=-=--==-=-=-=-Engine-==-==-=-=-=-=-=-=-=---==*/}
+                    {/*-==-==-=-=-=-=--==-=-=-=-Version-==-==-=-=-=-=-=-=-=---==*/}
                     <Field>
-                        <FieldLabel>Engine</FieldLabel>
+                        <FieldLabel>Version</FieldLabel>
                         <Controller
-                            name="modelGenerationId"
+                            name="modelVersionId"
                             control={control}
                             render={({field}) => (
                                 <Select
@@ -236,20 +236,20 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                                     onValueChange={(v) => field.onChange(Number(v))}
                                 >
                                     <SelectTrigger
-                                        className={cn(errors.modelGenerationId && "border-destructive focus-visible:ring-destructive")}
+                                        className={cn(errors.modelVersionId && "border-destructive focus-visible:ring-destructive")}
                                     >
-                                        <SelectValue placeholder="Select engine type"/>
+                                        <SelectValue placeholder="Select version"/>
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {engineOptions.map((g) => (
-                                            <SelectItem key={g.id} value={g.id.toString()}>{g.name}</SelectItem>
+                                        {versionOptions.map((version) => (
+                                            <SelectItem key={version.id} value={version.id.toString()}>{version.name}</SelectItem>
                                         ))}
                                     </SelectContent>
                                 </Select>
                             )}
                         />
-                        {errors.modelGenerationId && (
-                            <p className="text-sm text-destructive">{errors.modelGenerationId.message}</p>
+                        {errors.modelVersionId && (
+                            <p className="text-sm text-destructive">{errors.modelVersionId.message}</p>
                         )}
                     </Field>
 

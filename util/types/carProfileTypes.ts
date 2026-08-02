@@ -11,11 +11,11 @@ export interface CarProfile {
     brandName: string;
     modelId: number;
     modelName: string;
-    generationId: number;
-    generationName: string;
+    versionId: number;
+    versionName: string;
 }
 
-// Catalog reads (backend CarBrandResponse / CarModelResponse / ModelGenerationResponse)
+// Catalog reads (backend CarBrandResponse / CarModelResponse / ModelVersionResponse)
 export interface CarBrand {
     id: number;
     name: string;
@@ -27,9 +27,9 @@ export interface CarModel {
     brandId: number;
 }
 
-export interface ModelGeneration {
+export interface ModelVersion {
     id: number;
-    name: string;               // engine/variant label, e.g. "1.9 TDI"
+    name: string;               // engine/variant label, e.g. "XV70 2.5 Hybrid"
     startProduction: number | null;
     endProduction: number | null; // null = still in production
     modelId: number;
@@ -41,12 +41,12 @@ export interface CreateCarProfileRequest {
     plates: string | null;
     serviceCertificateDate: string | null;
     insuranceDate: string | null;
-    modelGenerationId: number;
+    modelVersionId: number;
 }
 
 export interface UpdateCarProfileRequest {
     name: string;
-    modelGenerationId: number;
+    modelVersionId: number;
     vin: string | null;
     plates: string | null;
     insuranceDate: string | null;
@@ -66,7 +66,7 @@ export const carProfileFormSchema = z.object({
     modelId: z.number().nullable(),
     year: z.number().nullable(),
 
-    modelGenerationId: z.number("Engine is required"),
+    modelVersionId: z.number("Version is required"),
 
     vin: z.string()
         .trim()

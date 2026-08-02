@@ -16,9 +16,9 @@ export function useCarCatalog(brandId: number | null, modelId: number | null) {
         staleTime: Infinity,
     });
 
-    const generationsQuery = useQuery({
-        queryKey: carCatalogKeys.generations(modelId ?? -1),
-        queryFn: () => carCatalogApi.getGenerations(modelId!),
+    const versionsQuery = useQuery({
+        queryKey: carCatalogKeys.versions(modelId ?? -1),
+        queryFn: () => carCatalogApi.getVersions(modelId!),
         enabled: modelId !== null,
         staleTime: Infinity,
     });
@@ -26,9 +26,9 @@ export function useCarCatalog(brandId: number | null, modelId: number | null) {
     return {
         brands: brandsQuery.data ?? [],
         models: modelsQuery.data ?? [],
-        generations: generationsQuery.data ?? [],
+        versions: versionsQuery.data ?? [],
         isBrandsLoading: brandsQuery.isLoading,
         isModelsLoading: modelsQuery.isLoading,
-        isGenerationsLoading: generationsQuery.isLoading,
+        isVersionsLoading: versionsQuery.isLoading,
     }
 }

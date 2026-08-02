@@ -14,14 +14,14 @@ function toCreateRequest(form: CarProfileForm): CreateCarProfileRequest {
         plates: form.plates || null,
         serviceCertificateDate: form.serviceCertificateDate || null,
         insuranceDate: form.insuranceDate || null,
-        modelGenerationId: form.modelGenerationId,
+        modelVersionId: form.modelVersionId,
     };
 }
 
 function toUpdateRequest(form: CarProfileForm): UpdateCarProfileRequest {
     return {
         name: form.name.trim(),
-        modelGenerationId: form.modelGenerationId,
+        modelVersionId: form.modelVersionId,
         vin: form.vin || null,
         plates: form.plates || null,
         insuranceDate: form.insuranceDate || null,
