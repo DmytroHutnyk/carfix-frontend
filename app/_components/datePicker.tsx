@@ -15,9 +15,11 @@ interface DatePickerProps {
     error?: boolean
     placeholder?: string
     className?: string
+    minDate: Date
+    maxDate: Date
 }
 
-export default function DatePicker({id, label, value, onChange, error, placeholder = "Pick a date", className}: DatePickerProps) {
+export default function DatePicker({id, label, value, onChange, error, placeholder = "Pick a date", className, minDate, maxDate}: DatePickerProps) {
     const [open, setOpen] = useState(false)
 
     const selectedDate = value ? new Date(value + "T00:00:00") : undefined
@@ -41,6 +43,9 @@ export default function DatePicker({id, label, value, onChange, error, placehold
                         selected={selectedDate}
                         defaultMonth={selectedDate}
                         captionLayout="dropdown"
+                        startMonth={minDate}
+                        endMonth={maxDate}
+                        disabled={[{before: minDate}, {after: maxDate}]}
                         onSelect={(date) => {
                             onChange?.(date ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}` : null)
                             setOpen(false)

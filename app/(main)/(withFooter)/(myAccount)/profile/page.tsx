@@ -1,6 +1,6 @@
 'use client'
 
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import {useRouter} from "next/navigation";
 import {Controller, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -10,6 +10,7 @@ import {useAuth} from "@/util/hooks/useAuth";
 import {useUpdateCore} from "@/util/hooks/useUpdateCore";
 import {UpdateUserCore, updateUserCoreSchema} from "@/util/types/profileManagementTypes";
 import {toDisplayError} from "@/util/func/errorHandler";
+import {today, yearsFromToday} from "@/util/func/dateBounds";
 import {ApiError} from "@/util/types/apiTypes";
 import {cn} from "@/util/lib/utils";
 
@@ -22,12 +23,19 @@ import DatePicker from "@/_components/datePicker";
 import ContactSecurityCard from "@/(main)/(withFooter)/(myAccount)/profile/_components/contactSecurityCard";
 import AddressCard from "@/(main)/(withFooter)/(myAccount)/profile/_components/addressCard";
 
+const OLDEST_BIRTH_YEARS_BACK = -120;
+
 export default function Page() {
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
     const { updateCore } = useUpdateCore();
     const { account, logout } = useAuth();
     const user = account?.user ?? null;
+
+    const birthBounds = useMemo(() => ({
+        min: yearsFromToday(OLDEST_BIRTH_YEARS_BACK),
+        max: today(),
+    }), []);
 
     const {
         register,
@@ -125,6 +133,8 @@ export default function Page() {
                                             value={field.value}
                                             onChange={field.onChange}
                                             error={!!errors.dateOfBirth}
+                                            minDate={birthBounds.min}
+                                            maxDate={birthBounds.max}
                                         />
                                     )}
                                 />

@@ -9,6 +9,7 @@ import {CarProfile, CarProfileForm, carProfileFormSchema, ModelGeneration} from 
 import {useCarCatalog} from "@/util/hooks/useCarCatalog";
 import {useCarProfiles} from "@/util/hooks/useCarProfiles";
 import {toDisplayError} from "@/util/func/errorHandler";
+import {yearsFromToday} from "@/util/func/dateBounds";
 import {ApiError} from "@/util/types/apiTypes";
 import {cn} from "@/util/lib/utils";
 
@@ -21,6 +22,9 @@ import FormErrorAlert from "@/_components/formErrorAlert";
 import DatePicker from "@/_components/datePicker";
 
 const ALL_YEARS = "all";
+
+const COVERAGE_YEARS_BACK = -20;
+const COVERAGE_YEARS_AHEAD = 10;
 
 function toYearOptions(generations: ModelGeneration[]): number[] {
     const currentYear = new Date().getFullYear();
@@ -46,6 +50,11 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
     const isEdit = carProfile !== undefined;
     const [error, setError] = useState<string | null>(null);
     const {createCarProfile, updateCarProfile} = useCarProfiles({enabled: false});
+
+    const coverageBounds = useMemo(() => ({
+        min: yearsFromToday(COVERAGE_YEARS_BACK),
+        max: yearsFromToday(COVERAGE_YEARS_AHEAD),
+    }), []);
 
     const {
         control,
@@ -256,6 +265,8 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                                 value={field.value}
                                 onChange={field.onChange}
                                 error={!!errors.insuranceDate}
+                                minDate={coverageBounds.min}
+                                maxDate={coverageBounds.max}
                             />
                         )}
                     />
@@ -270,6 +281,8 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                                 value={field.value}
                                 onChange={field.onChange}
                                 error={!!errors.serviceCertificateDate}
+                                minDate={coverageBounds.min}
+                                maxDate={coverageBounds.max}
                             />
                         )}
                     />
