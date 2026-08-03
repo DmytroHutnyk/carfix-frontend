@@ -1,7 +1,6 @@
 'use client'
 
-import {useEffect, useMemo, useState} from "react";
-import {useRouter} from "next/navigation";
+import {useMemo, useState} from "react";
 import {OrbitProgress} from "react-loading-indicators";
 import {Car, Plus, Search} from "lucide-react";
 
@@ -18,12 +17,14 @@ import {Input} from "@/_components/shadcn/input";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 import {Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle} from "@/_components/shadcn/empty";
 import FormErrorAlert from "@/_components/formErrorAlert";
+import FilterBar from "@/_components/filterBar";
 import CarCard from "@/(main)/(withFooter)/(myAccount)/cars/_components/carCard";
 import CarFormDialog from "@/(main)/(withFooter)/(myAccount)/cars/_components/carFormDialog";
 import DeleteCarDialog from "@/(main)/(withFooter)/(myAccount)/cars/_components/deleteCarDialog";
 
 export default function Page() {
-    const router = useRouter();
+    // Login redirect is handled upstream: proxy.ts cookie pre-filter + RequireAuth in the
+    // (myAccount) layout. Role gating comes later — until then a non-customer just holds the spinner.
     const {account, isLoading: isAuthLoading} = useAuth();
     const isAuthorized = account !== null && isCustomer(account);
 
@@ -34,15 +35,6 @@ export default function Page() {
     const [addOpen, setAddOpen] = useState(false);
     const [editTarget, setEditTarget] = useState<CarProfile | null>(null);
     const [deleteTarget, setDeleteTarget] = useState<CarProfile | null>(null);
-
-    useEffect(() => {
-        if (isAuthLoading) return;
-        if (account === null) {
-            router.replace("/login");
-        } else if (!isCustomer(account)) {
-            router.replace("/");
-        }
-    }, [isAuthLoading, account, router]);
 
     const visibleCars = useMemo(
         () => sortCarProfiles(filterCarProfiles(carProfiles, searchQuery), sortKey),
@@ -59,15 +51,21 @@ export default function Page() {
 
     return (
         <div className="py-3">
-            {/*-==-==-=-=-=-=--==-=-=-=-Toolbar-==-==-=-=-=-=-=-=-=---==*/}
+            {/*-==-==-=-=-=-=--==-=-=-=-Header-==-==-=-=-=-=-=-=-=---==*/}
             <section className="flex flex-wrap items-center gap-4">
                 <h1 className="text-3xl font-bold tracking-tight">My Cars</h1>
 
-                <div className="ml-auto flex flex-wrap items-center gap-3">
-                    <Button onClick={() => setAddOpen(true)}>
-                        <Plus/> Add vehicle
-                    </Button>
+                <Button className="ml-auto" onClick={() => setAddOpen(true)}>
+                    <Plus/> Add vehicle
+                </Button>
+            </section>
 
+            {/*-==-==-=-=-=-=--==-=-=-=-Filters-==-==-=-=-=-=-=-=-=---==*/}
+            <section className="pt-6">
+                <FilterBar onClear={() => {
+                    setSearchQuery("");
+                    setSortKey("nameAsc");
+                }}>
                     <div className="relative">
                         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
                         <Input
@@ -89,7 +87,7 @@ export default function Page() {
                             ))}
                         </SelectContent>
                     </Select>
-                </div>
+                </FilterBar>
             </section>
 
             {/*-==-==-=-=-=-=--==-=-=-=-List-==-==-=-=-=-=-=-=-=---==*/}

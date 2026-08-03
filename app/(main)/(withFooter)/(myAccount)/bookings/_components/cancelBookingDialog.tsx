@@ -94,7 +94,7 @@ export default function CancelBookingDialog({open, onOpenChange, booking}: {
                 )}
 
                 {/*-==-==-=-=-=-=--==-=-=-=-Actions-==-==-=-=-=-=-=-=-=---==*/}
-                <div className="flex justify-start gap-2">
+                <div className="flex justify-end gap-2">
                     <Button variant="secondary" onClick={() => onOpenChange(false)} disabled={isCancelling}>
                         Return
                     </Button>

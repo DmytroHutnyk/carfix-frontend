@@ -10,10 +10,7 @@ import {useBookings} from "@/util/hooks/useBookings";
 import {Booking} from "@/util/types/bookingTypes";
 import {
     BookingFilterState,
-    BookingTab,
     EMPTY_FILTERS,
-    TAB_STATUSES,
-    bookingsForTab,
     filterBookings,
     sortBookings,
     vehicleOptions,
@@ -21,7 +18,6 @@ import {
 import {toDisplayError} from "@/util/func/errorHandler";
 import {ApiError} from "@/util/types/apiTypes";
 
-import {Tabs, TabsList, TabsTrigger} from "@/_components/shadcn/tabs";
 import {Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle} from "@/_components/shadcn/empty";
 import FormErrorAlert from "@/_components/formErrorAlert";
 import BookingFilters from "@/(main)/(withFooter)/(myAccount)/bookings/_components/bookingFilters";
@@ -29,29 +25,20 @@ import BookingCard from "@/(main)/(withFooter)/(myAccount)/bookings/_components/
 import CancelBookingDialog from "@/(main)/(withFooter)/(myAccount)/bookings/_components/cancelBookingDialog";
 
 export default function Page() {
+    // Login redirect is handled upstream: proxy.ts cookie pre-filter + RequireAuth in the
+    // (myAccount) layout. Role gating comes later — until then a non-customer just holds the spinner.
     const {account, isLoading: isAuthLoading} = useAuth();
     const isAuthorized = account !== null && isCustomer(account);
 
     const {bookings, isLoading, isError, error} = useBookings({enabled: isAuthorized});
 
-    const [tab, setTab] = useState<BookingTab>("upcoming");
     const [filters, setFilters] = useState<BookingFilterState>(EMPTY_FILTERS);
     const [cancelTarget, setCancelTarget] = useState<Booking | null>(null);
 
-    const tabBookings = useMemo(() => bookingsForTab(bookings, tab), [bookings, tab]);
     const visibleBookings = useMemo(
-        () => sortBookings(filterBookings(tabBookings, filters), tab),
-        [tabBookings, filters, tab]
+        () => sortBookings(filterBookings(bookings, filters)),
+        [bookings, filters]
     );
-
-    const onTabChange = (next: string) => {
-        const nextTab = next as BookingTab;
-        setTab(nextTab);
-        // Status options are tab-scoped — drop a pick that doesn't exist in the new tab.
-        setFilters((f) =>
-            f.status === "all" || TAB_STATUSES[nextTab].includes(f.status) ? f : {...f, status: "all"}
-        );
-    };
 
     if (isAuthLoading || !isAuthorized || isLoading) {
         return (
@@ -74,18 +61,7 @@ export default function Page() {
                     filters={filters}
                     onChange={setFilters}
                     vehicles={vehicleOptions(bookings)}
-                    statuses={TAB_STATUSES[tab]}
                 />
-            </section>
-
-            {/*-==-==-=-=-=-=--==-=-=-=-Tabs-==-==-=-=-=-=-=-=-=---==*/}
-            <section className="pt-4">
-                <Tabs value={tab} onValueChange={onTabChange}>
-                    <TabsList className="grid w-full max-w-md grid-cols-2">
-                        <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
-                        <TabsTrigger value="past">Past</TabsTrigger>
-                    </TabsList>
-                </Tabs>
             </section>
 
             {/*-==-==-=-=-=-=--==-=-=-=-List-==-==-=-=-=-=-=-=-=---==*/}
@@ -94,25 +70,19 @@ export default function Page() {
                     <FormErrorAlert message={toDisplayError(error as ApiError).message}/>
                 )}
 
-                {!isError && tabBookings.length === 0 && (
+                {!isError && bookings.length === 0 && (
                     <Empty>
                         <EmptyHeader>
                             <EmptyMedia variant="icon">
                                 <CalendarX2/>
                             </EmptyMedia>
-                            <EmptyTitle>
-                                {tab === "upcoming" ? "No upcoming bookings" : "No past bookings"}
-                            </EmptyTitle>
-                            <EmptyDescription>
-                                {tab === "upcoming"
-                                    ? "Book a service to see it here."
-                                    : "Completed and cancelled bookings will show up here."}
-                            </EmptyDescription>
+                            <EmptyTitle>No bookings yet</EmptyTitle>
+                            <EmptyDescription>Book a service to see it here.</EmptyDescription>
                         </EmptyHeader>
                     </Empty>
                 )}
 
-                {!isError && tabBookings.length > 0 && visibleBookings.length === 0 && (
+                {!isError && bookings.length > 0 && visibleBookings.length === 0 && (
                     <p className="pt-6 text-center text-muted-foreground">
                         No bookings match your filters.
                     </p>

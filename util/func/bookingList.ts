@@ -1,8 +1,6 @@
 import {format} from "date-fns";
 import {Booking, BookingStatus} from "@/util/types/bookingTypes";
 
-export type BookingTab = "upcoming" | "past";
-
 export type BookingFilterState = {
     query: string;
     carProfileId: string;          // "all" or a carProfileId
@@ -11,21 +9,12 @@ export type BookingFilterState = {
 
 export const EMPTY_FILTERS: BookingFilterState = {query: "", carProfileId: "all", status: "all"};
 
-export const TAB_STATUSES: Record<BookingTab, readonly BookingStatus[]> = {
-    upcoming: ["SCHEDULED", "IN_PROGRESS"],
-    past: ["COMPLETED", "CANCELLED"],
-};
-
 export const STATUS_LABELS: Record<BookingStatus, string> = {
     SCHEDULED: "Scheduled",
     IN_PROGRESS: "In progress",
     COMPLETED: "Completed",
     CANCELLED: "Cancelled",
 };
-
-export function bookingsForTab(list: Booking[], tab: BookingTab): Booking[] {
-    return list.filter((b) => TAB_STATUSES[tab].includes(b.status));
-}
 
 export function filterBookings(list: Booking[], filters: BookingFilterState): Booking[] {
     const q = filters.query.trim().toLowerCase();
@@ -45,13 +34,14 @@ function startMillis(b: Booking): number {
     return new Date(`${b.date}T${b.startTime}`).getTime();
 }
 
-export function sortBookings(list: Booking[], tab: BookingTab): Booking[] {
-    const sorted = [...list];
-    // Upcoming: soonest first. Past: most recent first.
-    sorted.sort((a, b) => tab === "upcoming"
-        ? startMillis(a) - startMillis(b)
-        : startMillis(b) - startMillis(a));
-    return sorted;
+/** Upcoming bookings first (soonest first), then past bookings (most recent first). */
+export function sortBookings(list: Booking[], now: Date = new Date()): Booking[] {
+    const nowMs = now.getTime();
+    const upcoming = list.filter((b) => startMillis(b) >= nowMs)
+        .sort((a, b) => startMillis(a) - startMillis(b));
+    const past = list.filter((b) => startMillis(b) < nowMs)
+        .sort((a, b) => startMillis(b) - startMillis(a));
+    return [...upcoming, ...past];
 }
 
 export function vehicleOptions(list: Booking[]): { value: string; label: string }[] {
