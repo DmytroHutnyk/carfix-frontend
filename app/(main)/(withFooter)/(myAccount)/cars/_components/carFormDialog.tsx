@@ -21,25 +21,19 @@ import {Button} from "@/_components/shadcn/button";
 import FormErrorAlert from "@/_components/formErrorAlert";
 import DatePicker from "@/_components/datePicker";
 
-const ALL_YEARS = "all";
-
 const COVERAGE_YEARS_BACK = -20;
 const COVERAGE_YEARS_AHEAD = 10;
 
-function toYearOptions(versions: ModelVersion[]): number[] {
-    const currentYear = new Date().getFullYear();
-    const years = new Set<number>();
-    for (const v of versions) {
-        const start = v.startProduction ?? currentYear;
-        const end = v.endProduction ?? currentYear;
-        for (let y = start; y <= end; y++) years.add(y);
-    }
-    return [...years].sort((a, b) => b - a);
-}
+function toYearOptions(version: ModelVersion | undefined): number[] {
+    if (version === undefined) return [];
 
-function coversYear(v: ModelVersion, year: number): boolean {
     const currentYear = new Date().getFullYear();
-    return (v.startProduction ?? currentYear) <= year && year <= (v.endProduction ?? currentYear);
+    const start = version.startProduction ?? currentYear;
+    const end = version.endProduction ?? currentYear;
+
+    const years: number[] = [];
+    for (let y = end; y >= start; y--) years.push(y);
+    return years;
 }
 
 export default function CarFormDialog({open, onOpenChange, carProfile}: {
@@ -61,6 +55,7 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
         register,
         handleSubmit,
         setValue,
+        resetField,
         formState: {errors, isSubmitting},
     } = useForm<CarProfileForm>({
         resolver: zodResolver(carProfileFormSchema),
@@ -90,15 +85,15 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
 
     const brandId = useWatch({control, name: "brandId"});
     const modelId = useWatch({control, name: "modelId"});
-    const year = useWatch({control, name: "year"});
+    const modelVersionId = useWatch({control, name: "modelVersionId"});
 
     const {brands, models, versions} = useCarCatalog(brandId, modelId);
 
-    const yearOptions = useMemo(() => toYearOptions(versions), [versions]);
-    const versionOptions = useMemo(
-        () => (year === null ? versions : versions.filter((v) => coversYear(v, year))),
-        [versions, year]
+    const selectedVersion = useMemo(
+        () => versions.find((v) => v.id === modelVersionId),
+        [versions, modelVersionId]
     );
+    const yearOptions = useMemo(() => toYearOptions(selectedVersion), [selectedVersion]);
 
     const onSubmit = async (form: CarProfileForm) => {
         setError(null);
@@ -157,8 +152,7 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                                                 field.onChange(Number(v));
                                                 setValue("modelId", null);
                                                 setValue("year", null);
-                                                // @ts-expect-error intentional reset to empty required field
-                                                setValue("modelVersionId", undefined);
+                                                resetField("modelVersionId");
                                             }}
                                         >
                                             <SelectTrigger><SelectValue placeholder="Select a brand"/></SelectTrigger>
@@ -184,36 +178,13 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                                             onValueChange={(v) => {
                                                 field.onChange(Number(v));
                                                 setValue("year", null);
-                                                setValue("modelVersionId", undefined);
+                                                resetField("modelVersionId");
                                             }}
                                         >
                                             <SelectTrigger><SelectValue placeholder="Select a model"/></SelectTrigger>
                                             <SelectContent>
                                                 {models.map((m) => (
                                                     <SelectItem key={m.id} value={m.id.toString()}>{m.name}</SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    )}
-                                />
-                            </Field>
-
-                            <Field>
-                                <FieldLabel>Year</FieldLabel>
-                                <Controller
-                                    name="year"
-                                    control={control}
-                                    render={({field}) => (
-                                        <Select
-                                            disabled={modelId === null}
-                                            value={field.value?.toString() ?? ALL_YEARS}
-                                            onValueChange={(v) => field.onChange(v === ALL_YEARS ? null : Number(v))}
-                                        >
-                                            <SelectTrigger><SelectValue placeholder="All years"/></SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value={ALL_YEARS}>All years</SelectItem>
-                                                {yearOptions.map((y) => (
-                                                    <SelectItem key={y} value={y.toString()}>{y}</SelectItem>
                                                 ))}
                                             </SelectContent>
                                         </Select>
@@ -233,7 +204,10 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                                 <Select
                                     disabled={modelId === null}
                                     value={field.value?.toString() ?? ""}
-                                    onValueChange={(v) => field.onChange(Number(v))}
+                                    onValueChange={(v) => {
+                                        field.onChange(Number(v));
+                                        setValue("year", null);
+                                    }}
                                 >
                                     <SelectTrigger
                                         className={cn(errors.modelVersionId && "border-destructive focus-visible:ring-destructive")}
@@ -241,7 +215,7 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                                         <SelectValue placeholder="Select version"/>
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {versionOptions.map((version) => (
+                                        {versions.map((version) => (
                                             <SelectItem key={version.id} value={version.id.toString()}>{version.name}</SelectItem>
                                         ))}
                                     </SelectContent>
@@ -252,6 +226,31 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                             <p className="text-sm text-destructive">{errors.modelVersionId.message}</p>
                         )}
                     </Field>
+
+                    {/*-==-==-=-=-=-=--==-=-=-=-Year-==-==-=-=-=-=-=-=-=---==*/}
+                    {!isEdit && (
+                        <Field>
+                            <FieldLabel>Year</FieldLabel>
+                            <Controller
+                                name="year"
+                                control={control}
+                                render={({field}) => (
+                                    <Select
+                                        disabled={selectedVersion === undefined}
+                                        value={field.value?.toString() ?? ""}
+                                        onValueChange={(v) => field.onChange(Number(v))}
+                                    >
+                                        <SelectTrigger><SelectValue placeholder="Select year"/></SelectTrigger>
+                                        <SelectContent>
+                                            {yearOptions.map((y) => (
+                                                <SelectItem key={y} value={y.toString()}>{y}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                )}
+                            />
+                        </Field>
+                    )}
 
                     {/*-==-==-=-=-=-=--==-=-=-=-Dates-==-==-=-=-=-=-=-=-=---==*/}
                     <Controller

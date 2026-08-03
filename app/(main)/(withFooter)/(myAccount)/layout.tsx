@@ -21,5 +21,5 @@ export default function MyAccountLayout({ children }: {
 const menuItems: SideBarItem[] = [
     { href: "/profile",      label: "My Profile",      icon: "CircleUserRound" },
     { href: "/cars",      label: "My Cars",      icon: "Car" },
-    { href: "/bookings",  label: "Bookings",  icon: "Calendar" },
+    { href: "/bookings",  label: "My Bookings",  icon: "Calendar" },
 ];
