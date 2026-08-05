@@ -2,8 +2,8 @@
 
 import {useState} from "react";
 
-import {CarProfile} from "@/util/types/carProfileTypes";
-import {useCarProfiles} from "@/util/hooks/useCarProfiles";
+import {CarProfile} from "@/features/carProfile/carProfileTypes";
+import {useCarProfiles} from "@/features/carProfile/useCarProfiles";
 import {toDisplayError} from "@/util/func/errorHandler";
 import {ApiError} from "@/util/types/apiTypes";
 

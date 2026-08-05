@@ -5,9 +5,9 @@ import {Controller, useForm, useWatch} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {OrbitProgress} from "react-loading-indicators";
 
-import {CarProfile, CarProfileForm, carProfileFormSchema, ModelVersion} from "@/util/types/carProfileTypes";
+import {CarProfile, CarProfileForm, carProfileFormSchema, ModelVersion} from "@/features/carProfile/carProfileTypes";
 import {useCarCatalog} from "@/util/hooks/useCarCatalog";
-import {useCarProfiles} from "@/util/hooks/useCarProfiles";
+import {useCarProfiles} from "@/features/carProfile/useCarProfiles";
 import {toDisplayError} from "@/util/func/errorHandler";
 import {yearsFromToday} from "@/util/func/dateBounds";
 import {ApiError} from "@/util/types/apiTypes";

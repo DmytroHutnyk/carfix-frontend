@@ -5,7 +5,7 @@ import {
     CarProfileForm,
     CreateCarProfileRequest,
     UpdateCarProfileRequest
-} from "@/util/types/carProfileTypes";
+} from "@/features/carProfile/carProfileTypes";
 
 function toCreateRequest(form: CarProfileForm): CreateCarProfileRequest {
     return {

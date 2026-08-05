@@ -1,4 +1,4 @@
-import {CarProfile} from "@/util/types/carProfileTypes";
+import {CarProfile} from "@/features/carProfile/carProfileTypes";
 
 export type CarSortKey = "nameAsc" | "nameDesc";
 

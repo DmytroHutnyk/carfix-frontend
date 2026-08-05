@@ -2,7 +2,7 @@ import {Fragment} from "react";
 import {format} from "date-fns";
 import {Car, Pencil, Trash2} from "lucide-react";
 
-import {CarProfile} from "@/util/types/carProfileTypes";
+import {CarProfile} from "@/features/carProfile/carProfileTypes";
 import {Card, CardContent} from "@/_components/shadcn/card";
 import {Badge} from "@/_components/shadcn/badge";
 import {Button} from "@/_components/shadcn/button";

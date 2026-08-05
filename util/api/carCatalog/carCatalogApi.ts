@@ -1,6 +1,6 @@
 import {clientApi} from "@/util/api/clientApi";
 import {isApiError} from "@/util/types/apiTypes";
-import {CarBrand, CarModel, ModelVersion} from "@/util/types/carProfileTypes";
+import {CarBrand, CarModel, ModelVersion} from "@/features/carProfile/carProfileTypes";
 
 export const carCatalogApi = {
     async getBrands(): Promise<CarBrand[]> {

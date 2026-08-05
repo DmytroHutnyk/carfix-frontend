@@ -6,9 +6,9 @@ import {Car, Plus, Search} from "lucide-react";
 
 import {useAuth} from "@/util/hooks/useAuth";
 import {isCustomer} from "@/util/types/userTypes";
-import {useCarProfiles} from "@/util/hooks/useCarProfiles";
-import {CAR_SORT_OPTIONS, CarSortKey, filterCarProfiles, sortCarProfiles} from "@/util/func/carProfileList";
-import {CarProfile} from "@/util/types/carProfileTypes";
+import {useCarProfiles} from "@/features/carProfile/useCarProfiles";
+import {CAR_SORT_OPTIONS, CarSortKey, filterCarProfiles, sortCarProfiles} from "@/features/carProfile/carProfileList";
+import {CarProfile} from "@/features/carProfile/carProfileTypes";
 import {toDisplayError} from "@/util/func/errorHandler";
 import {ApiError} from "@/util/types/apiTypes";
 
