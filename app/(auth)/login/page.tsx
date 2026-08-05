@@ -10,9 +10,9 @@ import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/_component
 import {useRouter} from "next/navigation";
 import {OrbitProgress} from "react-loading-indicators";
 import FormErrorAlert from "@/_components/formErrorAlert";
-import {useAuth} from "@/util/hooks/useAuth";
+import {useAuth} from "@/features/auth/useAuth";
 import {useForm} from "react-hook-form";
-import {LoginCredentials, loginSchema} from "@/util/types/authTypes";
+import {LoginCredentials, loginSchema} from "@/features/auth/authTypes";
 import {ApiError} from "@/util/types/apiTypes";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {toDisplayError} from "@/util/func/errorHandler";

@@ -11,8 +11,8 @@ import FormErrorAlert from "@/_components/formErrorAlert";
 import {OrbitProgress} from "react-loading-indicators";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {RegisterData, registerSchema} from "@/util/types/authTypes";
-import {useAuth} from "@/util/hooks/useAuth";
+import {RegisterData, registerSchema} from "@/features/auth/authTypes";
+import {useAuth} from "@/features/auth/useAuth";
 import {toDisplayError} from "@/util/func/errorHandler";
 import {ApiError} from "@/util/types/apiTypes";
 

@@ -1,7 +1,7 @@
 "use client"
 
 import {useForm} from "react-hook-form";
-import {HelpMessage, messageSchema} from "@/util/types/authTypes";
+import {HelpMessage, messageSchema} from "@/features/auth/authTypes";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {OrbitProgress} from "react-loading-indicators";
 import {Card, CardContent, CardHeader, CardTitle} from "@/_components/shadcn/card";

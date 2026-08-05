@@ -4,7 +4,7 @@ import {useMemo, useState} from "react";
 import {OrbitProgress} from "react-loading-indicators";
 import {Car, Plus, Search} from "lucide-react";
 
-import {useAuth} from "@/util/hooks/useAuth";
+import {useAuth} from "@/features/auth/useAuth";
 import {isCustomer} from "@/util/types/userTypes";
 import {useCarProfiles} from "@/features/carProfile/useCarProfiles";
 import {CAR_SORT_OPTIONS, CarSortKey, filterCarProfiles, sortCarProfiles} from "@/features/carProfile/carProfileList";

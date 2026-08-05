@@ -6,7 +6,7 @@ import {Controller, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {OrbitProgress} from "react-loading-indicators";
 
-import {useAuth} from "@/util/hooks/useAuth";
+import {useAuth} from "@/features/auth/useAuth";
 import {useUpdateCore} from "@/util/hooks/useUpdateCore";
 import {UpdateUserCore, updateUserCoreSchema} from "@/util/types/profileManagementTypes";
 import {toDisplayError} from "@/util/func/errorHandler";

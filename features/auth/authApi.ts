@@ -1,6 +1,6 @@
 import {Account} from "@/util/types/userTypes";
 import {clientApi} from "@/util/api/clientApi";
-import {LoginCredentials, RegisterData} from "@/util/types/authTypes";
+import {LoginCredentials, RegisterData} from "@/features/auth/authTypes";
 import {isApiError} from "@/util/types/apiTypes";
 
 /* Auth is role-agnostic: the backend resolves the principal's role from the session and

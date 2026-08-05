@@ -2,7 +2,7 @@
 
 import {ReactNode, useEffect, useRef} from "react";
 import {useRouter} from "next/navigation";
-import {useAuth} from "@/util/hooks/useAuth";
+import {useAuth} from "@/features/auth/useAuth";
 
 export default function RedirectIfAuthenticated({children}: { children: ReactNode }) {
     const {isAuthenticated, isLoading} = useAuth();

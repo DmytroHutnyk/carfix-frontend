@@ -4,7 +4,7 @@ import {useMemo, useState} from "react";
 import {OrbitProgress} from "react-loading-indicators";
 import {CalendarX2} from "lucide-react";
 
-import {useAuth} from "@/util/hooks/useAuth";
+import {useAuth} from "@/features/auth/useAuth";
 import {isCustomer} from "@/util/types/userTypes";
 import {useBookings} from "@/features/booking/useBookings";
 import {Booking} from "@/features/booking/bookingTypes";

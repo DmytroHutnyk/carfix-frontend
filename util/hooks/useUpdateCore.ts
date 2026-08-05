@@ -1,7 +1,7 @@
 import {UpdateUserCore, UseUpdateCoreReturn} from "@/util/types/profileManagementTypes";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {userApi} from "@/util/api/user/userApi";
-import {authKeys} from "@/util/api/auth/keys";
+import {authKeys} from "@/features/auth/keys";
 import {Account} from "@/util/types/userTypes";
 
 export function useUpdateCore(): UseUpdateCoreReturn {

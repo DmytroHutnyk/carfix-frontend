@@ -2,7 +2,7 @@
 
 import {ReactNode, useEffect} from "react";
 import {useRouter} from "next/navigation";
-import {useAuth} from "@/util/hooks/useAuth";
+import {useAuth} from "@/features/auth/useAuth";
 import {Spinner} from "@/_components/shadcn/spinner";
 import {UserRole} from "@/util/types/userTypes";
 
