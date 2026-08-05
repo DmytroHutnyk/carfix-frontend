@@ -5,7 +5,7 @@ import {OrbitProgress} from "react-loading-indicators";
 import {CalendarX2} from "lucide-react";
 
 import {useAuth} from "@/features/auth/useAuth";
-import {isCustomer} from "@/util/types/userTypes";
+import {isCustomer} from "@/features/user/userTypes";
 import {useBookings} from "@/features/booking/useBookings";
 import {Booking} from "@/features/booking/bookingTypes";
 import {

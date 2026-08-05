@@ -7,8 +7,8 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {OrbitProgress} from "react-loading-indicators";
 
 import {useAuth} from "@/features/auth/useAuth";
-import {useUpdateCore} from "@/util/hooks/useUpdateCore";
-import {UpdateUserCore, updateUserCoreSchema} from "@/util/types/profileManagementTypes";
+import {useUpdateCore} from "@/features/user/useUpdateCore";
+import {UpdateUserCore, updateUserCoreSchema} from "@/features/user/profileManagementTypes";
 import {toDisplayError} from "@/util/func/errorHandler";
 import {today, yearsFromToday} from "@/util/func/dateBounds";
 import {ApiError} from "@/util/types/apiTypes";

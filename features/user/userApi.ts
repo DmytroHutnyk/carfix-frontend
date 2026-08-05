@@ -1,7 +1,7 @@
-import {User} from "@/util/types/userTypes";
+import {User} from "@/features/user/userTypes";
 import {clientApi} from "@/util/api/clientApi";
 import {isApiError} from "@/util/types/apiTypes";
-import {UpdateUserCore, UpdateUserRequest} from "@/util/types/profileManagementTypes";
+import {UpdateUserCore, UpdateUserRequest} from "@/features/user/profileManagementTypes";
 
 //not sure this is the best appraoch, to have a look later
 function toUpdateUserRequest(form: UpdateUserCore): UpdateUserRequest {

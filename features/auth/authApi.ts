@@ -1,4 +1,4 @@
-import {Account} from "@/util/types/userTypes";
+import {Account} from "@/features/user/userTypes";
 import {clientApi} from "@/util/api/clientApi";
 import {LoginCredentials, RegisterData} from "@/features/auth/authTypes";
 import {isApiError} from "@/util/types/apiTypes";

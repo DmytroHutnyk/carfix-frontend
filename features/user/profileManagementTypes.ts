@@ -1,5 +1,5 @@
 import {z} from "zod";
-import {User} from "@/util/types/userTypes";
+import {User} from "@/features/user/userTypes";
 
 export interface UseUpdateCoreReturn {
     updateCore: (data: UpdateUserCore) => Promise<User>;

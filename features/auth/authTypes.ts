@@ -1,5 +1,5 @@
 /* auth request response */
-import {Account} from "@/util/types/userTypes";
+import {Account} from "@/features/user/userTypes";
 import {z} from "zod";
 
 export interface AuthState {
