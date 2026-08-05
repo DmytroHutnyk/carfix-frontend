@@ -1,6 +1,6 @@
 import {useQuery} from "@tanstack/react-query";
-import {carCatalogApi} from "@/util/api/carCatalog/carCatalogApi";
-import {carCatalogKeys} from "@/util/api/carCatalog/keys";
+import {carCatalogApi} from "@/features/carCatalog/carCatalogApi";
+import {carCatalogKeys} from "@/features/carCatalog/keys";
 
 export function useCarCatalog(brandId: number | null, modelId: number | null) {
     const brandsQuery = useQuery({

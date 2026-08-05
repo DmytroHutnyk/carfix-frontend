@@ -6,7 +6,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {OrbitProgress} from "react-loading-indicators";
 
 import {CarProfile, CarProfileForm, carProfileFormSchema, ModelVersion} from "@/features/carProfile/carProfileTypes";
-import {useCarCatalog} from "@/util/hooks/useCarCatalog";
+import {useCarCatalog} from "@/features/carCatalog/useCarCatalog";
 import {useCarProfiles} from "@/features/carProfile/useCarProfiles";
 import {toDisplayError} from "@/util/func/errorHandler";
 import {yearsFromToday} from "@/util/func/dateBounds";
