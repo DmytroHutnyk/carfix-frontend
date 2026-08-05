@@ -4,7 +4,7 @@ import {Field, FieldLabel} from "@/_components/shadcn/field";
 import {Popover, PopoverContent, PopoverTrigger} from "@/_components/shadcn/popover";
 import {Button} from "@/_components/shadcn/button";
 import {Calendar} from "@/_components/shadcn/calendar";
-import {cn} from "@/util/lib/utils";
+import {cn} from "@/lib/utils";
 import {useState} from "react";
 
 interface DatePickerProps {

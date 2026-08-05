@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import {Language, CountryCode, SearchLocation} from "@/util/types/appTypes";
+import {Language, CountryCode, SearchLocation} from "@/lib/appTypes";
 
 type LanguageStore = {
     language: Language;

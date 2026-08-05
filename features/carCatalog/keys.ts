@@ -1,4 +1,4 @@
-import {PUBLIC_SCOPE} from "@/util/api/scopes";
+import {PUBLIC_SCOPE} from "@/lib/scopes";
 
 export const carCatalogKeys = {
     all: [PUBLIC_SCOPE, 'carCatalog'] as const,

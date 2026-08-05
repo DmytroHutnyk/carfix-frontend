@@ -9,8 +9,8 @@ import {isCustomer} from "@/features/user/userTypes";
 import {useCarProfiles} from "@/features/carProfile/useCarProfiles";
 import {CAR_SORT_OPTIONS, CarSortKey, filterCarProfiles, sortCarProfiles} from "@/features/carProfile/carProfileList";
 import {CarProfile} from "@/features/carProfile/carProfileTypes";
-import {toDisplayError} from "@/util/func/errorHandler";
-import {ApiError} from "@/util/types/apiTypes";
+import {toDisplayError} from "@/lib/errorHandler";
+import {ApiError} from "@/lib/apiTypes";
 
 import {Button} from "@/_components/shadcn/button";
 import {Input} from "@/_components/shadcn/input";

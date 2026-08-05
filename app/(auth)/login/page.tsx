@@ -13,9 +13,9 @@ import FormErrorAlert from "@/_components/formErrorAlert";
 import {useAuth} from "@/features/auth/useAuth";
 import {useForm} from "react-hook-form";
 import {LoginCredentials, loginSchema} from "@/features/auth/authTypes";
-import {ApiError} from "@/util/types/apiTypes";
+import {ApiError} from "@/lib/apiTypes";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {toDisplayError} from "@/util/func/errorHandler";
+import {toDisplayError} from "@/lib/errorHandler";
 
 export default function Login(){
     const [error, setError] = useState<string | null>(null)

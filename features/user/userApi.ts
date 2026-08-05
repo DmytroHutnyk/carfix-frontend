@@ -1,6 +1,6 @@
 import {User} from "@/features/user/userTypes";
-import {clientApi} from "@/util/api/clientApi";
-import {isApiError} from "@/util/types/apiTypes";
+import {clientApi} from "@/lib/clientApi";
+import {isApiError} from "@/lib/apiTypes";
 import {UpdateUserCore, UpdateUserRequest} from "@/features/user/profileManagementTypes";
 
 //not sure this is the best appraoch, to have a look later

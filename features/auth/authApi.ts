@@ -1,7 +1,7 @@
 import {Account} from "@/features/user/userTypes";
-import {clientApi} from "@/util/api/clientApi";
+import {clientApi} from "@/lib/clientApi";
 import {LoginCredentials, RegisterData} from "@/features/auth/authTypes";
-import {isApiError} from "@/util/types/apiTypes";
+import {isApiError} from "@/lib/apiTypes";
 
 /* Auth is role-agnostic: the backend resolves the principal's role from the session and
  * returns the matching Account variant (user core + role tail) in one response. Only

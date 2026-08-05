@@ -4,7 +4,7 @@ import {Search} from "lucide-react";
 import {Input} from "@/_components/shadcn/input";
 import AuthNavigation from "@/_components/root/header/authNavigation";
 import LocationSearchBar from "@/_components/root/header/locationSearchBar";
-import GoogleApiProvider from "@/util/providers/googleApiProvider";
+import GoogleApiProvider from "@/lib/providers/googleApiProvider";
 
 type Place = google.maps.places.Place;
 

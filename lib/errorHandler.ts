@@ -5,7 +5,7 @@ import {
     isNetworkError,
     isProblemDetailError,
     isStandardError
-} from "@/util/types/apiTypes";
+} from "@/lib/apiTypes";
 
 const FALLBACK_MESSAGE = "Unknown error. Please try again";
 const FIELD_ALIASES: Record<string, string> = {

@@ -2,7 +2,7 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {carProfileApi} from "@/features/carProfile/carProfileApi";
 import {carProfileKeys} from "@/features/carProfile/keys";
 import {CarProfile, CarProfileForm} from "@/features/carProfile/carProfileTypes";
-import {ApiError} from "@/util/types/apiTypes";
+import {ApiError} from "@/lib/apiTypes";
 
 export function useCarProfiles(options?: { enabled?: boolean }) {
     const queryClient = useQueryClient();

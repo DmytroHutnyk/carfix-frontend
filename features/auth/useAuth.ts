@@ -1,7 +1,7 @@
 import {LoginCredentials, RegisterData, UseAuthReturn} from "@/features/auth/authTypes";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {authKeys} from "@/features/auth/keys";
-import {privateScope} from "@/util/api/scopes";
+import {privateScope} from "@/lib/scopes";
 import {authApi} from "@/features/auth/authApi"
 
 export function useAuth(): UseAuthReturn {

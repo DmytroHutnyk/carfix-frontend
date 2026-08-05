@@ -9,10 +9,10 @@ import {OrbitProgress} from "react-loading-indicators";
 import {useAuth} from "@/features/auth/useAuth";
 import {useUpdateCore} from "@/features/user/useUpdateCore";
 import {UpdateUserCore, updateUserCoreSchema} from "@/features/user/profileManagementTypes";
-import {toDisplayError} from "@/util/func/errorHandler";
-import {today, yearsFromToday} from "@/util/func/dateBounds";
-import {ApiError} from "@/util/types/apiTypes";
-import {cn} from "@/util/lib/utils";
+import {toDisplayError} from "@/lib/errorHandler";
+import {today, yearsFromToday} from "@/lib/dateBounds";
+import {ApiError} from "@/lib/apiTypes";
+import {cn} from "@/lib/utils";
 
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import {Field, FieldDescription, FieldError, FieldLabel} from "@/_components/shadcn/field";

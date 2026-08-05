@@ -13,8 +13,8 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {RegisterData, registerSchema} from "@/features/auth/authTypes";
 import {useAuth} from "@/features/auth/useAuth";
-import {toDisplayError} from "@/util/func/errorHandler";
-import {ApiError} from "@/util/types/apiTypes";
+import {toDisplayError} from "@/lib/errorHandler";
+import {ApiError} from "@/lib/apiTypes";
 
 const REGISTER_FIELDS = ["name", "surname", "phoneCountryCode", "phoneNumber", "email", "password"] as const;
 

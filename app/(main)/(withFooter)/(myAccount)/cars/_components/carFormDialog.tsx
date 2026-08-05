@@ -8,10 +8,10 @@ import {OrbitProgress} from "react-loading-indicators";
 import {CarProfile, CarProfileForm, carProfileFormSchema, ModelVersion} from "@/features/carProfile/carProfileTypes";
 import {useCarCatalog} from "@/features/carCatalog/useCarCatalog";
 import {useCarProfiles} from "@/features/carProfile/useCarProfiles";
-import {toDisplayError} from "@/util/func/errorHandler";
-import {yearsFromToday} from "@/util/func/dateBounds";
-import {ApiError} from "@/util/types/apiTypes";
-import {cn} from "@/util/lib/utils";
+import {toDisplayError} from "@/lib/errorHandler";
+import {yearsFromToday} from "@/lib/dateBounds";
+import {ApiError} from "@/lib/apiTypes";
+import {cn} from "@/lib/utils";
 
 import {Dialog, DialogContent, DialogHeader, DialogTitle} from "@/_components/shadcn/dialog";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";

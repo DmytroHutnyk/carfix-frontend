@@ -15,8 +15,8 @@ import {
     sortBookings,
     vehicleOptions,
 } from "@/features/booking/bookingList";
-import {toDisplayError} from "@/util/func/errorHandler";
-import {ApiError} from "@/util/types/apiTypes";
+import {toDisplayError} from "@/lib/errorHandler";
+import {ApiError} from "@/lib/apiTypes";
 
 import {Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle} from "@/_components/shadcn/empty";
 import FormErrorAlert from "@/_components/formErrorAlert";

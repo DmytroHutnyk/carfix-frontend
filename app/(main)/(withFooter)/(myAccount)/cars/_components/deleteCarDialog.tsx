@@ -4,8 +4,8 @@ import {useState} from "react";
 
 import {CarProfile} from "@/features/carProfile/carProfileTypes";
 import {useCarProfiles} from "@/features/carProfile/useCarProfiles";
-import {toDisplayError} from "@/util/func/errorHandler";
-import {ApiError} from "@/util/types/apiTypes";
+import {toDisplayError} from "@/lib/errorHandler";
+import {ApiError} from "@/lib/apiTypes";
 
 import {
     AlertDialog,

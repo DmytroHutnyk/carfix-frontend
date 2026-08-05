@@ -1,4 +1,4 @@
-import {PRIVATE_SCOPE} from "@/util/api/scopes";
+import {PRIVATE_SCOPE} from "@/lib/scopes";
 
 export const carProfileKeys = {
     all: [PRIVATE_SCOPE, 'carProfiles'] as const,

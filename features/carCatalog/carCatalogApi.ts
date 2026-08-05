@@ -1,5 +1,5 @@
-import {clientApi} from "@/util/api/clientApi";
-import {isApiError} from "@/util/types/apiTypes";
+import {clientApi} from "@/lib/clientApi";
+import {isApiError} from "@/lib/apiTypes";
 import {CarBrand, CarModel, ModelVersion} from "@/features/carProfile/carProfileTypes";
 
 export const carCatalogApi = {

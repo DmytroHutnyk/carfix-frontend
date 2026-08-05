@@ -6,8 +6,8 @@ import {CalendarDays, CircleCheck, MapPin, TriangleAlert} from "lucide-react";
 import {Booking} from "@/features/booking/bookingTypes";
 import {useBookings} from "@/features/booking/useBookings";
 import {formatBookingDate, formatTime, isPenaltyCancel} from "@/features/booking/bookingList";
-import {toDisplayError} from "@/util/func/errorHandler";
-import {ApiError} from "@/util/types/apiTypes";
+import {toDisplayError} from "@/lib/errorHandler";
+import {ApiError} from "@/lib/apiTypes";
 
 import {Dialog, DialogContent, DialogHeader, DialogTitle} from "@/_components/shadcn/dialog";
 import {Badge} from "@/_components/shadcn/badge";

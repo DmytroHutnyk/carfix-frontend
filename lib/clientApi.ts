@@ -5,7 +5,7 @@ import {
     NetworkError,
     ProblemDetailError,
     StandardError
-} from "@/util/types/apiTypes";
+} from "@/lib/apiTypes";
 
 async function parseResponse<T>(response: Response): Promise<T | ApiError> {
     const text = await response.text();

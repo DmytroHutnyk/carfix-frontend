@@ -11,7 +11,7 @@
 
 import {useEffect, useRef, useState} from 'react';
 import {useMapsLibrary} from '@vis.gl/react-google-maps';
-import {useLanguage, useSearchLocation} from "@/util/state/store";
+import {useLanguage, useSearchLocation} from "@/lib/store";
 type AutocompleteSessionToken = google.maps.places.AutocompleteSessionToken;
 type AutocompleteSuggestion = google.maps.places.AutocompleteSuggestion;
 type AutocompleteRequest = google.maps.places.AutocompleteRequest;
