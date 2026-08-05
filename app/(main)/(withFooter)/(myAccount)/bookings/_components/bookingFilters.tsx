@@ -2,8 +2,8 @@
 
 import {Search} from "lucide-react";
 
-import {BOOKING_STATUSES, BookingStatus} from "@/util/types/bookingTypes";
-import {BookingFilterState, EMPTY_FILTERS, STATUS_LABELS} from "@/util/func/bookingList";
+import {BOOKING_STATUSES, BookingStatus} from "@/features/booking/bookingTypes";
+import {BookingFilterState, EMPTY_FILTERS, STATUS_LABELS} from "@/features/booking/bookingList";
 
 import FilterBar from "@/_components/filterBar";
 import {Input} from "@/_components/shadcn/input";

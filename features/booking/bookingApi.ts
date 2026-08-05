@@ -1,6 +1,6 @@
 import {clientApi} from "@/util/api/clientApi";
 import {isApiError} from "@/util/types/apiTypes";
-import {Booking} from "@/util/types/bookingTypes";
+import {Booking} from "@/features/booking/bookingTypes";
 
 export const bookingApi = {
     async getMyBookings(): Promise<Booking[]> {

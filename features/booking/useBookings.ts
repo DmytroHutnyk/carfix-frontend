@@ -1,7 +1,7 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {bookingApi} from "@/util/api/booking/bookingApi";
-import {bookingKeys} from "@/util/api/booking/keys";
-import {Booking} from "@/util/types/bookingTypes";
+import {bookingApi} from "@/features/booking/bookingApi";
+import {bookingKeys} from "@/features/booking/keys";
+import {Booking} from "@/features/booking/bookingTypes";
 import {ApiError} from "@/util/types/apiTypes";
 
 export function useBookings(options?: { enabled?: boolean }) {

@@ -24,7 +24,7 @@ import DeleteCarDialog from "@/(main)/(withFooter)/(myAccount)/cars/_components/
 
 export default function Page() {
     // Login redirect is handled upstream: proxy.ts cookie pre-filter + RequireAuth in the
-    // (myAccount) layout. Role gating comes later — until then a non-customer just holds the spinner.
+    // (myAccount) layout. Role gating comes later, until then a non-customer just holds the spinner.
     const {account, isLoading: isAuthLoading} = useAuth();
     const isAuthorized = account !== null && isCustomer(account);
 

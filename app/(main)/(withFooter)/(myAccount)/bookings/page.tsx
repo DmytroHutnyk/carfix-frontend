@@ -6,15 +6,15 @@ import {CalendarX2} from "lucide-react";
 
 import {useAuth} from "@/util/hooks/useAuth";
 import {isCustomer} from "@/util/types/userTypes";
-import {useBookings} from "@/util/hooks/useBookings";
-import {Booking} from "@/util/types/bookingTypes";
+import {useBookings} from "@/features/booking/useBookings";
+import {Booking} from "@/features/booking/bookingTypes";
 import {
     BookingFilterState,
     EMPTY_FILTERS,
     filterBookings,
     sortBookings,
     vehicleOptions,
-} from "@/util/func/bookingList";
+} from "@/features/booking/bookingList";
 import {toDisplayError} from "@/util/func/errorHandler";
 import {ApiError} from "@/util/types/apiTypes";
 

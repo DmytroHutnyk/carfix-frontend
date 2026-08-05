@@ -3,7 +3,7 @@
 import Link from "next/link";
 import {Mail, Phone, SquareArrowOutUpRight} from "lucide-react";
 
-import {BookingBranch} from "@/util/types/bookingTypes";
+import {BookingBranch} from "@/features/booking/bookingTypes";
 import {Popover, PopoverContent, PopoverTrigger} from "@/_components/shadcn/popover";
 import {Button} from "@/_components/shadcn/button";
 import {Separator} from "@/_components/shadcn/separator";

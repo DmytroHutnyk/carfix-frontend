@@ -1,7 +1,7 @@
 import {CalendarDays, Car, MapPin} from "lucide-react";
 
-import {Booking, BookingStatus} from "@/util/types/bookingTypes";
-import {STATUS_LABELS, formatBookingDate, formatPrice, formatTime} from "@/util/func/bookingList";
+import {Booking, BookingStatus} from "@/features/booking/bookingTypes";
+import {STATUS_LABELS, formatBookingDate, formatPrice, formatTime} from "@/features/booking/bookingList";
 
 import {Card, CardContent} from "@/_components/shadcn/card";
 import {Badge} from "@/_components/shadcn/badge";

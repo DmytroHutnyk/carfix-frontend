@@ -1,5 +1,5 @@
 import {format} from "date-fns";
-import {Booking, BookingStatus} from "@/util/types/bookingTypes";
+import {Booking, BookingStatus} from "@/features/booking/bookingTypes";
 
 export type BookingFilterState = {
     query: string;

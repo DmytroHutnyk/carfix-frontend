@@ -3,9 +3,9 @@
 import {useState} from "react";
 import {CalendarDays, CircleCheck, MapPin, TriangleAlert} from "lucide-react";
 
-import {Booking} from "@/util/types/bookingTypes";
-import {useBookings} from "@/util/hooks/useBookings";
-import {formatBookingDate, formatTime, isPenaltyCancel} from "@/util/func/bookingList";
+import {Booking} from "@/features/booking/bookingTypes";
+import {useBookings} from "@/features/booking/useBookings";
+import {formatBookingDate, formatTime, isPenaltyCancel} from "@/features/booking/bookingList";
 import {toDisplayError} from "@/util/func/errorHandler";
 import {ApiError} from "@/util/types/apiTypes";
 
