@@ -72,8 +72,8 @@ export default function Page() {
                             type="text"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Search by name, VIN, or plate"
-                            className="w-72 pl-9"
+                            placeholder="Search name, brand, model, plate"
+                            className="w-80 pl-9"
                         />
                     </div>
 

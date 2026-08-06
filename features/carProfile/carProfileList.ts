@@ -11,9 +11,9 @@ export function filterCarProfiles(list: CarProfile[], query: string): CarProfile
     const q = query.trim().toLowerCase();
     if (!q) return list;
     return list.filter((c) =>
-        c.name.toLowerCase().includes(q) ||
-        (c.vin?.toLowerCase().includes(q) ?? false) ||
-        (c.plates?.toLowerCase().includes(q) ?? false)
+        [c.name, c.brandName, c.modelName, c.versionName, c.plates]
+            .filter((field): field is string => field !== null)
+            .some((field) => field.toLowerCase().includes(q))
     );
 }
 
