@@ -13,8 +13,8 @@ import {
     EMPTY_FILTERS,
     filterBookings,
     sortBookings,
-    vehicleOptions,
 } from "@/features/booking/bookingList";
+import {useCarProfiles} from "@/features/carProfile/useCarProfiles";
 import {toDisplayError} from "@/lib/errorHandler";
 import {ApiError} from "@/lib/apiTypes";
 
@@ -31,16 +31,24 @@ export default function Page() {
     const isAuthorized = account !== null && isCustomer(account);
 
     const {bookings, isLoading, isError, error} = useBookings({enabled: isAuthorized});
+    const {carProfiles, isLoading: isCarProfilesLoading} = useCarProfiles({enabled: isAuthorized});
 
     const [filters, setFilters] = useState<BookingFilterState>(EMPTY_FILTERS);
     const [cancelTarget, setCancelTarget] = useState<Booking | null>(null);
+
+    const vehicles = useMemo(
+        () => [...carProfiles]
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((c) => ({value: c.id, label: c.name})),
+        [carProfiles]
+    );
 
     const visibleBookings = useMemo(
         () => sortBookings(filterBookings(bookings, filters)),
         [bookings, filters]
     );
 
-    if (isAuthLoading || !isAuthorized || isLoading) {
+    if (isAuthLoading || !isAuthorized || isLoading || isCarProfilesLoading) {
         return (
             <div className="flex min-h-[50vh] items-center justify-center">
                 <OrbitProgress color="var(--primary)" size="large" text="" textColor="" dense/>
@@ -60,7 +68,7 @@ export default function Page() {
                 <BookingFilters
                     filters={filters}
                     onChange={setFilters}
-                    vehicles={vehicleOptions(bookings)}
+                    vehicles={vehicles}
                 />
             </section>
 

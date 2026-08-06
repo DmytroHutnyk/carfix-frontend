@@ -44,16 +44,6 @@ export function sortBookings(list: Booking[], now: Date = new Date()): Booking[]
     return [...upcoming, ...past];
 }
 
-export function vehicleOptions(list: Booking[]): { value: string; label: string }[] {
-    const seen = new Map<string, string>();
-    for (const b of list) {
-        if (!seen.has(b.vehicle.carProfileId)) {
-            seen.set(b.vehicle.carProfileId, b.vehicle.name);
-        }
-    }
-    return [...seen.entries()].map(([value, label]) => ({value, label}));
-}
-
 export function formatBookingDate(isoDate: string): string {
     return format(new Date(isoDate + "T00:00:00"), "EEE, MMM d, yyyy");
 }
