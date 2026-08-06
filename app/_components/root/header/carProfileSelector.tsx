@@ -1,30 +1,29 @@
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuTrigger
-} from "@/_components/shadcn/dropdown-menu";
-import {Car, ChevronDown} from "lucide-react";
-import * as React from "react";
+'use client'
+import {Car} from "lucide-react";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
+import {useSelectedCarProfile} from "@/features/carProfile/useSelectedCarProfile";
 
 export default function CarProfileSelector(){
-    return(
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <button className="group inline-flex h-9 w-50 items-center justify-start">
-                    <span className="inline-flex items-center justify-start gap-x-1 mr-10">
-                        <Car className="h-3.5 w-3.5" />
-                        <span className="text-sm font-medium">carProfile</span>
-                    </span>
-                    <ChevronDown className="h-3 w-3 text-muted-foreground transition duration-300 group-data-[state=open]:rotate-180" aria-hidden="true" />
-                </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-background w-72 p-3">
-                <DropdownMenuLabel className="flex items-center gap-2 px-0 pb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Select Car profile
-                </DropdownMenuLabel>
-            </DropdownMenuContent>
-        </DropdownMenu>
+    const {carProfiles, selectedCarProfile, selectCarProfile} = useSelectedCarProfile();
 
+    return(
+        <Select
+            value={selectedCarProfile?.id ?? ""}
+            onValueChange={selectCarProfile}
+        >
+            <SelectTrigger className="w-50 justify-start gap-x-1.5 [&>span]:min-w-0 [&>svg:last-of-type]:ml-auto [&>svg:last-of-type]:transition-transform [&>svg:last-of-type]:duration-300 data-[state=open]:[&>svg:last-of-type]:rotate-180">
+                <Car className="h-4 w-4 shrink-0"/>
+                <SelectValue placeholder="Select car"/>
+            </SelectTrigger>
+            <SelectContent align="start">
+                {carProfiles.length === 0 ? (
+                    <p className="px-2 py-1.5 text-sm text-muted-foreground">No car profiles yet</p>
+                ) : (
+                    carProfiles.map((c) => (
+                        <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+                    ))
+                )}
+            </SelectContent>
+        </Select>
     )
 }

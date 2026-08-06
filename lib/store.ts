@@ -39,3 +39,18 @@ export const useSearchLocation = create<SearchLocationStore>()(
         { name: 'search-location-storage'}
     )
 );
+
+type SelectedCarProfileStore = {
+    selectedCarProfileId: string | null;
+    setSelectedCarProfileId: (id: string) => void;
+};
+
+export const useSelectedCarProfileId = create<SelectedCarProfileStore>()(
+    persist(
+        (set) => ({
+            selectedCarProfileId: null,
+            setSelectedCarProfileId: (id) => set({ selectedCarProfileId: id }),
+        }),
+        { name: 'selected-car-profile-storage' }
+    )
+);
