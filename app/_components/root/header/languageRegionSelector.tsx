@@ -9,9 +9,9 @@ import {
     DropdownMenuTrigger
 } from "@/_components/shadcn/dropdown-menu";
 import {ChevronDown, Globe} from "lucide-react";
-import {cn} from "../../../../util/lib/utils";
-import {FLAG_PLACEHOLDERS, Language, LANGUAGES, Country, COUNTRIES, SearchLocation} from "@/util/types/appTypes";
-import {useLanguage, useSearchLocation} from "@/util/state/store";
+import {cn} from "@/lib/utils";
+import {FLAG_PLACEHOLDERS, Language, LANGUAGES, Country, COUNTRIES, SearchLocation} from "@/lib/appTypes";
+import {useLanguage, useSearchLocation} from "@/lib/store";
 
 const regionsByContinent = COUNTRIES.reduce<Record<string, Country[]>>((acc, region) => {
     (acc[region.continent] ??= []).push(region);

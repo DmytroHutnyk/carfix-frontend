@@ -12,7 +12,7 @@ import {
     InputGroupButton,
     InputGroupInput,
 } from "@/_components/shadcn/input-group";
-import {cn} from "@/util/lib/utils";
+import {cn} from "@/lib/utils";
 
 const ComboboxInputGroupContext = React.createContext<React.RefObject<HTMLDivElement | null> | null>(null)
 

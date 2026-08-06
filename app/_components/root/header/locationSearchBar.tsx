@@ -9,8 +9,8 @@ import {
     ComboboxList
 } from "@/_components/shadcn/combobox";
 import {useCallback, useMemo, useRef, useState} from "react";
-import {useAutocompleteSuggestions} from "@/util/hooks/use-autocomplete-suggestions";
-import {useSearchLocation} from "@/util/state/store";
+import {useAutocompleteSuggestions} from "@/lib/use-autocomplete-suggestions";
+import {useSearchLocation} from "@/lib/store";
 
 type PlacePrediction = google.maps.places.PlacePrediction;
 

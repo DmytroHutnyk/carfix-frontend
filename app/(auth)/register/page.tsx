@@ -2,19 +2,27 @@
 
 import {Card, CardContent, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import {Button} from "@/_components/shadcn/button";
-import {AlertCircle, Eye, EyeOff, X} from "lucide-react";
+import {Eye, EyeOff, X} from "lucide-react";
 import {useRouter} from "next/navigation";
 import {Input} from "@/_components/shadcn/input";
 import {useState} from "react";
 import CountryCodeInput from "@/(auth)/register/_components/countryCodeInput";
-import {Alert, AlertDescription} from "@/_components/shadcn/alert";
+import FormErrorAlert from "@/_components/formErrorAlert";
 import {OrbitProgress} from "react-loading-indicators";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {RegisterData, registerSchema} from "@/util/types/authTypes";
-import {useAuth} from "@/util/hooks/useAuth";
-import {handleError} from "@/util/func/errorHandler";
-import {ApiError} from "@/util/types/apiTypes";
+import {RegisterData, registerSchema} from "@/features/auth/authTypes";
+import {useAuth} from "@/features/auth/useAuth";
+import {toDisplayError} from "@/lib/errorHandler";
+import {ApiError} from "@/lib/apiTypes";
+
+const REGISTER_FIELDS = ["name", "surname", "phoneCountryCode", "phoneNumber", "email", "password"] as const;
+
+type RegisterField = typeof REGISTER_FIELDS[number];
+
+function isRegisterField(field: string): field is RegisterField {
+    return (REGISTER_FIELDS as readonly string[]).includes(field);
+}
 
 export default function Register(){
     const [dropDownValue, setDropDownValue] = useState<string>("");
@@ -29,6 +37,7 @@ export default function Register(){
          handleSubmit,
          formState: { errors, isSubmitting },
          setValue: setFormValue,
+         setError: setFieldError,
     } = useForm<RegisterData>({
          resolver: zodResolver(registerSchema),
          mode: "onSubmit"
@@ -41,7 +50,13 @@ export default function Register(){
             await auth.register(registerData);
             router.back();
         } catch (err) {
-            handleError(err as ApiError, setError);
+            const displayError = toDisplayError(err as ApiError);
+
+            if (displayError.field && isRegisterField(displayError.field)) {
+                setFieldError(displayError.field, { message: displayError.message }, { shouldFocus: true });
+            } else {
+                setError(displayError.message);
+            }
         }
     }
 
@@ -193,12 +208,7 @@ export default function Register(){
                             )}
                         </div>
 
-                        {error && (
-                            <Alert variant="destructive">
-                                <AlertCircle className="h-4 w-4" />
-                                <AlertDescription className="whitespace-pre-line">{error}</AlertDescription>
-                            </Alert>
-                        )}
+                        <FormErrorAlert message={error} />
 
                         <Button
                             type="submit"

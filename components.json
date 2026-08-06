@@ -13,10 +13,10 @@
   "iconLibrary": "lucide",
   "aliases": {
     "components": "@/_components",
-    "utils": "@/util/lib/utils",
+    "utils": "@/lib/utils",
     "ui": "@/_components/shadcn",
-    "lib": "@/util/lib",
-    "hooks": "@/util/hooks"
+    "lib": "@/lib",
+    "hooks": "@/lib"
   },
   "registries": {}
 }

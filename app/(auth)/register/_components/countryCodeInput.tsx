@@ -4,8 +4,8 @@ import {Button} from "@/_components/shadcn/button";
 import {Check, ChevronsUpDown} from "lucide-react";
 import {Popover, PopoverContent} from "@/_components/shadcn/popover";
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/_components/shadcn/command";
-import {COUNTRY_CODES} from "@/util/countryCodes";
-import {cn} from "../../../../util/lib/utils";
+import {COUNTRY_CODES} from "@/lib/countryCodes";
+import {cn} from "@/lib/utils";
 
 export default function CountryCodeInput({value, setValue} : {value: string, setValue: (value: string) => void}) {
     const [open, setOpen] = useState<boolean>(false);
