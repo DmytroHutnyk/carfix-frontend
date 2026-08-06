@@ -39,3 +39,11 @@ export const FLAG_PLACEHOLDERS: Record<CountryCode, string> = {
     PL: "🇵🇱", DE: "🇩🇪", FR: "🇫🇷", ES: "🇪🇸",
     IT: "🇮🇹", GB: "🇬🇧", UA: "🇺🇦", US: "🇺🇸", CA: "🇨🇦",
 };
+
+/* Inclusive date range used by filters; ISO date strings ("2026-08-12"), nulls mean unbounded */
+export interface DateRangeValue {
+    from: string | null;
+    to: string | null;
+}
+
+export const EMPTY_DATE_RANGE: DateRangeValue = {from: null, to: null};

@@ -1,13 +1,20 @@
 import {format} from "date-fns";
 import {Booking, BookingStatus} from "@/features/booking/bookingTypes";
+import {DateRangeValue, EMPTY_DATE_RANGE} from "@/lib/appTypes";
 
 export type BookingFilterState = {
     query: string;
     carProfileId: string;          // "all" or a carProfileId
     status: BookingStatus | "all";
+    dateRange: DateRangeValue;     // inclusive on both ends; nulls mean "unbounded"
 };
 
-export const EMPTY_FILTERS: BookingFilterState = {query: "", carProfileId: "all", status: "all"};
+export const EMPTY_FILTERS: BookingFilterState = {
+    query: "",
+    carProfileId: "all",
+    status: "all",
+    dateRange: EMPTY_DATE_RANGE,
+};
 
 export const STATUS_LABELS: Record<BookingStatus, string> = {
     SCHEDULED: "Scheduled",
@@ -21,8 +28,10 @@ export function filterBookings(list: Booking[], filters: BookingFilterState): Bo
     return list.filter((b) => {
         if (filters.carProfileId !== "all" && b.vehicle.carProfileId !== filters.carProfileId) return false;
         if (filters.status !== "all" && b.status !== filters.status) return false;
+        if (filters.dateRange.from && b.date < filters.dateRange.from) return false;
+        if (filters.dateRange.to && b.date > filters.dateRange.to) return false;
         if (!q) return true;
-        const haystack = [b.branch.name, b.branch.streetName, b.branch.buildingNumber, b.branch.city]
+        const haystack = [b.branch.name, ...b.services.map((s) => s.name)]
             .join(" ")
             .toLowerCase();
         return haystack.includes(q);

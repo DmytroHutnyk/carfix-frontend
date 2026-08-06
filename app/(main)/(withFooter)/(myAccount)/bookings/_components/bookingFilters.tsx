@@ -6,6 +6,7 @@ import {BOOKING_STATUSES, BookingStatus} from "@/features/booking/bookingTypes";
 import {BookingFilterState, EMPTY_FILTERS, STATUS_LABELS} from "@/features/booking/bookingList";
 
 import FilterBar from "@/_components/filterBar";
+import DateRangePicker from "@/_components/dateRangePicker";
 import {Input} from "@/_components/shadcn/input";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 
@@ -22,7 +23,7 @@ export default function BookingFilters({filters, onChange, vehicles}: {
                     type="text"
                     value={filters.query}
                     onChange={(e) => onChange({...filters, query: e.target.value})}
-                    placeholder="Search service point or address"
+                    placeholder="Search service point or service"
                     className="w-72 pl-9"
                 />
             </div>
@@ -41,6 +42,12 @@ export default function BookingFilters({filters, onChange, vehicles}: {
                     ))}
                 </SelectContent>
             </Select>
+
+            <DateRangePicker
+                className="w-64"
+                value={filters.dateRange}
+                onChange={(dateRange) => onChange({...filters, dateRange})}
+            />
 
             <Select
                 value={filters.status}
