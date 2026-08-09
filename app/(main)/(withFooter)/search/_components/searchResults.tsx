@@ -1,13 +1,13 @@
 "use client"
 
 import {SearchX} from "lucide-react";
-import Link from "next/link";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {useMemo} from "react";
 
 import {useWorkshopSearch} from "@/features/search/useWorkshopSearch";
 import {parseInitialPage, parseSearchParams} from "@/features/search/searchUrl";
-import {composeEmptyMessage, composeTitle} from "@/features/search/searchList";
+import {composeEmptyMessage, composeTitle, SEARCH_SORTS} from "@/features/search/searchList";
+import {countryName} from "@/lib/appTypes";
 import {toDisplayError} from "@/lib/errorHandler";
 import {isApiError} from "@/lib/apiTypes";
 
@@ -35,18 +35,29 @@ export default function SearchResults() {
         hasNextPage, isFetchingNextPage, fetchNextPage,
     } = useWorkshopSearch(params, initialPage);
 
-    /* The empty state's "Clear filters" drops everything that narrowed the search but KEEPS the
-       location — that is what separates it from "Browse all workshops", which drops that too.
-       (The Filters popover has its own narrower clear, scoped to what that panel edits.) */
-    const CLEARABLE = ["q", "serviceName", "categoryId", "carProfileId", "radiusKm"] as const;
-    const hasClearableFilters = CLEARABLE.some((key) => searchParams.has(key));
+    /* Everything that narrows a search. Location is deliberately not here — keeping it is
+       what makes "Clear filters" different from "Browse all workshops". */
+    const NARROWING = ["q", "serviceName", "categoryId", "label", "pinnedBranchId", "carProfileId", "radiusKm"] as const;
+    const hasNarrowingFilters = NARROWING.some((key) => searchParams.has(key));
+    const hasPlaceFilter = searchParams.has("city") || searchParams.has("voivodeship");
 
     const clearFilters = () => {
         const next = new URLSearchParams(searchParams);
-        CLEARABLE.forEach((key) => next.delete(key));
+        NARROWING.forEach((key) => next.delete(key));
         next.delete("page");
-        const qs = next.toString();
-        router.push(qs ? `${pathname}?${qs}` : pathname);
+        router.push(`${pathname}?${next.toString()}`);
+    };
+
+    /* Drops the city as well, so only the region selector's country is left. Distance has
+       nothing to rank around once the city is gone, so the sort goes back to name. */
+    const browseCountry = () => {
+        const next = new URLSearchParams(searchParams);
+        NARROWING.forEach((key) => next.delete(key));
+        next.delete("city");
+        next.delete("voivodeship");
+        next.delete("page");
+        next.set("sort", SEARCH_SORTS.NAME);
+        router.push(`${pathname}?${next.toString()}`);
     };
 
     return (
@@ -103,13 +114,17 @@ export default function SearchResults() {
                             <EmptyDescription>Try different search terms or another location.</EmptyDescription>
                         </EmptyHeader>
                         <EmptyContent>
-                            <div className="flex gap-2">
-                                {/* Hidden when there is nothing to clear — a no-op button reads as broken */}
-                                {hasClearableFilters && (
-                                    <Button variant="outline" onClick={clearFilters}>Clear filters</Button>
+                            <div className="flex flex-wrap justify-center gap-2">
+                                {/* Only offered when it would actually change the URL — a no-op button reads as broken.
+                                    Hidden when there is no place to keep, because it would then do exactly what the
+                                    button beside it does. */}
+                                {hasNarrowingFilters && hasPlaceFilter && (
+                                    <Button variant="outline" onClick={clearFilters}>
+                                        Clear filters, keep {params.city ?? params.voivodeship}
+                                    </Button>
                                 )}
-                                <Button asChild>
-                                    <Link href="/search">Browse all workshops</Link>
+                                <Button onClick={browseCountry}>
+                                    Browse all workshops in {countryName(params.country) ?? "the country"}
                                 </Button>
                             </div>
                         </EmptyContent>
@@ -117,7 +132,13 @@ export default function SearchResults() {
                 )}
 
                 {!isLoading && results.map((workshop) => (
-                    <WorkshopResultCard key={workshop.branchId} workshop={workshop}/>
+                    <WorkshopResultCard
+                        key={workshop.branchId}
+                        workshop={workshop}
+                        /* The backend already orders it first (ORDER BY pinned DESC); this is
+                           only what tells the customer which one they clicked. */
+                        pinned={workshop.branchId === params.pinnedBranchId}
+                    />
                 ))}
 
                 {hasNextPage && (
