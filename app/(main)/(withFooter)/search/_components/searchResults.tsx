@@ -13,10 +13,13 @@ import {isApiError} from "@/lib/apiTypes";
 
 import {Button} from "@/_components/shadcn/button";
 import {Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle} from "@/_components/shadcn/empty";
+import {Spinner} from "@/_components/shadcn/spinner";
 import FormErrorAlert from "@/_components/formErrorAlert";
 import WorkshopResultCard from "@/(main)/(withFooter)/search/_components/workshopResultCard";
 import ResultCardSkeleton from "@/(main)/(withFooter)/search/_components/resultCardSkeleton";
 import SearchControls from "@/(main)/(withFooter)/search/_components/searchControls";
+import ActiveFilters from "@/(main)/(withFooter)/search/_components/activeFilters";
+import {cn} from "@/lib/utils";
 
 export default function SearchResults() {
     const router = useRouter();
@@ -28,7 +31,7 @@ export default function SearchResults() {
 
     const {
         results, echo, total,
-        isLoading, isError, error,
+        isLoading, isFetching, isError, error,
         hasNextPage, isFetchingNextPage, fetchNextPage,
     } = useWorkshopSearch(params, initialPage);
 
@@ -53,16 +56,32 @@ export default function SearchResults() {
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">{composeTitle(echo)}</h1>
                     {total != null && (
-                        <p className="text-muted-foreground">
-                            {total} {total === 1 ? "workshop" : "workshops"}
+                        <p className="flex items-center gap-2 text-muted-foreground">
+                            <span>{total} {total === 1 ? "workshop" : "workshops"}</span>
+                            {/* The list below keeps the previous results while refetching, so
+                                without this a filter change looks like nothing happened. */}
+                            {isFetching && !isFetchingNextPage && (
+                                <span className="flex items-center gap-1.5 text-sm">
+                                    <Spinner className="h-3.5 w-3.5"/>
+                                    Updating…
+                                </span>
+                            )}
                         </p>
                     )}
                 </div>
                 <SearchControls params={params}/>
             </section>
 
+            <ActiveFilters params={params}/>
+
             {/*-==-==-=-=-=-=--==-=-=-=-Results-==-==-=-=-=-=-=-=-=---==*/}
-            <section className="flex flex-col gap-4 pt-4">
+            <section
+                aria-busy={isFetching}
+                className={cn(
+                    "flex flex-col gap-4 pt-4 transition-opacity",
+                    isFetching && !isFetchingNextPage && "opacity-60"
+                )}
+            >
                 {/* useInfiniteQuery types its error as Error, so narrow instead of casting —
                     searchApi throws ApiError values, anything else falls back to a generic message. */}
                 {isError && (
