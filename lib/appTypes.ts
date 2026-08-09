@@ -11,7 +11,9 @@ type Continent = "Europe" | "North America";
 export interface SearchLocation {
     city: string | null,
     region: string | null,
-    country: CountryCode
+    country: CountryCode,
+    lat: number | null,
+    lng: number | null,
 }
 
 export interface Country {

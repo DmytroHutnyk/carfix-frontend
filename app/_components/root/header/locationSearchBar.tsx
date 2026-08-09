@@ -60,6 +60,7 @@ export default function LocationSearchBar() {
                 })
                 .then((response) => {
                     const result = response.results[0];
+                    const coordinates = result?.geometry.location ?? null;
 
                     const components = result?.address_components ?? [];
 
@@ -79,7 +80,9 @@ export default function LocationSearchBar() {
 
                     setSearchLocation({
                         region: region,
-                        city: locality
+                        city: locality,
+                        lat: coordinates ? coordinates.lat() : null,
+                        lng: coordinates ? coordinates.lng() : null,
                     })
                     setInputValue('');
                 });
