@@ -5,7 +5,10 @@ export default function WithFooterLayout({ children }: {
 }) {
     return (
         <>
-            {children}
+            {/* flex-1 inside the column from (main)/layout.tsx: short pages grow, the footer lands at the bottom */}
+            <div className="flex-1">
+                {children}
+            </div>
             <Footer/>
         </>
     )
