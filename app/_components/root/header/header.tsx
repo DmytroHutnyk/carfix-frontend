@@ -1,11 +1,8 @@
 "use client"
+import {Suspense} from "react";
 import Logo from "@/_components/root/header/logo";
-import SearchBar from "@/_components/root/header/searchBar";
+import SearchRow from "@/_components/root/header/searchRow";
 import AuthNavigation from "@/_components/root/header/authNavigation";
-import LocationSearchBar from "@/_components/root/header/locationSearchBar";
-import GoogleApiProvider from "@/lib/providers/googleApiProvider";
-
-type Place = google.maps.places.Place;
 
 export default function Header() {
 
@@ -16,19 +13,12 @@ export default function Header() {
                 {/* Logo and slogan*/}
                 <Logo/>
 
-                {/* Search + location */}
-                <div className="flex flex-1 items-center gap-3">
-
-                    <div className="flex-1">
-                        <SearchBar/>
-                    </div>
-
-                    <div className="relative w-56">
-                        <GoogleApiProvider>
-                            <LocationSearchBar/>
-                        </GoogleApiProvider>
-                    </div>
-                </div>
+                {/* Search + location + submit. SearchRow reads useSearchParams, which needs a
+                    Suspense boundary or every page under this layout is forced out of static
+                    rendering at build time. */}
+                <Suspense fallback={<div className="flex-1"/>}>
+                    <SearchRow/>
+                </Suspense>
 
                 {/* Buttons for LoggedIn user and for guest*/}
                 <AuthNavigation/>
