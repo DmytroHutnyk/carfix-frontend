@@ -16,6 +16,9 @@ import {useRouter} from "next/navigation";
 import {MIN_QUERY_LENGTH, useSearchSuggestions} from "@/features/search/useSearchSuggestions";
 import {SearchSuggestion} from "@/features/search/searchTypes";
 import {useDebouncedValue} from "@/lib/use-debounced-value";
+import {Button} from "@/_components/shadcn/button";
+import {useSearchLocation} from "@/lib/store";
+import {buildSearchUrl} from "@/features/search/searchUrl";
 
 type SuggestionGroup = {
     label: string;
@@ -34,6 +37,7 @@ export default function SearchBar() {
     const [inputValue, setInputValue] = useState('');
     const [open, setOpen] = useState(false);
     const router = useRouter();
+    const searchLocation = useSearchLocation((s) => s.searchLocation);
 
     const debouncedQuery = useDebouncedValue(inputValue.trim(), 300);
     const {suggestions, isLoading} = useSearchSuggestions(debouncedQuery);
@@ -67,17 +71,17 @@ export default function SearchBar() {
             if (!suggestion) return;
             switch (suggestion.kind) {
                 case "service":
-                    router.push(`/search?serviceName=${encodeURIComponent(suggestion.name)}`);
+                    router.push(buildSearchUrl({kind: "service", serviceName: suggestion.name}, searchLocation));
                     break;
                 case "category":
-                    router.push(`/search?categoryId=${suggestion.categoryId}`);
+                    router.push(buildSearchUrl({kind: "category", categoryId: suggestion.categoryId}, searchLocation));
                     break;
                 case "workshop":
                     router.push(`/workshops/${suggestion.branchId}`);
                     break;
             }
         },
-        [router]
+        [router, searchLocation]
     );
 
     const handleFreeTextSearch = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -85,65 +89,81 @@ export default function SearchBar() {
         const text = inputValue.trim();
         if (text.length < MIN_QUERY_LENGTH) return;
         setOpen(false);
-        router.push(`/search?q=${encodeURIComponent(text)}`);
+        router.push(buildSearchUrl({kind: "text", q: text}, searchLocation));
+    };
+
+    const handleSearchClick = () => {
+        const text = inputValue.trim();
+        setOpen(false);
+        router.push(buildSearchUrl(
+            text.length >= MIN_QUERY_LENGTH ? {kind: "text", q: text} : {kind: "browse"},
+            searchLocation));
     };
 
     return (
-        <Combobox
-            items={groups}
-            open={open}
-            onOpenChange={setOpen}
-            filter={null}
-            onInputValueChange={setInputValue}
-            onValueChange={handleSelect}
-            itemToStringLabel={(suggestion: SearchSuggestion) => suggestion.name}
-        >
-            <ComboboxInput
-                placeholder="Search services..."
-                startAddon={<Search className="h-4 w-4"/>}
-                disableChevron
-                showClear
-                onKeyDown={handleFreeTextSearch}
-            />
-            <ComboboxContent className="w-[min(40rem,var(--available-width))]">
-                <ComboboxEmpty>
-                    {inputValue.trim().length < MIN_QUERY_LENGTH
-                        ? "Type at least 2 characters to search"
-                        : isLoading ? "Searching..." : "No results found"}
-                </ComboboxEmpty>
-                <ComboboxList>
-                    {(group: SuggestionGroup) => (
-                        <ComboboxGroup key={group.label} items={group.items}>
-                            <ComboboxLabel>{group.label}</ComboboxLabel>
-                            <ComboboxCollection>
-                                {(item: SearchSuggestion) => (
-                                    <ComboboxItem key={suggestionKey(item)} value={item}>
-                                        {item.kind === "service" && (
-                                            <>
-                                                <Wrench className="text-muted-foreground"/>
-                                                <span>{item.name}</span>
-                                                <span className="ml-auto text-xs text-muted-foreground">{item.categoryName}</span>
-                                            </>
+        <div className="flex items-center gap-2">
+            <div className="flex-1">
+                <Combobox
+                    items={groups}
+                    open={open}
+                    onOpenChange={setOpen}
+                    filter={null}
+                    onInputValueChange={setInputValue}
+                    onValueChange={handleSelect}
+                    itemToStringLabel={(suggestion: SearchSuggestion) => suggestion.name}
+                >
+                    <ComboboxInput
+                        placeholder="Search services..."
+                        startAddon={<Search className="h-4 w-4"/>}
+                        disableChevron
+                        showClear
+                        onKeyDown={handleFreeTextSearch}
+                    />
+                    <ComboboxContent className="w-[min(40rem,var(--available-width))]">
+                        <ComboboxEmpty>
+                            {inputValue.trim().length < MIN_QUERY_LENGTH
+                                ? "Type at least 2 characters to search"
+                                : isLoading ? "Searching..." : "No results found"}
+                        </ComboboxEmpty>
+                        <ComboboxList>
+                            {(group: SuggestionGroup) => (
+                                <ComboboxGroup key={group.label} items={group.items}>
+                                    <ComboboxLabel>{group.label}</ComboboxLabel>
+                                    <ComboboxCollection>
+                                        {(item: SearchSuggestion) => (
+                                            <ComboboxItem key={suggestionKey(item)} value={item}>
+                                                {item.kind === "service" && (
+                                                    <>
+                                                        <Wrench className="text-muted-foreground"/>
+                                                        <span>{item.name}</span>
+                                                        <span className="ml-auto text-xs text-muted-foreground">{item.categoryName}</span>
+                                                    </>
+                                                )}
+                                                {item.kind === "category" && (
+                                                    <>
+                                                        <Tag className="text-muted-foreground"/>
+                                                        <span>{item.name}</span>
+                                                    </>
+                                                )}
+                                                {item.kind === "workshop" && (
+                                                    <>
+                                                        <Store className="text-muted-foreground"/>
+                                                        <span>{item.name}</span>
+                                                    </>
+                                                )}
+                                            </ComboboxItem>
                                         )}
-                                        {item.kind === "category" && (
-                                            <>
-                                                <Tag className="text-muted-foreground"/>
-                                                <span>{item.name}</span>
-                                            </>
-                                        )}
-                                        {item.kind === "workshop" && (
-                                            <>
-                                                <Store className="text-muted-foreground"/>
-                                                <span>{item.name}</span>
-                                            </>
-                                        )}
-                                    </ComboboxItem>
-                                )}
-                            </ComboboxCollection>
-                        </ComboboxGroup>
-                    )}
-                </ComboboxList>
-            </ComboboxContent>
-        </Combobox>
+                                    </ComboboxCollection>
+                                </ComboboxGroup>
+                            )}
+                        </ComboboxList>
+                    </ComboboxContent>
+                </Combobox>
+            </div>
+            <Button onClick={handleSearchClick}>
+                <Search className="h-4 w-4"/>
+                Search
+            </Button>
+        </div>
     );
 }
