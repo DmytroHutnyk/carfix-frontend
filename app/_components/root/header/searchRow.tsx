@@ -42,9 +42,11 @@ export default function SearchRow() {
     const params = useMemo(() => parseSearchParams(searchParams), [searchParams]);
     const onResultsPage = pathname === "/search";
 
-    /* On /search the URL wins, so a shared link shows the location it actually searched.
-       Everywhere else the persisted store is all there is. */
-    const location: SearchLocation = onResultsPage && params.city
+    /* On /search the URL wins, so a shared link shows the location it actually searched —
+       including when it searched no city at all, which is what lets "Browse all workshops
+       in Poland" leave the location field empty. Everywhere else the persisted store is
+       all there is. */
+    const location: SearchLocation = onResultsPage
         ? {
             city: params.city,
             region: params.voivodeship,
