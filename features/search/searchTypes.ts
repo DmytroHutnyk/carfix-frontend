@@ -77,11 +77,20 @@ export interface WorkshopSearchParams {
     q: string | null;
     serviceName: string | null;
     categoryId: number | null;
+    /* Display text for the search field. Set only for a category search, where the URL
+       carries an id the header cannot render. The page title comes from the echo, never
+       from this. */
+    label: string | null;
     city: string | null;
     voivodeship: string | null;
+    /* 2-letter ISO code from the region selector */
+    country: string | null;
     lat: number | null;
     lng: number | null;
     radiusKm: number | null;
     carProfileId: string | null;
+    sort: string | null;
+    /* Ordered first and highlighted; set when a workshop suggestion was picked */
+    pinnedBranchId: string | null;
     size: number | null;
 }
