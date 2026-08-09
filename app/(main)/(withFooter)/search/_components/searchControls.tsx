@@ -2,12 +2,15 @@
 
 import {ArrowUpDown, SlidersHorizontal} from "lucide-react";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import {useMemo, useState} from "react";
+import {useMemo} from "react";
 
 import {useAuth} from "@/features/auth/useAuth";
 import {useCarProfiles} from "@/features/carProfile/useCarProfiles";
 import {WorkshopSearchParams} from "@/features/search/searchTypes";
+import {SEARCH_SORTS} from "@/features/search/searchList";
+import {useUrlDraft} from "@/lib/use-url-draft";
 
+import {Badge} from "@/_components/shadcn/badge";
 import {Button} from "@/_components/shadcn/button";
 import {Label} from "@/_components/shadcn/label";
 import {Popover, PopoverContent, PopoverTrigger} from "@/_components/shadcn/popover";
@@ -31,7 +34,11 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
     );
 
     const hasCoords = params.lat != null && params.lng != null;
-    const [radius, setRadius] = useState(params.radiusKm ?? DEFAULT_RADIUS_KM);
+    /* The slider is dragged locally but the URL owns the committed value; the draft is
+       dropped the moment the URL changes, so a page-level clear resets it too. */
+    const [radius, setRadius] = useUrlDraft(params.radiusKm ?? DEFAULT_RADIUS_KM);
+
+    const activeFilterCount = (params.radiusKm != null ? 1 : 0) + (params.carProfileId ? 1 : 0);
 
     const setParam = (key: string, value: string | null) => {
         const next = new URLSearchParams(searchParams);
@@ -45,22 +52,20 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
         next.delete("carProfileId");
         next.delete("radiusKm");
         next.delete("page");
-        setRadius(DEFAULT_RADIUS_KM);
         router.push(`${pathname}?${next.toString()}`);
     };
 
     return (
         <div className="flex items-center gap-2">
-            {/* No sort param exists yet (spec §4): the active order is a fact of the request
-                (coords → distance, otherwise name), so the control reports it and disables the rest. */}
-            <Select value={hasCoords ? "distance" : "name"}>
+            {/* Distance needs a centre to measure from; every other combination is choosable. */}
+            <Select value={params.sort ?? SEARCH_SORTS.NAME} onValueChange={(value) => setParam("sort", value)}>
                 <SelectTrigger className="w-40">
                     <ArrowUpDown className="h-4 w-4"/>
                     <SelectValue/>
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value="distance" disabled={!hasCoords}>Distance</SelectItem>
-                    <SelectItem value="name" disabled={hasCoords}>Name A–Z</SelectItem>
+                    <SelectItem value={SEARCH_SORTS.DISTANCE} disabled={!hasCoords}>Distance</SelectItem>
+                    <SelectItem value={SEARCH_SORTS.NAME}>Name A–Z</SelectItem>
                 </SelectContent>
             </Select>
 
@@ -69,6 +74,9 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
                     <Button variant="outline">
                         <SlidersHorizontal className="h-4 w-4"/>
                         Filters
+                        {activeFilterCount > 0 && (
+                            <Badge variant="secondary" className="ml-1 tabular-nums">{activeFilterCount}</Badge>
+                        )}
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent align="end" className="flex w-72 flex-col gap-4">
@@ -113,7 +121,9 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
                         </p>
                     )}
 
-                    <Button variant="outline" onClick={clearFilters}>Clear filters</Button>
+                    <Button variant="outline" onClick={clearFilters} disabled={activeFilterCount === 0}>
+                        Clear filters
+                    </Button>
                 </PopoverContent>
             </Popover>
         </div>
