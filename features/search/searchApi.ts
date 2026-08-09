@@ -24,12 +24,15 @@ export const searchApi = {
         if (params.categoryId != null) query.set("categoryId", String(params.categoryId));
         if (params.city) query.set("city", params.city);
         if (params.voivodeship) query.set("voivodeship", params.voivodeship);
+        if (params.country) query.set("country", params.country);
         if (params.lat != null && params.lng != null) {
             query.set("lat", String(params.lat));
             query.set("lng", String(params.lng));
         }
         if (params.radiusKm != null) query.set("radiusKm", String(params.radiusKm));
         if (params.carProfileId) query.set("carProfileId", params.carProfileId);
+        if (params.sort) query.set("sort", params.sort);
+        if (params.pinnedBranchId) query.set("pinnedBranchId", params.pinnedBranchId);
         if (params.size != null) query.set("size", String(params.size));
         query.set("page", String(page));
         const result = await clientApi.get<WorkshopSearchPage>(`/search/workshops?${query.toString()}`);
