@@ -10,7 +10,7 @@ import {
 } from "@/_components/shadcn/combobox";
 import {useCallback, useMemo, useRef} from "react";
 import {useAutocompleteSuggestions} from "@/lib/use-autocomplete-suggestions";
-import {CountryCode} from "@/lib/appTypes";
+import {CountryCode, isCountryCode} from "@/lib/appTypes";
 
 type PlacePrediction = google.maps.places.PlacePrediction;
 
@@ -33,9 +33,10 @@ interface LocationSearchBarProps {
     value: string;
     onValueChange: (value: string) => void;
     onPlaceSelected: (place: PickedPlace) => void;
+    onCleared: () => void;
 }
 
-export default function LocationSearchBar({value, onValueChange, onPlaceSelected}: LocationSearchBarProps) {
+export default function LocationSearchBar({value, onValueChange, onPlaceSelected, onCleared}: LocationSearchBarProps) {
     const {suggestions, resetSession} = useAutocompleteSuggestions(value);
     const geocoderRef = useRef<google.maps.Geocoder | null>(null);
 
@@ -77,13 +78,14 @@ export default function LocationSearchBar({value, onValueChange, onPlaceSelected
                     const components = result?.address_components ?? [];
 
                     const find = (type: string) => components.find(c => c.types.includes(type));
+                    const countryCode = find("country")?.short_name;
 
                     onPlaceSelected({
                         city: find("locality")?.long_name ?? null,
                         region: find("administrative_area_level_1")?.long_name ?? null,
                         /* short_name is the ISO code — the same alphabet the region selector
                            and the backend country filter speak. */
-                        country: (find("country")?.short_name as CountryCode | undefined) ?? null,
+                        country: isCountryCode(countryCode) ? countryCode : null,
                         lat: coordinates ? coordinates.lat() : null,
                         lng: coordinates ? coordinates.lng() : null,
                     });
@@ -96,7 +98,13 @@ export default function LocationSearchBar({value, onValueChange, onPlaceSelected
         <Combobox
             items={predictions}
             inputValue={value}
-            onInputValueChange={onValueChange}
+            onInputValueChange={(next, details) => {
+                /* On close the combobox force-writes the selected item's label (or "") back
+                   into the input; those two reasons are only ever that write. */
+                if (details.reason === "none" || details.reason === "input-clear") return;
+                onValueChange(next);
+                if (next === "") onCleared();
+            }}
             onValueChange={handleSelect}
             itemToStringLabel={suggestionLabel}
         >

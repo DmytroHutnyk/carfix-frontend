@@ -7,7 +7,7 @@ import {useMemo} from "react";
 import {useWorkshopSearch} from "@/features/search/useWorkshopSearch";
 import {parseInitialPage, parseSearchParams} from "@/features/search/searchUrl";
 import {composeEmptyMessage, composeTitle, SEARCH_SORTS} from "@/features/search/searchList";
-import {countryName} from "@/lib/appTypes";
+import {countryName, COUNTRY_CENTERS, isCountryCode} from "@/lib/appTypes";
 import {toDisplayError} from "@/lib/errorHandler";
 import {isApiError} from "@/lib/apiTypes";
 
@@ -53,6 +53,14 @@ export default function SearchResults() {
         next.delete("city");
         next.delete("voivodeship");
         next.delete("page");
+        if (isCountryCode(params.country)) {
+            const center = COUNTRY_CENTERS[params.country];
+            next.set("lat", String(center.lat));
+            next.set("lng", String(center.lng));
+        } else {
+            next.delete("lat");
+            next.delete("lng");
+        }
         next.set("sort", SEARCH_SORTS.NAME);
         router.push(`${pathname}?${next.toString()}`);
     };

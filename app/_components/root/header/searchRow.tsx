@@ -5,7 +5,6 @@ import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {useMemo} from "react";
 
 import {Button} from "@/_components/shadcn/button";
-import {Input} from "@/_components/shadcn/input";
 import {useComboboxAnchor} from "@/_components/shadcn/combobox";
 import SearchBar from "@/_components/root/header/searchBar";
 import LocationSearchBar, {PickedPlace} from "@/_components/root/header/locationSearchBar";
@@ -14,29 +13,19 @@ import GoogleApiProvider from "@/lib/providers/googleApiProvider";
 import {MIN_QUERY_LENGTH} from "@/features/search/useSearchSuggestions";
 import {SearchSuggestion} from "@/features/search/searchTypes";
 import {buildSearchUrl, parseSearchParams, searchTextFromParams, SearchIntent} from "@/features/search/searchUrl";
-import {SearchLocation} from "@/lib/appTypes";
+import {isCountryCode, SearchLocation} from "@/lib/appTypes";
 import {useSearchLocation} from "@/lib/store";
-import {useIsHydrated} from "@/lib/use-is-hydrated";
 import {useUrlDraft} from "@/lib/use-url-draft";
 
-function SearchRowShell() {
-    return (
-        <div className="flex flex-1 items-center gap-3">
-            <div className="flex-1"><Input placeholder="Search services..." disabled/></div>
-            <div className="w-56"><Input placeholder="Location" disabled/></div>
-            <Button disabled><Search className="h-4 w-4"/>Search</Button>
-        </div>
-    );
-}
-
-export default function SearchRow() {
+export default function SearchRow({initialLocation}: {initialLocation: SearchLocation}) {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const hydrated = useIsHydrated();
+    const anchorRef = useComboboxAnchor();
 
     const storeLocation = useSearchLocation((s) => s.searchLocation);
     const setSearchLocation = useSearchLocation((s) => s.setSearchLocation);
+    const persistedLocation = typeof window === "undefined" ? initialLocation : storeLocation;
 
     const params = useMemo(() => parseSearchParams(searchParams), [searchParams]);
     const onResultsPage = pathname === "/search";
@@ -46,11 +35,11 @@ export default function SearchRow() {
         ? {
             city: params.city,
             region: params.voivodeship,
-            country: (params.country as SearchLocation["country"]) ?? storeLocation.country,
+            country: isCountryCode(params.country) ? params.country : persistedLocation.country,
             lat: params.lat,
             lng: params.lng,
         }
-        : storeLocation;
+        : persistedLocation;
 
     const urlText = onResultsPage ? searchTextFromParams(params) : "";
     const [text, setText] = useUrlDraft(urlText);
@@ -63,10 +52,12 @@ export default function SearchRow() {
     const go = (intent: SearchIntent, into: SearchLocation = location) =>
         router.push(buildSearchUrl(intent, into));
 
-    const submitTypedText = () => {
+    const currentIntent = (): SearchIntent => {
         const typed = text.trim();
-        go(typed.length >= MIN_QUERY_LENGTH ? {kind: "text", q: typed} : {kind: "browse"});
+        return typed.length >= MIN_QUERY_LENGTH ? {kind: "text", q: typed} : {kind: "browse"};
     };
+
+    const submitTypedText = () => go(currentIntent());
 
     const handleSelect = (suggestion: SearchSuggestion) => {
         switch (suggestion.kind) {
@@ -91,42 +82,14 @@ export default function SearchRow() {
             lng: place.lng,
         };
         setSearchLocation(next);
-        if (onResultsPage) {
-            const typed = text.trim();
-            go(typed.length >= MIN_QUERY_LENGTH ? {kind: "text", q: typed} : {kind: "browse"}, next);
-        }
+        if (onResultsPage) go(currentIntent(), next);
     };
 
-    if (!hydrated) {
-        return <SearchRowShell/>;
-    }
-
-    return (
-        <SearchRowInner
-            text={text}
-            setText={setText}
-            locationText={locationText}
-            setLocationText={setLocationText}
-            onSubmit={submitTypedText}
-            onSelect={handleSelect}
-            onPlaceSelected={handlePlaceSelected}
-        />
-    );
-}
-
-function SearchRowInner({
-                            text, setText, locationText, setLocationText,
-                            onSubmit, onSelect, onPlaceSelected,
-                        }: {
-    text: string;
-    setText: (value: string) => void;
-    locationText: string;
-    setLocationText: (value: string) => void;
-    onSubmit: () => void;
-    onSelect: (suggestion: SearchSuggestion) => void;
-    onPlaceSelected: (place: PickedPlace) => void;
-}) {
-    const anchorRef = useComboboxAnchor();
+    const handleCleared = () => {
+        const cleared: SearchLocation = {city: null, region: null, country: location.country, lat: null, lng: null};
+        setSearchLocation(cleared);
+        if (onResultsPage) go(currentIntent(), cleared);
+    };
 
     return (
         <div ref={anchorRef} className="flex flex-1 items-center gap-3">
@@ -134,8 +97,8 @@ function SearchRowInner({
                 <SearchBar
                     value={text}
                     onValueChange={setText}
-                    onSubmit={onSubmit}
-                    onSelect={onSelect}
+                    onSubmit={submitTypedText}
+                    onSelect={handleSelect}
                     anchorRef={anchorRef}
                 />
             </div>
@@ -145,12 +108,13 @@ function SearchRowInner({
                     <LocationSearchBar
                         value={locationText}
                         onValueChange={setLocationText}
-                        onPlaceSelected={onPlaceSelected}
+                        onPlaceSelected={handlePlaceSelected}
+                        onCleared={handleCleared}
                     />
                 </GoogleApiProvider>
             </div>
 
-            <Button onMouseDown={(event) => event.preventDefault()} onClick={onSubmit}>
+            <Button onClick={submitTypedText}>
                 <Search className="h-4 w-4"/>
                 Search
             </Button>

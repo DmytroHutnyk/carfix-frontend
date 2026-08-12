@@ -85,7 +85,7 @@ export default function LanguageRegionSelector() {
                                 <button
                                     key={r.code}
                                     onClick={() => {
-                                        setSearchLocation({country: r.code});
+                                        setSearchLocation({country: r.code, city: null, region: null, lat: null, lng: null});
                                         setOpen(false);
                                     }}
                                     className={cn(
