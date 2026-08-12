@@ -78,7 +78,10 @@ export default function SearchBar({value, onValueChange, onSubmit, onSelect, anc
             items={groups}
             filter={null}
             inputValue={value}
-            onInputValueChange={onValueChange}
+            onInputValueChange={(next, details) => {
+                if (details.reason === "none" || details.reason === "input-clear") return;
+                onValueChange(next);
+            }}
             onValueChange={(suggestion: SearchSuggestion | null) => suggestion && onSelect(suggestion)}
             itemToStringLabel={(suggestion: SearchSuggestion) => suggestion.name}
         >

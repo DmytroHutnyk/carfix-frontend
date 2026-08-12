@@ -65,6 +65,11 @@ export const COUNTRY_CENTERS: Record<CountryCode, { lat: number; lng: number }> 
     CA: { lat: 45.4215, lng: -75.6972 },  // Ottawa
 };
 
+/* Narrows an external code (Google geocode, URL param, cookie) to a supported country. */
+export function isCountryCode(code: string | null | undefined): code is CountryCode {
+    return code != null && code in COUNTRY_CENTERS;
+}
+
 /* The wire carries ISO codes; the UI shows names. Unknown codes pass through unchanged
    rather than disappearing, so a stale URL still reads sensibly. */
 export function countryName(code: string | null): string | null {
