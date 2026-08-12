@@ -11,7 +11,7 @@ export type SearchIntent =
     | { kind: "browse" };
 
 /**
- * The one place a /search URL is minted. Every navigation into the results page goes
+ * The one place a /search URL is created. Every navigation into the results page goes
  * through here, so the page can treat its URL as complete and never fall back to store
  * state it cannot see.
  */
@@ -27,12 +27,9 @@ export function buildSearchUrl(intent: SearchIntent, location: SearchLocation): 
             break;
         case "category":
             params.set("categoryId", String(intent.categoryId));
-            /* The header shows this; categoryId alone is not renderable */
             params.set("label", intent.name);
             break;
         case "workshop":
-            /* Picking a workshop searches by its name and pins it to the top, rather than
-               jumping straight to that one workshop — the customer still wants to compare. */
             params.set("q", intent.name);
             params.set("pinnedBranchId", intent.branchId);
             break;
@@ -42,6 +39,8 @@ export function buildSearchUrl(intent: SearchIntent, location: SearchLocation): 
 
     if (location.city) params.set("city", location.city);
     if (location.region) params.set("voivodeship", location.region);
+
+    // always set from the toggle
     params.set("country", location.country);
 
     const hasCityCoordinates = location.lat != null && location.lng != null;
@@ -51,8 +50,6 @@ export function buildSearchUrl(intent: SearchIntent, location: SearchLocation): 
     params.set("lat", String(center.lat));
     params.set("lng", String(center.lng));
 
-    /* Distance ranking only means something around a chosen city. Country-wide, the
-       capital is just a measuring point, so the list stays alphabetical. */
     params.set("sort", hasCityCoordinates ? SEARCH_SORTS.DISTANCE : SEARCH_SORTS.NAME);
 
     return `/search?${params.toString()}`;
@@ -88,10 +85,6 @@ export function parseInitialPage(sp: ReadonlyURLSearchParams): number {
     return Number.isInteger(page) && page > 0 ? page : 0;
 }
 
-/**
- * What the search field shows for the current URL. `label` first because it is the only
- * readable form of a category search; then the two params that are already text.
- */
 export function searchTextFromParams(params: WorkshopSearchParams): string {
     return params.label ?? params.q ?? params.serviceName ?? "";
 }

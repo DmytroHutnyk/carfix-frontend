@@ -1,14 +1,11 @@
 import {SearchEcho} from "@/features/search/searchTypes";
 import {countryName} from "@/lib/appTypes";
 
-/* Mirrors WorkshopSearchQuery.SORT_DISTANCE / SORT_NAME on the backend. */
 export const SEARCH_SORTS = {
     DISTANCE: "distance",
     NAME: "name",
 } as const;
 
-/* Title comes from the backend's echo — never from local state — so it always matches
-   what the server actually searched (spec §2). */
 export function composeTitle(echo: SearchEcho | undefined): string {
     if (!echo) return "Search results";
     const text = echo.q ?? echo.serviceName ?? echo.categoryName;

@@ -20,8 +20,6 @@ export function useWorkshopSearch(params: WorkshopSearchParams, initialPage: num
         echo: pages[0]?.echo,
         total: pages[0]?.totalElements,
         isLoading: query.isPending,
-        /* True during a background refetch too — with keepPreviousData the old list stays
-           on screen, so this is the only signal that a filter change is in flight. */
         isFetching: query.isFetching,
         isError: query.isError,
         error: query.error,

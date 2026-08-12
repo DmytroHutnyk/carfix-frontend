@@ -35,8 +35,7 @@ export default function SearchResults() {
         hasNextPage, isFetchingNextPage, fetchNextPage,
     } = useWorkshopSearch(params, initialPage);
 
-    /* Everything that narrows a search. Location is deliberately not here — keeping it is
-       what makes "Clear filters" different from "Browse all workshops". */
+    // used for clearing filters
     const NARROWING = ["q", "serviceName", "categoryId", "label", "pinnedBranchId", "carProfileId", "radiusKm"] as const;
     const hasNarrowingFilters = NARROWING.some((key) => searchParams.has(key));
     const hasPlaceFilter = searchParams.has("city") || searchParams.has("voivodeship");
@@ -48,8 +47,6 @@ export default function SearchResults() {
         router.push(`${pathname}?${next.toString()}`);
     };
 
-    /* Drops the city as well, so only the region selector's country is left. Distance has
-       nothing to rank around once the city is gone, so the sort goes back to name. */
     const browseCountry = () => {
         const next = new URLSearchParams(searchParams);
         NARROWING.forEach((key) => next.delete(key));
@@ -69,8 +66,6 @@ export default function SearchResults() {
                     {total != null && (
                         <p className="flex items-center gap-2 text-muted-foreground">
                             <span>{total} {total === 1 ? "workshop" : "workshops"}</span>
-                            {/* The list below keeps the previous results while refetching, so
-                                without this a filter change looks like nothing happened. */}
                             {isFetching && !isFetchingNextPage && (
                                 <span className="flex items-center gap-1.5 text-sm">
                                     <Spinner className="h-3.5 w-3.5"/>
@@ -93,8 +88,7 @@ export default function SearchResults() {
                     isFetching && !isFetchingNextPage && "opacity-60"
                 )}
             >
-                {/* useInfiniteQuery types its error as Error, so narrow instead of casting —
-                    searchApi throws ApiError values, anything else falls back to a generic message. */}
+
                 {isError && (
                     <FormErrorAlert message={isApiError(error)
                         ? toDisplayError(error).message
@@ -115,9 +109,6 @@ export default function SearchResults() {
                         </EmptyHeader>
                         <EmptyContent>
                             <div className="flex flex-wrap justify-center gap-2">
-                                {/* Only offered when it would actually change the URL — a no-op button reads as broken.
-                                    Hidden when there is no place to keep, because it would then do exactly what the
-                                    button beside it does. */}
                                 {hasNarrowingFilters && hasPlaceFilter && (
                                     <Button variant="outline" onClick={clearFilters}>
                                         Clear filters, keep {params.city ?? params.voivodeship}
@@ -135,8 +126,6 @@ export default function SearchResults() {
                     <WorkshopResultCard
                         key={workshop.branchId}
                         workshop={workshop}
-                        /* The backend already orders it first (ORDER BY pinned DESC); this is
-                           only what tells the customer which one they clicked. */
                         pinned={workshop.branchId === params.pinnedBranchId}
                     />
                 ))}
