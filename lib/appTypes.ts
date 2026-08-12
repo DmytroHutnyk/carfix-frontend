@@ -52,7 +52,7 @@ export const EMPTY_DATE_RANGE: DateRangeValue = {from: null, to: null};
 
 /* Capital-city centres. A search with no city still needs a point to measure a radius
    from and to show distances against; this is that point. Coordinates are the capitals'
-   city centres, the same kind of point Google returns when a city is picked directly. */
+   city centres */
 export const COUNTRY_CENTERS: Record<CountryCode, { lat: number; lng: number }> = {
     PL: { lat: 52.2297, lng: 21.0122 },   // Warsaw
     DE: { lat: 52.5200, lng: 13.4050 },   // Berlin

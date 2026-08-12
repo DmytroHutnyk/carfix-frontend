@@ -1,4 +1,3 @@
-// Backend wire contract: SearchSuggestionsResponse and its three nested records
 export interface ServiceSuggestion {
     name: string;
     categoryName: string;
@@ -30,7 +29,6 @@ export interface SearchLocationFilter {
     voivodeship: string | null;
 }
 
-// Backend wire contract: WorkshopSearchPageResponse and its nested records
 export interface MatchedService {
     serviceId: number;
     name: string;
@@ -72,14 +70,10 @@ export interface WorkshopSearchPage {
     echo: SearchEcho;
 }
 
-/* Everything /search reads from its URL, minus paging (the hook owns page). */
 export interface WorkshopSearchParams {
     q: string | null;
     serviceName: string | null;
     categoryId: number | null;
-    /* Display text for the search field. Set only for a category search, where the URL
-       carries an id the header cannot render. The page title comes from the echo, never
-       from this. */
     label: string | null;
     city: string | null;
     voivodeship: string | null;
@@ -90,7 +84,6 @@ export interface WorkshopSearchParams {
     radiusKm: number | null;
     carProfileId: string | null;
     sort: string | null;
-    /* Ordered first and highlighted; set when a workshop suggestion was picked */
     pinnedBranchId: string | null;
     size: number | null;
 }

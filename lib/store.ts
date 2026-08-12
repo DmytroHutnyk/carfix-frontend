@@ -41,9 +41,6 @@ export const useSearchLocation = create<SearchLocationStore>()(
         {
             name: 'search-location-storage',
             version: 1,
-            // v0 persisted {city, region, country} without coordinates; fill lat/lng with null
-            // (null coords = no location filter). The cast is safe: persist merges this over the
-            // live store, so setSearchLocation survives.
             migrate: (persistedState) => {
                 const old = persistedState as { searchLocation?: Partial<SearchLocation> };
                 return {

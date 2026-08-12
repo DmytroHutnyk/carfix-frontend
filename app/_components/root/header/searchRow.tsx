@@ -19,7 +19,6 @@ import {useSearchLocation} from "@/lib/store";
 import {useIsHydrated} from "@/lib/use-is-hydrated";
 import {useUrlDraft} from "@/lib/use-url-draft";
 
-/* Same shell the header renders before client state is known, so nothing shifts on hydration. */
 function SearchRowShell() {
     return (
         <div className="flex flex-1 items-center gap-3">
@@ -42,10 +41,7 @@ export default function SearchRow() {
     const params = useMemo(() => parseSearchParams(searchParams), [searchParams]);
     const onResultsPage = pathname === "/search";
 
-    /* On /search the URL wins, so a shared link shows the location it actually searched —
-       including when it searched no city at all, which is what lets "Browse all workshops
-       in Poland" leave the location field empty. Everywhere else the persisted store is
-       all there is. */
+    /* On /search the URL wins, so a shared link shows the location it actually searched including when it searched no city at all */
     const location: SearchLocation = onResultsPage
         ? {
             city: params.city,
@@ -95,8 +91,6 @@ export default function SearchRow() {
             lng: place.lng,
         };
         setSearchLocation(next);
-        /* Picking a place on the results page re-runs the search immediately — that visible
-           reload is the feedback that the new location was taken. */
         if (onResultsPage) {
             const typed = text.trim();
             go(typed.length >= MIN_QUERY_LENGTH ? {kind: "text", q: typed} : {kind: "browse"}, next);
@@ -120,8 +114,6 @@ export default function SearchRow() {
     );
 }
 
-/* Split out so useComboboxAnchor is only called on the hydrated path — the shell has no
-   combobox to anchor, and hooks must not be conditional. */
 function SearchRowInner({
                             text, setText, locationText, setLocationText,
                             onSubmit, onSelect, onPlaceSelected,
@@ -158,9 +150,6 @@ function SearchRowInner({
                 </GoogleApiProvider>
             </div>
 
-            {/* preventDefault on mousedown keeps focus in the combobox: without it the blur
-                reverts the input to the last selected suggestion and the click below reads
-                that stale value instead of what was just typed. */}
             <Button onMouseDown={(event) => event.preventDefault()} onClick={onSubmit}>
                 <Search className="h-4 w-4"/>
                 Search

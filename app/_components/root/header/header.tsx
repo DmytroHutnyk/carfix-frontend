@@ -13,9 +13,6 @@ export default function Header() {
                 {/* Logo and slogan*/}
                 <Logo/>
 
-                {/* Search + location + submit. SearchRow reads useSearchParams, which needs a
-                    Suspense boundary or every page under this layout is forced out of static
-                    rendering at build time. */}
                 <Suspense fallback={<div className="flex-1"/>}>
                     <SearchRow/>
                 </Suspense>
