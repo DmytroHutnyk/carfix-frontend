@@ -13,7 +13,7 @@ export default function WorkshopResultCard({workshop, pinned = false}: {
     pinned?: boolean;
 }) {
     return (
-        <Link href={`/workshops/${workshop.branchId}`} className="block">
+        <Link href={`/branches/${workshop.branchId}`} className="block">
             <Card className={cn(
                 "flex flex-col gap-4 p-4 transition-shadow hover:shadow-md",
                 pinned && "border-primary ring-1 ring-primary"

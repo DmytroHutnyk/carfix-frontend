@@ -4,7 +4,7 @@ import {ReviewsSort, Workshop, WorkshopReviewsPage} from "@/features/workshop/wo
 
 export const workshopApi = {
     async getWorkshop(branchId: string): Promise<Workshop> {
-        const result = await clientApi.get<Workshop>(`/workshops/${branchId}`);
+        const result = await clientApi.get<Workshop>(`/branches/${branchId}`);
         if (isApiError(result)) throw result;
         return result;
     },
@@ -12,7 +12,7 @@ export const workshopApi = {
     async getReviews(branchId: string, sort: ReviewsSort, page: number): Promise<WorkshopReviewsPage> {
         const params = new URLSearchParams({sort, page: String(page)});
         const result = await clientApi.get<WorkshopReviewsPage>(
-            `/workshops/${branchId}/reviews?${params.toString()}`);
+            `/branches/${branchId}/reviews?${params.toString()}`);
         if (isApiError(result)) throw result;
         return result;
     },

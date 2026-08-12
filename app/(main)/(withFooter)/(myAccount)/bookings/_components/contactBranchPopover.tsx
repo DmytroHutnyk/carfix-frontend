@@ -29,7 +29,7 @@ export default function ContactBranchPopover({branch}: { branch: BookingBranch }
                     <Separator/>
 
                     <Link
-                        href={`/workshops/${branch.branchId}`}
+                        href={`/branches/${branch.branchId}`}
                         className="flex items-center gap-2 hover:underline"
                     >
                         <SquareArrowOutUpRight className="h-4 w-4 text-muted-foreground"/>
