@@ -6,21 +6,27 @@ export const SEARCH_SORTS = {
     NAME: "name",
 } as const;
 
-export function composeTitle(echo: SearchEcho | undefined): string {
-    if (!echo) return "Search results";
-    const text = echo.q ?? echo.serviceName ?? echo.categoryName;
+function composeWhere(echo: SearchEcho, radiusKm: number | null): string | null {
     const place = echo.city ?? echo.voivodeship ?? countryName(echo.country);
-    if (!text) return place ? `All workshops in ${place}` : "All workshops";
-    return `Search results for: "${place ? `${text} in ${place}` : text}"`;
+    if (!place) return null;
+    return radiusKm != null ? `within ${radiusKm} km of ${place}` : `in ${place}`;
 }
 
-export function composeEmptyMessage(echo: SearchEcho | undefined): string {
+export function composeTitle(echo: SearchEcho | undefined, radiusKm: number | null): string {
+    if (!echo) return "Search results";
+    const text = echo.q ?? echo.serviceName ?? echo.categoryName;
+    const where = composeWhere(echo, radiusKm);
+    if (!text) return where ? `All workshops ${where}` : "All workshops";
+    return `Search results for: "${where ? `${text} ${where}` : text}"`;
+}
+
+export function composeEmptyMessage(echo: SearchEcho | undefined, radiusKm: number | null): string {
     if (!echo) return "No workshops found";
     const text = echo.q ?? echo.serviceName ?? echo.categoryName;
-    const place = echo.city ?? echo.voivodeship ?? countryName(echo.country);
-    if (text && place) return `No workshops in ${place} offer "${text}"`;
+    const where = composeWhere(echo, radiusKm);
+    if (text && where) return `No workshops ${where} offer "${text}"`;
     if (text) return `No workshops offer "${text}"`;
-    if (place) return `No workshops in ${place}`;
+    if (where) return `No workshops ${where}`;
     return "No workshops found";
 }
 

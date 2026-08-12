@@ -70,7 +70,7 @@ export default function SearchResults() {
             {/*-==-==-=-=-=-=--==-=-=-=-Sticky title row-==-==-=-=-=-=-=-=-=---==*/}
             <section className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 bg-background py-3">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">{composeTitle(echo)}</h1>
+                    <h1 className="text-3xl font-bold tracking-tight">{composeTitle(echo, params.radiusKm)}</h1>
                     {total != null && (
                         <p className="flex items-center gap-2 text-muted-foreground">
                             <span>{total} {total === 1 ? "workshop" : "workshops"}</span>
@@ -112,7 +112,7 @@ export default function SearchResults() {
                             <EmptyMedia variant="icon">
                                 <SearchX/>
                             </EmptyMedia>
-                            <EmptyTitle>{composeEmptyMessage(echo)}</EmptyTitle>
+                            <EmptyTitle>{composeEmptyMessage(echo, params.radiusKm)}</EmptyTitle>
                             <EmptyDescription>Try different search terms or another location.</EmptyDescription>
                         </EmptyHeader>
                         <EmptyContent>
