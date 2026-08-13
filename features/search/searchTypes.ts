@@ -83,6 +83,8 @@ export interface WorkshopSearchParams {
     lng: number | null;
     radiusKm: number | null;
     carProfileId: string | null;
+    /* URL-only: explicit opt-out of the selected-car brand filter */
+    allBrands: boolean;
     sort: string | null;
     pinnedBranchId: string | null;
     size: number | null;
