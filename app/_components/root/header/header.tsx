@@ -1,14 +1,11 @@
 "use client"
+import {Suspense} from "react";
 import Logo from "@/_components/root/header/logo";
-import {Search} from "lucide-react";
-import {Input} from "@/_components/shadcn/input";
+import SearchRow from "@/_components/root/header/searchRow";
 import AuthNavigation from "@/_components/root/header/authNavigation";
-import LocationSearchBar from "@/_components/root/header/locationSearchBar";
-import GoogleApiProvider from "@/lib/providers/googleApiProvider";
+import {SearchLocation} from "@/lib/appTypes";
 
-type Place = google.maps.places.Place;
-
-export default function Header() {
+export default function Header({initialLocation}: {initialLocation: SearchLocation}) {
 
     return (
         <header className="w-full border-b-border bg-background shadow-[0px_1px_3px_rgba(0,0,0,0.1)]">
@@ -17,23 +14,9 @@ export default function Header() {
                 {/* Logo and slogan*/}
                 <Logo/>
 
-                {/* Search + location */}
-                <div className="flex flex-1 items-center gap-3">
-
-                    <div className="relative flex-1">
-                        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                        <Input
-                            placeholder="Search services..."
-                            className="pl-9"
-                        />
-                    </div>
-
-                    <div className="relative w-56">
-                        <GoogleApiProvider>
-                            <LocationSearchBar/>
-                        </GoogleApiProvider>
-                    </div>
-                </div>
+                <Suspense fallback={<div className="flex-1"/>}>
+                    <SearchRow initialLocation={initialLocation}/>
+                </Suspense>
 
                 {/* Buttons for LoggedIn user and for guest*/}
                 <AuthNavigation/>

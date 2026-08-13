@@ -2,8 +2,8 @@ import {useCarProfiles} from "@/features/carProfile/useCarProfiles";
 import {CarProfile} from "@/features/carProfile/carProfileTypes";
 import {useSelectedCarProfileId} from "@/lib/store";
 
-export function useSelectedCarProfile() {
-    const {carProfiles, isLoading} = useCarProfiles();
+export function useSelectedCarProfile(options?: { enabled?: boolean }) {
+    const {carProfiles, isLoading} = useCarProfiles(options);
     const selectedCarProfileId = useSelectedCarProfileId((s) => s.selectedCarProfileId);
     const setSelectedCarProfileId = useSelectedCarProfileId((s) => s.setSelectedCarProfileId);
 

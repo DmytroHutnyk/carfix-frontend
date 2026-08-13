@@ -1,6 +1,8 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import {Language, CountryCode, SearchLocation} from "@/lib/appTypes";
+import { createJSONStorage, persist } from "zustand/middleware";
+import {Language, SearchLocation} from "@/lib/appTypes";
+import {cookieStorage} from "@/lib/cookieStorage";
+import {DEFAULT_SEARCH_LOCATION, SEARCH_LOCATION_COOKIE} from "@/lib/searchLocationCookie";
 
 type LanguageStore = {
     language: Language;
@@ -22,21 +24,23 @@ type SearchLocationStore ={
     setSearchLocation: (update: Partial<SearchLocation>) => void;
 }
 
+/* A cookie, not localStorage: the server reads it in (main)/layout.tsx so the header
+   renders the real location on first paint instead of gating on hydration. */
 export const useSearchLocation = create<SearchLocationStore>()(
     persist(
         (set) => ({
-            searchLocation: {
-                    city: null,
-                    region: null,
-                    country: "PL" /*infer from browser or ip, idk TODO*/
-            },
+            searchLocation: DEFAULT_SEARCH_LOCATION,
             setSearchLocation: (update) =>
                 set((state) => ({
                         searchLocation: {...state.searchLocation, ...update},
                     })
                 ),
         }),
-        { name: 'search-location-storage'}
+        {
+            name: SEARCH_LOCATION_COOKIE,
+            version: 1,
+            storage: createJSONStorage(() => cookieStorage),
+        }
     )
 );
 
