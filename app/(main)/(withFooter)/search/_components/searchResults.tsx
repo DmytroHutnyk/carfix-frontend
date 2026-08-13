@@ -10,6 +10,8 @@ import {composeEmptyMessage, composeTitle, SEARCH_SORTS} from "@/features/search
 import {countryName, COUNTRY_CENTERS, isCountryCode} from "@/lib/appTypes";
 import {toDisplayError} from "@/lib/errorHandler";
 import {isApiError} from "@/lib/apiTypes";
+import {useAuth} from "@/features/auth/useAuth";
+import {useSelectedCarProfile} from "@/features/carProfile/useSelectedCarProfile";
 
 import {Button} from "@/_components/shadcn/button";
 import {Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle} from "@/_components/shadcn/empty";
@@ -29,20 +31,33 @@ export default function SearchResults() {
     const params = useMemo(() => parseSearchParams(searchParams), [searchParams]);
     const initialPage = parseInitialPage(searchParams);
 
+    const {isAuthenticated, isLoading: isAuthLoading} = useAuth();
+    /* /search is public — don't fire the private cars request for anonymous visitors. */
+    const {selectedCarProfile, isLoading: isCarsLoading} = useSelectedCarProfile({enabled: isAuthenticated});
+
+    const carFilterActive = !params.allBrands && selectedCarProfile != null;
+    const effectiveParams = useMemo(
+        () => ({...params, carProfileId: params.allBrands ? null : selectedCarProfile?.id ?? null}),
+        [params, selectedCarProfile]
+    );
+    /* Hold the first request until we know which car applies — an unfiltered flash of results is the bug this fixes. */
+    const searchEnabled = !isAuthLoading && (!isAuthenticated || !isCarsLoading);
+
     const {
         results, echo, total,
         isLoading, isFetching, isError, error,
         hasNextPage, isFetchingNextPage, fetchNextPage,
-    } = useWorkshopSearch(params, initialPage);
+    } = useWorkshopSearch(effectiveParams, initialPage, searchEnabled);
 
     // used for clearing filters
-    const NARROWING = ["q", "serviceName", "categoryId", "label", "pinnedBranchId", "carProfileId", "radiusKm"] as const;
-    const hasNarrowingFilters = NARROWING.some((key) => searchParams.has(key));
+    const NARROWING = ["q", "serviceName", "categoryId", "label", "pinnedBranchId", "radiusKm"] as const;
+    const hasNarrowingFilters = NARROWING.some((key) => searchParams.has(key)) || carFilterActive;
     const hasPlaceFilter = searchParams.has("city") || searchParams.has("voivodeship");
 
     const clearFilters = () => {
         const next = new URLSearchParams(searchParams);
         NARROWING.forEach((key) => next.delete(key));
+        if (selectedCarProfile) next.set("allBrands", "1");
         next.delete("page");
         router.push(`${pathname}?${next.toString()}`);
     };
@@ -50,6 +65,7 @@ export default function SearchResults() {
     const browseCountry = () => {
         const next = new URLSearchParams(searchParams);
         NARROWING.forEach((key) => next.delete(key));
+        if (selectedCarProfile) next.set("allBrands", "1");
         next.delete("city");
         next.delete("voivodeship");
         next.delete("page");

@@ -73,7 +73,9 @@ export function parseSearchParams(sp: ReadonlyURLSearchParams): WorkshopSearchPa
         lat: toNumber(sp.get("lat")),
         lng: toNumber(sp.get("lng")),
         radiusKm: toNumber(sp.get("radiusKm")),
-        carProfileId: sp.get("carProfileId"),
+        /* Filled from the selected car by the results page, never from the URL */
+        carProfileId: null,
+        allBrands: sp.get("allBrands") != null,
         sort: sp.get("sort"),
         pinnedBranchId: sp.get("pinnedBranchId"),
         size: toNumber(sp.get("size")),

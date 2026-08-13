@@ -2,10 +2,9 @@
 
 import {ArrowUpDown, SlidersHorizontal} from "lucide-react";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import {useMemo} from "react";
 
 import {useAuth} from "@/features/auth/useAuth";
-import {useCarProfiles} from "@/features/carProfile/useCarProfiles";
+import {useSelectedCarProfile} from "@/features/carProfile/useSelectedCarProfile";
 import {WorkshopSearchParams} from "@/features/search/searchTypes";
 import {SEARCH_SORTS} from "@/features/search/searchList";
 import {useUrlDraft} from "@/lib/use-url-draft";
@@ -17,7 +16,7 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/_components/shadcn/popo
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 import {Slider} from "@/_components/shadcn/slider";
 
-const ALL_CARS = "all";
+const ALL_BRANDS = "all";
 const DEFAULT_RADIUS_KM = 50;
 
 export default function SearchControls({params}: { params: WorkshopSearchParams }) {
@@ -26,19 +25,17 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
     const searchParams = useSearchParams();
     const {isAuthenticated} = useAuth();
     /* /search is public — don't fire the private cars request for anonymous visitors. */
-    const {carProfiles} = useCarProfiles({enabled: isAuthenticated});
+    const {carProfiles, selectedCarProfile, selectCarProfile} = useSelectedCarProfile({enabled: isAuthenticated});
+    const hasCarSelect = isAuthenticated && carProfiles.length > 0;
 
-    const vehicles = useMemo(
-        () => [...carProfiles].sort((a, b) => a.name.localeCompare(b.name)),
-        [carProfiles]
-    );
+    const carFilterActive = !params.allBrands && selectedCarProfile != null;
 
     const hasCoords = params.lat != null && params.lng != null;
     /* The slider is dragged locally but the URL owns the committed value; the draft is
        dropped the moment the URL changes, so a page-level clear resets it too. */
     const [radius, setRadius] = useUrlDraft(params.radiusKm ?? DEFAULT_RADIUS_KM);
 
-    const activeFilterCount = (params.radiusKm != null ? 1 : 0) + (params.carProfileId ? 1 : 0);
+    const activeFilterCount = (params.radiusKm != null ? 1 : 0) + (carFilterActive ? 1 : 0);
 
     const setParam = (key: string, value: string | null) => {
         const next = new URLSearchParams(searchParams);
@@ -49,8 +46,8 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
 
     const clearFilters = () => {
         const next = new URLSearchParams(searchParams);
-        next.delete("carProfileId");
         next.delete("radiusKm");
+        if (selectedCarProfile) next.set("allBrands", "1");
         next.delete("page");
         router.push(`${pathname}?${next.toString()}`);
     };
@@ -80,20 +77,26 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent align="end" className="flex w-72 flex-col gap-4">
-                    {isAuthenticated && (
+                    {hasCarSelect && (
                         <div className="flex flex-col gap-2">
                             <Label>For my car</Label>
                             <Select
-                                value={params.carProfileId ?? ALL_CARS}
-                                onValueChange={(value) =>
-                                    setParam("carProfileId", value === ALL_CARS ? null : value)}
+                                value={params.allBrands ? ALL_BRANDS : selectedCarProfile?.id ?? ALL_BRANDS}
+                                onValueChange={(value) => {
+                                    if (value === ALL_BRANDS) {
+                                        setParam("allBrands", "1");
+                                    } else {
+                                        selectCarProfile(value);
+                                        setParam("allBrands", null);
+                                    }
+                                }}
                             >
                                 <SelectTrigger>
-                                    <SelectValue placeholder="All cars"/>
+                                    <SelectValue placeholder="All brands"/>
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value={ALL_CARS}>All cars</SelectItem>
-                                    {vehicles.map((car) => (
+                                    <SelectItem value={ALL_BRANDS}>All brands</SelectItem>
+                                    {carProfiles.map((car) => (
                                         <SelectItem key={car.id} value={car.id}>{car.name}</SelectItem>
                                     ))}
                                 </SelectContent>
@@ -115,7 +118,7 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
                         </div>
                     )}
 
-                    {!isAuthenticated && !hasCoords && (
+                    {!hasCarSelect && !hasCoords && (
                         <p className="text-sm text-muted-foreground">
                             No filters available for this search.
                         </p>
