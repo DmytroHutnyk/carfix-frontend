@@ -3,7 +3,7 @@ import {searchApi} from "@/features/search/searchApi";
 import {searchKeys} from "@/features/search/keys";
 import {WorkshopSearchParams} from "@/features/search/searchTypes";
 
-export function useWorkshopSearch(params: WorkshopSearchParams, initialPage: number) {
+export function useWorkshopSearch(params: WorkshopSearchParams, initialPage: number, enabled = true) {
     const query = useInfiniteQuery({
         queryKey: searchKeys.workshops(params),
         queryFn: ({pageParam}) => searchApi.searchWorkshops(params, pageParam),
@@ -12,6 +12,7 @@ export function useWorkshopSearch(params: WorkshopSearchParams, initialPage: num
             lastPage.page + 1 < lastPage.totalPages ? lastPage.page + 1 : undefined,
         placeholderData: keepPreviousData,
         staleTime: 60_000,
+        enabled,
     });
 
     const pages = query.data?.pages ?? [];

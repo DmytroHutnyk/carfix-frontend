@@ -4,7 +4,7 @@ import {X} from "lucide-react";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 import {useAuth} from "@/features/auth/useAuth";
-import {useCarProfiles} from "@/features/carProfile/useCarProfiles";
+import {useSelectedCarProfile} from "@/features/carProfile/useSelectedCarProfile";
 import {WorkshopSearchParams} from "@/features/search/searchTypes";
 import {Badge} from "@/_components/shadcn/badge";
 
@@ -20,22 +20,26 @@ export default function ActiveFilters({params}: { params: WorkshopSearchParams }
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const {isAuthenticated} = useAuth();
-    const {carProfiles} = useCarProfiles({enabled: isAuthenticated});
+    const {selectedCarProfile} = useSelectedCarProfile({enabled: isAuthenticated});
 
-    const removeParam = (key: string) => {
+    const setParam = (key: string, value: string | null) => {
         const next = new URLSearchParams(searchParams);
-        next.delete(key);
+        if (value == null) next.delete(key); else next.set(key, value);
         next.delete("page");
         router.push(`${pathname}?${next.toString()}`);
     };
 
-    const chips: { key: string; label: string }[] = [];
+    const chips: { key: string; label: string; onRemove: () => void }[] = [];
     if (params.radiusKm != null) {
-        chips.push({key: "radiusKm", label: `Within ${params.radiusKm} km`});
+        chips.push({key: "radiusKm", label: `Within ${params.radiusKm} km`, onRemove: () => setParam("radiusKm", null)});
     }
-    if (params.carProfileId) {
-        const car = carProfiles.find((profile) => profile.id === params.carProfileId);
-        chips.push({key: "carProfileId", label: `Fits ${car?.name ?? "my car"}`});
+    /* Removing the car chip must SET allBrands — absence of the param means "default = my car". */
+    if (!params.allBrands && selectedCarProfile) {
+        chips.push({
+            key: "carBrand",
+            label: `Fits ${selectedCarProfile.name}`,
+            onRemove: () => setParam("allBrands", "1"),
+        });
     }
 
     if (chips.length === 0) {
@@ -50,7 +54,7 @@ export default function ActiveFilters({params}: { params: WorkshopSearchParams }
                     <button
                         type="button"
                         aria-label={`Remove filter: ${chip.label}`}
-                        onClick={() => removeParam(chip.key)}
+                        onClick={chip.onRemove}
                         className="rounded-full p-0.5 hover:bg-background"
                     >
                         <X className="h-3 w-3"/>

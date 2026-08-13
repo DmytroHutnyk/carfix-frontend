@@ -8,10 +8,12 @@ import {
 } from "@/features/search/searchTypes";
 
 export const searchApi = {
-    async getSuggestions(q: string, location: SearchLocationFilter | null): Promise<SearchSuggestions> {
+    async getSuggestions(q: string, location: SearchLocationFilter | null,
+                         carProfileId: string | null): Promise<SearchSuggestions> {
         const params = new URLSearchParams({q});
         if (location?.city) params.set("city", location.city);
         if (location?.voivodeship) params.set("voivodeship", location.voivodeship);
+        if (carProfileId) params.set("carProfileId", carProfileId);
         const result = await clientApi.get<SearchSuggestions>(`/search/suggestions?${params.toString()}`);
         if (isApiError(result)) throw result;
         return result;
