@@ -2,14 +2,14 @@
 
 import {Label} from "@/_components/shadcn/label";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
-import {TIME_WINDOW_OPTIONS} from "@/features/search/searchList";
 
 /* Radix Select items cannot carry an empty value, so "any" is the sentinel for no bound (precedent: ALL_BRANDS) */
 const ANY_TIME = "any";
 
-export default function TimeWindowSelect({label, value, disabled, onChange}: {
+export default function TimeWindowSelect({label, value, options, disabled, onChange}: {
     label: string;
     value: string | null;
+    options: string[];
     disabled: boolean;
     onChange: (value: string | null) => void;
 }) {
@@ -26,7 +26,7 @@ export default function TimeWindowSelect({label, value, disabled, onChange}: {
                 </SelectTrigger>
                 <SelectContent>
                     <SelectItem value={ANY_TIME}>Any</SelectItem>
-                    {TIME_WINDOW_OPTIONS.map((time) => (
+                    {options.map((time) => (
                         <SelectItem key={time} value={time} className="tabular-nums">{time}</SelectItem>
                     ))}
                 </SelectContent>
