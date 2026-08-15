@@ -9,6 +9,7 @@ export interface User {
     phoneNumber: string;
     email: string;
     dateOfBirth: string | null;
+    emailVerifiedAt: string | null;
 }
 
 export type CustomerStatus = "ACTIVE" | "SUSPENDED";

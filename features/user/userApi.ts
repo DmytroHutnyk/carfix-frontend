@@ -2,6 +2,7 @@ import {User} from "@/features/user/userTypes";
 import {clientApi} from "@/lib/clientApi";
 import {isApiError} from "@/lib/apiTypes";
 import {UpdateUserCore, UpdateUserRequest} from "@/features/user/profileManagementTypes";
+import {ConfirmEmailVerificationRequest, VerificationCodeForm} from "@/features/user/emailVerificationTypes";
 
 //not sure this is the best appraoch, to have a look later
 function toUpdateUserRequest(form: UpdateUserCore): UpdateUserRequest {
@@ -25,5 +26,24 @@ export const userApi = {
         }
 
         return result;
-    }
+    },
+
+    async requestEmailVerification(): Promise<void> {
+        const result = await clientApi.post<void, undefined>('/users/me/email-verification');
+
+        if (isApiError(result)) {
+            throw result;
+        }
+    },
+
+    async confirmEmailVerification(data: VerificationCodeForm): Promise<User> {
+        const body: ConfirmEmailVerificationRequest = {code: data.code};
+        const result = await clientApi.post<User, ConfirmEmailVerificationRequest>('/users/me/email-verification/confirm', body);
+
+        if (isApiError(result)) {
+            throw result;
+        }
+
+        return result;
+    },
 }
