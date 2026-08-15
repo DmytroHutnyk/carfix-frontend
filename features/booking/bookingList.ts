@@ -1,7 +1,6 @@
 import {format} from "date-fns";
 import {Booking, BookingStatus} from "@/features/booking/bookingTypes";
 import {DateRangeValue, EMPTY_DATE_RANGE} from "@/lib/appTypes";
-import {ApiError, isProblemDetailError} from "@/lib/apiTypes";
 
 export type BookingFilterState = {
     query: string;
@@ -70,10 +69,4 @@ export function formatPrice(price: number): string {
 /** Penalty warning applies once "now" is past the safe-cancel threshold. Informational only. */
 export function isPenaltyCancel(booking: Booking, now: Date = new Date()): boolean {
     return now.getTime() > new Date(booking.safeCancelUntil).getTime();
-}
-
-/** The picked slot is taken or already past — the cached slot grid lies, so it must be refetched and re-picked. */
-export function isStaleSlotError(error: ApiError): boolean {
-    if (!isProblemDetailError(error)) return false;
-    return error.code === "SLOT_NOT_AVAILABLE" || error.errors?.startTime !== undefined;
 }

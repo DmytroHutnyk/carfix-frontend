@@ -41,12 +41,3 @@ export interface Booking {
     services: BookingService[];
     totalPrice: number;
 }
-
-// Mirrors backend CreateBookingRequest
-export interface CreateBookingRequest {
-    branchId: string;
-    carProfileId: string;
-    serviceIds: number[];   // 1..3, distinct
-    date: string;           // ISO date "2026-08-12"
-    startTime: string;      // "HH:mm"
-}
