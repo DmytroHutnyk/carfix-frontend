@@ -1,6 +1,27 @@
-// Shared identity core
-//TODO the backend wire does not send `address` yet, so it is intentionally absent here
+// Shared identity core — mirrors the backend UserCoreResponse field-for-field
 //TODO infer from zod schema
+export interface Location {
+    city: string | null;
+    region: string | null;
+    countryIso: string;
+    latitude: number | null;
+    longitude: number | null;
+}
+
+export interface Address {
+    streetName: string;
+    buildingNumber: string;
+    flatNumber: string | null;
+    postalCode: string;
+    city: string;
+    region: string;
+    countryIso: string;
+    countryName: string;
+    latitude: number | null;
+    longitude: number | null;
+    googlePlaceId: string | null;
+}
+
 export interface User {
     id: string;
     name: string;
@@ -9,6 +30,8 @@ export interface User {
     phoneNumber: string;
     email: string;
     dateOfBirth: string | null;
+    address: Address | null;
+    preferredLocation: Location | null;
 }
 
 export type CustomerStatus = "ACTIVE" | "SUSPENDED";

@@ -49,7 +49,8 @@ export default function Page() {
         values: {
             name: user?.name ?? "",
             surname: user?.surname ?? "",
-            dateOfBirth: user?.dateOfBirth ?? ""
+            dateOfBirth: user?.dateOfBirth ?? "",
+            preferredLocation: user?.preferredLocation ?? null,
         },
     })
 
