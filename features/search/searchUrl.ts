@@ -62,9 +62,12 @@ function toNumber(value: string | null): number | null {
 }
 
 export function parseSearchParams(sp: ReadonlyURLSearchParams): WorkshopSearchParams {
+    const serviceName = sp.get("serviceName");
+    /* Availability only exists for a concrete service and needs both dates — a stale or hand-edited URL must not become a 400 */
+    const hasRange = serviceName != null && sp.get("from") != null && sp.get("to") != null;
     return {
         q: sp.get("q"),
-        serviceName: sp.get("serviceName"),
+        serviceName,
         categoryId: toNumber(sp.get("categoryId")),
         label: sp.get("label"),
         city: sp.get("city"),
@@ -79,6 +82,10 @@ export function parseSearchParams(sp: ReadonlyURLSearchParams): WorkshopSearchPa
         sort: sp.get("sort"),
         pinnedBranchId: sp.get("pinnedBranchId"),
         size: toNumber(sp.get("size")),
+        from: hasRange ? sp.get("from") : null,
+        to: hasRange ? sp.get("to") : null,
+        timeFrom: hasRange ? sp.get("timeFrom") : null,
+        timeTo: hasRange ? sp.get("timeTo") : null,
     };
 }
 
