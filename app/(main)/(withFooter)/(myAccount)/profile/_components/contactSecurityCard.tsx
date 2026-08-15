@@ -9,12 +9,12 @@ import {Field, FieldDescription, FieldLabel} from "@/_components/shadcn/field";
 import {Input} from "@/_components/shadcn/input";
 import {Button} from "@/_components/shadcn/button";
 import {Badge} from "@/_components/shadcn/badge";
+import VerifyEmailDialog from "@/(main)/(withFooter)/(myAccount)/profile/_components/verifyEmailDialog";
 
-/*
- * Mock
- */
 export default function ContactSecurityCard({user}: {user: User | null}) {
     if (!user) return null;
+
+    const emailVerified = user.emailVerifiedAt !== null;
 
     return (
         <Card>
@@ -26,9 +26,9 @@ export default function ContactSecurityCard({user}: {user: User | null}) {
                 <Field>
                     <FieldLabel htmlFor="email" className="items-center gap-2">
                         Email
-                        <Badge variant="success">
+                        <Badge variant={emailVerified ? "success" : "destructiveSoft"}>
                             <Mail className="mr-1 h-3 w-3"/>
-                            Verified
+                            {emailVerified ? "Verified" : "Not Verified"}
                         </Badge>
                     </FieldLabel>
                     <div className="flex gap-2">
@@ -39,9 +39,11 @@ export default function ContactSecurityCard({user}: {user: User | null}) {
                             readOnly
                             className="bg-muted/40"
                         />
-                        <Button type="button" disabled title="Email verification is not available yet">
-                            Verify
-                        </Button>
+                        <VerifyEmailDialog email={user.email}>
+                            <Button type="button" disabled={emailVerified} title={emailVerified ? "Your email is verified" : undefined}>
+                                Verify
+                            </Button>
+                        </VerifyEmailDialog>
                     </div>
                 </Field>
 
