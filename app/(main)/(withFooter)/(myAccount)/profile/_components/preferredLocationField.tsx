@@ -1,0 +1,50 @@
+'use client'
+
+import {Field, FieldDescription, FieldError, FieldLabel} from "@/_components/shadcn/field";
+import LocationSearchBar, {PickedPlace} from "@/_components/locationSearchBar";
+import GoogleApiProvider from "@/lib/providers/googleApiProvider";
+import {Location} from "@/features/user/userTypes";
+import {locationLabel} from "@/features/user/preferredLocation";
+import {useSearchLocation} from "@/lib/store";
+import {useUrlDraft} from "@/lib/use-url-draft";
+
+interface PreferredLocationFieldProps {
+    value: Location | null;
+    onChange: (value: Location | null) => void;
+    error?: string;
+}
+
+export default function PreferredLocationField({value, onChange, error}: PreferredLocationFieldProps) {
+    const searchCountry = useSearchLocation((s) => s.searchLocation.country);
+    /* Typing is a draft over the saved label; it expires whenever the value changes (pick, clear,
+       form reset), so the input never shows text that belongs to a previous value. */
+    const [text, setText] = useUrlDraft(locationLabel(value));
+
+    const handlePlaceSelected = (place: PickedPlace) => {
+        onChange({
+            city: place.city,
+            region: place.region,
+            countryIso: place.country ?? searchCountry,
+            latitude: place.lat,
+            longitude: place.lng,
+        });
+    };
+
+    return (
+        <Field>
+            <FieldLabel htmlFor="preferredLocation">Preferred location</FieldLabel>
+            <GoogleApiProvider>
+                <LocationSearchBar
+                    id="preferredLocation"
+                    placeholder="City, region or country"
+                    value={text}
+                    onValueChange={setText}
+                    onPlaceSelected={handlePlaceSelected}
+                    onCleared={() => onChange(null)}
+                />
+            </GoogleApiProvider>
+            <FieldDescription>Prefills the location in the search bar when you sign in.</FieldDescription>
+            {error && <FieldError>{error}</FieldError>}
+        </Field>
+    );
+}
