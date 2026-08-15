@@ -6,7 +6,7 @@ import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {useAuth} from "@/features/auth/useAuth";
 import {useSelectedCarProfile} from "@/features/carProfile/useSelectedCarProfile";
 import {WorkshopSearchParams} from "@/features/search/searchTypes";
-import {SEARCH_SORTS} from "@/features/search/searchList";
+import {AVAILABILITY_PARAMS, hasAvailabilityFilter, SEARCH_SORTS} from "@/features/search/searchList";
 import {useUrlDraft} from "@/lib/use-url-draft";
 
 import {Badge} from "@/_components/shadcn/badge";
@@ -15,6 +15,7 @@ import {Label} from "@/_components/shadcn/label";
 import {Popover, PopoverContent, PopoverTrigger} from "@/_components/shadcn/popover";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 import {Slider} from "@/_components/shadcn/slider";
+import AvailabilityFilter from "@/(main)/(withFooter)/search/_components/availabilityFilter";
 
 const ALL_BRANDS = "all";
 const DEFAULT_RADIUS_KM = 50;
@@ -29,13 +30,15 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
     const hasCarSelect = isAuthenticated && carProfiles.length > 0;
 
     const carFilterActive = !params.allBrands && selectedCarProfile != null;
+    const isServiceSearch = params.serviceName != null;
+    const hasAvailability = hasAvailabilityFilter(params);
 
     const hasCoords = params.lat != null && params.lng != null;
     /* The slider is dragged locally but the URL owns the committed value; the draft is
        dropped the moment the URL changes, so a page-level clear resets it too. */
     const [radius, setRadius] = useUrlDraft(params.radiusKm ?? DEFAULT_RADIUS_KM);
 
-    const activeFilterCount = (params.radiusKm != null ? 1 : 0) + (carFilterActive ? 1 : 0);
+    const activeFilterCount = (params.radiusKm != null ? 1 : 0) + (carFilterActive ? 1 : 0) + (hasAvailability ? 1 : 0);
 
     const setParam = (key: string, value: string | null) => {
         const next = new URLSearchParams(searchParams);
@@ -48,6 +51,7 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
         const next = new URLSearchParams(searchParams);
         next.delete("radiusKm");
         if (selectedCarProfile) next.set("allBrands", "1");
+        AVAILABILITY_PARAMS.forEach((key) => next.delete(key));
         next.delete("page");
         router.push(`${pathname}?${next.toString()}`);
     };
@@ -118,7 +122,9 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
                         </div>
                     )}
 
-                    {!hasCarSelect && !hasCoords && (
+                    {isServiceSearch && <AvailabilityFilter params={params}/>}
+
+                    {!hasCarSelect && !hasCoords && !isServiceSearch && (
                         <p className="text-sm text-muted-foreground">
                             No filters available for this search.
                         </p>
