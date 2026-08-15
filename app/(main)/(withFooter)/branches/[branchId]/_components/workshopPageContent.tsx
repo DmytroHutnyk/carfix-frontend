@@ -114,7 +114,7 @@ export default function WorkshopPageContent({branchId}: { branchId: string }) {
                     <BrandsCard brands={workshop.brands}/>
                     <OpeningHoursCard openingHours={workshop.openingHours} tz={workshop.tz}/>
                     <ContactCard phoneNumber={workshop.phoneNumber} email={workshop.email}/>
-                    <SummaryCard selectedServices={selectedServices} onRemove={toggleService}/>
+                    <SummaryCard workshop={workshop} selectedServices={selectedServices} onToggle={toggleService}/>
                 </div>
             </div>
         </div>
