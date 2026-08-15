@@ -50,7 +50,7 @@ export default function SearchResults() {
     } = useWorkshopSearch(effectiveParams, initialPage, searchEnabled);
 
     // used for clearing filters
-    const NARROWING = ["q", "serviceName", "categoryId", "label", "pinnedBranchId", "radiusKm"] as const;
+    const NARROWING = ["q", "serviceName", "categoryId", "label", "pinnedBranchId", "radiusKm", "from", "to", "timeFrom", "timeTo"] as const;
     const hasNarrowingFilters = NARROWING.some((key) => searchParams.has(key)) || carFilterActive;
     const hasPlaceFilter = searchParams.has("city") || searchParams.has("voivodeship");
 
