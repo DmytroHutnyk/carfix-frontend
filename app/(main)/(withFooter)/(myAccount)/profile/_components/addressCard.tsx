@@ -18,7 +18,7 @@ import {Field, FieldDescription, FieldError, FieldLabel} from "@/_components/sha
 import {Input} from "@/_components/shadcn/input";
 import {Button} from "@/_components/shadcn/button";
 import FormErrorAlert from "@/_components/formErrorAlert";
-import AddressSearchBar, {PickedAddress} from "@/(main)/(withFooter)/(myAccount)/profile/_components/addressSearchBar";
+import AddressSearchBar, {PickedAddress} from "@/_components/addressSearchBar";
 import DeleteAddressDialog from "@/(main)/(withFooter)/(myAccount)/profile/_components/deleteAddressDialog";
 
 function toAddressForm(address: Address | null): UpdateAddress {

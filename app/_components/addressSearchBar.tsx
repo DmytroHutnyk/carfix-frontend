@@ -37,10 +37,11 @@ const ADDRESS_REQUEST_OPTIONS: Partial<google.maps.places.AutocompleteRequest> =
 
 interface AddressSearchBarProps {
     id: string;
+    placeholder?: string;
     onAddressPicked: (address: PickedAddress) => void;
 }
 
-export default function AddressSearchBar({id, onAddressPicked}: AddressSearchBarProps) {
+export default function AddressSearchBar({id, placeholder = "Search your address", onAddressPicked}: AddressSearchBarProps) {
     const [text, setText] = useState("");
     const {suggestions, resetSession} = useAutocompleteSuggestions(text, ADDRESS_REQUEST_OPTIONS);
     const geocoderRef = useRef<google.maps.Geocoder | null>(null);
@@ -101,7 +102,7 @@ export default function AddressSearchBar({id, onAddressPicked}: AddressSearchBar
     );
 
     return (
-        <Combobox
+        <Combobox<PlacePrediction>
             items={predictions}
             inputValue={text}
             onInputValueChange={(next, details) => {
@@ -115,7 +116,7 @@ export default function AddressSearchBar({id, onAddressPicked}: AddressSearchBar
         >
             <ComboboxInput
                 id={id}
-                placeholder="Search your address"
+                placeholder={placeholder}
                 startAddon={<MapPin className="h-4 w-4"/>}
                 showClear
                 disableChevron

@@ -1,5 +1,9 @@
-import NotImplemented from "@/owner/_components/notImplemented";
+import BranchRegistrationWizard from "@/owner/service-points/new/_components/branchRegistrationWizard";
 
-export default function Page() {
-    return <NotImplemented title="New service point"/>;
+export default function NewBranchPage() {
+    return (
+        <div className="flex justify-center py-3">
+            <BranchRegistrationWizard/>
+        </div>
+    );
 }
