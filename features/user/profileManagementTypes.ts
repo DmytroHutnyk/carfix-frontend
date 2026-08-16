@@ -11,8 +11,8 @@ export interface UseUpdateAddressReturn {
 }
 
 export const locationSchema = z.object({
-    city: z.string().nullable(),
-    region: z.string().nullable(),
+    city: z.string().min(1, "Pick a city from the suggestions"),
+    region: z.string().min(1, "Pick a city from the suggestions"),
     countryIso: z.string().length(2, "Country is required"),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -50,8 +50,8 @@ export const updateUserCoreSchema = z.object({
 export type UpdateUserCore = z.infer<typeof updateUserCoreSchema>;
 
 export interface LocationRequest {
-    city: string | null;
-    region: string | null;
+    city: string;
+    region: string;
     countryIso: string;
     latitude: number | null;
     longitude: number | null;

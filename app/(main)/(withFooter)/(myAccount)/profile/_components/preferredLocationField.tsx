@@ -8,6 +8,8 @@ import {locationLabel} from "@/features/user/preferredLocation";
 import {useSearchLocation} from "@/lib/store";
 import {useUrlDraft} from "@/lib/use-url-draft";
 
+const CITY_REQUEST_OPTIONS: Partial<google.maps.places.AutocompleteRequest> = {includedPrimaryTypes: ["locality"]};
+
 interface PreferredLocationFieldProps {
     value: Location | null;
     onChange: (value: Location | null) => void;
@@ -21,8 +23,8 @@ export default function PreferredLocationField({value, onChange, error}: Preferr
 
     const handlePlaceSelected = (place: PickedPlace) => {
         const next: Location = {
-            city: place.city,
-            region: place.region,
+            city: place.city ?? "",
+            region: place.region ?? "",
             countryIso: place.country ?? searchCountry,
             latitude: place.lat,
             longitude: place.lng,
@@ -37,14 +39,15 @@ export default function PreferredLocationField({value, onChange, error}: Preferr
             <GoogleApiProvider>
                 <LocationSearchBar
                     id="preferredLocation"
-                    placeholder="City, region or country"
+                    placeholder="City"
                     value={text}
                     onValueChange={setText}
                     onPlaceSelected={handlePlaceSelected}
                     onCleared={() => onChange(null)}
+                    requestOptions={CITY_REQUEST_OPTIONS}
                 />
             </GoogleApiProvider>
-            <FieldDescription>Prefills the location in the search bar when you sign in.</FieldDescription>
+            <FieldDescription>Your city — prefills the location in the search bar when you sign in.</FieldDescription>
             {error && <FieldError>{error}</FieldError>}
         </Field>
     );

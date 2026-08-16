@@ -1,11 +1,10 @@
-import {countryName, isCountryCode, SearchLocation} from "@/lib/appTypes";
+import {isCountryCode, SearchLocation} from "@/lib/appTypes";
 import {useSearchLocation} from "@/lib/store";
 import {Location} from "@/features/user/userTypes";
 
 export function locationLabel(location: Location | null): string {
     if (!location) return "";
-    const named = [location.city, location.region].filter(Boolean).join(", ");
-    return named || countryName(location.countryIso) || location.countryIso;
+    return `${location.city}, ${location.region}`;
 }
 
 /* The header only knows the supported search countries; anything else cannot be applied. */

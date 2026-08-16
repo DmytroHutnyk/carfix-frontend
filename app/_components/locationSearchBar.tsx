@@ -36,10 +36,11 @@ interface LocationSearchBarProps {
     onValueChange: (value: string) => void;
     onPlaceSelected: (place: PickedPlace) => void;
     onCleared: () => void;
+    requestOptions?: Partial<google.maps.places.AutocompleteRequest>;
 }
 
-export default function LocationSearchBar({id, placeholder = "Location", value, onValueChange, onPlaceSelected, onCleared}: LocationSearchBarProps) {
-    const {suggestions, resetSession} = useAutocompleteSuggestions(value);
+export default function LocationSearchBar({id, placeholder = "Location", value, onValueChange, onPlaceSelected, onCleared, requestOptions}: LocationSearchBarProps) {
+    const {suggestions, resetSession} = useAutocompleteSuggestions(value, requestOptions);
     const geocoderRef = useRef<google.maps.Geocoder | null>(null);
 
     // map AutocompleteSuggestion[] to placePrediction[]

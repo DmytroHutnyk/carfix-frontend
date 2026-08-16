@@ -1,8 +1,8 @@
 // Shared identity core
 //TODO infer from zod schema
 export interface Location {
-    city: string | null;
-    region: string | null;
+    city: string;
+    region: string;
     countryIso: string;
     latitude: number | null;
     longitude: number | null;
