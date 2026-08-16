@@ -6,7 +6,7 @@ import {Input} from "@/_components/shadcn/input";
 import {Label} from "@/_components/shadcn/label";
 import {ScrollArea} from "@/_components/shadcn/scroll-area";
 import {Separator} from "@/_components/shadcn/separator";
-import WizardCard from "@/owner/service-points/new/_components/wizardCard";
+import WizardCard from "@/business/(owner)/service-points/new/_components/wizardCard";
 import {useCarCatalog} from "@/features/carCatalog/useCarCatalog";
 import {useBranchRegistrationDraft} from "@/features/branchRegistration/useBranchRegistrationDraft";
 

@@ -1,6 +1,6 @@
 "use client"
 
-import ResourceListStep from "@/owner/service-points/new/_components/resourceListStep";
+import ResourceListStep from "@/business/(owner)/service-points/new/_components/resourceListStep";
 import {useBranchRegistrationDraft} from "@/features/branchRegistration/useBranchRegistrationDraft";
 
 export default function EquipmentStep() {

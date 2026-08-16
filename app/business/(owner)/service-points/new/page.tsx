@@ -1,4 +1,4 @@
-import BranchRegistrationWizard from "@/owner/service-points/new/_components/branchRegistrationWizard";
+import BranchRegistrationWizard from "@/business/(owner)/service-points/new/_components/branchRegistrationWizard";
 
 export default function NewBranchPage() {
     return (

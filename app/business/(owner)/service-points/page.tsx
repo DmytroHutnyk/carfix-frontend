@@ -21,9 +21,9 @@ import {ApiError} from "@/lib/apiTypes";
 import {Button} from "@/_components/shadcn/button";
 import {Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle} from "@/_components/shadcn/empty";
 import FormErrorAlert from "@/_components/formErrorAlert";
-import BranchFilters from "@/owner/service-points/_components/branchFilters";
-import StatsStrip from "@/owner/service-points/_components/statsStrip";
-import BranchCard from "@/owner/service-points/_components/branchCard";
+import BranchFilters from "@/business/(owner)/service-points/_components/branchFilters";
+import StatsStrip from "@/business/(owner)/service-points/_components/statsStrip";
+import BranchCard from "@/business/(owner)/service-points/_components/branchCard";
 
 export default function Page() {
     // Login and role redirects live in RequireAuth (owner layout); a non-owner just holds the spinner here.

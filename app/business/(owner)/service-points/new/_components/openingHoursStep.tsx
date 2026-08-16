@@ -5,8 +5,8 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Copy, Trash2} from "lucide-react";
 import {Button} from "@/_components/shadcn/button";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
-import WizardCard from "@/owner/service-points/new/_components/wizardCard";
-import FieldError from "@/owner/service-points/new/_components/fieldError";
+import WizardCard from "@/business/(owner)/service-points/new/_components/wizardCard";
+import FieldError from "@/business/(owner)/service-points/new/_components/fieldError";
 import {
     DAY_STATUS,
     DAY_STATUS_LABEL,

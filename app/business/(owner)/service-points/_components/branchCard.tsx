@@ -7,7 +7,7 @@ import StarRating from "@/(main)/(withFooter)/search/_components/starRating";
 import {cn} from "@/lib/utils";
 import {OwnerBranchSummary} from "@/features/ownerBranch/ownerBranchTypes";
 import {BRANCH_STATUS_LABELS, formatAddress, personnelPercent} from "@/features/ownerBranch/ownerBranchList";
-import LatestReviews from "@/owner/service-points/_components/latestReviews";
+import LatestReviews from "@/business/(owner)/service-points/_components/latestReviews";
 
 export default function BranchCard({branch}: { branch: OwnerBranchSummary }) {
     const pending = branch.status === "VERIFICATION_PENDING";

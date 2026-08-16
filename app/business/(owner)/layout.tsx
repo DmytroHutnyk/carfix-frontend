@@ -1,8 +1,8 @@
 import {ReactNode} from "react";
 import RequireAuth from "@/_components/guards/RequireAuth";
 import {ROLE} from "@/features/user/userTypes";
-import OwnerHeader from "@/owner/_components/ownerHeader";
-import OwnerSidebar from "@/owner/_components/ownerSidebar";
+import OwnerHeader from "@/business/(owner)/_components/ownerHeader";
+import OwnerSidebar from "@/business/(owner)/_components/ownerSidebar";
 import BusinessFooter from "@/business/_components/businessFooter";
 
 export default function OwnerLayout({children}: { children: ReactNode }) {

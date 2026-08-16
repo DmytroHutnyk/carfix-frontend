@@ -12,8 +12,8 @@ import {Button} from "@/_components/shadcn/button";
 import {Popover, PopoverContent, PopoverTrigger} from "@/_components/shadcn/popover";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 import MultiSelectField from "@/_components/multiSelectField";
-import ServiceNamingHint from "@/owner/service-points/new/_components/serviceNamingHint";
-import FieldError from "@/owner/service-points/new/_components/fieldError";
+import ServiceNamingHint from "@/business/(owner)/service-points/new/_components/serviceNamingHint";
+import FieldError from "@/business/(owner)/service-points/new/_components/fieldError";
 import {useServiceCategories} from "@/features/branchRegistration/useServiceCategories";
 import {
     EMPTY_SERVICE_FORM,
