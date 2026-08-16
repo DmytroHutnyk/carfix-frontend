@@ -4,10 +4,13 @@ export interface WorkshopBrand {
     name: string;
 }
 
+export type OpeningHoursMode = "OPEN" | "BY_APPOINTMENT";
+
 export interface WorkshopOpeningHours {
     dayOfWeek: string;
     startTime: string;
     closeTime: string;
+    mode: OpeningHoursMode;
 }
 
 export interface WorkshopService {
