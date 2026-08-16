@@ -54,8 +54,9 @@ export default function MultiSelectField({
                         variant="outline"
                         role="combobox"
                         aria-expanded={open}
+                        aria-invalid={invalid || undefined}
                         className={cn("w-full justify-between font-normal", values.length === 0 && "text-muted-foreground",
-                            invalid && "border-destructive")}
+                            invalid && "border-destructive focus-visible:ring-destructive")}
                     >
                         <span className="truncate">{values.length === 0 ? placeholder : `${values.length} selected`}</span>
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
@@ -78,7 +79,7 @@ export default function MultiSelectField({
                             )}
                             {canCreate && (
                                 <>
-                                    {filtered.length > 0 && <CommandSeparator/>}
+                                    {filtered.length > 0 && <CommandSeparator alwaysRender/>}
                                     <CommandGroup>
                                         <CommandItem value={`create:${trimmed}`} onSelect={create}>
                                             <Plus className="mr-2 h-4 w-4"/>

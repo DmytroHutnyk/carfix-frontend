@@ -54,8 +54,9 @@ export default function CreatableSelect({
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
+                    aria-invalid={invalid || undefined}
                     className={cn("w-full justify-between font-normal", !value && "text-muted-foreground",
-                        invalid && "border-destructive", className)}
+                        invalid && "border-destructive focus-visible:ring-destructive", className)}
                 >
                     <span className="truncate">{value || placeholder}</span>
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
@@ -85,7 +86,7 @@ export default function CreatableSelect({
                         )}
                         {canCreate && (
                             <>
-                                {filtered.length > 0 && <CommandSeparator/>}
+                                {filtered.length > 0 && <CommandSeparator alwaysRender/>}
                                 <CommandGroup>
                                     <CommandItem value={`create:${trimmed}`} onSelect={create}>
                                         <Plus className="mr-2 h-4 w-4"/>
