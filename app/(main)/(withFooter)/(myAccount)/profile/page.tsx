@@ -179,7 +179,7 @@ export default function Page() {
                 </Card>
 
                 <ContactSecurityCard user={user}/>
-                <AddressCard/>
+                <AddressCard address={user?.address ?? null}/>
             </section>
 
             <div className="flex justify-end pt-2">
