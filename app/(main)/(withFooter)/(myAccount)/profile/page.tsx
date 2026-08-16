@@ -12,16 +12,15 @@ import {UpdateUserCore, updateUserCoreSchema} from "@/features/user/profileManag
 import {toDisplayError} from "@/lib/errorHandler";
 import {today, yearsFromToday} from "@/lib/dateBounds";
 import {ApiError} from "@/lib/apiTypes";
-import {cn} from "@/lib/utils";
 
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/_components/shadcn/card";
-import {Field, FieldDescription, FieldError, FieldLabel} from "@/_components/shadcn/field";
 import {Input} from "@/_components/shadcn/input";
 import {Button} from "@/_components/shadcn/button";
 import FormErrorAlert from "@/_components/formErrorAlert";
 import DatePicker from "@/_components/datePicker";
 import ContactSecurityCard from "@/(main)/(withFooter)/(myAccount)/profile/_components/contactSecurityCard";
 import AddressCard from "@/(main)/(withFooter)/(myAccount)/profile/_components/addressCard";
+import PreferredLocationField from "@/(main)/(withFooter)/(myAccount)/profile/_components/preferredLocationField";
 
 const OLDEST_BIRTH_YEARS_BACK = -120;
 
@@ -49,7 +48,8 @@ export default function Page() {
         values: {
             name: user?.name ?? "",
             surname: user?.surname ?? "",
-            dateOfBirth: user?.dateOfBirth ?? ""
+            dateOfBirth: user?.dateOfBirth ?? "",
+            preferredLocation: user?.preferredLocation ?? null,
         },
     })
 
@@ -145,12 +145,19 @@ export default function Page() {
                                 )}
                             </div>
 
-                        {/* Preferred location */}
-                        <Field>
-                            <FieldLabel htmlFor="location">Location</FieldLabel>
-                            <Input id="location" type="text" placeholder="Coming soon" disabled/>
-                            <FieldDescription>Your preferred location will be available soon.</FieldDescription>
-                        </Field>
+                        <Controller
+                            name="preferredLocation"
+                            control={control}
+                            render={({field}) => (
+                                <PreferredLocationField
+                                    value={field.value ?? null}
+                                    onChange={field.onChange}
+                                    error={errors.preferredLocation?.message
+                                        ?? errors.preferredLocation?.city?.message
+                                        ?? errors.preferredLocation?.region?.message}
+                                />
+                            )}
+                        />
 
                         <div className="flex w-full justify-end gap-2 pt-2">
                             <Button
@@ -173,7 +180,7 @@ export default function Page() {
                 </Card>
 
                 <ContactSecurityCard user={user}/>
-                <AddressCard/>
+                <AddressCard address={user?.address ?? null}/>
             </section>
 
             <div className="flex justify-end pt-2">
