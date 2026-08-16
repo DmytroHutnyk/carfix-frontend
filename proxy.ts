@@ -12,5 +12,6 @@ export const config = {
         "/profile", "/profile/:path*",
         "/cars", "/cars/:path*",
         "/bookings", "/bookings/:path*",
+        "/owner", "/owner/:path*",
     ],
 };
