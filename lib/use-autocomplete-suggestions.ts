@@ -28,8 +28,7 @@ export type UseAutocompleteSuggestionsReturn = {
  * (https://developers.google.com/maps/documentation/javascript/place-autocomplete-data)
  *
  * @param inputString The input string for which to fetch autocomplete suggestions.
- * @param requestOptions Overrides for the hook's defaults (e.g. `includedPrimaryTypes`, `includedRegionCodes`);
- *   pass a module-level constant — the effect does not re-run on a new object identity.
+ * @param requestOptions Additional options for the autocomplete request
  *   (See {@link https://developers.google.com/maps/documentation/javascript/reference/autocomplete-data#AutocompleteRequest}).
  *
  * @returns An object containing the autocomplete suggestions, the current loading-status,
@@ -89,13 +88,13 @@ export function useAutocompleteSuggestions(
         }
 
         const request: AutocompleteRequest = {
+            ...requestOptions,
+            input: inputString,
             includedPrimaryTypes: ["locality", "administrative_area_level_1", "country"],
             locationBias: "IP_BIAS",        /*Bias results to a specified location.*/
             includedRegionCodes: [country],  /*Only include results in the specified regions*/
             language: language,             /*The results may be in mixed languages if the language used in input is different from language, or if the returned Place does not have a translation from the local language to language.*/
             region: country,                 /*This affects address formatting, result ranking, and may influence what results are returned. This does not restrict results to the specified region.*/
-            ...requestOptions,
-            input: inputString,
             sessionToken: sessionTokenRef.current
         };
 
