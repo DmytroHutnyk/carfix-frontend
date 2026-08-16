@@ -1,5 +1,6 @@
 "use client"
 
+import {useId} from "react";
 import {Label} from "@/_components/shadcn/label";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 
@@ -13,15 +14,16 @@ export default function TimeWindowSelect({label, value, options, disabled, onCha
     disabled: boolean;
     onChange: (value: string | null) => void;
 }) {
+    const id = useId();
     return (
         <div className="flex flex-col gap-1">
-            <Label className="text-xs text-muted-foreground">{label}</Label>
+            <Label htmlFor={id} className="text-xs text-muted-foreground">{label}</Label>
             <Select
                 value={value ?? ANY_TIME}
                 disabled={disabled}
                 onValueChange={(next) => onChange(next === ANY_TIME ? null : next)}
             >
-                <SelectTrigger>
+                <SelectTrigger id={id}>
                     <SelectValue/>
                 </SelectTrigger>
                 <SelectContent>
