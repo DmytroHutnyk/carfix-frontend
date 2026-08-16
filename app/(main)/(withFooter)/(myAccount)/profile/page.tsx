@@ -152,7 +152,9 @@ export default function Page() {
                                 <PreferredLocationField
                                     value={field.value ?? null}
                                     onChange={field.onChange}
-                                    error={errors.preferredLocation?.message}
+                                    error={errors.preferredLocation?.message
+                                        ?? errors.preferredLocation?.city?.message
+                                        ?? errors.preferredLocation?.region?.message}
                                 />
                             )}
                         />
