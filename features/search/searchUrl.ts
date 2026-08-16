@@ -99,3 +99,17 @@ export function parseInitialPage(sp: ReadonlyURLSearchParams): number {
 export function searchTextFromParams(params: WorkshopSearchParams): string {
     return params.label ?? params.q ?? params.serviceName ?? "";
 }
+
+/* The card hands the searched service (and the availability range) to the workshop page, which preselects them */
+export function buildBranchUrl(branchId: string, params: WorkshopSearchParams): string {
+    const query = new URLSearchParams();
+    if (params.serviceName) {
+        query.set("service", params.serviceName);
+        if (params.from && params.to) {
+            query.set("from", params.from);
+            query.set("to", params.to);
+        }
+    }
+    const qs = query.toString();
+    return qs ? `/branches/${branchId}?${qs}` : `/branches/${branchId}`;
+}
