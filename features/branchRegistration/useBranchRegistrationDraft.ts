@@ -32,22 +32,24 @@ type BranchRegistrationDraftStore = BranchRegistrationDraft & {
     reset: () => void;
 };
 
-const EMPTY_DRAFT: BranchRegistrationDraft = {
-    basicInfo: null,
-    openingHours: DEFAULT_OPENING_HOURS,
-    carBrandIds: [],
-    serviceBayTypes: [],
-    serviceBays: [],
-    equipmentTypes: [],
-    equipment: [],
-    roles: [],
-    employees: [],
-    services: [],
-};
+function emptyDraft(): BranchRegistrationDraft {
+    return {
+        basicInfo: null,
+        openingHours: {days: {...DEFAULT_OPENING_HOURS.days}},
+        carBrandIds: [],
+        serviceBayTypes: [],
+        serviceBays: [],
+        equipmentTypes: [],
+        equipment: [],
+        roles: [],
+        employees: [],
+        services: [],
+    };
+}
 
 /* In-memory only on purpose: a half-finished registration must not resurface days later. */
 export const useBranchRegistrationDraft = create<BranchRegistrationDraftStore>()((set) => ({
-    ...EMPTY_DRAFT,
+    ...emptyDraft(),
     step: "basicInfo",
     result: null,
 
@@ -63,5 +65,5 @@ export const useBranchRegistrationDraft = create<BranchRegistrationDraftStore>()
     setEmployees: (roles, employees) => set({roles, employees}),
     setServices: (services) => set({services}),
     setResult: (result) => set({result}),
-    reset: () => set({...EMPTY_DRAFT, step: "basicInfo", result: null}),
+    reset: () => set({...emptyDraft(), step: "basicInfo", result: null}),
 }));

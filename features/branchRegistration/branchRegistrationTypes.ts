@@ -1,7 +1,5 @@
 import {z} from "zod";
 
-/* ---------- vocab shared with the backend (enum names on the wire) ---------- */
-
 export const WEEKDAYS = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"] as const;
 export type Weekday = (typeof WEEKDAYS)[number];
 export const WEEKDAY_LABEL: Record<Weekday, string> = {
@@ -22,11 +20,8 @@ export const SERVICE_STATUS = {ACTIVE: "ACTIVE", SUSPENDED: "SUSPENDED"} as cons
 export type ServiceStatus = (typeof SERVICE_STATUS)[keyof typeof SERVICE_STATUS];
 export const SERVICE_STATUS_LABEL: Record<ServiceStatus, string> = {ACTIVE: "Active", SUSPENDED: "Stopped"};
 
-/* "00:00" … "23:30" in 30-minute steps for the opening-hours selects */
 export const TIME_OPTIONS: string[] = Array.from({length: 48}, (_, i) =>
     `${String(Math.floor(i / 2)).padStart(2, "0")}:${i % 2 === 0 ? "00" : "30"}`);
-
-/* ---------- wire: mirrors adaptersIn branch/dto (name-for-name) ---------- */
 
 export interface RegisterBranchAddressRequest {
     streetName: string;
@@ -43,7 +38,7 @@ export interface RegisterBranchAddressRequest {
 
 export interface RegisterBranchOpeningHoursRequest {
     dayOfWeek: Weekday;
-    opensAt: string;   // "HH:mm"
+    opensAt: string;
     closesAt: string;
     mode: OpeningHoursMode;
 }
@@ -114,8 +109,6 @@ export interface ServiceCategoryResponse {
     name: string;
 }
 
-/* ---------- step 1 ---------- */
-
 export const basicInfoSchema = z.object({
     name: z.string().trim().min(1, "Service point name is required").max(100, "Name cannot exceed 100 characters"),
     streetName: z.string().trim().min(1, "Pick the address from the suggestions").max(100),
@@ -135,8 +128,6 @@ export const basicInfoSchema = z.object({
     email: z.string().trim().min(1, "Support email is required").email("Invalid email address").max(50, "Email cannot exceed 50 characters"),
 });
 export type BasicInfo = z.infer<typeof basicInfoSchema>;
-
-/* ---------- step 2 ---------- */
 
 const dayHoursSchema = z.object({
     status: z.enum([DAY_STATUS.OPEN, DAY_STATUS.BY_APPOINTMENT, DAY_STATUS.CLOSED]),
@@ -174,22 +165,18 @@ export const DEFAULT_OPENING_HOURS: OpeningHoursForm = {
     },
 };
 
-/* ---------- steps 4–6 (plain rows, validated on Continue) ---------- */
-
 export interface ResourceRow {
-    id: string;      // client-side key only
+    id: string;
     name: string;
-    type: string;    // "" until picked
+    type: string;
 }
 
 export interface EmployeeRow {
     id: string;
     firstName: string;
     lastName: string;
-    role: string;    // "" until picked; the wire carries it as roles: [role]
+    role: string;
 }
-
-/* ---------- step 7 ---------- */
 
 export const serviceFormSchema = z.object({
     name: z.string().trim().min(1, "Service name is required").max(100, "Name cannot exceed 100 characters"),
@@ -210,15 +197,13 @@ export const serviceFormSchema = z.object({
 export type ServiceForm = z.infer<typeof serviceFormSchema>;
 
 export interface ServiceDraft extends ServiceForm {
-    id: string;      // client-side key only
+    id: string;
 }
 
 export const EMPTY_SERVICE_FORM: ServiceForm = {
     name: "", description: "", durationMinutes: 30, price: 0, categoryId: 0, status: "ACTIVE",
     bayTypes: [], employeeRequirements: [{roles: []}], equipmentRequirements: [],
 };
-
-/* ---------- the whole draft ---------- */
 
 export interface BranchRegistrationDraft {
     basicInfo: BasicInfo | null;

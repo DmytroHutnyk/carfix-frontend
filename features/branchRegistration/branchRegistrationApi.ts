@@ -7,6 +7,7 @@ import {
     OpeningHoursMode,
     RegisterBranchOpeningHoursRequest,
     RegisterBranchRequest,
+    RegisterBranchServiceRequest,
     ServiceDraft,
     WEEKDAYS,
 } from "@/features/branchRegistration/branchRegistrationTypes";
@@ -33,7 +34,7 @@ function toOpeningHours(draft: BranchRegistrationDraft): RegisterBranchOpeningHo
     });
 }
 
-function toService(service: ServiceDraft) {
+function toService(service: ServiceDraft): RegisterBranchServiceRequest {
     return {
         name: service.name,
         description: emptyToNull(service.description),
@@ -78,7 +79,7 @@ export function toRegisterBranchRequest(draft: BranchRegistrationDraft, timezone
             countryIso: info.countryIso,
             latitude: info.latitude,
             longitude: info.longitude,
-            googlePlaceId: info.googlePlaceId,
+            googlePlaceId: info.googlePlaceId === null ? null : emptyToNull(info.googlePlaceId),
         },
         openingHours: toOpeningHours(draft),
         carBrandIds: draft.carBrandIds,
