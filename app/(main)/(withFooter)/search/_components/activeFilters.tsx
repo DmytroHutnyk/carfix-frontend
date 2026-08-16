@@ -5,6 +5,7 @@ import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 import {useAuth} from "@/features/auth/useAuth";
 import {useSelectedCarProfile} from "@/features/carProfile/useSelectedCarProfile";
+import {AVAILABILITY_PARAMS, formatAvailabilityLabel, hasAvailabilityFilter} from "@/features/search/searchList";
 import {WorkshopSearchParams} from "@/features/search/searchTypes";
 import {Badge} from "@/_components/shadcn/badge";
 
@@ -29,9 +30,23 @@ export default function ActiveFilters({params}: { params: WorkshopSearchParams }
         router.push(`${pathname}?${next.toString()}`);
     };
 
+    const removeParams = (keys: readonly string[]) => {
+        const next = new URLSearchParams(searchParams);
+        keys.forEach((key) => next.delete(key));
+        next.delete("page");
+        router.push(`${pathname}?${next.toString()}`);
+    };
+
     const chips: { key: string; label: string; onRemove: () => void }[] = [];
     if (params.radiusKm != null) {
         chips.push({key: "radiusKm", label: `Within ${params.radiusKm} km`, onRemove: () => setParam("radiusKm", null)});
+    }
+    if (hasAvailabilityFilter(params)) {
+        chips.push({
+            key: "availability",
+            label: formatAvailabilityLabel({from: params.from, to: params.to, timeFrom: params.timeFrom, timeTo: params.timeTo}),
+            onRemove: () => removeParams(AVAILABILITY_PARAMS),
+        });
     }
     /* Removing the car chip must SET allBrands — absence of the param means "default = my car". */
     if (!params.allBrands && selectedCarProfile) {

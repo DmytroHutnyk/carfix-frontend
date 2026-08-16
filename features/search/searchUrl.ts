@@ -61,10 +61,23 @@ function toNumber(value: string | null): number | null {
     return Number.isFinite(n) ? n : null;
 }
 
+const isIsoDate = (value: string | null): value is string =>
+    !!value && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(new Date(value + "T00:00:00").getTime());
+
+const asTimeOfDay = (value: string | null) => (/^\d{2}:\d{2}$/.test(value ?? "") ? value : null);
+
 export function parseSearchParams(sp: ReadonlyURLSearchParams): WorkshopSearchParams {
+    const serviceName = sp.get("serviceName");
+    const from = sp.get("from");
+    const to = sp.get("to");
+    /* Availability only exists for a concrete service and needs a well-formed pair of dates — a stale or hand-edited URL must not become a 400 or a render crash */
+    const hasRange = !!serviceName && isIsoDate(from) && isIsoDate(to) && from <= to;
+    const timeFrom = hasRange ? asTimeOfDay(sp.get("timeFrom")) : null;
+    const timeTo = hasRange ? asTimeOfDay(sp.get("timeTo")) : null;
+    const times = timeFrom && timeTo && timeFrom >= timeTo ? {timeFrom: null, timeTo: null} : {timeFrom, timeTo};
     return {
         q: sp.get("q"),
-        serviceName: sp.get("serviceName"),
+        serviceName,
         categoryId: toNumber(sp.get("categoryId")),
         label: sp.get("label"),
         city: sp.get("city"),
@@ -79,6 +92,9 @@ export function parseSearchParams(sp: ReadonlyURLSearchParams): WorkshopSearchPa
         sort: sp.get("sort"),
         pinnedBranchId: sp.get("pinnedBranchId"),
         size: toNumber(sp.get("size")),
+        from: hasRange ? from : null,
+        to: hasRange ? to : null,
+        ...times,
     };
 }
 
@@ -89,4 +105,18 @@ export function parseInitialPage(sp: ReadonlyURLSearchParams): number {
 
 export function searchTextFromParams(params: WorkshopSearchParams): string {
     return params.label ?? params.q ?? params.serviceName ?? "";
+}
+
+/* The card hands the searched service (and the availability range) to the workshop page, which preselects them */
+export function buildBranchUrl(branchId: string, params: WorkshopSearchParams): string {
+    const query = new URLSearchParams();
+    if (params.serviceName) {
+        query.set("service", params.serviceName);
+        if (params.from && params.to) {
+            query.set("from", params.from);
+            query.set("to", params.to);
+        }
+    }
+    const qs = query.toString();
+    return qs ? `/branches/${branchId}?${qs}` : `/branches/${branchId}`;
 }
