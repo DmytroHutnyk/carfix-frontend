@@ -18,6 +18,7 @@ import {Input} from "@/_components/shadcn/input";
 import {Button} from "@/_components/shadcn/button";
 import FormErrorAlert from "@/_components/formErrorAlert";
 import DatePicker from "@/_components/datePicker";
+import RegionCard from "@/(main)/(withFooter)/(myAccount)/profile/_components/regionCard";
 import ContactSecurityCard from "@/(main)/(withFooter)/(myAccount)/profile/_components/contactSecurityCard";
 import AddressCard from "@/(main)/(withFooter)/(myAccount)/profile/_components/addressCard";
 import PreferredLocationField from "@/(main)/(withFooter)/(myAccount)/profile/_components/preferredLocationField";
@@ -179,6 +180,7 @@ export default function Page() {
                     </CardContent>
                 </Card>
 
+                <RegionCard/>
                 <ContactSecurityCard user={user}/>
                 <AddressCard address={user?.address ?? null}/>
             </section>
