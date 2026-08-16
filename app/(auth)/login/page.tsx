@@ -11,6 +11,7 @@ import {useRouter} from "next/navigation";
 import {OrbitProgress} from "react-loading-indicators";
 import FormErrorAlert from "@/_components/formErrorAlert";
 import {useAuth} from "@/features/auth/useAuth";
+import {isOwner} from "@/features/user/userTypes";
 import {useForm} from "react-hook-form";
 import {LoginCredentials, loginSchema} from "@/features/auth/authTypes";
 import {ApiError} from "@/lib/apiTypes";
@@ -38,7 +39,11 @@ export default function Login(){
         try{
             const response = await login(data);
             console.log(response)
-            router.back();
+            if (isOwner(response)) {
+                router.replace("/owner/service-points");
+            } else {
+                router.back();
+            }
         }catch (err){
             setError(toDisplayError(err as ApiError).message);
         }
