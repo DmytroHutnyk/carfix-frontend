@@ -16,18 +16,19 @@ interface PreferredLocationFieldProps {
 
 export default function PreferredLocationField({value, onChange, error}: PreferredLocationFieldProps) {
     const searchCountry = useSearchLocation((s) => s.searchLocation.country);
-    /* Typing is a draft over the saved label; it expires whenever the value changes (pick, clear,
-       form reset), so the input never shows text that belongs to a previous value. */
+    /* Typed text is a draft over the saved label; it expires when the label changes (pick, clear, reset). */
     const [text, setText] = useUrlDraft(locationLabel(value));
 
     const handlePlaceSelected = (place: PickedPlace) => {
-        onChange({
+        const next: Location = {
             city: place.city,
             region: place.region,
             countryIso: place.country ?? searchCountry,
             latitude: place.lat,
             longitude: place.lng,
-        });
+        };
+        onChange(next);
+        setText(locationLabel(next));
     };
 
     return (

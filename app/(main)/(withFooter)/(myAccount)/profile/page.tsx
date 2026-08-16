@@ -12,7 +12,6 @@ import {UpdateUserCore, updateUserCoreSchema} from "@/features/user/profileManag
 import {toDisplayError} from "@/lib/errorHandler";
 import {today, yearsFromToday} from "@/lib/dateBounds";
 import {ApiError} from "@/lib/apiTypes";
-import {cn} from "@/lib/utils";
 
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import {Input} from "@/_components/shadcn/input";

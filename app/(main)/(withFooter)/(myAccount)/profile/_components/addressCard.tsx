@@ -49,7 +49,6 @@ export default function AddressCard({address}: {address: Address | null}) {
         handleSubmit,
         reset,
         getValues,
-        clearErrors,
         formState: {errors, isSubmitting, isDirty},
     } = useForm<UpdateAddress>({
         resolver: zodResolver(updateAddressSchema),
@@ -60,6 +59,7 @@ export default function AddressCard({address}: {address: Address | null}) {
     /* keepDefaultValues keeps the saved address as the baseline, so Reset returns to it and
        isDirty reflects the pick. */
     const applyPicked = (picked: PickedAddress) => {
+        setError(null);
         reset({
             ...getValues(),
             streetName: picked.streetName ?? "",
@@ -74,7 +74,6 @@ export default function AddressCard({address}: {address: Address | null}) {
             longitude: picked.longitude,
             googlePlaceId: picked.googlePlaceId,
         }, {keepDefaultValues: true});
-        clearErrors();
     };
 
     const onSubmit = async (data: UpdateAddress) => {
@@ -119,7 +118,7 @@ export default function AddressCard({address}: {address: Address | null}) {
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-[1fr_8rem_8rem]">
                         <Field>
                             <FieldLabel htmlFor="streetName">Street</FieldLabel>
-                            <Input id="streetName" {...register("streetName")} readOnly tabIndex={-1} className={READ_ONLY_INPUT}/>
+                            <Input id="streetName" {...register("streetName")} readOnly className={READ_ONLY_INPUT}/>
                         </Field>
                         <Field>
                             <FieldLabel htmlFor="buildingNumber">Building no.</FieldLabel>
@@ -128,7 +127,7 @@ export default function AddressCard({address}: {address: Address | null}) {
                                 {...register("buildingNumber")}
                                 className={cn(errors.buildingNumber && "border-destructive focus-visible:ring-destructive")}
                             />
-                            <FieldError errors={[errors.buildingNumber]}/>
+                            {errors.buildingNumber && <FieldError>{errors.buildingNumber.message}</FieldError>}
                         </Field>
                         <Field>
                             <FieldLabel htmlFor="flatNumber">Apartment</FieldLabel>
@@ -138,7 +137,7 @@ export default function AddressCard({address}: {address: Address | null}) {
                                 placeholder="Optional"
                                 className={cn(errors.flatNumber && "border-destructive focus-visible:ring-destructive")}
                             />
-                            <FieldError errors={[errors.flatNumber]}/>
+                            {errors.flatNumber && <FieldError>{errors.flatNumber.message}</FieldError>}
                         </Field>
                     </div>
 
@@ -150,22 +149,22 @@ export default function AddressCard({address}: {address: Address | null}) {
                                 {...register("postalCode")}
                                 className={cn(errors.postalCode && "border-destructive focus-visible:ring-destructive")}
                             />
-                            <FieldError errors={[errors.postalCode]}/>
+                            {errors.postalCode && <FieldError>{errors.postalCode.message}</FieldError>}
                         </Field>
                         <Field>
                             <FieldLabel htmlFor="city">City</FieldLabel>
-                            <Input id="city" {...register("city")} readOnly tabIndex={-1} className={READ_ONLY_INPUT}/>
+                            <Input id="city" {...register("city")} readOnly className={READ_ONLY_INPUT}/>
                         </Field>
                     </div>
 
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <Field>
                             <FieldLabel htmlFor="region">Region</FieldLabel>
-                            <Input id="region" {...register("region")} readOnly tabIndex={-1} className={READ_ONLY_INPUT}/>
+                            <Input id="region" {...register("region")} readOnly className={READ_ONLY_INPUT}/>
                         </Field>
                         <Field>
                             <FieldLabel htmlFor="countryName">Country</FieldLabel>
-                            <Input id="countryName" {...register("countryName")} readOnly tabIndex={-1} className={READ_ONLY_INPUT}/>
+                            <Input id="countryName" {...register("countryName")} readOnly className={READ_ONLY_INPUT}/>
                         </Field>
                     </div>
 
@@ -187,7 +186,10 @@ export default function AddressCard({address}: {address: Address | null}) {
                                 type="button"
                                 variant="white"
                                 className="w-35"
-                                onClick={() => reset()}
+                                onClick={() => {
+                                    reset();
+                                    setError(null);
+                                }}
                                 disabled={!isDirty || isSubmitting}
                             >
                                 Reset
@@ -202,7 +204,7 @@ export default function AddressCard({address}: {address: Address | null}) {
                 <FormErrorAlert message={error} className="mt-4"/>
             </CardContent>
 
-            {address && <DeleteAddressDialog open={deleteOpen} onOpenChange={setDeleteOpen}/>}
+            <DeleteAddressDialog open={deleteOpen} onOpenChange={setDeleteOpen}/>
         </Card>
     );
 }

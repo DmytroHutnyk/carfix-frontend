@@ -28,7 +28,7 @@ export type UseAutocompleteSuggestionsReturn = {
  * (https://developers.google.com/maps/documentation/javascript/place-autocomplete-data)
  *
  * @param inputString The input string for which to fetch autocomplete suggestions.
- * @param requestOptions Overrides for the defaults above (e.g. `includedPrimaryTypes`, `includedRegionCodes`);
+ * @param requestOptions Overrides for the hook's defaults (e.g. `includedPrimaryTypes`, `includedRegionCodes`);
  *   pass a module-level constant — the effect does not re-run on a new object identity.
  *   (See {@link https://developers.google.com/maps/documentation/javascript/reference/autocomplete-data#AutocompleteRequest}).
  *

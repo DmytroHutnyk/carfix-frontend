@@ -64,9 +64,7 @@ export interface UpdateUserRequest {
     preferredLocation: LocationRequest | null;
 }
 
-/* Address card. Street, city, region and country come from the picked Google address and are
- * read-only in the form; building number, postal code and apartment are typed. countryName is
- * display-only and never sent. */
+/* Address card form; countryName is display-only and never sent. */
 export const updateAddressSchema = z.object({
     streetName: z.string()
         .trim()

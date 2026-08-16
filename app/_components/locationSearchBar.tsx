@@ -91,7 +91,8 @@ export default function LocationSearchBar({id, placeholder = "Location", value, 
                         lat: coordinates ? coordinates.lat() : null,
                         lng: coordinates ? coordinates.lng() : null,
                     });
-                });
+                })
+                .catch(() => resetSession());
         },
         [onPlaceSelected, resetSession]
     );

@@ -1,4 +1,4 @@
-// Shared identity core — mirrors the backend UserCoreResponse field-for-field
+// Shared identity core
 //TODO infer from zod schema
 export interface Location {
     city: string | null;

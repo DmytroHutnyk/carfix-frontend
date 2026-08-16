@@ -94,7 +94,8 @@ export default function AddressSearchBar({id, onAddressPicked}: AddressSearchBar
                         googlePlaceId: result?.place_id ?? place.id,
                     });
                     setText("");
-                });
+                })
+                .catch(() => resetSession());
         },
         [onAddressPicked, resetSession]
     );

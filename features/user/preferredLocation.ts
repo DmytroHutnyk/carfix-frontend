@@ -30,8 +30,7 @@ export function sameLocation(a: Location | null, b: Location | null): boolean {
         && a.longitude === b.longitude;
 }
 
-/* Writing into the persisted search-location store is what "prefill the header" means —
-   SearchRow reads that store, and the cookie makes it survive reloads. */
+/* SearchRow reads this persisted store — writing here is what "prefill the header" means. */
 export function applyPreferredLocation(location: Location | null): void {
     const next = location ? toSearchLocation(location) : null;
     if (next) useSearchLocation.getState().setSearchLocation(next);
