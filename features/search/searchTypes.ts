@@ -37,6 +37,18 @@ export interface MatchedService {
     categoryName: string;
 }
 
+export interface AvailableStart {
+    date: string;
+    startTime: string;
+}
+
+export interface SearchAvailability {
+    from: string;
+    to: string;
+    timeFrom: string | null;
+    timeTo: string | null;
+}
+
 export interface WorkshopResult {
     branchId: string;
     name: string;
@@ -49,6 +61,8 @@ export interface WorkshopResult {
     rating: number | null;
     reviewCount: number | null;
     matchedServices: MatchedService[];
+    tz: string;
+    nextAvailableStarts: AvailableStart[] | null;
 }
 
 export interface SearchEcho {
@@ -59,6 +73,7 @@ export interface SearchEcho {
     city: string | null;
     voivodeship: string | null;
     country: string | null;
+    availability: SearchAvailability | null;
 }
 
 export interface WorkshopSearchPage {
@@ -88,4 +103,8 @@ export interface WorkshopSearchParams {
     sort: string | null;
     pinnedBranchId: string | null;
     size: number | null;
+    from: string | null;
+    to: string | null;
+    timeFrom: string | null;
+    timeTo: string | null;
 }

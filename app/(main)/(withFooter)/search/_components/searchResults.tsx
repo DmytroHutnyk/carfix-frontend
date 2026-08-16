@@ -5,7 +5,7 @@ import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {useMemo} from "react";
 
 import {useWorkshopSearch} from "@/features/search/useWorkshopSearch";
-import {parseInitialPage, parseSearchParams} from "@/features/search/searchUrl";
+import {buildBranchUrl, parseInitialPage, parseSearchParams} from "@/features/search/searchUrl";
 import {composeEmptyMessage, composeTitle, SEARCH_SORTS} from "@/features/search/searchList";
 import {countryName, COUNTRY_CENTERS, isCountryCode} from "@/lib/appTypes";
 import {toDisplayError} from "@/lib/errorHandler";
@@ -50,7 +50,7 @@ export default function SearchResults() {
     } = useWorkshopSearch(effectiveParams, initialPage, searchEnabled);
 
     // used for clearing filters
-    const NARROWING = ["q", "serviceName", "categoryId", "label", "pinnedBranchId", "radiusKm"] as const;
+    const NARROWING = ["q", "serviceName", "categoryId", "label", "pinnedBranchId", "radiusKm", "from", "to", "timeFrom", "timeTo"] as const;
     const hasNarrowingFilters = NARROWING.some((key) => searchParams.has(key)) || carFilterActive;
     const hasPlaceFilter = searchParams.has("city") || searchParams.has("voivodeship");
 
@@ -150,6 +150,8 @@ export default function SearchResults() {
                     <WorkshopResultCard
                         key={workshop.branchId}
                         workshop={workshop}
+                        href={buildBranchUrl(workshop.branchId, params)}
+                        singleDay={params.from != null && params.from === params.to}
                         pinned={workshop.branchId === params.pinnedBranchId}
                     />
                 ))}
