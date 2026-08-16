@@ -1,5 +1,6 @@
 "use client"
 
+import {useEffect} from "react";
 import {useBranchRegistrationDraft} from "@/features/branchRegistration/useBranchRegistrationDraft";
 import BasicInfoStep from "@/owner/branches/new/_components/basicInfoStep";
 import OpeningHoursStep from "@/owner/branches/new/_components/openingHoursStep";
@@ -13,6 +14,10 @@ import SuccessCard from "@/owner/branches/new/_components/successCard";
 export default function BranchRegistrationWizard() {
     const step = useBranchRegistrationDraft((s) => s.step);
     const result = useBranchRegistrationDraft((s) => s.result);
+    const reset = useBranchRegistrationDraft((s) => s.reset);
+
+    /* Leaving the flow starts the next visit with a clean wizard. */
+    useEffect(() => reset, [reset]);
 
     if (result) {
         return <SuccessCard result={result}/>;

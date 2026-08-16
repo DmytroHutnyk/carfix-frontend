@@ -1,19 +1,12 @@
 "use client"
 
-import {useEffect} from "react";
 import Link from "next/link";
 import {CheckCircle2} from "lucide-react";
 import {Button} from "@/_components/shadcn/button";
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import {BranchRegistrationResponse} from "@/features/branchRegistration/branchRegistrationTypes";
-import {useBranchRegistrationDraft} from "@/features/branchRegistration/useBranchRegistrationDraft";
 
 export default function SuccessCard({result}: { result: BranchRegistrationResponse }) {
-    const reset = useBranchRegistrationDraft((s) => s.reset);
-
-    /* Leaving the page after a success starts the next visit with a clean wizard. */
-    useEffect(() => reset, [reset]);
-
     return (
         <Card className="w-full max-w-md text-center">
             <CardHeader>
