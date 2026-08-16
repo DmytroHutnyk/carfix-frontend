@@ -31,7 +31,7 @@ export default function BranchFilters({filter, sort, onFilterChange, onSortChang
             </ToggleGroup>
 
             <Select value={sort} onValueChange={(v) => onSortChange(v as BranchSortKey)}>
-                <SelectTrigger className="ml-auto w-52">
+                <SelectTrigger className="ml-auto w-52 justify-start gap-2 [&>span]:min-w-0 [&>svg:last-of-type]:ml-auto">
                     <ArrowUpDown className="h-4 w-4 text-muted-foreground"/>
                     <SelectValue/>
                 </SelectTrigger>

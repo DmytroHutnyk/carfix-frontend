@@ -19,7 +19,7 @@ export function filterBranches(branches: OwnerBranchSummary[], filter: BranchFil
         case "pending":
             return branches.filter((b) => b.status === "VERIFICATION_PENDING");
         case "openNow":
-            return branches.filter((b) => b.openNow);
+            return branches.filter((b) => b.status === "ACTIVE" && b.openNow);
         default:
             return branches;
     }

@@ -56,15 +56,19 @@ export default function Page() {
                 <h1 className="text-3xl font-bold tracking-tight">My Service Points</h1>
             </section>
 
-            {/*-==-==-=-=-=-=--==-=-=-=-Filters-==-==-=-=-=-=-=-=-=---==*/}
-            <section className="pt-6">
-                <BranchFilters filter={filter} sort={sort} onFilterChange={setFilter} onSortChange={setSort}/>
-            </section>
+            {!isError && branches.length > 0 && (
+                <>
+                    {/*-==-==-=-=-=-=--==-=-=-=-Filters-==-==-=-=-=-=-=-=-=---==*/}
+                    <section className="pt-6">
+                        <BranchFilters filter={filter} sort={sort} onFilterChange={setFilter} onSortChange={setSort}/>
+                    </section>
 
-            {/*-==-==-=-=-=-=--==-=-=-=-Totals-==-==-=-=-=-=-=-=-=---==*/}
-            <section className="pt-6">
-                <StatsStrip totals={totals}/>
-            </section>
+                    {/*-==-==-=-=-=-=--==-=-=-=-Totals-==-==-=-=-=-=-=-=-=---==*/}
+                    <section className="pt-6">
+                        <StatsStrip totals={totals}/>
+                    </section>
+                </>
+            )}
 
             {/*-==-==-=-=-=-=--==-=-=-=-Cards-==-==-=-=-=-=-=-=-=---==*/}
             <section className="pt-6">

@@ -72,7 +72,7 @@ export default function BranchCard({branch}: { branch: OwnerBranchSummary }) {
                             <dd className="text-2xl font-semibold tabular-nums">
                                 {branch.employeesOnDutyToday} / {branch.employeesTotal}
                             </dd>
-                            <Progress value={personnelPercent(branch)} className="h-1.5"/>
+                            <Progress value={personnelPercent(branch)} className="h-1.5" aria-label="Personnel on duty"/>
                         </div>
                     </dl>
 
