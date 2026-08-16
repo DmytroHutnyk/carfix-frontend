@@ -3,14 +3,18 @@ import {carProfileApi} from "@/features/carProfile/carProfileApi";
 import {carProfileKeys} from "@/features/carProfile/keys";
 import {CarProfile, CarProfileForm} from "@/features/carProfile/carProfileTypes";
 import {ApiError} from "@/lib/apiTypes";
+import {useAuth} from "@/features/auth/useAuth";
+import {isCustomer} from "@/features/user/userTypes";
 
 export function useCarProfiles(options?: { enabled?: boolean }) {
     const queryClient = useQueryClient();
+    const {account} = useAuth();
+    const customerSession = account !== null && isCustomer(account);
 
     const listQuery = useQuery<CarProfile[], ApiError>({
         queryKey: carProfileKeys.list(),
         queryFn: carProfileApi.getMyCarProfiles,
-        enabled: options?.enabled ?? true,
+        enabled: (options?.enabled ?? true) && customerSession,
         staleTime: 5 * 60 * 1000,
     });
 
