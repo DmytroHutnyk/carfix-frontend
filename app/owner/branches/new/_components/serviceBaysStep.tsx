@@ -21,7 +21,7 @@ export default function ServiceBaysStep() {
             createTypeLabel="Add type"
             initialTypes={types}
             initialRows={rows}
-            onBack={back}
+            onBack={(t, r) => { setServiceBays(t, r); back(); }}
             onContinue={(nextTypes, nextRows) => {
                 setServiceBays(nextTypes, nextRows);
                 next();

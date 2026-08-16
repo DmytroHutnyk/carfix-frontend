@@ -160,7 +160,7 @@ export const DEFAULT_OPENING_HOURS: OpeningHoursForm = {
         WEDNESDAY: {status: "OPEN", opensAt: "09:00", closesAt: "17:00"},
         THURSDAY: {status: "OPEN", opensAt: "09:00", closesAt: "17:00"},
         FRIDAY: {status: "OPEN", opensAt: "09:00", closesAt: "17:00"},
-        SATURDAY: {status: "BY_APPOINTMENT", opensAt: "", closesAt: ""},
+        SATURDAY: {status: "BY_APPOINTMENT", opensAt: "09:00", closesAt: "14:00"},
         SUNDAY: {status: "CLOSED", opensAt: "", closesAt: ""},
     },
 };

@@ -21,7 +21,7 @@ export default function EquipmentStep() {
             createTypeLabel="Add category"
             initialTypes={types}
             initialRows={rows}
-            onBack={back}
+            onBack={(t, r) => { setEquipment(t, r); back(); }}
             onContinue={(nextTypes, nextRows) => {
                 setEquipment(nextTypes, nextRows);
                 next();

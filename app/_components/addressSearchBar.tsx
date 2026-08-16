@@ -14,7 +14,7 @@ import {useAutocompleteSuggestions} from "@/lib/use-autocomplete-suggestions";
 
 type PlacePrediction = google.maps.places.PlacePrediction;
 
-/** Everything one geocoded street address contributes to an address form. */
+/** Everything one geocoded street address contributes to the address form. */
 export type PickedAddress = {
     streetName: string | null;
     buildingNumber: string | null;
@@ -28,7 +28,7 @@ export type PickedAddress = {
     googlePlaceId: string | null;
 };
 
-/* Street-level results only, from any country: an address is not tied to the country the
+/* Street-level results only, from any country: a home address is not tied to the country the
    user browses workshops in. */
 const ADDRESS_REQUEST_OPTIONS: Partial<google.maps.places.AutocompleteRequest> = {
     includedPrimaryTypes: ["street_address", "premise", "subpremise", "route"],
@@ -95,7 +95,8 @@ export default function AddressSearchBar({id, placeholder = "Search your address
                         googlePlaceId: result?.place_id ?? place.id,
                     });
                     setText("");
-                });
+                })
+                .catch(() => resetSession());
         },
         [onAddressPicked, resetSession]
     );
@@ -111,7 +112,7 @@ export default function AddressSearchBar({id, placeholder = "Search your address
                 setText(next);
             }}
             onValueChange={handleSelect}
-            itemToStringLabel={(prediction) => prediction.text.text}
+            itemToStringLabel={(prediction: PlacePrediction) => prediction.text.text}
         >
             <ComboboxInput
                 id={id}

@@ -14,6 +14,8 @@ interface CreatableSelectProps {
     onChange: (value: string) => void;
     onCreate: (name: string) => void;
     placeholder: string;
+    maxNameLength: number;
+    ariaLabel?: string;
     createLabel?: string;
     searchPlaceholder?: string;
     invalid?: boolean;
@@ -22,7 +24,7 @@ interface CreatableSelectProps {
 
 /* Single pick from a user-defined list; typing a name that is not in the list offers to add it. */
 export default function CreatableSelect({
-                                            id, value, options, onChange, onCreate, placeholder,
+                                            id, value, options, onChange, onCreate, placeholder, maxNameLength, ariaLabel,
                                             createLabel = "Add", searchPlaceholder = "Search or type a new one…",
                                             invalid = false, className,
                                         }: CreatableSelectProps) {
@@ -32,7 +34,7 @@ export default function CreatableSelect({
     const trimmed = query.trim();
     const filtered = options.filter((option) => option.toLowerCase().includes(trimmed.toLowerCase()));
     const exists = options.some((option) => option.toLowerCase() === trimmed.toLowerCase());
-    const canCreate = trimmed.length > 0 && !exists;
+    const canCreate = trimmed.length > 0 && trimmed.length <= maxNameLength && !exists;
 
     const close = () => {
         setOpen(false);
@@ -53,6 +55,7 @@ export default function CreatableSelect({
                     type="button"
                     variant="outline"
                     role="combobox"
+                    aria-label={ariaLabel}
                     aria-expanded={open}
                     aria-invalid={invalid || undefined}
                     className={cn("w-full justify-between font-normal", !value && "text-muted-foreground",
@@ -64,7 +67,7 @@ export default function CreatableSelect({
             </PopoverTrigger>
             <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
                 <Command shouldFilter={false}>
-                    <CommandInput placeholder={searchPlaceholder} value={query} onValueChange={setQuery}/>
+                    <CommandInput placeholder={searchPlaceholder} value={query} onValueChange={setQuery} maxLength={maxNameLength}/>
                     <CommandList>
                         <CommandEmpty>Type a name to add the first one</CommandEmpty>
                         {filtered.length > 0 && (

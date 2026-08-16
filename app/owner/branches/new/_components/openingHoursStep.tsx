@@ -85,7 +85,7 @@ export default function OpeningHoursStep() {
             title="Define opening hours for this service point"
             subtitle='(you don’t need hours if status is "Closed")'
             centeredTitle
-            back={{label: "Back", onClick: back}}
+            back={{label: "Back", onClick: () => { setOpeningHours(getValues()); back(); }}}
             next={{label: "Continue", form: FORM_ID}}
         >
             <form id={FORM_ID} onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-3">

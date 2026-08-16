@@ -43,7 +43,7 @@ export default function ServiceFormDialog({
                                               onCreateBayType, onCreateRole, onCreateEquipmentType, onSave,
                                           }: ServiceFormDialogProps) {
     const isEdit = initial !== undefined;
-    const {categories, isLoading: categoriesLoading} = useServiceCategories();
+    const {categories, isLoading: categoriesLoading, isError: categoriesError} = useServiceCategories();
     const [hintOpen, setHintOpen] = useState(false);
 
     const {register, control, handleSubmit, formState: {errors}} = useForm<ServiceForm>({
@@ -109,14 +109,14 @@ export default function ServiceFormDialog({
                     </div>
 
                     <Field>
-                        <FieldLabel>Category</FieldLabel>
+                        <FieldLabel htmlFor="service-category">Category</FieldLabel>
                         <Controller
                             control={control}
                             name="categoryId"
                             render={({field}) => (
                                 <Select value={field.value ? String(field.value) : ""} onValueChange={(v) => field.onChange(Number(v))}
                                         disabled={categoriesLoading}>
-                                    <SelectTrigger aria-invalid={!!errors.categoryId || undefined} className={invalid(errors.categoryId)}>
+                                    <SelectTrigger id="service-category" aria-invalid={!!errors.categoryId || undefined} className={invalid(errors.categoryId)}>
                                         <SelectValue placeholder={categoriesLoading ? "Loading…" : "Select category"}/>
                                     </SelectTrigger>
                                     <SelectContent>
@@ -126,18 +126,19 @@ export default function ServiceFormDialog({
                             )}
                         />
                         <FieldError message={errors.categoryId?.message}/>
+                        {categoriesError && <FieldError message="Couldn't load categories — reload the page and try again"/>}
                     </Field>
 
                     <Field>
-                        <FieldLabel>Acceptable bay types</FieldLabel>
+                        <FieldLabel htmlFor="service-bay-types">Acceptable bay types</FieldLabel>
                         <p className="text-xs text-muted-foreground">Any one free bay of these types can host the service.</p>
                         <Controller
                             control={control}
                             name="bayTypes"
                             render={({field}) => (
-                                <MultiSelectField values={field.value} options={bayTypes} onChange={field.onChange}
+                                <MultiSelectField id="service-bay-types" values={field.value} options={bayTypes} onChange={field.onChange}
                                                   onCreate={onCreateBayType} placeholder="Select bay types" createLabel="Add bay type"
-                                                  invalid={Boolean(errors.bayTypes)}
+                                                  maxNameLength={40} invalid={Boolean(errors.bayTypes)}
                                                   emptyMessage="No bay types yet — type a name to add one"/>
                             )}
                         />
@@ -154,8 +155,9 @@ export default function ServiceFormDialog({
                                         control={control}
                                         name={`employeeRequirements.${index}.roles`}
                                         render={({field}) => (
-                                            <MultiSelectField values={field.value} options={roles} onChange={field.onChange}
+                                            <MultiSelectField id={`service-employee-req-${index}`} values={field.value} options={roles} onChange={field.onChange}
                                                               onCreate={onCreateRole} placeholder="Select roles" createLabel="Add role"
+                                                              maxNameLength={50} ariaLabel={`Required employee ${index + 1} roles`}
                                                               invalid={Boolean(errors.employeeRequirements?.[index]?.roles)}
                                                               emptyMessage="No roles yet — type a name to add one"/>
                                         )}
@@ -185,8 +187,9 @@ export default function ServiceFormDialog({
                                         control={control}
                                         name={`equipmentRequirements.${index}.types`}
                                         render={({field}) => (
-                                            <MultiSelectField values={field.value} options={equipmentTypes} onChange={field.onChange}
+                                            <MultiSelectField id={`service-equipment-req-${index}`} values={field.value} options={equipmentTypes} onChange={field.onChange}
                                                               onCreate={onCreateEquipmentType} placeholder="Select equipment" createLabel="Add category"
+                                                              maxNameLength={40} ariaLabel={`Required equipment ${index + 1} categories`}
                                                               invalid={Boolean(errors.equipmentRequirements?.[index]?.types)}
                                                               emptyMessage="No equipment categories yet — type a name to add one"/>
                                         )}
@@ -205,13 +208,13 @@ export default function ServiceFormDialog({
                     </Field>
 
                     <Field>
-                        <FieldLabel>Status</FieldLabel>
+                        <FieldLabel htmlFor="service-status">Status</FieldLabel>
                         <Controller
                             control={control}
                             name="status"
                             render={({field}) => (
                                 <Select value={field.value} onValueChange={(v) => field.onChange(v as ServiceStatus)}>
-                                    <SelectTrigger><SelectValue/></SelectTrigger>
+                                    <SelectTrigger id="service-status"><SelectValue/></SelectTrigger>
                                     <SelectContent>
                                         {[SERVICE_STATUS.ACTIVE, SERVICE_STATUS.SUSPENDED].map((s) => (
                                             <SelectItem key={s} value={s}>{SERVICE_STATUS_LABEL[s]}</SelectItem>

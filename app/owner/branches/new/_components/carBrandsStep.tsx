@@ -16,7 +16,7 @@ export default function CarBrandsStep() {
     const next = useBranchRegistrationDraft((s) => s.next);
     const back = useBranchRegistrationDraft((s) => s.back);
 
-    const {brands, isBrandsLoading} = useCarCatalog(null, null);
+    const {brands, isBrandsLoading, isBrandsError} = useCarCatalog(null, null);
     const [query, setQuery] = useState("");
     const [selected, setSelected] = useState<number[]>(saved);
 
@@ -45,7 +45,7 @@ export default function CarBrandsStep() {
     return (
         <WizardCard
             title="Select car brands you service"
-            back={{label: "Back", onClick: back}}
+            back={{label: "Back", onClick: () => { setCarBrandIds(selected); back(); }}}
             next={{label: "Continue", onClick: onContinue}}
         >
             <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search brands…"/>
@@ -62,7 +62,10 @@ export default function CarBrandsStep() {
                 <ScrollArea className="h-72">
                     <div className="space-y-3 pr-3">
                         {isBrandsLoading && <p className="text-sm text-muted-foreground">Loading brands…</p>}
-                        {!isBrandsLoading && visible.length === 0 && (
+                        {isBrandsError && (
+                            <p className="text-sm text-destructive">Couldn't load brands — reload the page and try again</p>
+                        )}
+                        {!isBrandsLoading && !isBrandsError && visible.length === 0 && (
                             <p className="text-sm text-muted-foreground">No brands match “{query}”</p>
                         )}
                         {visible.map((brand) => (

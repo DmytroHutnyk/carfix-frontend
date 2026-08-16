@@ -49,10 +49,10 @@ export default function EmployeesStep() {
             subtitle="You can add more details later."
             hint={<p>Roles are yours to define (Mechanic, Diagnostician, EV high-voltage…). A service later names the roles that can perform it; any employee holding one of them qualifies. Login accounts for staff can be linked later.</p>}
             wide
-            back={{label: "Back", onClick: back}}
+            back={{label: "Back", onClick: () => { setEmployees(roles, rows); back(); }}}
             next={{label: "Continue", onClick: submit}}
         >
-            <Button type="button" onClick={() => setRows([...rows, newRow()])}>
+            <Button type="button" onClick={() => { setRows([...rows, newRow()]); setShowErrors(false); }}>
                 <Plus/> Add employee
             </Button>
 
@@ -69,10 +69,10 @@ export default function EmployeesStep() {
                         <div key={row.id} className="space-y-2 rounded-xl border border-border p-4">
                             <div className="grid grid-cols-[1fr_1fr_1fr_auto] items-start gap-3">
                                 <Input value={row.firstName} onChange={(e) => update(row.id, {firstName: e.target.value})}
-                                       placeholder="First name" aria-label="First name"
+                                       placeholder="First name" maxLength={50} aria-label="First name"
                                        aria-invalid={firstNameMissing || undefined} className={invalid(firstNameMissing)}/>
                                 <Input value={row.lastName} onChange={(e) => update(row.id, {lastName: e.target.value})}
-                                       placeholder="Last name" aria-label="Last name"
+                                       placeholder="Last name" maxLength={50} aria-label="Last name"
                                        aria-invalid={lastNameMissing || undefined} className={invalid(lastNameMissing)}/>
                                 <CreatableSelect
                                     value={row.role}
@@ -80,6 +80,8 @@ export default function EmployeesStep() {
                                     onChange={(role) => update(row.id, {role})}
                                     onCreate={(name) => setRoles([...roles, name])}
                                     placeholder="Select or add a role"
+                                    maxNameLength={50}
+                                    ariaLabel="Role"
                                     createLabel="Add role"
                                     invalid={roleMissing}
                                 />

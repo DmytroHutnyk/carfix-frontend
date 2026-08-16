@@ -15,6 +15,8 @@ interface MultiSelectFieldProps {
     onChange: (values: string[]) => void;
     onCreate?: (name: string) => void;
     placeholder: string;
+    maxNameLength: number;
+    ariaLabel?: string;
     createLabel?: string;
     searchPlaceholder?: string;
     invalid?: boolean;
@@ -23,7 +25,7 @@ interface MultiSelectFieldProps {
 
 /* Multi pick from a user-defined list, shown as removable chips under the trigger; optional inline creation. */
 export default function MultiSelectField({
-                                             id, values, options, onChange, onCreate, placeholder,
+                                             id, values, options, onChange, onCreate, placeholder, maxNameLength, ariaLabel,
                                              createLabel = "Add", searchPlaceholder = "Search…",
                                              invalid = false, emptyMessage = "Nothing to pick yet",
                                          }: MultiSelectFieldProps) {
@@ -33,7 +35,7 @@ export default function MultiSelectField({
     const trimmed = query.trim();
     const filtered = options.filter((option) => option.toLowerCase().includes(trimmed.toLowerCase()));
     const exists = options.some((option) => option.toLowerCase() === trimmed.toLowerCase());
-    const canCreate = onCreate !== undefined && trimmed.length > 0 && !exists;
+    const canCreate = onCreate !== undefined && trimmed.length > 0 && trimmed.length <= maxNameLength && !exists;
 
     const toggle = (option: string) =>
         onChange(values.includes(option) ? values.filter((v) => v !== option) : [...values, option]);
@@ -53,6 +55,7 @@ export default function MultiSelectField({
                         type="button"
                         variant="outline"
                         role="combobox"
+                        aria-label={ariaLabel}
                         aria-expanded={open}
                         aria-invalid={invalid || undefined}
                         className={cn("w-full justify-between font-normal", values.length === 0 && "text-muted-foreground",
@@ -64,7 +67,7 @@ export default function MultiSelectField({
                 </PopoverTrigger>
                 <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
                     <Command shouldFilter={false}>
-                        <CommandInput placeholder={searchPlaceholder} value={query} onValueChange={setQuery}/>
+                        <CommandInput placeholder={searchPlaceholder} value={query} onValueChange={setQuery} maxLength={maxNameLength}/>
                         <CommandList>
                             <CommandEmpty>{emptyMessage}</CommandEmpty>
                             {filtered.length > 0 && (

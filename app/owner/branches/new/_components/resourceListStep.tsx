@@ -20,7 +20,7 @@ interface ResourceListStepProps {
     createTypeLabel: string;
     initialTypes: string[];
     initialRows: ResourceRow[];
-    onBack: () => void;
+    onBack: (types: string[], rows: ResourceRow[]) => void;
     onContinue: (types: string[], rows: ResourceRow[]) => void;
 }
 
@@ -55,10 +55,10 @@ export default function ResourceListStep({
             subtitle={subtitle}
             hint={hint}
             wide
-            back={{label: "Back", onClick: onBack}}
+            back={{label: "Back", onClick: () => onBack(types, rows)}}
             next={{label: "Continue", onClick: submit}}
         >
-            <Button type="button" onClick={() => setRows([...rows, newRow()])}>
+            <Button type="button" onClick={() => { setRows([...rows, newRow()]); setShowErrors(false); }}>
                 <Plus/> {addLabel}
             </Button>
 
@@ -78,6 +78,7 @@ export default function ResourceListStep({
                                         value={row.name}
                                         onChange={(e) => update(row.id, {name: e.target.value})}
                                         placeholder={namePlaceholder}
+                                        maxLength={100}
                                         aria-label={namePlaceholder}
                                         aria-invalid={nameMissing || undefined}
                                         className={cn(nameMissing && "border-destructive focus-visible:ring-destructive")}
@@ -91,6 +92,8 @@ export default function ResourceListStep({
                                         onChange={(type) => update(row.id, {type})}
                                         onCreate={(name) => setTypes([...types, name])}
                                         placeholder={typePlaceholder}
+                                        maxNameLength={40}
+                                        ariaLabel={typePlaceholder}
                                         createLabel={createTypeLabel}
                                         invalid={typeMissing}
                                     />
