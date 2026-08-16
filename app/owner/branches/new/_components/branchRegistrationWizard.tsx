@@ -7,13 +7,15 @@ import CarBrandsStep from "@/owner/branches/new/_components/carBrandsStep";
 import ServiceBaysStep from "@/owner/branches/new/_components/serviceBaysStep";
 import EquipmentStep from "@/owner/branches/new/_components/equipmentStep";
 import EmployeesStep from "@/owner/branches/new/_components/employeesStep";
+import ServicesStep from "@/owner/branches/new/_components/servicesStep";
+import SuccessCard from "@/owner/branches/new/_components/successCard";
 
 export default function BranchRegistrationWizard() {
     const step = useBranchRegistrationDraft((s) => s.step);
     const result = useBranchRegistrationDraft((s) => s.result);
 
     if (result) {
-        return null;
+        return <SuccessCard result={result}/>;
     }
 
     switch (step) {
@@ -29,7 +31,7 @@ export default function BranchRegistrationWizard() {
             return <EquipmentStep/>;
         case "employees":
             return <EmployeesStep/>;
-        default:
-            return <BasicInfoStep/>;
+        case "services":
+            return <ServicesStep/>;
     }
 }
