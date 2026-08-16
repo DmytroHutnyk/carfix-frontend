@@ -3,17 +3,18 @@
 import {useEffect, useRef, useState} from "react";
 import {Workshop, WorkshopService} from "@/features/workshop/workshopTypes";
 import {SlotPick, VisitRange} from "@/features/slots/slotTypes";
-import {defaultVisitRange, MAX_SERVICES_PER_VISIT, pickRandom, SUGGESTION_COUNT} from "@/features/slots/slotList";
+import {initialVisitRange, MAX_SERVICES_PER_VISIT, pickRandom, SUGGESTION_COUNT} from "@/features/slots/slotList";
 import SuggestionsStep from "./suggestionsStep";
 import WhenStep from "./whenStep";
 import ConfirmStep from "./confirmStep";
 
 type Step = "suggestions" | "when" | "confirm";
 
-export default function BookingFlow({workshop, selectedServices, onToggleService, onClose}: {
+export default function BookingFlow({workshop, selectedServices, onToggleService, initialRange, onClose}: {
     workshop: Workshop;
     selectedServices: WorkshopService[];
     onToggleService: (serviceId: number) => void;
+    initialRange: VisitRange | null;
     onClose: () => void;
 }) {
     const selectedIds = selectedServices.map((service) => service.serviceId);
@@ -28,7 +29,7 @@ export default function BookingFlow({workshop, selectedServices, onToggleService
     const steps: Step[] = suggestions.length > 0 ? ["suggestions", "when", "confirm"] : ["when", "confirm"];
 
     const [step, setStep] = useState<Step>(steps[0]);
-    const [range, setRange] = useState<VisitRange>(() => defaultVisitRange(workshop.tz));
+    const [range, setRange] = useState<VisitRange>(() => initialVisitRange(initialRange, workshop.tz));
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
     const [selectedSlot, setSelectedSlot] = useState<SlotPick | null>(null);
 

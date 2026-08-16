@@ -92,3 +92,12 @@ export function formatDayOfWeek(iso: string): string {
 export function formatDayMonth(iso: string): string {
     return format(parseIsoDate(iso), "MMM d");
 }
+
+/* A range handed over by the search page: floor at the branch's today, cap at MAX_RANGE_DAYS, otherwise the default week */
+export function initialVisitRange(range: VisitRange | null, tz: string): VisitRange {
+    if (!range) return defaultVisitRange(tz);
+    const from = range.from < todayIsoInTz(tz) ? todayIsoInTz(tz) : range.from;
+    if (range.to < from) return defaultVisitRange(tz);
+    const maxTo = toIsoDate(addDays(parseIsoDate(from), MAX_RANGE_DAYS - 1));
+    return {from, to: range.to > maxTo ? maxTo : range.to};
+}

@@ -4,12 +4,14 @@ import {useState} from "react";
 import {Button} from "@/_components/shadcn/button";
 import {Popover, PopoverContent, PopoverTrigger} from "@/_components/shadcn/popover";
 import {Workshop, WorkshopService} from "@/features/workshop/workshopTypes";
+import {VisitRange} from "@/features/slots/slotTypes";
 import BookingFlow from "./bookingFlow";
 
-export default function BookingFlowPopover({workshop, selectedServices, onToggleService}: {
+export default function BookingFlowPopover({workshop, selectedServices, onToggleService, initialRange}: {
     workshop: Workshop;
     selectedServices: WorkshopService[];
     onToggleService: (serviceId: number) => void;
+    initialRange: VisitRange | null;
 }) {
     const [open, setOpen] = useState(false);
 
@@ -30,6 +32,7 @@ export default function BookingFlowPopover({workshop, selectedServices, onToggle
                     workshop={workshop}
                     selectedServices={selectedServices}
                     onToggleService={onToggleService}
+                    initialRange={initialRange}
                     onClose={() => setOpen(false)}
                 />
             </PopoverContent>

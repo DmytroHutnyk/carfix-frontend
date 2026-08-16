@@ -14,6 +14,7 @@ import {
 } from "@/_components/shadcn/breadcrumb";
 import {Card, CardContent, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import {isProblemDetailError} from "@/lib/apiTypes";
+import {VisitRange} from "@/features/slots/slotTypes";
 import {useWorkshop} from "@/features/workshop/useWorkshop";
 import WorkshopPageSkeleton from "./workshopPageSkeleton";
 import WorkshopGallery from "./workshopGallery";
@@ -26,9 +27,14 @@ import OpeningHoursCard from "./openingHoursCard";
 import ContactCard from "./contactCard";
 import ReviewsCard from "./reviewsCard";
 
-export default function WorkshopPageContent({branchId}: { branchId: string }) {
+export default function WorkshopPageContent({branchId, initialServiceName, initialRange}: {
+    branchId: string;
+    initialServiceName: string | null;
+    initialRange: VisitRange | null;
+}) {
     const {workshop, isLoading, isError, error} = useWorkshop(branchId);
-    const [selectedIds, setSelectedIds] = useState<number[]>([]);
+    /* null = the user has not touched the basket yet, so the deep-linked service stays preselected */
+    const [selectedIds, setSelectedIds] = useState<number[] | null>(null);
 
     if (isLoading) return <WorkshopPageSkeleton/>;
     if (isError && isProblemDetailError(error) && error.status === 404) {
@@ -49,13 +55,22 @@ export default function WorkshopPageContent({branchId}: { branchId: string }) {
     }
 
     const allServices = workshop.serviceCategories.flatMap((category) => category.services);
-    const selectedServices = allServices.filter((service) => selectedIds.includes(service.serviceId));
+    const preselectedIds = initialServiceName
+        ? allServices
+            .filter((service) => service.name.toLowerCase() === initialServiceName.toLowerCase())
+            .slice(0, 1)
+            .map((service) => service.serviceId)
+        : [];
+    const effectiveIds = selectedIds ?? preselectedIds;
+    const selectedServices = allServices.filter((service) => effectiveIds.includes(service.serviceId));
 
     const toggleService = (serviceId: number) =>
-        setSelectedIds((prev) =>
-            prev.includes(serviceId)
-                ? prev.filter((id) => id !== serviceId)
-                : [...prev, serviceId]);
+        setSelectedIds((prev) => {
+            const current = prev ?? preselectedIds;
+            return current.includes(serviceId)
+                ? current.filter((id) => id !== serviceId)
+                : [...current, serviceId];
+        });
 
     return (
         <div className="mx-auto w-full max-w-[1475px] px-6 py-6">
@@ -99,7 +114,7 @@ export default function WorkshopPageContent({branchId}: { branchId: string }) {
                     )}
                     <ServicesSection
                         categories={workshop.serviceCategories}
-                        selectedIds={selectedIds}
+                        selectedIds={effectiveIds}
                         onToggle={toggleService}
                     />
                     <ReviewsCard
@@ -114,7 +129,12 @@ export default function WorkshopPageContent({branchId}: { branchId: string }) {
                     <BrandsCard brands={workshop.brands}/>
                     <OpeningHoursCard openingHours={workshop.openingHours} tz={workshop.tz}/>
                     <ContactCard phoneNumber={workshop.phoneNumber} email={workshop.email}/>
-                    <SummaryCard workshop={workshop} selectedServices={selectedServices} onToggle={toggleService}/>
+                    <SummaryCard
+                        workshop={workshop}
+                        selectedServices={selectedServices}
+                        onToggle={toggleService}
+                        initialRange={initialRange}
+                    />
                 </div>
             </div>
         </div>
