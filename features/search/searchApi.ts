@@ -36,6 +36,12 @@ export const searchApi = {
         if (params.sort) query.set("sort", params.sort);
         if (params.pinnedBranchId) query.set("pinnedBranchId", params.pinnedBranchId);
         if (params.size != null) query.set("size", String(params.size));
+        if (params.from && params.to) {
+            query.set("from", params.from);
+            query.set("to", params.to);
+            if (params.timeFrom) query.set("timeFrom", params.timeFrom);
+            if (params.timeTo) query.set("timeTo", params.timeTo);
+        }
         query.set("page", String(page));
         const result = await clientApi.get<WorkshopSearchPage>(`/search/workshops?${query.toString()}`);
         if (isApiError(result)) throw result;

@@ -3,6 +3,7 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {authKeys} from "@/features/auth/keys";
 import {privateScope} from "@/lib/scopes";
 import {authApi} from "@/features/auth/authApi"
+import {applyPreferredLocation} from "@/features/user/preferredLocation";
 
 export function useAuth(): UseAuthReturn {
     const queryClient = useQueryClient();
@@ -20,6 +21,7 @@ export function useAuth(): UseAuthReturn {
         mutationFn: authApi.login,
         onSuccess: (account) => { // TODO setQueryData is not type checked
             queryClient.setQueryData(authKeys.session(), account);
+            applyPreferredLocation(account.user.preferredLocation);
         },
     });
 
@@ -28,6 +30,7 @@ export function useAuth(): UseAuthReturn {
         mutationFn: authApi.registerCustomer,
         onSuccess: (account) => {
             queryClient.setQueryData(authKeys.session(), account);
+            applyPreferredLocation(account.user.preferredLocation);
         }
     })
 
