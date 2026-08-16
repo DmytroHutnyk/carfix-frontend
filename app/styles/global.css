@@ -47,6 +47,10 @@
   --success-badge: #BBF7D0;
   --success-badge-foreground: #166534;
 
+  --availability-high: #15803D;
+  --availability-medium: #D97706;
+  --availability-low: #DC2626;
+
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
@@ -97,6 +101,10 @@
 
   --success-badge: #BBF7D0;
   --success-badge-foreground: #166534;
+
+  --availability-high: #22C55E;
+  --availability-medium: #FBBF24;
+  --availability-low: #EF4444;
 
   --border: oklch(0 0 0);
   --input: oklch(1 0 0 / 15%);
@@ -159,6 +167,11 @@
 
   --color-success-badge: var(--success-badge);
   --color-success-badge-foreground: var(--success-badge-foreground);
+
+  --color-availability-high: var(--availability-high);
+  --color-availability-medium: var(--availability-medium);
+  --color-availability-low: var(--availability-low);
+
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
