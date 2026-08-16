@@ -96,7 +96,11 @@ export function formatDayMonth(iso: string): string {
 /* A range handed over by the search page: floor at the branch's today, cap at MAX_RANGE_DAYS, otherwise the default week */
 export function initialVisitRange(range: VisitRange | null, tz: string): VisitRange {
     if (!range) return defaultVisitRange(tz);
-    const from = range.from < todayIsoInTz(tz) ? todayIsoInTz(tz) : range.from;
+    /* A hand-crafted link can carry anything — an unparsable date would make date-fns throw further down */
+    const isDate = (iso: string) => !Number.isNaN(parseIsoDate(iso).getTime());
+    if (!isDate(range.from) || !isDate(range.to)) return defaultVisitRange(tz);
+    const today = todayIsoInTz(tz);
+    const from = range.from < today ? today : range.from;
     if (range.to < from) return defaultVisitRange(tz);
     const maxTo = toIsoDate(addDays(parseIsoDate(from), MAX_RANGE_DAYS - 1));
     return {from, to: range.to > maxTo ? maxTo : range.to};
