@@ -25,12 +25,12 @@ import {cn} from "@/lib/utils";
 const FORM_ID = "opening-hours-form";
 const STATUSES: DayStatus[] = [DAY_STATUS.OPEN, DAY_STATUS.BY_APPOINTMENT, DAY_STATUS.CLOSED];
 
-function TimeSelect({value, onChange, placeholder, disabled, invalid}: {
-    value: string; onChange: (v: string) => void; placeholder: string; disabled: boolean; invalid?: boolean;
+function TimeSelect({value, onChange, placeholder, ariaLabel, disabled, invalid}: {
+    value: string; onChange: (v: string) => void; placeholder: string; ariaLabel: string; disabled: boolean; invalid?: boolean;
 }) {
     return (
         <Select value={value} onValueChange={onChange} disabled={disabled}>
-            <SelectTrigger aria-invalid={invalid || undefined} className={cn("w-[130px]", invalid && "border-destructive")}>
+            <SelectTrigger aria-label={ariaLabel} aria-invalid={invalid || undefined} className={cn("w-[130px]", invalid && "border-destructive")}>
                 <SelectValue placeholder={placeholder}/>
             </SelectTrigger>
             <SelectContent>
@@ -46,12 +46,17 @@ export default function OpeningHoursStep() {
     const next = useBranchRegistrationDraft((s) => s.next);
     const back = useBranchRegistrationDraft((s) => s.back);
 
-    const {control, handleSubmit, setValue, getValues, formState: {errors}} = useForm<OpeningHoursForm>({
+    const {control, handleSubmit, setValue, getValues, trigger, formState: {errors}} = useForm<OpeningHoursForm>({
         resolver: zodResolver(openingHoursSchema),
         mode: "onSubmit",
         defaultValues: saved,
     });
     const days = useWatch({control, name: "days"});
+
+    /* The open/close pair error lands on `closesAt`, so refresh the whole day — a field-scoped revalidate leaves it stale. */
+    const revalidateDay = (day: Weekday) => {
+        trigger(`days.${day}`);
+    };
 
     const copyMondayToWeekdays = () => {
         const monday = getValues("days.MONDAY");
@@ -67,6 +72,7 @@ export default function OpeningHoursStep() {
             setValue(`days.${day}.opensAt`, "");
             setValue(`days.${day}.closesAt`, "");
         }
+        revalidateDay(day);
     };
 
     const onSubmit = (data: OpeningHoursForm) => {
@@ -94,16 +100,18 @@ export default function OpeningHoursStep() {
                                     control={control}
                                     name={`days.${day}.opensAt`}
                                     render={({field}) => (
-                                        <TimeSelect value={field.value} onChange={field.onChange} placeholder="Opens at" disabled={closed}
-                                                    invalid={Boolean(dayErrors?.closesAt)}/>
+                                        <TimeSelect value={field.value} onChange={(v) => { field.onChange(v); revalidateDay(day); }}
+                                                    placeholder="Opens at" ariaLabel={`${WEEKDAY_LABEL[day]} opens at`}
+                                                    disabled={closed} invalid={Boolean(dayErrors?.closesAt)}/>
                                     )}
                                 />
                                 <Controller
                                     control={control}
                                     name={`days.${day}.closesAt`}
                                     render={({field}) => (
-                                        <TimeSelect value={field.value} onChange={field.onChange} placeholder="Closes at" disabled={closed}
-                                                    invalid={Boolean(dayErrors?.closesAt)}/>
+                                        <TimeSelect value={field.value} onChange={(v) => { field.onChange(v); revalidateDay(day); }}
+                                                    placeholder="Closes at" ariaLabel={`${WEEKDAY_LABEL[day]} closes at`}
+                                                    disabled={closed} invalid={Boolean(dayErrors?.closesAt)}/>
                                     )}
                                 />
                                 <Controller
@@ -111,7 +119,7 @@ export default function OpeningHoursStep() {
                                     name={`days.${day}.status`}
                                     render={({field}) => (
                                         <Select value={field.value} onValueChange={(v) => onStatusChange(day, v as DayStatus)}>
-                                            <SelectTrigger><SelectValue/></SelectTrigger>
+                                            <SelectTrigger aria-label={`${WEEKDAY_LABEL[day]} status`}><SelectValue/></SelectTrigger>
                                             <SelectContent>
                                                 {STATUSES.map((s) => <SelectItem key={s} value={s}>{DAY_STATUS_LABEL[s]}</SelectItem>)}
                                             </SelectContent>
