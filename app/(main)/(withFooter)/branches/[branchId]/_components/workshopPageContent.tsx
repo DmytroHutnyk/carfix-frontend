@@ -134,6 +134,7 @@ export default function WorkshopPageContent({branchId, initialServiceName, initi
                         selectedServices={selectedServices}
                         onToggle={toggleService}
                         initialRange={initialRange}
+                        onBookingComplete={() => setSelectedIds([])}
                     />
                 </div>
             </div>

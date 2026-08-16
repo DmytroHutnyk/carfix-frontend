@@ -7,7 +7,7 @@ import {useMemo} from "react";
 import {Button} from "@/_components/shadcn/button";
 import {useComboboxAnchor} from "@/_components/shadcn/combobox";
 import SearchBar from "@/_components/root/header/searchBar";
-import LocationSearchBar, {PickedPlace} from "@/_components/root/header/locationSearchBar";
+import LocationSearchBar, {PickedPlace} from "@/_components/locationSearchBar";
 import GoogleApiProvider from "@/lib/providers/googleApiProvider";
 
 import {MIN_QUERY_LENGTH} from "@/features/search/useSearchSuggestions";

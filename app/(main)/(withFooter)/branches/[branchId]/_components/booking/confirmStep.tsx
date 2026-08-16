@@ -1,28 +1,65 @@
 "use client"
 
+import {useState} from "react";
+import Link from "next/link";
 import {CalendarDays, Car, MapPin} from "lucide-react";
 import {Button} from "@/_components/shadcn/button";
 import {Separator} from "@/_components/shadcn/separator";
+import FormErrorAlert from "@/_components/formErrorAlert";
 import {Workshop, WorkshopService} from "@/features/workshop/workshopTypes";
 import {fullAddress} from "@/features/workshop/workshopList";
-import {formatBookingDate, formatPrice} from "@/features/booking/bookingList";
+import {Booking} from "@/features/booking/bookingTypes";
+import {formatBookingDate, formatPrice, isStaleSlotError} from "@/features/booking/bookingList";
+import {useBookings} from "@/features/booking/useBookings";
 import {SlotPick} from "@/features/slots/slotTypes";
 import {useAuth} from "@/features/auth/useAuth";
 import {useSelectedCarProfile} from "@/features/carProfile/useSelectedCarProfile";
+import {toDisplayError} from "@/lib/errorHandler";
+import {ApiError, DisplayError} from "@/lib/apiTypes";
 import StepHeader from "./stepHeader";
 
-export default function ConfirmStep({workshop, services, pick, stepIndex, stepCount, onBack, onConfirm}: {
+export default function ConfirmStep({workshop, services, pick, stepIndex, stepCount, onBack, onBooked, onRepick}: {
     workshop: Workshop;
     services: WorkshopService[];
     pick: SlotPick;
     stepIndex: number;
     stepCount: number;
     onBack: () => void;
-    onConfirm: () => void;
+    onBooked: (booking: Booking) => void;
+    onRepick: (reason: string) => void;
 }) {
-    const {isAuthenticated} = useAuth();
-    const {selectedCarProfile} = useSelectedCarProfile({enabled: isAuthenticated});
+    const {isAuthenticated, isLoading: isSessionLoading} = useAuth();
+    const {carProfiles, selectedCarProfile, isLoading: areCarsLoading} = useSelectedCarProfile({enabled: isAuthenticated});
+    const {createBooking} = useBookings({enabled: false});
+    const [error, setError] = useState<DisplayError | null>(null);
+    const [isBooking, setIsBooking] = useState(false);
+
     const total = services.reduce((sum, service) => sum + service.price, 0);
+    const needsLogin = (!isSessionLoading && !isAuthenticated) || error?.status === 401;
+    const hasNoCars = !needsLogin && !areCarsLoading && carProfiles.length === 0;
+    const noCarSelected = !needsLogin && !hasNoCars && !areCarsLoading && !selectedCarProfile;
+
+    const submitBooking = async () => {
+        if (!selectedCarProfile) return;
+        setError(null);
+        setIsBooking(true);
+        try {
+            const booking = await createBooking({
+                branchId: workshop.branchId,
+                carProfileId: selectedCarProfile.id,
+                serviceIds: services.map((service) => service.serviceId),
+                date: pick.date,
+                startTime: pick.startTime,
+            });
+            onBooked(booking);
+        } catch (err) {
+            const apiError = err as ApiError;
+            if (isStaleSlotError(apiError)) onRepick(toDisplayError(apiError).message);
+            else setError(toDisplayError(apiError));
+        } finally {
+            setIsBooking(false);
+        }
+    };
 
     return (
         <div className="flex flex-col gap-4 p-4">
@@ -70,10 +107,29 @@ export default function ConfirmStep({workshop, services, pick, stepIndex, stepCo
                 <span className="tabular-nums">{formatPrice(total)}</span>
             </div>
 
-            <div className="flex justify-end gap-2">
-                <Button variant="secondary" onClick={onBack}>Back</Button>
-                {/* TODO(M5): POST /api/customer/bookings {branchId, carProfileId, serviceIds, date, startTime}; until then confirming only closes the flow */}
-                <Button onClick={onConfirm}>Confirm booking</Button>
+            <div className="flex flex-col gap-3">
+                {needsLogin && <p className="text-sm text-muted-foreground">Log in to book this visit.</p>}
+                {hasNoCars && <p className="text-sm text-muted-foreground">Add your car first to book.</p>}
+                {noCarSelected && <p className="text-sm text-muted-foreground">Select your car in the header first.</p>}
+
+                <FormErrorAlert message={error?.message ?? null}/>
+
+                <div className="flex justify-end gap-2">
+                    <Button variant="secondary" onClick={onBack} disabled={isBooking}>Back</Button>
+                    {needsLogin ? (
+                        /* The login page returns the visitor here with router.back() — the app carries no return-to param */
+                        <Button asChild><Link href="/login">Log in</Link></Button>
+                    ) : hasNoCars ? (
+                        <Button asChild><Link href="/cars">Add a car</Link></Button>
+                    ) : (
+                        <Button
+                            onClick={submitBooking}
+                            disabled={isBooking || isSessionLoading || areCarsLoading || !selectedCarProfile}
+                        >
+                            {isBooking ? "Booking..." : "Confirm booking"}
+                        </Button>
+                    )}
+                </div>
             </div>
         </div>
     );

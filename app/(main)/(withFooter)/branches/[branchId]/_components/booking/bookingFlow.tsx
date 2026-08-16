@@ -2,19 +2,22 @@
 
 import {useEffect, useRef, useState} from "react";
 import {Workshop, WorkshopService} from "@/features/workshop/workshopTypes";
+import {Booking} from "@/features/booking/bookingTypes";
 import {SlotPick, VisitRange} from "@/features/slots/slotTypes";
 import {initialVisitRange, MAX_SERVICES_PER_VISIT, pickRandom, SUGGESTION_COUNT} from "@/features/slots/slotList";
 import SuggestionsStep from "./suggestionsStep";
 import WhenStep from "./whenStep";
 import ConfirmStep from "./confirmStep";
+import BookedStep from "./bookedStep";
 
 type Step = "suggestions" | "when" | "confirm";
 
-export default function BookingFlow({workshop, selectedServices, onToggleService, initialRange, onClose}: {
+export default function BookingFlow({workshop, selectedServices, onToggleService, initialRange, onBooked, onClose}: {
     workshop: Workshop;
     selectedServices: WorkshopService[];
     onToggleService: (serviceId: number) => void;
     initialRange: VisitRange | null;
+    onBooked: () => void;
     onClose: () => void;
 }) {
     const selectedIds = selectedServices.map((service) => service.serviceId);
@@ -32,6 +35,8 @@ export default function BookingFlow({workshop, selectedServices, onToggleService
     const [range, setRange] = useState<VisitRange>(() => initialVisitRange(initialRange, workshop.tz));
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
     const [selectedSlot, setSelectedSlot] = useState<SlotPick | null>(null);
+    const [booking, setBooking] = useState<Booking | null>(null);
+    const [slotNotice, setSlotNotice] = useState<string | null>(null);
 
     const stepIndex = steps.indexOf(step);
     const goBack = () => setStep(steps[stepIndex - 1]);
@@ -41,9 +46,11 @@ export default function BookingFlow({workshop, selectedServices, onToggleService
     // Each step swap unmounts the focused button; a non-modal popover does not recapture focus, so move it to the new step
     useEffect(() => {
         stepRef.current?.focus();
-    }, [step]);
+    }, [step, booking]);
 
-    const content = step === "confirm" && selectedSlot ? (
+    const content = booking ? (
+        <BookedStep booking={booking} onClose={onClose}/>
+    ) : step === "confirm" && selectedSlot ? (
         <ConfirmStep
             workshop={workshop}
             services={selectedServices}
@@ -51,7 +58,15 @@ export default function BookingFlow({workshop, selectedServices, onToggleService
             stepIndex={stepIndex}
             stepCount={steps.length}
             onBack={goBack}
-            onConfirm={onClose}
+            onBooked={(created) => {
+                setBooking(created);
+                onBooked();
+            }}
+            onRepick={(reason) => {
+                setSlotNotice(reason);
+                setSelectedSlot(null);
+                setStep("when");
+            }}
         />
     ) : step === "suggestions" ? (
         <SuggestionsStep
@@ -72,7 +87,11 @@ export default function BookingFlow({workshop, selectedServices, onToggleService
             selectedDate={selectedDate}
             onSelectDate={setSelectedDate}
             selectedSlot={selectedSlot}
-            onSelectSlot={setSelectedSlot}
+            onSelectSlot={(slot) => {
+                setSlotNotice(null);
+                setSelectedSlot(slot);
+            }}
+            notice={slotNotice}
             stepIndex={steps.indexOf("when")}
             stepCount={steps.length}
             onBack={steps.indexOf("when") > 0 ? () => setStep("suggestions") : undefined}

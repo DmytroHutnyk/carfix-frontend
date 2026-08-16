@@ -14,7 +14,9 @@ export default function GuestNavigation() {
                         Login/SignUp
                     </Link>
                 </Button>
-                <Button variant="headerOutline">For Business</Button>
+                <Button variant="headerOutline" asChild>
+                    <Link href="/business">For Business</Link>
+                </Button>
             </div>
         </>
     )

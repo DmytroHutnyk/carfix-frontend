@@ -16,7 +16,7 @@ import SlotGrid from "./slotGrid";
 
 export default function WhenStep({
     branchId, tz, serviceIds, range, onRangeChange, selectedDate, onSelectDate, selectedSlot, onSelectSlot,
-    stepIndex, stepCount, onBack, onContinue,
+    notice, stepIndex, stepCount, onBack, onContinue,
 }: {
     branchId: string;
     tz: string;
@@ -27,6 +27,7 @@ export default function WhenStep({
     onSelectDate: (date: string) => void;
     selectedSlot: SlotPick | null;
     onSelectSlot: (slot: SlotPick | null) => void;
+    notice?: string | null;
     stepIndex: number;
     stepCount: number;
     onBack?: () => void;
@@ -46,6 +47,8 @@ export default function WhenStep({
     return (
         <div className="flex flex-col gap-4 p-4">
             <StepHeader title="When would you like to come?" stepIndex={stepIndex} stepCount={stepCount}/>
+
+            <FormErrorAlert message={notice ?? null}/>
 
             <DateRangePicker
                 className="w-full"
