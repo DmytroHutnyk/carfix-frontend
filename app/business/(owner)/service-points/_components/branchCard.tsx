@@ -13,7 +13,7 @@ export default function BranchCard({branch}: { branch: OwnerBranchSummary }) {
     const pending = branch.status === "VERIFICATION_PENDING";
 
     return (
-        <Link href={`/owner/service-points/${branch.branchId}`} className="block h-full">
+        <Link href={`/business/service-points/${branch.branchId}`} className="block h-full">
             <Card className="relative h-full transition-shadow hover:shadow-md">
                 {pending && (
                     <div className="absolute inset-0 z-10 flex items-center justify-center rounded-xl bg-card/60">

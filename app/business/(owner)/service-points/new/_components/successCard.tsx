@@ -22,7 +22,7 @@ export default function SuccessCard({result}: { result: BranchRegistrationRespon
                     <Link href={`/branches/${result.id}`}>Open workshop page</Link>
                 </Button>
                 <Button asChild variant="secondary" className="w-full">
-                    <Link href="/owner/service-points">My service points</Link>
+                    <Link href="/business/service-points">My service points</Link>
                 </Button>
             </CardFooter>
         </Card>

@@ -87,7 +87,7 @@ export default function Page() {
                         </EmptyHeader>
                         <EmptyContent>
                             <Button asChild>
-                                <Link href="/owner/service-points/new"><Plus/> New service point</Link>
+                                <Link href="/business/service-points/new"><Plus/> New service point</Link>
                             </Button>
                         </EmptyContent>
                     </Empty>

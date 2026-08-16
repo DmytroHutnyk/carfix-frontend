@@ -12,7 +12,7 @@ export default function UserNavigation(){
     if (account && isOwner(account)) {
         return (
             <Button variant="headerOutline" asChild>
-                <Link href="/owner/service-points">My Service Points</Link>
+                <Link href="/business/service-points">My Service Points</Link>
             </Button>
         );
     }

@@ -66,7 +66,7 @@ export default function BasicInfoStep() {
         <WizardCard
             title="Service Point configuration"
             centeredTitle
-            back={{label: "Cancel", onClick: () => router.replace("/owner/service-points")}}
+            back={{label: "Cancel", onClick: () => router.replace("/business/service-points")}}
             next={{label: "Continue", form: FORM_ID}}
         >
             <form id={FORM_ID} onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">

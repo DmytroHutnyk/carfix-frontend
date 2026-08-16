@@ -12,6 +12,7 @@ export const config = {
         "/profile", "/profile/:path*",
         "/cars", "/cars/:path*",
         "/bookings", "/bookings/:path*",
-        "/owner", "/owner/:path*",
+        "/business/service-points", "/business/service-points/:path*",
+        "/business/subscriptions", "/business/statistics", "/business/contact", "/business/faq",
     ],
 };

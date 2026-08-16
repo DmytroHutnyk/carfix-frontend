@@ -66,13 +66,13 @@ export default function OwnerSidebar() {
 }
 
 const PRIMARY_ITEMS: OwnerMenuItem[] = [
-    {href: "/owner/service-points", label: "My Service Points", icon: "Store"},
-    {href: "/owner/subscriptions", label: "Subscriptions", icon: "CreditCard"},
-    {href: "/owner/statistics", label: "Statistics", icon: "ChartColumn"},
+    {href: "/business/service-points", label: "My Service Points", icon: "Store"},
+    {href: "/business/subscriptions", label: "Subscriptions", icon: "CreditCard"},
+    {href: "/business/statistics", label: "Statistics", icon: "ChartColumn"},
 ];
 
 const SECONDARY_ITEMS: OwnerMenuItem[] = [
-    {href: "/owner/contact", label: "Contact Us", icon: "Phone"},
-    {href: "/owner/faq", label: "FAQ", icon: "CircleQuestionMark"},
+    {href: "/business/contact", label: "Contact Us", icon: "Phone"},
+    {href: "/business/faq", label: "FAQ", icon: "CircleQuestionMark"},
     {href: "/business/terms-of-use", label: "Terms of Use", icon: "FileText"},
 ];
