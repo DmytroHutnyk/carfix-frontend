@@ -9,6 +9,7 @@ export interface Location {
 }
 
 export interface Address {
+    id: number;
     streetName: string;
     buildingNumber: string;
     flatNumber: string | null;
