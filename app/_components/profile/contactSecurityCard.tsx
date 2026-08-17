@@ -9,7 +9,7 @@ import {Field, FieldDescription, FieldLabel} from "@/_components/shadcn/field";
 import {Input} from "@/_components/shadcn/input";
 import {Button} from "@/_components/shadcn/button";
 import {Badge} from "@/_components/shadcn/badge";
-import VerifyEmailDialog from "@/(main)/(withFooter)/(myAccount)/profile/_components/verifyEmailDialog";
+import VerifyEmailDialog from "@/_components/profile/verifyEmailDialog";
 
 export default function ContactSecurityCard({user}: {user: User | null}) {
     if (!user) return null;

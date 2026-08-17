@@ -19,7 +19,7 @@ import {Input} from "@/_components/shadcn/input";
 import {Button} from "@/_components/shadcn/button";
 import FormErrorAlert from "@/_components/formErrorAlert";
 import AddressSearchBar, {PickedAddress} from "@/_components/addressSearchBar";
-import DeleteAddressDialog from "@/(main)/(withFooter)/(myAccount)/profile/_components/deleteAddressDialog";
+import DeleteAddressDialog from "@/_components/profile/deleteAddressDialog";
 
 function toAddressForm(address: Address | null): UpdateAddress {
     return {
