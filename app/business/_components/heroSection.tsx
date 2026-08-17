@@ -23,7 +23,7 @@ export default function HeroSection() {
                 </ul>
                 <div className="space-y-2">
                     <Button size="lg" asChild>
-                        <Link href="/register">Try for Free</Link>
+                        <Link href="/business/register">Try for Free</Link>
                     </Button>
                     <p className="text-sm text-muted-foreground">No credit card, cancel anytime</p>
                 </div>

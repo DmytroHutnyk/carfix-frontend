@@ -20,7 +20,7 @@ export default function BusinessAuthNavigation() {
         </Button>
     ) : (
         <Button asChild>
-            <Link href="/login">Login/SignUp</Link>
+            <Link href="/business/login">Login/SignUp</Link>
         </Button>
     );
 }
