@@ -3,8 +3,6 @@ import WhyChooseSection from "@/business/_components/whyChooseSection";
 import StatsSection from "@/business/_components/statsSection";
 import PricingSection from "@/business/_components/pricingSection";
 import TrustedBySection from "@/business/_components/trustedBySection";
-import FaqSection from "@/business/_components/faqSection";
-import SupportSection from "@/business/_components/supportSection";
 
 export default function BusinessPage() {
     return (
@@ -14,8 +12,6 @@ export default function BusinessPage() {
             <StatsSection/>
             <PricingSection/>
             <TrustedBySection/>
-            <FaqSection/>
-            <SupportSection/>
         </main>
     );
 }

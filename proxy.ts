@@ -15,6 +15,6 @@ export const config = {
         "/bookings", "/bookings/:path*",
         "/business/branches", "/business/branches/:path*",
         "/business/profile",
-        "/business/subscriptions", "/business/statistics", "/business/contact", "/business/faq",
+        "/business/subscriptions", "/business/statistics",
     ],
 };
