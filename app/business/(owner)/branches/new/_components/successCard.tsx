@@ -19,7 +19,7 @@ export default function SuccessCard({result}: { result: BranchRegistrationRespon
             <CardContent/>
             <CardFooter className="flex-col gap-3">
                 <Button asChild className="w-full">
-                    <Link href="/business/service-points">My service points</Link>
+                    <Link href="/business/branches">My service points</Link>
                 </Button>
                 <Button asChild variant="secondary" className="w-full">
                     <Link href={`/branches/${result.id}`} target="_blank" rel="noopener noreferrer">Preview customer page</Link>

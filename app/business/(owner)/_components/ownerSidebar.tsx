@@ -66,7 +66,7 @@ export default function OwnerSidebar() {
 }
 
 const PRIMARY_ITEMS: OwnerMenuItem[] = [
-    {href: "/business/service-points", label: "My Service Points", icon: "Store"},
+    {href: "/business/branches", label: "My Service Points", icon: "Store"},
     {href: "/business/subscriptions", label: "Subscriptions", icon: "CreditCard"},
     {href: "/business/statistics", label: "Statistics", icon: "ChartColumn"},
 ];

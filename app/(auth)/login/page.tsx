@@ -40,7 +40,7 @@ export default function Login(){
             const response = await login(data);
             console.log(response)
             if (isOwner(response)) {
-                router.replace("/business/service-points");
+                router.replace("/business/branches");
             } else {
                 router.back();
             }

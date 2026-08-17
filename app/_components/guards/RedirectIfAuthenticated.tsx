@@ -14,7 +14,7 @@ export default function RedirectIfAuthenticated({children}: { children: ReactNod
         if (isLoading || checked.current) return;
         checked.current = true;
         if (isAuthenticated) {
-            router.replace(account && isOwner(account) ? "/business/service-points" : "/");
+            router.replace(account && isOwner(account) ? "/business/branches" : "/");
         }
     }, [isLoading, isAuthenticated, account, router]);
 

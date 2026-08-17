@@ -43,7 +43,7 @@ export default function BranchFilters({filter, sort, onFilterChange, onSortChang
             </Select>
 
             <Button asChild>
-                <Link href="/business/service-points/new"><Plus/> New</Link>
+                <Link href="/business/branches/new"><Plus/> New</Link>
             </Button>
         </div>
     );

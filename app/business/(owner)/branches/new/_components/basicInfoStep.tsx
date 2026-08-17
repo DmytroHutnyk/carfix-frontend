@@ -9,8 +9,8 @@ import {Input} from "@/_components/shadcn/input";
 import CountryCodeInput from "@/(auth)/register/_components/countryCodeInput";
 import AddressSearchBar, {PickedAddress} from "@/_components/addressSearchBar";
 import GoogleApiProvider from "@/lib/providers/googleApiProvider";
-import WizardCard from "@/business/(owner)/service-points/new/_components/wizardCard";
-import FieldError from "@/business/(owner)/service-points/new/_components/fieldError";
+import WizardCard from "@/business/(owner)/branches/new/_components/wizardCard";
+import FieldError from "@/business/(owner)/branches/new/_components/fieldError";
 import {BasicInfo, basicInfoSchema} from "@/features/branchRegistration/branchRegistrationTypes";
 import {useBranchRegistrationDraft} from "@/features/branchRegistration/useBranchRegistrationDraft";
 import {countryName} from "@/lib/appTypes";
@@ -66,7 +66,7 @@ export default function BasicInfoStep() {
         <WizardCard
             title="Service Point configuration"
             centeredTitle
-            back={{label: "Cancel", onClick: () => router.replace("/business/service-points")}}
+            back={{label: "Cancel", onClick: () => router.replace("/business/branches")}}
             next={{label: "Continue", form: FORM_ID}}
         >
             <form id={FORM_ID} onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">

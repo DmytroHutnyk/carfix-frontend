@@ -5,8 +5,8 @@ import {Plus, Trash2} from "lucide-react";
 import {Button} from "@/_components/shadcn/button";
 import {Input} from "@/_components/shadcn/input";
 import CreatableSelect from "@/_components/creatableSelect";
-import WizardCard from "@/business/(owner)/service-points/new/_components/wizardCard";
-import FieldError from "@/business/(owner)/service-points/new/_components/fieldError";
+import WizardCard from "@/business/(owner)/branches/new/_components/wizardCard";
+import FieldError from "@/business/(owner)/branches/new/_components/fieldError";
 import {ResourceRow} from "@/features/branchRegistration/branchRegistrationTypes";
 import {cn} from "@/lib/utils";
 
