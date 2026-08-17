@@ -36,6 +36,7 @@ export function useBookings(options?: { enabled?: boolean }) {
             queryClient.setQueryData<Booking[]>(bookingKeys.list(), (list) =>
                 list?.map((b) => (b.bookingId === cancelled.bookingId ? cancelled : b))
             );
+            queryClient.invalidateQueries({queryKey: slotKeys.branch(cancelled.branch.branchId)});
         },
     });
 
