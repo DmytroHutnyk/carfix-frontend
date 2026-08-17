@@ -1,5 +1,5 @@
 "use client"
-import {MapPin} from "lucide-react";
+import {MapPin, XIcon} from "lucide-react";
 import {
     Combobox,
     ComboboxContent,
@@ -8,6 +8,7 @@ import {
     ComboboxItem,
     ComboboxList
 } from "@/_components/shadcn/combobox";
+import {InputGroupButton} from "@/_components/shadcn/input-group";
 import {useCallback, useMemo, useRef} from "react";
 import {useAutocompleteSuggestions} from "@/lib/use-autocomplete-suggestions";
 import {CountryCode, isCountryCode} from "@/lib/appTypes";
@@ -116,7 +117,15 @@ export default function LocationSearchBar({id, placeholder = "Location", value, 
                 id={id}
                 placeholder={placeholder}
                 startAddon={<MapPin className="h-4 w-4"/>}
-                showClear
+                endAddon={value !== "" && (
+                    <InputGroupButton size="icon-xs" variant="ghost" aria-label="Clear location"
+                                      onClick={() => {
+                                          onValueChange("");
+                                          onCleared();
+                                      }}>
+                        <XIcon className="pointer-events-none"/>
+                    </InputGroupButton>
+                )}
                 disableChevron
             />
             <ComboboxContent>

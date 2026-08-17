@@ -63,12 +63,14 @@ function ComboboxInput(
         showClear = false,
         disableChevron = false,
         startAddon,
+        endAddon,
         ...props
     }: ComboboxPrimitive.Input.Props & {
         showTrigger?: boolean
         showClear?: boolean
         disableChevron?: boolean
         startAddon?: React.ReactNode
+        endAddon?: React.ReactNode
     }) {
     const inputGroupRef = React.useContext(ComboboxInputGroupContext)
     return (
@@ -100,6 +102,7 @@ function ComboboxInput(
                     </ComboboxPrimitive.Trigger>
                 )}
                 {showClear && <ComboboxClear disabled={disabled} />}
+                {endAddon}
             </InputGroupAddon>
             {children}
         </InputGroup>
