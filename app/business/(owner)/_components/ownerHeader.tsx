@@ -22,7 +22,7 @@ export default function OwnerHeader() {
                     )}
                     <Button
                         variant="headerOutline"
-                        onClick={() => logout().then(() => router.replace("/login"))}
+                        onClick={() => logout().then(() => router.replace("/business/login"))}
                     >
                         <LogOut/> Log out
                     </Button>
