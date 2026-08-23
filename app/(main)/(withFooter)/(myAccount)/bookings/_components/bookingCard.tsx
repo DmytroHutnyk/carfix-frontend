@@ -18,11 +18,12 @@ import {
 } from "@/_components/shadcn/table";
 import ContactBranchPopover from "@/(main)/(withFooter)/(myAccount)/bookings/_components/contactBranchPopover";
 
-const STATUS_BADGE_VARIANTS: Record<BookingStatus, "default" | "success" | "secondary" | "destructiveSoft"> = {
+const STATUS_BADGE_VARIANTS: Record<BookingStatus, "default" | "success" | "secondary" | "destructiveSoft" | "destructive"> = {
     SCHEDULED: "success",
     IN_PROGRESS: "default",
     COMPLETED: "secondary",
     CANCELLED: "destructiveSoft",
+    NO_SHOW: "destructive",
 };
 
 export default function BookingCard({booking, onCancel}: {

@@ -1,4 +1,4 @@
-export const BOOKING_STATUSES = ["SCHEDULED", "IN_PROGRESS", "COMPLETED", "CANCELLED"] as const;
+export const BOOKING_STATUSES = ["SCHEDULED", "IN_PROGRESS", "COMPLETED", "CANCELLED", "NO_SHOW"] as const;
 export type BookingStatus = (typeof BOOKING_STATUSES)[number];
 
 // Mirrors backend BookingBranchResponse
