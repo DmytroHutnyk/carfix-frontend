@@ -1,19 +1,21 @@
 import Link from "next/link";
-import {MapPin, Store, Wrench} from "lucide-react";
+import {CalendarClock, MapPin, Store, Wrench} from "lucide-react";
 import {Badge} from "@/_components/shadcn/badge";
 import {Card} from "@/_components/shadcn/card";
 import StarRating from "@/(main)/(withFooter)/search/_components/starRating";
 import {WorkshopResult} from "@/features/search/searchTypes";
 import {formatPrice} from "@/features/booking/bookingList";
-import {formatDistance, formatDuration} from "@/features/search/searchList";
+import {formatDistance, formatDuration, formatStartLabel} from "@/features/search/searchList";
 import {cn} from "@/lib/utils";
 
-export default function WorkshopResultCard({workshop, pinned = false}: {
+export default function WorkshopResultCard({workshop, href, singleDay, pinned = false}: {
     workshop: WorkshopResult;
+    href: string;
+    singleDay: boolean;
     pinned?: boolean;
 }) {
     return (
-        <Link href={`/branches/${workshop.branchId}`} className="block">
+        <Link href={href} className="block">
             <Card className={cn(
                 "flex flex-col gap-4 p-4 transition-shadow hover:shadow-md",
                 pinned && "border-primary ring-1 ring-primary"
@@ -51,6 +53,21 @@ export default function WorkshopResultCard({workshop, pinned = false}: {
                                 <span className="text-muted-foreground">· {formatDistance(workshop.distanceKm)}</span>
                             )}
                         </div>
+
+                        {workshop.nextAvailableStarts && workshop.nextAvailableStarts.length > 0 && (
+                            <div
+                                className="flex flex-wrap items-center gap-2 text-sm"
+                                title={`Workshop local time (${workshop.tz})`}
+                            >
+                                <CalendarClock className="h-4 w-4 shrink-0 text-muted-foreground"/>
+                                <span className="text-muted-foreground">Next available:</span>
+                                {workshop.nextAvailableStarts.map((start) => (
+                                    <Badge key={`${start.date}T${start.startTime}`} variant="outline" className="tabular-nums">
+                                        {formatStartLabel(start, singleDay)}
+                                    </Badge>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
 

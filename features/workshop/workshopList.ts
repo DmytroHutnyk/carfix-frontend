@@ -20,7 +20,8 @@ export function hoursForDay(openingHours: WorkshopOpeningHours[], dayOfWeek: str
 }
 
 export function formatHoursRange(oh: WorkshopOpeningHours): string {
-    return `${oh.startTime} - ${oh.closeTime}`;
+    const range = `${oh.startTime} - ${oh.closeTime}`;
+    return oh.mode === "BY_APPOINTMENT" ? `${range} (by appointment)` : range;
 }
 
 export function reviewerName(review: WorkshopReview): string {

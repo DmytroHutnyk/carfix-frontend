@@ -2,12 +2,12 @@
 
 import {Search} from "lucide-react";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import {useMemo} from "react";
+import {useMemo, useSyncExternalStore} from "react";
 
 import {Button} from "@/_components/shadcn/button";
 import {useComboboxAnchor} from "@/_components/shadcn/combobox";
 import SearchBar from "@/_components/root/header/searchBar";
-import LocationSearchBar, {PickedPlace} from "@/_components/root/header/locationSearchBar";
+import LocationSearchBar, {PickedPlace} from "@/_components/locationSearchBar";
 import GoogleApiProvider from "@/lib/providers/googleApiProvider";
 
 import {MIN_QUERY_LENGTH} from "@/features/search/useSearchSuggestions";
@@ -17,6 +17,8 @@ import {isCountryCode, SearchLocation} from "@/lib/appTypes";
 import {useSearchLocation} from "@/lib/store";
 import {useUrlDraft} from "@/lib/use-url-draft";
 
+const subscribeToNothing = () => () => {};
+
 export default function SearchRow({initialLocation}: {initialLocation: SearchLocation}) {
     const router = useRouter();
     const pathname = usePathname();
@@ -25,7 +27,9 @@ export default function SearchRow({initialLocation}: {initialLocation: SearchLoc
 
     const storeLocation = useSearchLocation((s) => s.searchLocation);
     const setSearchLocation = useSearchLocation((s) => s.setSearchLocation);
-    const persistedLocation = typeof window === "undefined" ? initialLocation : storeLocation;
+    /* While hydrating, the persisted store still reports its default; the cookie the server rendered with wins until then. */
+    const hydrated = useSyncExternalStore(subscribeToNothing, () => true, () => false);
+    const persistedLocation = hydrated ? storeLocation : initialLocation;
 
     const params = useMemo(() => parseSearchParams(searchParams), [searchParams]);
     const onResultsPage = pathname === "/search";

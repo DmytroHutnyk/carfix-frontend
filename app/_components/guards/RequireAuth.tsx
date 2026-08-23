@@ -1,10 +1,11 @@
 "use client"
 
 import {ReactNode, useEffect} from "react";
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import {useAuth} from "@/features/auth/useAuth";
 import {Spinner} from "@/_components/shadcn/spinner";
 import {UserRole} from "@/features/user/userTypes";
+import {loginPathFor, withReturnTo} from "@/lib/returnTo";
 
 type RequireAuthProps = {
     children: ReactNode;
@@ -16,17 +17,18 @@ type RequireAuthProps = {
 export default function RequireAuth({children, role}: RequireAuthProps) {
     const {account, isAuthenticated, isLoading, isError} = useAuth();
     const router = useRouter();
+    const pathname = usePathname();
 
     const unauthenticated = !isLoading && (isError || !isAuthenticated);
     const wrongRole = !isLoading && !unauthenticated && role !== undefined && account?.role !== role;
 
     useEffect(() => {
         if (unauthenticated) {
-            router.replace("/login");
+            router.replace(withReturnTo(loginPathFor(pathname), pathname));
         } else if (wrongRole) {
             router.replace("/");
         }
-    }, [unauthenticated, wrongRole, router]);
+    }, [unauthenticated, wrongRole, router, pathname]);
 
     if (isLoading || unauthenticated || wrongRole) {
         return (

@@ -28,6 +28,7 @@ export function useCarCatalog(brandId: number | null, modelId: number | null) {
         models: modelsQuery.data ?? [],
         versions: versionsQuery.data ?? [],
         isBrandsLoading: brandsQuery.isLoading,
+        isBrandsError: brandsQuery.isError,
         isModelsLoading: modelsQuery.isLoading,
         isVersionsLoading: versionsQuery.isLoading,
     }

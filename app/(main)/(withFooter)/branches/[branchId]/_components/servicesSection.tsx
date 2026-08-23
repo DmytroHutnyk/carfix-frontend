@@ -1,20 +1,26 @@
 "use client"
 
 import {ChevronDown} from "lucide-react";
-import {Card, CardContent, CardHeader, CardTitle} from "@/_components/shadcn/card";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/_components/shadcn/collapsible";
 import {Button} from "@/_components/shadcn/button";
 import {WorkshopServiceCategory} from "@/features/workshop/workshopTypes";
 import {formatPrice} from "@/features/booking/bookingList";
+import {MAX_SERVICES_PER_VISIT} from "@/features/slots/slotList";
 
 export default function ServicesSection({categories, selectedIds, onToggle}: {
     categories: WorkshopServiceCategory[];
     selectedIds: number[];
     onToggle: (serviceId: number) => void;
 }) {
+    const basketFull = selectedIds.length >= MAX_SERVICES_PER_VISIT;
+
     return (
         <Card>
-            <CardHeader><CardTitle>Services we provide</CardTitle></CardHeader>
+            <CardHeader>
+                <CardTitle>Services we provide</CardTitle>
+                <CardDescription>Select up to {MAX_SERVICES_PER_VISIT} services for one visit.</CardDescription>
+            </CardHeader>
             <CardContent className="flex flex-col gap-2">
                 {categories.length === 0 && (
                     <p className="text-sm text-muted-foreground">No services listed yet.</p>
@@ -43,6 +49,7 @@ export default function ServicesSection({categories, selectedIds, onToggle}: {
                                             <Button
                                                 variant={selected ? "secondary" : "default"}
                                                 size="sm"
+                                                disabled={!selected && basketFull}
                                                 onClick={() => onToggle(service.serviceId)}
                                             >
                                                 {selected ? "Selected" : "Select"}

@@ -28,12 +28,16 @@ function label(value: DateRangeValue, placeholder: string): string {
     return placeholder;
 }
 
-export default function DateRangePicker({value, onChange, placeholder = "Any date", className, numberOfMonths = 2}: {
+export default function DateRangePicker({
+    value, onChange, placeholder = "Any date", className, numberOfMonths = 2, minDate, maxDays,
+}: {
     value: DateRangeValue;
     onChange: (value: DateRangeValue) => void;
     placeholder?: string;
     className?: string;
     numberOfMonths?: number;
+    minDate?: Date;
+    maxDays?: number;
 }) {
     const [open, setOpen] = useState(false);
 
@@ -58,6 +62,10 @@ export default function DateRangePicker({value, onChange, placeholder = "Any dat
                     selected={selected}
                     defaultMonth={selected?.from}
                     numberOfMonths={numberOfMonths}
+                    startMonth={minDate}
+                    disabled={minDate ? {before: minDate} : undefined}
+                    /* react-day-picker's `max` bounds the gap (to − from) in days, not the day count, so an inclusive N-day window is N − 1 */
+                    max={maxDays ? maxDays - 1 : undefined}
                     onSelect={(range) => onChange({from: toIso(range?.from), to: toIso(range?.to)})}
                 />
             </PopoverContent>
