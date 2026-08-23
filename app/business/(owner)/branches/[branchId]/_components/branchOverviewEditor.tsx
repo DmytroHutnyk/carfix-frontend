@@ -19,7 +19,6 @@ import {useUpdateBranchOverview} from "@/features/ownerBranch/useUpdateBranchOve
 
 import {Badge, badgeVariants} from "@/_components/shadcn/badge";
 import {Button} from "@/_components/shadcn/button";
-import {Card, CardContent, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import FormErrorAlert from "@/_components/formErrorAlert";
 import BranchTabs from "@/business/(owner)/branches/[branchId]/_components/branchTabs";
 import BranchInformationCard from "@/business/(owner)/branches/[branchId]/_components/branchInformationCard";
