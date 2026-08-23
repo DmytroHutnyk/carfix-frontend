@@ -59,7 +59,7 @@ export default function CarBrandsStep() {
                     <Label htmlFor="brands-select-all" className="font-semibold">Select all</Label>
                 </div>
                 <Separator className="my-3"/>
-                <ScrollArea className="h-72">
+                <ScrollArea className="max-h-72 [&_[data-radix-scroll-area-viewport]]:max-h-72 sm:h-72">
                     <div className="space-y-3 pr-3">
                         {isBrandsLoading && <p className="text-sm text-muted-foreground">Loading brands…</p>}
                         {isBrandsError && (

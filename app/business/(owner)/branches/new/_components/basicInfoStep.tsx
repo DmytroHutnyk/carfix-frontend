@@ -79,7 +79,7 @@ export default function BasicInfoStep() {
                 <Field>
                     <FieldLabel htmlFor="branch-address-search">Address</FieldLabel>
                     <GoogleApiProvider>
-                        <AddressSearchBar id="branch-address-search" placeholder="Street address including house number" onAddressPicked={onAddressPicked}/>
+                        <AddressSearchBar id="branch-address-search" placeholder="Street and house number" onAddressPicked={onAddressPicked}/>
                     </GoogleApiProvider>
                     <p className="text-xs text-muted-foreground">Pick the address from the suggestions — street, city, region and country are filled in from it.</p>
                 </Field>
