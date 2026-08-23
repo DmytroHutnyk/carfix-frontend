@@ -77,7 +77,44 @@ export default function ServicesStep() {
             {services.length === 0 ? (
                 <p className="text-sm text-muted-foreground">No services yet — add at least one so customers can book, or finish now and add them later.</p>
             ) : (
-                <div className="overflow-x-auto">
+                <>
+                <div className="flex flex-col gap-3 md:hidden">
+                    {sorted.map((service) => (
+                        <div key={service.id} className="rounded-xl border border-border p-3">
+                            <div className="flex items-start justify-between gap-2">
+                                <p className="font-medium">{service.name}</p>
+                                <Badge variant={service.status === SERVICE_STATUS.ACTIVE ? "success" : "destructiveSoft"}>
+                                    {SERVICE_STATUS_LABEL[service.status]}
+                                </Badge>
+                            </div>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                {service.durationMinutes} min · {service.price} PLN · {categoryName(service.categoryId)}
+                            </p>
+                            {(service.employeeRequirements.length > 0 || service.equipmentRequirements.length > 0 || service.bayTypes.length > 0) && (
+                                <div className="mt-2 flex flex-wrap gap-1">
+                                    {service.employeeRequirements.map((r, i) => (
+                                        <Badge key={`role-${i}`} variant="secondary" className="font-normal">{r.roles.join(" / ")}</Badge>
+                                    ))}
+                                    {service.equipmentRequirements.map((r, i) => (
+                                        <Badge key={`tool-${i}`} variant="secondary" className="font-normal">{r.types.join(" / ")}</Badge>
+                                    ))}
+                                    {service.bayTypes.map((t) => <Badge key={t} variant="outline">{t}</Badge>)}
+                                </div>
+                            )}
+                            <div className="mt-3 flex gap-2">
+                                <Button type="button" variant="accent" size="sm" className="flex-1"
+                                        onClick={() => setDialog({open: true, editing: service})}>
+                                    <Pencil/> Edit
+                                </Button>
+                                <Button type="button" variant="destructive" size="sm" className="flex-1"
+                                        onClick={() => setServices(services.filter((s) => s.id !== service.id))}>
+                                    <Trash2/> Delete
+                                </Button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="hidden overflow-x-auto md:block">
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -141,6 +178,7 @@ export default function ServicesStep() {
                         </TableBody>
                     </Table>
                 </div>
+                </>
             )}
 
             {dialog.open && (
