@@ -22,6 +22,7 @@ import {Button} from "@/_components/shadcn/button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import FormErrorAlert from "@/_components/formErrorAlert";
 import BranchTabs from "@/business/(owner)/branches/[branchId]/_components/branchTabs";
+import BranchInformationCard from "@/business/(owner)/branches/[branchId]/_components/branchInformationCard";
 
 const STATUS_BADGE_VARIANT: Record<BranchStatus, VariantProps<typeof badgeVariants>["variant"]> = {
     ACTIVE: "success",
@@ -78,10 +79,7 @@ export default function BranchOverviewEditor({branch}: { branch: OwnerBranchDeta
 
             <BranchTabs active="overview"/>
 
-            <Card>
-                <CardHeader><CardTitle>Branch Information</CardTitle></CardHeader>
-                <CardContent/>
-            </Card>
+            <BranchInformationCard form={form}/>
 
             <Card>
                 <CardHeader><CardTitle>Opening Hours</CardTitle></CardHeader>
