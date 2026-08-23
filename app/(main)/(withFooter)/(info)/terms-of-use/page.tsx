@@ -1,23 +1,26 @@
+import {Card, CardContent} from "@/_components/shadcn/card";
 import {Separator} from "@/_components/shadcn/separator";
 
 export default function Page(){
     return(
-                <div className="py-3">
-                    <section className="space-y-3">
-                        <h1 className="text-3xl font-bold tracking-tight">
-                            Terms of Use
-                        </h1>
-                        <p className="text-muted-foreground">
-                            Legal terms and conditions for using CarFix
-                        </p>
-                    </section>
+        <div className="py-3">
+            <section className="space-y-3">
+                <h1 className="text-3xl font-bold tracking-tight">
+                    Terms of Use
+                </h1>
+                <p className="text-muted-foreground">
+                    Legal terms and conditions for using CarFix
+                </p>
+            </section>
 
-                    <Separator className="my-6" />
+            <Separator className="my-6" />
 
-                    <section className="space-y-8">
+            <section className="flex flex-col gap-y-2">
+                <Card>
+                    <CardContent className="space-y-6 p-6">
                         {termsOfUseContent.map((item) => (
-                            <div key={item.number}>
-                                <h2 className="text-xl font-bold mb-2">
+                            <div key={item.number} className="space-y-1">
+                                <h2 className="text-xl font-bold">
                                     {item.number}. {item.title}
                                 </h2>
                                 <p className="text-muted-foreground">
@@ -25,8 +28,10 @@ export default function Page(){
                                 </p>
                             </div>
                         ))}
-                    </section>
-                </div>
+                    </CardContent>
+                </Card>
+            </section>
+        </div>
     )
 }
 
