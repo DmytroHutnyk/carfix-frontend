@@ -22,7 +22,7 @@ export default function CountryCodeInput({value, setValue} : {value: string, set
                     <ChevronsUpDown className="opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[195px] p-0">
+            <PopoverContent className="w-[195px] p-0" align="start" collisionPadding={8}>
                 <Command>
                     <CommandInput placeholder="Search country code"></CommandInput>
                     <CommandList>

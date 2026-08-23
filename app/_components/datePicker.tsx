@@ -37,7 +37,16 @@ export default function DatePicker({id, label, value, onChange, error, placehold
                         {selectedDate ? selectedDate.toLocaleDateString() : placeholder}
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent
+                    className="w-auto p-0"
+                    align="start"
+                    collisionPadding={8}
+                    updatePositionStrategy="always"
+                    onEscapeKeyDown={(event) => {
+                        event.preventDefault()
+                        setOpen(false)
+                    }}
+                >
                     <Calendar
                         mode="single"
                         selected={selectedDate}
