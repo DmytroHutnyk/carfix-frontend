@@ -1,4 +1,4 @@
-import {PopoverDescription, PopoverHeader, PopoverTitle} from "@/_components/shadcn/popover";
+import {DialogDescription, DialogHeader, DialogTitle} from "@/_components/shadcn/dialog";
 
 export default function StepHeader({title, stepIndex, stepCount}: {
     title: string;
@@ -6,9 +6,9 @@ export default function StepHeader({title, stepIndex, stepCount}: {
     stepCount: number;
 }) {
     return (
-        <PopoverHeader>
-            <PopoverDescription className="text-xs">Step {stepIndex + 1} of {stepCount}</PopoverDescription>
-            <PopoverTitle className="text-base">{title}</PopoverTitle>
-        </PopoverHeader>
+        <DialogHeader className="space-y-0.5 pr-8 text-left">
+            <DialogDescription className="text-xs">Step {stepIndex + 1} of {stepCount}</DialogDescription>
+            <DialogTitle className="text-base">{title}</DialogTitle>
+        </DialogHeader>
     );
 }

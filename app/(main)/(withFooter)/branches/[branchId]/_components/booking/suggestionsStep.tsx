@@ -17,7 +17,7 @@ export default function SuggestionsStep({suggestions, selectedIds, onToggle, ste
     const canAddMore = selectedIds.length < MAX_SERVICES_PER_VISIT;
 
     return (
-        <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col gap-4 p-6">
             <StepHeader title="Do you need something else?" stepIndex={stepIndex} stepCount={stepCount}/>
             <ul className="flex flex-col gap-2">
                 {suggestions.map((service) => {
