@@ -4,8 +4,9 @@ import {Car} from "lucide-react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 import {useSelectedCarProfile} from "@/features/carProfile/useSelectedCarProfile";
 import {useReassertCarFilter} from "@/features/search/useReassertCarFilter";
+import {cn} from "@/lib/utils";
 
-export default function CarProfileSelector(){
+export default function CarProfileSelector({className}: {className?: string}){
     const {carProfiles, selectedCarProfile, selectCarProfile} = useSelectedCarProfile();
     const reassertCarFilter = useReassertCarFilter();
 
@@ -25,7 +26,7 @@ export default function CarProfileSelector(){
                 reassertCarFilter();
             }}
         >
-            <SelectTrigger className="w-50 justify-start gap-x-1.5 [&>span]:min-w-0 [&>svg:last-of-type]:ml-auto [&>svg:last-of-type]:transition-transform [&>svg:last-of-type]:duration-300 data-[state=open]:[&>svg:last-of-type]:rotate-180">
+            <SelectTrigger className={cn("w-50 justify-start gap-x-1.5 [&>span]:min-w-0 [&>svg:last-of-type]:ml-auto [&>svg:last-of-type]:transition-transform [&>svg:last-of-type]:duration-300 data-[state=open]:[&>svg:last-of-type]:rotate-180", className)}>
                 <Car className="h-4 w-4 shrink-0"/>
                 <SelectValue placeholder="Select car"/>
             </SelectTrigger>

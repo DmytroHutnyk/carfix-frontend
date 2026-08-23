@@ -96,7 +96,7 @@ export default function SearchRow({initialLocation}: {initialLocation: SearchLoc
     };
 
     return (
-        <div ref={anchorRef} className="flex flex-1 items-center gap-3">
+        <div ref={anchorRef} className="flex flex-1 flex-col gap-2 lg:flex-row lg:items-center lg:gap-3">
             <div className="flex-1">
                 <SearchBar
                     value={text}
@@ -107,21 +107,23 @@ export default function SearchRow({initialLocation}: {initialLocation: SearchLoc
                 />
             </div>
 
-            <div className="relative w-56">
-                <GoogleApiProvider>
-                    <LocationSearchBar
-                        value={locationText}
-                        onValueChange={setLocationText}
-                        onPlaceSelected={handlePlaceSelected}
-                        onCleared={handleCleared}
-                    />
-                </GoogleApiProvider>
-            </div>
+            <div className="flex items-center gap-2 lg:contents">
+                <div className="relative flex-1 lg:w-56 lg:flex-initial">
+                    <GoogleApiProvider>
+                        <LocationSearchBar
+                            value={locationText}
+                            onValueChange={setLocationText}
+                            onPlaceSelected={handlePlaceSelected}
+                            onCleared={handleCleared}
+                        />
+                    </GoogleApiProvider>
+                </div>
 
-            <Button onClick={submitTypedText}>
-                <Search className="h-4 w-4"/>
-                Search
-            </Button>
+                <Button onClick={submitTypedText} className="h-11 shrink-0 lg:h-9 lg:shrink">
+                    <Search className="h-4 w-4"/>
+                    Search
+                </Button>
+            </div>
         </div>
     );
 }
