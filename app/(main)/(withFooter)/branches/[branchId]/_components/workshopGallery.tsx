@@ -7,12 +7,12 @@ export default function WorkshopGallery() {
             <div className="flex aspect-[16/9] w-full items-center justify-center rounded-xl bg-muted">
                 <ImageIcon className="h-12 w-12 text-muted-foreground"/>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-2 lg:gap-3">
                 {[0, 1, 2].map((i) => (
                     <div
                         key={i}
                         className={cn(
-                            "flex h-16 w-24 items-center justify-center rounded-lg bg-muted",
+                            "flex h-14 w-20 shrink-0 items-center justify-center rounded-lg bg-muted lg:h-16 lg:w-24",
                             i === 0 && "ring-2 ring-ring",
                         )}
                     >

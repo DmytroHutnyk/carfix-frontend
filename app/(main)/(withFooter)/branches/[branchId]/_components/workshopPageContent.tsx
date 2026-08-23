@@ -15,7 +15,9 @@ import {
 import {Card, CardContent, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import {isProblemDetailError} from "@/lib/apiTypes";
 import {VisitRange} from "@/features/slots/slotTypes";
+import {formatPrice} from "@/features/booking/bookingList";
 import {useWorkshop} from "@/features/workshop/useWorkshop";
+import BookingFlowPopover from "./booking/bookingFlowPopover";
 import WorkshopPageSkeleton from "./workshopPageSkeleton";
 import WorkshopGallery from "./workshopGallery";
 import WorkshopHeading from "./workshopHeading";
@@ -72,8 +74,10 @@ export default function WorkshopPageContent({branchId, initialServiceName, initi
                 : [...current, serviceId];
         });
 
+    const selectedTotal = selectedServices.reduce((sum, service) => sum + service.price, 0);
+
     return (
-        <div className="mx-auto w-full max-w-[1475px] px-6 py-6">
+        <div className="mx-auto w-full max-w-[1475px] px-4 py-4 lg:px-6 lg:py-6">
             <Breadcrumb className="mb-4">
                 <BreadcrumbList>
                     <BreadcrumbItem>
@@ -138,13 +142,33 @@ export default function WorkshopPageContent({branchId, initialServiceName, initi
                     />
                 </div>
             </div>
+
+            {selectedServices.length > 0 && (
+                <div className="sticky bottom-0 z-30 -mx-4 mt-6 flex items-center gap-3 border-t bg-background px-4 py-3 lg:hidden">
+                    <div className="min-w-0 flex-1">
+                        <p className="text-xs text-muted-foreground">
+                            {selectedServices.length} {selectedServices.length === 1 ? "service" : "services"} selected
+                        </p>
+                        <p className="font-semibold tabular-nums">{formatPrice(selectedTotal)}</p>
+                    </div>
+                    <div className="w-36 shrink-0">
+                        <BookingFlowPopover
+                            workshop={workshop}
+                            selectedServices={selectedServices}
+                            onToggleService={toggleService}
+                            initialRange={initialRange}
+                            onBookingComplete={() => setSelectedIds([])}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
 
 function EmptyState({title, message}: { title: string; message: string }) {
     return (
-        <div className="mx-auto flex min-h-[50vh] w-full max-w-[1475px] flex-col items-center justify-center gap-4 px-6 py-16 text-center">
+        <div className="mx-auto flex min-h-[50vh] w-full max-w-[1475px] flex-col items-center justify-center gap-4 px-4 py-16 text-center lg:px-6">
             <Store className="h-12 w-12 text-muted-foreground"/>
             <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
             <p className="text-muted-foreground">{message}</p>

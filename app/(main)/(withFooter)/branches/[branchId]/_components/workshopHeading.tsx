@@ -7,7 +7,7 @@ import {fullAddress} from "@/features/workshop/workshopList";
 export default function WorkshopHeading({workshop}: { workshop: Workshop }) {
     return (
         <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold tracking-tight">{workshop.name}</h1>
+            <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">{workshop.name}</h1>
             <div className="flex items-center gap-2 text-sm">
                 {workshop.rating != null && workshop.reviewCount != null ? (
                     <>
