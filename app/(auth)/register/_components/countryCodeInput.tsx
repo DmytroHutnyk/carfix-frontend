@@ -17,7 +17,7 @@ export default function CountryCodeInput({value, setValue} : {value: string, set
                     variant="white"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[90px] justify-between">
+                    className="h-11 w-[90px] justify-between sm:h-9">
                     {value ? value : <p className="text-muted-foreground">+XXX</p>}
                     <ChevronsUpDown className="opacity-50" />
                 </Button>

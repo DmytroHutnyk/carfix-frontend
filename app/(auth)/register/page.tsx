@@ -76,7 +76,7 @@ export default function Register(){
                 <Button
                     variant="ghost"
                     size="icon"
-                    className="absolute right-3 top-3"
+                    className="absolute right-3 top-3 h-11 w-11 sm:h-9 sm:w-9"
                     onClick={() => {
                         router.back();
                     }}>
@@ -93,7 +93,7 @@ export default function Register(){
                                 id="name"
                                 type="text"
                                 placeholder="Name"
-                                className={errors.name ? "border-destructive focus-visible:ring-destructive" : ""}
+                                className={`h-11 sm:h-9 ${errors.name ? "border-destructive focus-visible:ring-destructive" : ""}`}
                             />
                             {errors.name && (
                                 <p id="name-error" className="text-sm text-destructive">
@@ -108,7 +108,7 @@ export default function Register(){
                                 id="surname"
                                 type="text"
                                 placeholder="Surname"
-                                className={errors.surname ? "border-destructive focus-visible:ring-destructive" : ""}
+                                className={`h-11 sm:h-9 ${errors.surname ? "border-destructive focus-visible:ring-destructive" : ""}`}
                             />
                             {errors.surname && (
                                 <p id="surname-error" className="text-sm text-destructive">
@@ -145,7 +145,7 @@ export default function Register(){
                                         type="tel"
                                         name="phoneNumber"
                                         placeholder="Phone number"
-                                        className={errors.phoneNumber ? "border-destructive focus-visible:ring-destructive" : ""}
+                                        className={`h-11 sm:h-9 ${errors.phoneNumber ? "border-destructive focus-visible:ring-destructive" : ""}`}
                                     />
                                 </div>
                             </section>
@@ -168,7 +168,7 @@ export default function Register(){
                                 id="email"
                                 type="email"
                                 placeholder="Email"
-                                className={errors.email ? "border-destructive focus-visible:ring-destructive" : ""}
+                                className={`h-11 sm:h-9 ${errors.email ? "border-destructive focus-visible:ring-destructive" : ""}`}
                             />
                             {errors.email && (
                                 <p id="email-error" className="text-sm text-destructive">
@@ -184,13 +184,13 @@ export default function Register(){
                                     id="password"
                                     type={showPassword ? "text" : "password"}
                                     placeholder="Password"
-                                    className={`pr-10 ${errors.password ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                                    className={`h-11 pr-10 sm:h-9 ${errors.password ? "border-destructive focus-visible:ring-destructive" : ""}`}
                                 />
                                 <Button
                                     type="button"
                                     variant="ghost"
                                     size="icon"
-                                    className="absolute right-0 top-0 h-9 w-9"
+                                    className="absolute right-0 top-0 h-11 w-11 sm:h-9 sm:w-9"
                                     onClick={() => setShowPassword(!showPassword)}
                                     aria-label={showPassword ? "Hide password" : "Show password"}
                                 >
@@ -213,7 +213,7 @@ export default function Register(){
                         <Button
                             type="submit"
                             variant="default"
-                            className="w-full">
+                            className="h-11 w-full sm:h-9">
                             Register
                         </Button>
                     </form>
