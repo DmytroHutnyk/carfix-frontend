@@ -52,7 +52,7 @@ export default function EmployeesStep() {
             back={{label: "Back", onClick: () => { setEmployees(roles, rows); back(); }}}
             next={{label: "Continue", onClick: submit}}
         >
-            <Button type="button" onClick={() => { setRows([...rows, newRow()]); setShowErrors(false); }}>
+            <Button type="button" className="w-full sm:w-auto" onClick={() => { setRows([...rows, newRow()]); setShowErrors(false); }}>
                 <Plus/> Add employee
             </Button>
 
@@ -67,7 +67,7 @@ export default function EmployeesStep() {
                     const roleMissing = showErrors && row.role === "";
                     return (
                         <div key={row.id} className="space-y-2 rounded-xl border border-border p-4">
-                            <div className="grid grid-cols-[1fr_1fr_1fr_auto] items-start gap-3">
+                            <div className="grid grid-cols-1 items-start gap-3 md:grid-cols-[1fr_1fr_1fr_auto]">
                                 <Input value={row.firstName} onChange={(e) => update(row.id, {firstName: e.target.value})}
                                        placeholder="First name" maxLength={50} aria-label="First name"
                                        aria-invalid={firstNameMissing || undefined} className={invalid(firstNameMissing)}/>
@@ -86,6 +86,7 @@ export default function EmployeesStep() {
                                     invalid={roleMissing}
                                 />
                                 <Button type="button" variant="destructive" size="icon" aria-label="Remove"
+                                        className="justify-self-end md:justify-self-auto"
                                         onClick={() => setRows(rows.filter((r) => r.id !== row.id))}>
                                     <Trash2/>
                                 </Button>

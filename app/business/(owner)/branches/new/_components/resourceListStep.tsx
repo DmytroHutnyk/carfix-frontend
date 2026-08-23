@@ -58,7 +58,7 @@ export default function ResourceListStep({
             back={{label: "Back", onClick: () => onBack(types, rows)}}
             next={{label: "Continue", onClick: submit}}
         >
-            <Button type="button" onClick={() => { setRows([...rows, newRow()]); setShowErrors(false); }}>
+            <Button type="button" className="w-full sm:w-auto" onClick={() => { setRows([...rows, newRow()]); setShowErrors(false); }}>
                 <Plus/> {addLabel}
             </Button>
 
@@ -72,7 +72,7 @@ export default function ResourceListStep({
                     const typeMissing = showErrors && row.type === "";
                     return (
                         <div key={row.id} className="rounded-xl border border-border p-4">
-                            <div className="grid grid-cols-[1fr_1fr_auto] items-start gap-3">
+                            <div className="grid grid-cols-1 items-start gap-3 md:grid-cols-[1fr_1fr_auto]">
                                 <div className="space-y-1">
                                     <Input
                                         value={row.name}
@@ -103,6 +103,7 @@ export default function ResourceListStep({
                                     type="button"
                                     variant="destructive"
                                     size="icon"
+                                    className="justify-self-end md:justify-self-auto"
                                     aria-label="Remove"
                                     onClick={() => setRows(rows.filter((r) => r.id !== row.id))}
                                 >

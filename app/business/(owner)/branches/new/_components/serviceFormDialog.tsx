@@ -63,7 +63,7 @@ export default function ServiceFormDialog({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
+            <DialogContent className="max-h-[90vh] max-w-[calc(100vw-2rem)] overflow-y-auto sm:max-w-lg">
                 <DialogHeader>
                     <DialogTitle className="text-2xl font-bold">{isEdit ? "Edit service" : "Add new service"}</DialogTitle>
                 </DialogHeader>
@@ -93,7 +93,7 @@ export default function ServiceFormDialog({
                         <FieldError message={errors.description?.message}/>
                     </Field>
 
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                         <Field>
                             <FieldLabel htmlFor="service-duration">Duration (minutes)</FieldLabel>
                             <Input {...register("durationMinutes", {valueAsNumber: true})} id="service-duration" type="number" min={1} step={1}
@@ -225,9 +225,9 @@ export default function ServiceFormDialog({
                         />
                     </Field>
 
-                    <div className="flex items-center justify-between pt-2">
-                        <Button type="button" variant="secondary" onClick={() => onOpenChange(false)}>Cancel</Button>
-                        <Button type="submit">Save</Button>
+                    <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
+                        <Button type="button" variant="secondary" className="w-full sm:w-auto" onClick={() => onOpenChange(false)}>Cancel</Button>
+                        <Button type="submit" className="w-full sm:w-auto">Save</Button>
                     </div>
                 </form>
             </DialogContent>

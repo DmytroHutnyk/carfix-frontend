@@ -24,6 +24,7 @@ export default function BranchFilters({filter, sort, onFilterChange, onSortChang
                 value={filter}
                 onValueChange={(value) => value && onFilterChange(value as BranchFilterKey)}
                 aria-label="Filter service points"
+                className="flex-wrap"
             >
                 {BRANCH_FILTER_OPTIONS.map((o) => (
                     <ToggleGroupItem key={o.value} value={o.value}>{o.label}</ToggleGroupItem>
@@ -31,7 +32,7 @@ export default function BranchFilters({filter, sort, onFilterChange, onSortChang
             </ToggleGroup>
 
             <Select value={sort} onValueChange={(v) => onSortChange(v as BranchSortKey)}>
-                <SelectTrigger className="ml-auto w-52 justify-start gap-2 [&>span]:min-w-0 [&>svg:last-of-type]:ml-auto">
+                <SelectTrigger className="w-full justify-start gap-2 sm:ml-auto sm:w-52 [&>span]:min-w-0 [&>svg:last-of-type]:ml-auto">
                     <ArrowUpDown className="h-4 w-4 text-muted-foreground"/>
                     <SelectValue/>
                 </SelectTrigger>
@@ -42,7 +43,7 @@ export default function BranchFilters({filter, sort, onFilterChange, onSortChang
                 </SelectContent>
             </Select>
 
-            <Button asChild>
+            <Button className="w-full sm:w-auto" asChild>
                 <Link href="/business/branches/new"><Plus/> New</Link>
             </Button>
         </div>

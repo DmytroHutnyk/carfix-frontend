@@ -33,7 +33,7 @@ export default function WizardCard({title, subtitle, centeredTitle = false, wide
             {hint && (
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button type="button" variant="outline" size="icon" className="absolute right-4 top-4" aria-label="More information">
+                        <Button type="button" variant="outline" size="icon" className="absolute right-4 top-4 z-10" aria-label="More information">
                             <Info className="h-4 w-4"/>
                         </Button>
                     </PopoverTrigger>
@@ -50,11 +50,12 @@ export default function WizardCard({title, subtitle, centeredTitle = false, wide
                 {children}
                 <FormErrorAlert message={error}/>
             </CardContent>
-            <CardFooter className="flex items-center justify-between">
-                <Button type="button" variant="secondary" onClick={back.onClick} disabled={busy}>{back.label}</Button>
+            <CardFooter className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
+                <Button type="button" variant="secondary" className="w-full sm:w-auto" onClick={back.onClick} disabled={busy}>{back.label}</Button>
                 <Button
                     type={next.form ? "submit" : "button"}
                     form={next.form}
+                    className="w-full sm:w-auto"
                     onClick={next.onClick}
                     disabled={busy || next.disabled}
                 >

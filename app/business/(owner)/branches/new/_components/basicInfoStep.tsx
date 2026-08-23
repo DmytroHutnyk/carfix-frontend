@@ -84,8 +84,8 @@ export default function BasicInfoStep() {
                     <p className="text-xs text-muted-foreground">Pick the address from the suggestions — street, city, region and country are filled in from it.</p>
                 </Field>
 
-                <div className="grid grid-cols-[1fr_140px_140px] gap-3">
-                    <Field>
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-[1fr_140px_140px]">
+                    <Field className="col-span-2 sm:col-span-1">
                         <FieldLabel htmlFor="branch-street">Street</FieldLabel>
                         <Input {...register("streetName")} id="branch-street" readOnly placeholder="Street" aria-invalid={!!errors.streetName || undefined} className={cn("bg-muted", invalid(errors.streetName))}/>
                         <FieldError message={errors.streetName?.message}/>
@@ -102,7 +102,7 @@ export default function BasicInfoStep() {
                     </Field>
                 </div>
 
-                <div className="grid grid-cols-[140px_1fr] gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-[140px_1fr]">
                     <Field>
                         <FieldLabel htmlFor="branch-postal">Postal code</FieldLabel>
                         <Input {...register("postalCode")} id="branch-postal" placeholder="00-511" aria-invalid={!!errors.postalCode || undefined} className={invalid(errors.postalCode)}/>
