@@ -5,9 +5,9 @@ export default function SupportSection() {
         <section id="contact" className="scroll-mt-6">
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-xl">Support Information</CardTitle>
+                    <CardTitle className="text-lg sm:text-xl">Support Information</CardTitle>
                 </CardHeader>
-                <CardContent className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
+                <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
                     <div className="space-y-1">
                         <p className="font-semibold">Email Support</p>
                         <a href="mailto:support@carfix.pl" className="text-muted-foreground hover:underline">

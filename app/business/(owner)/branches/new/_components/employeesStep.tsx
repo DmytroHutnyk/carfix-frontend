@@ -66,7 +66,7 @@ export default function EmployeesStep() {
                     const lastNameMissing = showErrors && row.lastName.trim() === "";
                     const roleMissing = showErrors && row.role === "";
                     return (
-                        <div key={row.id} className="space-y-2 rounded-xl border border-border p-4">
+                        <div key={row.id} className="space-y-2 rounded-xl border border-border p-3 sm:p-4">
                             <div className="grid grid-cols-1 items-start gap-3 md:grid-cols-[1fr_1fr_1fr_auto]">
                                 <Input value={row.firstName} onChange={(e) => update(row.id, {firstName: e.target.value})}
                                        placeholder="First name" maxLength={50} aria-label="First name"

@@ -17,7 +17,7 @@ export default function WorkshopResultCard({workshop, href, singleDay, pinned = 
     return (
         <Link href={href} className="block">
             <Card className={cn(
-                "flex flex-col gap-4 p-4 transition-shadow hover:shadow-md",
+                "flex flex-col gap-3 p-4 transition-shadow hover:shadow-md sm:gap-4",
                 pinned && "border-primary ring-1 ring-primary"
             )}>
                 {pinned && (
@@ -25,14 +25,14 @@ export default function WorkshopResultCard({workshop, href, singleDay, pinned = 
                 )}
 
                 {/* Identity row: picture on the left, everything that names the branch on the right */}
-                <div className="flex flex-col gap-4 sm:flex-row">
+                <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
                     {/* Static placeholder until file upload/serving lands. 16:10, not square. */}
-                    <div className="flex h-32 w-full shrink-0 items-center justify-center rounded-lg bg-muted sm:aspect-[16/10] sm:h-auto sm:w-72">
+                    <div className="flex h-28 w-full shrink-0 items-center justify-center rounded-lg bg-muted sm:aspect-[16/10] sm:h-auto sm:w-72">
                         <Store className="h-10 w-10 text-muted-foreground"/>
                     </div>
 
                     <div className="flex min-w-0 flex-1 flex-col gap-2">
-                        <h2 className="text-lg font-bold">{workshop.name}</h2>
+                        <h2 className="text-base font-bold sm:text-lg">{workshop.name}</h2>
 
                         <p className="flex items-center gap-1 text-sm text-muted-foreground">
                             <MapPin className="h-4 w-4 shrink-0"/>
@@ -80,7 +80,7 @@ export default function WorkshopResultCard({workshop, href, singleDay, pinned = 
                                     <Wrench className="h-4 w-4 text-muted-foreground"/>
                                 </span>
                                 <span className="min-w-0 flex-1">
-                                    <span className="block truncate font-medium">{service.name}</span>
+                                    <span className="block truncate text-sm font-medium sm:text-base">{service.name}</span>
                                     <span className="block text-xs text-muted-foreground">
                                         {formatDuration(service.durationMinutes)} · {service.categoryName}
                                     </span>

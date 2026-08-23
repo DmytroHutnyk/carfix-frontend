@@ -96,7 +96,7 @@ export default function ProfileSettings() {
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                            <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-1 sm:space-x-4">
+                            <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-1 sm:space-x-4">
                                     <Input
                                         {...register("name")}
                                         id="name"
@@ -161,17 +161,17 @@ export default function ProfileSettings() {
                             )}
                         />
 
-                        <div className="flex w-full flex-col gap-2 pt-2 sm:flex-row sm:justify-end">
+                        <div className="flex w-full gap-2 pt-2 sm:justify-end">
                             <Button
                                 type="button"
                                 variant="white"
-                                className="w-full sm:w-35"
+                                className="flex-1 sm:w-35 sm:flex-initial"
                                 onClick={() => reset()}
                                 disabled={!isDirty || isSubmitting}
                             >
                                 Reset
                             </Button>
-                            <Button type="submit" className="w-full sm:w-35" disabled={!isDirty || isSubmitting}>
+                            <Button type="submit" className="flex-1 sm:w-35 sm:flex-initial" disabled={!isDirty || isSubmitting}>
                                 {isSubmitting ? "Saving..." : "Save Changes"}
                             </Button>
                         </div>

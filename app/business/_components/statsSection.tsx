@@ -5,11 +5,11 @@ export default function StatsSection() {
     return (
         <section>
             <Card>
-                <CardContent className="grid grid-cols-2 gap-6 p-6 md:grid-cols-4 md:gap-8 md:p-8">
+                <CardContent className="grid grid-cols-2 gap-4 p-4 md:grid-cols-4 md:gap-8 md:p-8">
                     {stats.map(({icon: Icon, value, label}) => (
                         <div key={label} className="flex flex-col items-center gap-2 text-center">
                             <Icon className="h-6 w-6"/>
-                            <span className="text-3xl font-bold tabular-nums">{value}</span>
+                            <span className="text-2xl font-bold tabular-nums sm:text-3xl">{value}</span>
                             <span className="text-sm text-muted-foreground">{label}</span>
                         </div>
                     ))}

@@ -144,7 +144,7 @@ export default function VerifyEmailDialog({email, children}: {email: string; chi
                             {errors.code && <FieldError>{errors.code.message}</FieldError>}
                         </Field>
 
-                        <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="flex items-center justify-between gap-2">
                             <Button
                                 type="button"
                                 variant="link"
@@ -154,7 +154,7 @@ export default function VerifyEmailDialog({email, children}: {email: string; chi
                             >
                                 {cooldown > 0 ? `Resend code in ${cooldown}s` : "Resend code"}
                             </Button>
-                            <Button type="submit" className="w-full sm:w-35" disabled={isSubmitting || isRequesting}>
+                            <Button type="submit" className="w-32 sm:w-35" disabled={isSubmitting || isRequesting}>
                                 {isSubmitting ? "Verifying..." : "Verify"}
                             </Button>
                         </div>

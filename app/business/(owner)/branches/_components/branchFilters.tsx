@@ -17,7 +17,7 @@ export default function BranchFilters({filter, sort, onFilterChange, onSortChang
     onSortChange: (sort: BranchSortKey) => void;
 }) {
     return (
-        <div className="flex flex-wrap items-center gap-3 rounded-xl border p-3">
+        <div className="flex flex-wrap items-center gap-2 rounded-xl border p-2 sm:gap-3 sm:p-3">
             <ToggleGroup
                 type="single"
                 variant="outline"
@@ -32,7 +32,7 @@ export default function BranchFilters({filter, sort, onFilterChange, onSortChang
             </ToggleGroup>
 
             <Select value={sort} onValueChange={(v) => onSortChange(v as BranchSortKey)}>
-                <SelectTrigger className="w-full justify-start gap-2 sm:ml-auto sm:w-52 [&>span]:min-w-0 [&>svg:last-of-type]:ml-auto">
+                <SelectTrigger className="min-w-0 flex-1 justify-start gap-2 sm:ml-auto sm:w-52 sm:flex-initial [&>span]:min-w-0 [&>svg:last-of-type]:ml-auto">
                     <ArrowUpDown className="h-4 w-4 text-muted-foreground"/>
                     <SelectValue/>
                 </SelectTrigger>
@@ -43,7 +43,7 @@ export default function BranchFilters({filter, sort, onFilterChange, onSortChang
                 </SelectContent>
             </Select>
 
-            <Button className="w-full sm:w-auto" asChild>
+            <Button className="shrink-0" asChild>
                 <Link href="/business/branches/new"><Plus/> New</Link>
             </Button>
         </div>

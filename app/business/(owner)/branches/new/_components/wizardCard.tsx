@@ -41,7 +41,7 @@ export default function WizardCard({title, subtitle, centeredTitle = false, wide
                 </Popover>
             )}
             <CardHeader className={cn(hint && "pr-16")}>
-                <CardTitle className={cn("text-2xl font-bold", centeredTitle && "text-center")}>{title}</CardTitle>
+                <CardTitle className={cn("text-lg font-bold sm:text-2xl", centeredTitle && "text-center")}>{title}</CardTitle>
                 {subtitle && (
                     <p className={cn("text-sm text-muted-foreground", centeredTitle && "text-center")}>{subtitle}</p>
                 )}
@@ -50,12 +50,12 @@ export default function WizardCard({title, subtitle, centeredTitle = false, wide
                 {children}
                 <FormErrorAlert message={error}/>
             </CardContent>
-            <CardFooter className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
-                <Button type="button" variant="secondary" className="w-full sm:w-auto" onClick={back.onClick} disabled={busy}>{back.label}</Button>
+            <CardFooter className="flex items-center gap-3 sm:justify-between sm:gap-0">
+                <Button type="button" variant="secondary" className="flex-1 sm:w-auto sm:flex-initial" onClick={back.onClick} disabled={busy}>{back.label}</Button>
                 <Button
                     type={next.form ? "submit" : "button"}
                     form={next.form}
-                    className="w-full sm:w-auto"
+                    className="flex-1 sm:w-auto sm:flex-initial"
                     onClick={next.onClick}
                     disabled={busy || next.disabled}
                 >

@@ -93,9 +93,9 @@ export default function OpeningHoursStep() {
                     const closed = days?.[day]?.status === DAY_STATUS.CLOSED;
                     const dayErrors = errors.days?.[day];
                     return (
-                        <div key={day} className="space-y-2 rounded-xl border border-border p-4">
+                        <div key={day} className="space-y-2 rounded-xl border border-border p-3 sm:p-4">
                             <div className="grid grid-cols-2 items-center gap-3 sm:grid-cols-[120px_130px_130px_1fr]">
-                                <span className="col-span-2 text-base font-medium sm:col-span-1">{WEEKDAY_LABEL[day]}</span>
+                                <span className="col-span-2 text-sm font-medium sm:col-span-1 sm:text-base">{WEEKDAY_LABEL[day]}</span>
                                 <Controller
                                     control={control}
                                     name={`days.${day}.opensAt`}

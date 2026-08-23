@@ -7,20 +7,20 @@ export default function Page(){
                         <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
                             Terms of Use
                         </h1>
-                        <p className="text-muted-foreground">
+                        <p className="text-sm text-muted-foreground sm:text-base">
                             Legal terms and conditions for using CarFix
                         </p>
                     </section>
 
-                    <Separator className="my-6" />
+                    <Separator className="my-4 sm:my-6" />
 
-                    <section className="space-y-8">
+                    <section className="space-y-6 sm:space-y-8">
                         {termsOfUseContent.map((item) => (
                             <div key={item.number}>
                                 <h2 className="text-xl font-bold mb-2">
                                     {item.number}. {item.title}
                                 </h2>
-                                <p className="text-muted-foreground">
+                                <p className="text-sm text-muted-foreground sm:text-base">
                                     {item.description}
                                 </p>
                             </div>

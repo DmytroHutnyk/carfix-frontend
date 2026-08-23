@@ -53,25 +53,25 @@ export default function Page() {
         <div className="py-3">
             {/*-==-==-=-=-=-=--==-=-=-=-Header-==-==-=-=-=-=-=-=-=---==*/}
             <section>
-                <h1 className="text-3xl font-bold tracking-tight">My Service Points</h1>
+                <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">My Service Points</h1>
             </section>
 
             {!isError && branches.length > 0 && (
                 <>
                     {/*-==-==-=-=-=-=--==-=-=-=-Filters-==-==-=-=-=-=-=-=-=---==*/}
-                    <section className="pt-6">
+                    <section className="pt-4 lg:pt-6">
                         <BranchFilters filter={filter} sort={sort} onFilterChange={setFilter} onSortChange={setSort}/>
                     </section>
 
                     {/*-==-==-=-=-=-=--==-=-=-=-Totals-==-==-=-=-=-=-=-=-=---==*/}
-                    <section className="pt-6">
+                    <section className="pt-4 lg:pt-6">
                         <StatsStrip totals={totals}/>
                     </section>
                 </>
             )}
 
             {/*-==-==-=-=-=-=--==-=-=-=-Cards-==-==-=-=-=-=-=-=-=---==*/}
-            <section className="pt-6">
+            <section className="pt-4 lg:pt-6">
                 {isError && (
                     <FormErrorAlert message={toDisplayError(error as ApiError).message}/>
                 )}

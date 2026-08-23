@@ -65,7 +65,7 @@ export default function ServiceFormDialog({
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-h-[90vh] max-w-[calc(100vw-2rem)] overflow-y-auto sm:max-w-lg">
                 <DialogHeader>
-                    <DialogTitle className="text-2xl font-bold">{isEdit ? "Edit service" : "Add new service"}</DialogTitle>
+                    <DialogTitle className="text-lg font-bold sm:text-2xl">{isEdit ? "Edit service" : "Add new service"}</DialogTitle>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(submit)} noValidate className="space-y-4">
@@ -225,9 +225,9 @@ export default function ServiceFormDialog({
                         />
                     </Field>
 
-                    <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
-                        <Button type="button" variant="secondary" className="w-full sm:w-auto" onClick={() => onOpenChange(false)}>Cancel</Button>
-                        <Button type="submit" className="w-full sm:w-auto">Save</Button>
+                    <div className="flex items-center gap-3 pt-2 sm:justify-between sm:gap-0">
+                        <Button type="button" variant="secondary" className="flex-1 sm:w-auto sm:flex-initial" onClick={() => onOpenChange(false)}>Cancel</Button>
+                        <Button type="submit" className="flex-1 sm:w-auto sm:flex-initial">Save</Button>
                     </div>
                 </form>
             </DialogContent>

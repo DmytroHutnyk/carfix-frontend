@@ -8,8 +8,8 @@ export default function FilterBar({onClear, children}: {
     children: ReactNode;
 }) {
     return (
-        <div className="flex flex-wrap items-center gap-3 rounded-xl border p-3">
-            <p className="flex items-center gap-2 font-semibold">
+        <div className="flex flex-wrap items-center gap-2 rounded-xl border p-2 sm:gap-3 sm:p-3">
+            <p className="flex items-center gap-2 text-sm font-semibold sm:text-base">
                 <Filter className="h-4 w-4"/> Filters:
             </p>
 

@@ -10,9 +10,9 @@ export default function Header({initialLocation}: {initialLocation: SearchLocati
 
     return (
         <header className="w-full border-b-border bg-background shadow-[0px_1px_3px_rgba(0,0,0,0.1)]">
-            <div className="mx-auto flex max-w-[1475px] flex-col gap-3 px-4 py-3 lg:flex-row lg:items-center lg:gap-7 lg:px-6">
+            <div className="mx-auto flex max-w-[1475px] flex-col gap-2 px-4 py-2 lg:flex-row lg:items-center lg:gap-7 lg:px-6 lg:py-3">
 
-                <div className="flex min-w-0 items-center justify-between gap-3 lg:contents">
+                <div className="flex min-w-0 items-center justify-between gap-2 lg:contents">
                     {/* Logo and slogan*/}
                     <Logo/>
                     <MobileMenu/>

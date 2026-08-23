@@ -6,8 +6,8 @@ import FaqFeedback from "@/business/_components/faqFeedback";
 
 export default function FaqSection() {
     return (
-        <section id="faq" className="scroll-mt-6 space-y-8">
-            <h2 className="text-center text-2xl font-bold">Frequently asked questions</h2>
+        <section id="faq" className="scroll-mt-6 space-y-5 lg:space-y-8">
+            <h2 className="text-center text-xl font-bold sm:text-2xl">Frequently asked questions</h2>
             <Accordion type="multiple" defaultValue={faqs.map((faq) => faq.id)} className="space-y-4">
                 {faqs.map((faq) => (
                     <AccordionItem

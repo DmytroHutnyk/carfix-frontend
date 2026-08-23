@@ -6,7 +6,7 @@ import TrustedBySection from "@/business/_components/trustedBySection";
 
 export default function BusinessPage() {
     return (
-        <main className="mx-auto max-w-[1425px] space-y-16 px-6 py-8 lg:space-y-24 lg:px-[72px] lg:py-12">
+        <main className="mx-auto max-w-[1425px] space-y-10 px-4 py-6 sm:px-6 lg:space-y-24 lg:px-[72px] lg:py-12">
             <HeroSection/>
             <WhyChooseSection/>
             <StatsSection/>

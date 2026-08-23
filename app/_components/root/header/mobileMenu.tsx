@@ -18,15 +18,15 @@ export default function MobileMenu() {
 
     return (
         <div className="flex shrink-0 items-center gap-2 lg:hidden">
-            {isAuthenticated && !owner && <CarProfileSelector className="h-11 w-36"/>}
+            {isAuthenticated && !owner && <CarProfileSelector className="h-9 w-36 min-w-0"/>}
 
             <Sheet open={open} onOpenChange={setOpen}>
                 <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon" aria-label="Open menu" className="h-11 w-11">
+                    <Button variant="ghost" size="icon" aria-label="Open menu" className="h-9 w-9">
                         <Menu className="h-5 w-5"/>
                     </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="flex w-72 flex-col gap-6 overflow-y-auto">
+                <SheetContent side="right" className="flex w-72 flex-col gap-5 overflow-y-auto">
                     <SheetHeader>
                         <SheetTitle>Menu</SheetTitle>
                     </SheetHeader>
@@ -34,17 +34,17 @@ export default function MobileMenu() {
                     {!isLoading && (
                         <div className="flex flex-col gap-3">
                             {isAuthenticated ? (
-                                <Button variant="headerOutline" className="h-11 w-full" onClick={close} asChild>
+                                <Button variant="headerOutline" className="h-10 w-full" onClick={close} asChild>
                                     <Link href={owner ? "/business/branches" : "/profile"}>
                                         {owner ? "My Service Points" : "My Account"}
                                     </Link>
                                 </Button>
                             ) : (
                                 <>
-                                    <Button className="h-11 w-full" onClick={close} asChild>
+                                    <Button className="h-10 w-full" onClick={close} asChild>
                                         <Link href="/login">Login/SignUp</Link>
                                     </Button>
-                                    <Button variant="headerOutline" className="h-11 w-full" onClick={close} asChild>
+                                    <Button variant="headerOutline" className="h-10 w-full" onClick={close} asChild>
                                         <Link href="/business">For Business</Link>
                                     </Button>
                                 </>

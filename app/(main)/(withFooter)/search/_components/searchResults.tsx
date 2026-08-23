@@ -84,11 +84,11 @@ export default function SearchResults() {
     return (
         <div className="mx-auto w-full max-w-[1475px] px-4 py-4 lg:px-6 lg:py-6">
             {/*-==-==-=-=-=-=--==-=-=-=-Sticky title row-==-==-=-=-=-=-=-=-=---==*/}
-            <section className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 bg-background py-3">
+            <section className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-2 bg-background py-2 lg:gap-3 lg:py-3">
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">{composeTitle(echo, params.radiusKm)}</h1>
+                    <h1 className="text-xl font-bold tracking-tight lg:text-3xl">{composeTitle(echo, params.radiusKm)}</h1>
                     {total != null && (
-                        <p className="flex items-center gap-2 text-muted-foreground">
+                        <p className="flex items-center gap-2 text-sm text-muted-foreground lg:text-base">
                             <span>{total} {total === 1 ? "workshop" : "workshops"}</span>
                             {isFetching && !isFetchingNextPage && (
                                 <span className="flex items-center gap-1.5 text-sm">
@@ -108,7 +108,7 @@ export default function SearchResults() {
             <section
                 aria-busy={isFetching}
                 className={cn(
-                    "flex flex-col gap-4 pt-4 transition-opacity",
+                    "flex flex-col gap-3 pt-3 transition-opacity lg:gap-4 lg:pt-4",
                     isFetching && !isFetchingNextPage && "opacity-60"
                 )}
             >

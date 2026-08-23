@@ -59,12 +59,12 @@ export default function ServicesStep() {
             back={{label: "Back", onClick: back}}
             next={{label: "Done", onClick: submit}}
         >
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
-                <Button type="button" className="w-full sm:w-auto" onClick={() => setDialog({open: true, editing: null})}>
+            <div className="flex items-center gap-2 sm:justify-between sm:gap-0">
+                <Button type="button" className="flex-1 sm:w-auto sm:flex-initial" onClick={() => setDialog({open: true, editing: null})}>
                     <Plus/> Add Service
                 </Button>
                 <Select value={sortKey} onValueChange={(v) => setSortKey(v as SortKey)}>
-                    <SelectTrigger className="w-full sm:w-[160px]">
+                    <SelectTrigger className="flex-1 sm:w-[160px] sm:flex-initial">
                         <ArrowUpDown className="h-4 w-4"/>
                         <SelectValue/>
                     </SelectTrigger>

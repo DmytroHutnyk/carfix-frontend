@@ -60,7 +60,7 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
         <div className="flex w-full items-center gap-2 lg:w-auto">
             {/* Distance needs a centre to measure from; every other combination is choosable. */}
             <Select value={params.sort ?? SEARCH_SORTS.NAME} onValueChange={(value) => setParam("sort", value)}>
-                <SelectTrigger className="h-11 w-40 flex-1 lg:h-9 lg:flex-initial">
+                <SelectTrigger className="h-10 w-40 flex-1 lg:h-9 lg:flex-initial">
                     <ArrowUpDown className="h-4 w-4"/>
                     <SelectValue/>
                 </SelectTrigger>
@@ -72,7 +72,7 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
 
             <Popover>
                 <PopoverTrigger asChild>
-                    <Button variant="outline" className="h-11 shrink-0 lg:h-9 lg:shrink">
+                    <Button variant="outline" className="h-10 shrink-0 lg:h-9 lg:shrink">
                         <SlidersHorizontal className="h-4 w-4"/>
                         Filters
                         {activeFilterCount > 0 && (

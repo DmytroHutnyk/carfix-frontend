@@ -7,17 +7,17 @@ import {Badge} from "@/_components/shadcn/badge";
 export default function Page(){
     return(
         <div className="py-3">
-            <section className="text-center space-y-3">
+            <section className="text-center space-y-2 sm:space-y-3">
                 <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
                     Your trusted automotive service platform
                 </h1>
-                <p className="text-muted-foreground">
+                <p className="text-sm text-muted-foreground sm:text-base">
                     Connect with verified automotive service providers. Book appointments,
                     compare prices, and get your car serviced with confidence and convenience.
                 </p>
             </section>
 
-            <Separator className="my-6" />
+            <Separator className="my-4 sm:my-6" />
 
             <section className="flex flex-col gap-y-2">
                 <p className="text-lg font-semibold pl-1.5">Key Features</p>
@@ -41,7 +41,7 @@ export default function Page(){
                 </div>
             </section>
 
-            <Separator className="my-6"/>
+            <Separator className="my-4 sm:my-6"/>
 
             <section className="flex flex-col gap-y-2">
                 <p className="text-lg font-semibold pl-1.5">How It Works</p>
@@ -65,7 +65,7 @@ export default function Page(){
                     </div>
                 </Card>
             </section>
-            <Separator className="my-6" />
+            <Separator className="my-4 sm:my-6" />
             <section className="flex flex-col gap-y-2">
                 <Card className="bg-muted">
                     <CardHeader>
@@ -86,7 +86,7 @@ export default function Page(){
                 </Card>
             </section>
 
-            <Separator className="my-6" />
+            <Separator className="my-4 sm:my-6" />
             <section className="flex flex-col gap-y-2">
                 <p className="text-lg font-semibold pl-1.5">What Our Customers Say</p>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

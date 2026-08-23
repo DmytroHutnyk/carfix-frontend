@@ -5,15 +5,15 @@ import ImagePlaceholder from "@/business/_components/imagePlaceholder";
 
 export default function HeroSection() {
     return (
-        <section id="try-for-free" className="grid scroll-mt-6 grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12">
-            <div className="space-y-6">
-                <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+        <section id="try-for-free" className="grid scroll-mt-6 grid-cols-1 items-center gap-6 lg:grid-cols-2 lg:gap-12">
+            <div className="space-y-4 lg:space-y-6">
+                <h1 className="text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl">
                     Grow Your Auto Service Business with CarFix
                 </h1>
-                <p className="text-base text-muted-foreground sm:text-lg">
+                <p className="text-sm text-muted-foreground sm:text-lg">
                     Join thousands of service points connecting with customers through our trusted platform
                 </p>
-                <ul className="space-y-3">
+                <ul className="space-y-2 text-sm sm:space-y-3 sm:text-base">
                     {benefits.map((benefit) => (
                         <li key={benefit} className="flex items-center gap-3">
                             <Check className="h-5 w-5 shrink-0 text-success-badge-foreground"/>
@@ -28,7 +28,7 @@ export default function HeroSection() {
                     <p className="text-sm text-muted-foreground">No credit card, cancel anytime</p>
                 </div>
             </div>
-            <ImagePlaceholder className="h-56 sm:h-80 lg:h-[450px]"/>
+            <ImagePlaceholder className="h-40 sm:h-80 lg:h-[450px]"/>
         </section>
     );
 }

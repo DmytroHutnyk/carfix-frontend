@@ -73,11 +73,11 @@ export default function CarCard({carProfile, onEdit, onDelete}: {
                     </dl>
 
                     {/*-==-==-=-=-=-=--==-=-=-=-Actions-==-==-=-=-=-=-=-=-=---==*/}
-                    <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:justify-end">
-                        <Button onClick={onEdit}>
+                    <div className="flex gap-2 pt-2 sm:justify-end">
+                        <Button className="flex-1 sm:flex-initial" onClick={onEdit}>
                             <Pencil/> Edit
                         </Button>
-                        <Button variant="destructive" onClick={onDelete}>
+                        <Button variant="destructive" className="flex-1 sm:flex-initial" onClick={onDelete}>
                             <Trash2/> Delete
                         </Button>
                     </div>

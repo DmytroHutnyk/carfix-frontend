@@ -36,14 +36,14 @@ export default function ServicesSection({categories, selectedIds, onToggle}: {
                                 {category.services.map((service) => {
                                     const selected = selectedIds.includes(service.serviceId);
                                     return (
-                                        <li key={service.serviceId} className="flex flex-wrap items-center gap-3 py-3 sm:flex-nowrap sm:gap-4">
+                                        <li key={service.serviceId} className="flex flex-wrap items-center gap-2 py-2.5 sm:flex-nowrap sm:gap-4 sm:py-3">
                                             <span className="w-full min-w-0 sm:w-auto sm:flex-1">
-                                                <span className="block font-medium">{service.name}</span>
-                                                <span className="block text-sm text-muted-foreground">
+                                                <span className="block text-sm font-medium sm:text-base">{service.name}</span>
+                                                <span className="block text-xs text-muted-foreground sm:text-sm">
                                                     Duration: {service.durationMinutes} minutes
                                                 </span>
                                             </span>
-                                            <span className="shrink-0 font-semibold tabular-nums">
+                                            <span className="shrink-0 text-sm font-semibold tabular-nums sm:text-base">
                                                 {formatPrice(service.price)}
                                             </span>
                                             <Button

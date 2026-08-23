@@ -32,6 +32,7 @@ function suggestionLabel(prediction: PlacePrediction) {
 
 interface LocationSearchBarProps {
     id?: string;
+    className?: string;
     placeholder?: string;
     value: string;
     onValueChange: (value: string) => void;
@@ -40,7 +41,7 @@ interface LocationSearchBarProps {
     requestOptions?: Partial<google.maps.places.AutocompleteRequest>;
 }
 
-export default function LocationSearchBar({id, placeholder = "Location", value, onValueChange, onPlaceSelected, onCleared, requestOptions}: LocationSearchBarProps) {
+export default function LocationSearchBar({id, className, placeholder = "Location", value, onValueChange, onPlaceSelected, onCleared, requestOptions}: LocationSearchBarProps) {
     const {suggestions, resetSession} = useAutocompleteSuggestions(value, requestOptions);
     const geocoderRef = useRef<google.maps.Geocoder | null>(null);
 
@@ -115,6 +116,7 @@ export default function LocationSearchBar({id, placeholder = "Location", value, 
         >
             <ComboboxInput
                 id={id}
+                className={className}
                 placeholder={placeholder}
                 startAddon={<MapPin className="h-4 w-4"/>}
                 endAddon={value !== "" && (

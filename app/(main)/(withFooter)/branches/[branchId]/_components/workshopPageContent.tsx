@@ -92,12 +92,12 @@ export default function WorkshopPageContent({branchId, initialServiceName, initi
                 </BreadcrumbList>
             </Breadcrumb>
 
-            <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-                <div className="flex min-w-0 flex-col gap-6">
+            <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-6">
+                <div className="flex min-w-0 flex-col gap-4 lg:gap-6">
                     <WorkshopGallery/>
                     <WorkshopHeading workshop={workshop}/>
                     {(workshop.description || workshop.cancellationPolicy) && (
-                        <div className="grid gap-6 sm:grid-cols-2">
+                        <div className="grid gap-4 sm:grid-cols-2 lg:gap-6">
                             {workshop.description && (
                                 <Card>
                                     <CardHeader><CardTitle>Description</CardTitle></CardHeader>
@@ -128,7 +128,7 @@ export default function WorkshopPageContent({branchId, initialServiceName, initi
                     />
                 </div>
 
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4 lg:gap-6">
                     <MapCard workshop={workshop}/>
                     <BrandsCard brands={workshop.brands}/>
                     <OpeningHoursCard openingHours={workshop.openingHours} tz={workshop.tz}/>
@@ -144,14 +144,14 @@ export default function WorkshopPageContent({branchId, initialServiceName, initi
             </div>
 
             {selectedServices.length > 0 && (
-                <div className="sticky bottom-0 z-30 -mx-4 mt-6 flex items-center gap-3 border-t bg-background px-4 py-3 lg:hidden">
+                <div className="sticky bottom-0 z-30 -mx-4 mt-6 flex items-center gap-3 border-t bg-background px-4 py-2.5 lg:hidden">
                     <div className="min-w-0 flex-1">
                         <p className="text-xs text-muted-foreground">
                             {selectedServices.length} {selectedServices.length === 1 ? "service" : "services"} selected
                         </p>
-                        <p className="font-semibold tabular-nums">{formatPrice(selectedTotal)}</p>
+                        <p className="text-sm font-semibold tabular-nums">{formatPrice(selectedTotal)}</p>
                     </div>
-                    <div className="w-36 shrink-0">
+                    <div className="w-32 shrink-0">
                         <BookingFlowPopover
                             workshop={workshop}
                             selectedServices={selectedServices}
@@ -170,7 +170,7 @@ function EmptyState({title, message}: { title: string; message: string }) {
     return (
         <div className="mx-auto flex min-h-[50vh] w-full max-w-[1475px] flex-col items-center justify-center gap-4 px-4 py-16 text-center lg:px-6">
             <Store className="h-12 w-12 text-muted-foreground"/>
-            <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
+            <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">{title}</h1>
             <p className="text-muted-foreground">{message}</p>
             <Button asChild>
                 <Link href="/search">Back to search</Link>

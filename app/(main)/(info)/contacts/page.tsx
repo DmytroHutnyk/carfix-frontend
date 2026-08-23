@@ -10,12 +10,12 @@ export default function Page(){
                 <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
                     Contact Us
                 </h1>
-                <p className="text-muted-foreground">
+                <p className="text-sm text-muted-foreground sm:text-base">
                     Get in touch with our support team
                 </p>
             </section>
 
-            <Separator className="my-6" />
+            <Separator className="my-4 sm:my-6" />
 
             {/*-==-==-=-=-=-=--==-=-=-=-Cards-==-==-=-=-=-=-=-=-=---==*/}
             <section className="flex flex-col gap-y-2">

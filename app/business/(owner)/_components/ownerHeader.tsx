@@ -15,7 +15,7 @@ export default function OwnerHeader() {
 
     return (
         <header className="w-full bg-background shadow-[0px_1px_3px_rgba(0,0,0,0.1)]">
-            <div className="mx-auto flex max-w-[1475px] items-center justify-between gap-2 px-4 py-3 sm:px-6">
+            <div className="mx-auto flex max-w-[1475px] items-center justify-between gap-2 px-4 py-2 sm:px-6 lg:py-3">
                 <div className="flex min-w-0 items-center gap-1 lg:gap-0">
                     <OwnerMobileNav businessName={businessName}/>
                     <Logo/>

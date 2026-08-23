@@ -6,20 +6,20 @@ export default function Home() {
   return (
     <div>
       <div>
-            <main className="mx-auto max-w-[1425px] px-4 py-10 space-y-10 lg:px-[72px] lg:py-15 lg:space-y-16">
+            <main className="mx-auto max-w-[1425px] px-4 py-6 space-y-8 lg:px-[72px] lg:py-15 lg:space-y-16">
               {/* Intro Section */}
-              <section className="text-center space-y-4 max-w-3xl mx-auto">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
+              <section className="text-center space-y-2 sm:space-y-4 max-w-3xl mx-auto">
+                <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight">
                   Find the Best Car Service Near You
                 </h1>
-                <p className="text-base sm:text-lg text-muted-foreground">
+                <p className="text-sm sm:text-lg text-muted-foreground">
                   Connect with trusted mechanics, compare prices, and book your car service with confidence. Your vehicle deserves the best care.
                 </p>
               </section>
 
               {/* Services Grid */}
-              <section className="space-y-6 lg:space-y-8">
-                  <h2 className="text-2xl sm:text-3xl font-bold text-center">Popular Services</h2>
+              <section className="space-y-4 lg:space-y-8">
+                  <h2 className="text-xl sm:text-3xl font-bold text-center">Popular Services</h2>
                 <Carousel opts={{
                     align: "start",
                     loop: true,
@@ -37,8 +37,8 @@ export default function Home() {
               </section>
 
                 {/* Service stations */}
-              <section className="space-y-6 lg:space-y-8">
-                  <p className="text-2xl sm:text-3xl font-bold text-center">Recommended service points</p>
+              <section className="space-y-4 lg:space-y-8">
+                  <p className="text-xl sm:text-3xl font-bold text-center">Recommended service points</p>
                   <Carousel opts={{
                       align: "start",
                       loop: true,
@@ -56,21 +56,21 @@ export default function Home() {
               </section>
 
               {/* How to Use CarFix Section */}
-              <section className="space-y-6 lg:space-y-8">
-                <div className="text-center space-y-4 max-w-2xl mx-auto">
-                  <h2 className="text-2xl sm:text-3xl font-bold">How to Use CarFix</h2>
-                  <p className="text-muted-foreground">
+              <section className="space-y-4 lg:space-y-8">
+                <div className="text-center space-y-2 sm:space-y-4 max-w-2xl mx-auto">
+                  <h2 className="text-xl sm:text-3xl font-bold">How to Use CarFix</h2>
+                  <p className="text-sm sm:text-base text-muted-foreground">
                     Getting your car serviced has never been easier. Follow these simple steps to connect with trusted mechanics in your area.
                   </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
                   {steps.map((step) => (
-                    <div key={step.number} className="flex flex-col items-center text-center space-y-4">
-                      <div className="h-16 w-16 rounded-full bg-primary flex items-center justify-center">
-                        <span className="text-2xl font-bold text-white">{step.number}</span>
+                    <div key={step.number} className="flex flex-col items-center text-center space-y-3 sm:space-y-4">
+                      <div className="h-12 w-12 sm:h-16 sm:w-16 rounded-full bg-primary flex items-center justify-center">
+                        <span className="text-xl sm:text-2xl font-bold text-white">{step.number}</span>
                       </div>
                       <div className="space-y-2">
-                        <h3 className="text-xl font-semibold">{step.title}</h3>
+                        <h3 className="text-base sm:text-xl font-semibold">{step.title}</h3>
                         <p className="text-sm text-muted-foreground">{step.description}</p>
                       </div>
                     </div>

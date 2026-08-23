@@ -3,8 +3,8 @@ import ServiceCard from "@/_components/root/ServiceCard";
 
 export default function TrustedBySection() {
     return (
-        <section className="space-y-8">
-            <h2 className="text-center text-2xl font-bold">Trusted by service providers</h2>
+        <section className="space-y-5 lg:space-y-8">
+            <h2 className="text-center text-xl font-bold sm:text-2xl">Trusted by service providers</h2>
             <Carousel opts={{align: "start", loop: true}} className="w-full">
                 <CarouselContent>
                     {providers.map((provider) => (

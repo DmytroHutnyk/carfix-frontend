@@ -2,23 +2,23 @@ import {Separator} from "@/_components/shadcn/separator";
 
 export default function BusinessTermsOfUsePage() {
     return (
-        <main className="mx-auto max-w-4xl px-6 py-8 lg:px-[72px] lg:py-12">
+        <main className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-[72px] lg:py-12">
             <section className="space-y-3">
-                <h1 className="text-3xl font-bold tracking-tight">Terms of Use for Service Providers</h1>
-                <p className="text-muted-foreground">
+                <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Terms of Use for Service Providers</h1>
+                <p className="text-sm text-muted-foreground sm:text-base">
                     Legal terms and conditions for workshops and service points listing on CarFix
                 </p>
             </section>
 
             <Separator className="my-6"/>
 
-            <section className="space-y-8">
+            <section className="space-y-6 sm:space-y-8">
                 {terms.map((item) => (
                     <div key={item.number}>
-                        <h2 className="mb-2 text-xl font-bold">
+                        <h2 className="mb-2 text-lg font-bold sm:text-xl">
                             {item.number}. {item.title}
                         </h2>
-                        <p className="text-muted-foreground">{item.description}</p>
+                        <p className="text-sm text-muted-foreground sm:text-base">{item.description}</p>
                     </div>
                 ))}
             </section>

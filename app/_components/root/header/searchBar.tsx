@@ -30,6 +30,7 @@ function suggestionKey(suggestion: SearchSuggestion) {
 }
 
 interface SearchBarProps {
+    className?: string;
     value: string;
     onValueChange: (value: string) => void;
     /* Enter pressed with enough characters typed */
@@ -39,7 +40,7 @@ interface SearchBarProps {
     anchorRef: RefObject<HTMLDivElement | null>;
 }
 
-export default function SearchBar({value, onValueChange, onSubmit, onSelect, anchorRef}: SearchBarProps) {
+export default function SearchBar({className, value, onValueChange, onSubmit, onSelect, anchorRef}: SearchBarProps) {
     const debouncedQuery = useDebouncedValue(value.trim(), 300);
     const {suggestions, isLoading} = useSearchSuggestions(debouncedQuery);
 
@@ -86,6 +87,7 @@ export default function SearchBar({value, onValueChange, onSubmit, onSelect, anc
             itemToStringLabel={(suggestion: SearchSuggestion) => suggestion.name}
         >
             <ComboboxInput
+                className={className}
                 placeholder="Search services..."
                 startAddon={<Search className="h-4 w-4"/>}
                 disableChevron

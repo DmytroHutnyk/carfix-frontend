@@ -10,9 +10,9 @@ export default function SideBar({menuItems}: {menuItems: SideBarItem[]}){
     const pathName = usePathname();
     return(
         <aside className="flex flex-col">
-            <Card className="p-2 lg:p-4">
+            <Card className="p-1 lg:p-4">
                 <CardContent className="p-0">
-                    <nav className="flex gap-2 overflow-x-auto lg:flex-col lg:gap-2">
+                    <nav className="no-scrollbar flex gap-1 overflow-x-auto lg:flex-col lg:gap-2">
                         {menuItems.map((item) => {
                             const isActive = pathName === item.href;
                             const Icon: LucideIcon = icons[item.icon];
@@ -20,7 +20,7 @@ export default function SideBar({menuItems}: {menuItems: SideBarItem[]}){
                                 <Button
                                     key={item.href}
                                     variant="ghost"
-                                    className="h-11 shrink-0 justify-start gap-3 lg:h-9"
+                                    className="h-9 shrink-0 justify-start gap-2 px-3 lg:gap-3 lg:px-4"
                                     data-active={isActive}
                                     asChild
                                 >

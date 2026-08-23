@@ -20,7 +20,7 @@ export default function OwnerMobileNav({businessName}: { businessName: string | 
             <Button
                 key={item.href}
                 variant="ghost"
-                className="h-11 justify-start gap-3"
+                className="h-10 justify-start gap-3"
                 data-active={isActive}
                 onClick={() => setOpen(false)}
                 asChild
@@ -40,8 +40,8 @@ export default function OwnerMobileNav({businessName}: { businessName: string | 
                     <Menu className="h-5 w-5"/>
                 </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-72 p-0">
-                <SheetHeader className="px-6 pb-2 pt-6">
+            <SheetContent side="left" className="w-72 p-0 sm:p-0">
+                <SheetHeader className="px-3 pb-2 pt-4">
                     <SheetTitle className="text-left">{businessName ?? "Menu"}</SheetTitle>
                 </SheetHeader>
                 <nav className="flex flex-col gap-y-1 px-3 pb-6">

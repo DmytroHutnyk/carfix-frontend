@@ -20,7 +20,7 @@ export default function BranchCard({branch}: { branch: OwnerBranchSummary }) {
                         <span className="text-lg font-semibold">Verification is pending</span>
                     </div>
                 )}
-                <CardContent className={cn("flex h-full flex-col gap-5 p-6", pending && "opacity-40")}>
+                <CardContent className={cn("flex h-full flex-col gap-4 p-4 sm:gap-5 sm:p-6", pending && "opacity-40")}>
                     <div className="flex items-start gap-3">
                         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-muted">
                             <Building2 className="h-6 w-6 text-muted-foreground"/>

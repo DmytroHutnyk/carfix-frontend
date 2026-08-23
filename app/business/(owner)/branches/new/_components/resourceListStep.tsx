@@ -71,7 +71,7 @@ export default function ResourceListStep({
                     const nameMissing = showErrors && row.name.trim() === "";
                     const typeMissing = showErrors && row.type === "";
                     return (
-                        <div key={row.id} className="rounded-xl border border-border p-4">
+                        <div key={row.id} className="rounded-xl border border-border p-3 sm:p-4">
                             <div className="grid grid-cols-1 items-start gap-3 md:grid-cols-[1fr_1fr_auto]">
                                 <div className="space-y-1">
                                     <Input

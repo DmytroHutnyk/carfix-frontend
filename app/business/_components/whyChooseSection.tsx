@@ -3,24 +3,24 @@ import ImagePlaceholder from "@/business/_components/imagePlaceholder";
 
 export default function WhyChooseSection() {
     return (
-        <section className="space-y-8 lg:space-y-12">
-            <div className="mx-auto max-w-3xl space-y-4 text-center">
-                <h2 className="text-2xl font-bold">Why choose CarFix for service points</h2>
-                <p className="text-muted-foreground">
+        <section className="space-y-6 lg:space-y-12">
+            <div className="mx-auto max-w-3xl space-y-2 text-center sm:space-y-4">
+                <h2 className="text-xl font-bold sm:text-2xl">Why choose CarFix for service points</h2>
+                <p className="text-sm text-muted-foreground sm:text-base">
                     Our platform is designed specifically for automotive service providers, offering tools and
                     features that help you manage your business more efficiently while reaching more customers.
                 </p>
             </div>
-            <div className="space-y-12 lg:space-y-16">
+            <div className="space-y-8 lg:space-y-16">
                 {features.map(({icon: Icon, title, description, points}) => (
-                    <div key={title} className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12">
-                        <ImagePlaceholder className="h-56 sm:h-80 lg:h-[450px]"/>
-                        <div className="space-y-4">
-                            <h3 className="flex items-center gap-3 text-xl font-semibold">
+                    <div key={title} className="grid grid-cols-1 items-center gap-4 lg:grid-cols-2 lg:gap-12">
+                        <ImagePlaceholder className="h-40 sm:h-80 lg:h-[450px]"/>
+                        <div className="space-y-3 lg:space-y-4">
+                            <h3 className="flex items-center gap-3 text-lg font-semibold sm:text-xl">
                                 <Icon className="h-5 w-5"/>
                                 {title}
                             </h3>
-                            <p className="text-muted-foreground">{description}</p>
+                            <p className="text-sm text-muted-foreground sm:text-base">{description}</p>
                             <ul className="list-disc space-y-2 pl-5 text-sm">
                                 {points.map((point) => <li key={point}>{point}</li>)}
                             </ul>

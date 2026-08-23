@@ -182,11 +182,11 @@ export default function AddressCard({address}: {address: Address | null}) {
                                 </Button>
                             )}
                         </div>
-                        <div className="flex flex-col gap-2 sm:flex-row">
+                        <div className="flex gap-2">
                             <Button
                                 type="button"
                                 variant="white"
-                                className="w-full sm:w-35"
+                                className="flex-1 sm:w-35 sm:flex-initial"
                                 onClick={() => {
                                     reset();
                                     setError(null);
@@ -195,7 +195,7 @@ export default function AddressCard({address}: {address: Address | null}) {
                             >
                                 Reset
                             </Button>
-                            <Button type="submit" className="w-full sm:w-35" disabled={!isDirty || isSubmitting}>
+                            <Button type="submit" className="flex-1 sm:w-35 sm:flex-initial" disabled={!isDirty || isSubmitting}>
                                 {isSubmitting ? "Saving..." : "Save Changes"}
                             </Button>
                         </div>

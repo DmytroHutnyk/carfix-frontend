@@ -6,8 +6,8 @@ import {fullAddress} from "@/features/workshop/workshopList";
 
 export default function WorkshopHeading({workshop}: { workshop: Workshop }) {
     return (
-        <div className="flex flex-col gap-2">
-            <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">{workshop.name}</h1>
+        <div className="flex flex-col gap-1.5 lg:gap-2">
+            <h1 className="text-xl font-bold tracking-tight lg:text-3xl">{workshop.name}</h1>
             <div className="flex items-center gap-2 text-sm">
                 {workshop.rating != null && workshop.reviewCount != null ? (
                     <>
@@ -18,7 +18,7 @@ export default function WorkshopHeading({workshop}: { workshop: Workshop }) {
                     <Badge variant="secondary">New</Badge>
                 )}
             </div>
-            <p className="flex items-center gap-1 text-muted-foreground">
+            <p className="flex items-center gap-1 text-sm text-muted-foreground lg:text-base">
                 <MapPin className="h-4 w-4 shrink-0"/>
                 {fullAddress(workshop)}
             </p>

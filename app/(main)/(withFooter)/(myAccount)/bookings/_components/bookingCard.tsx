@@ -99,10 +99,10 @@ export default function BookingCard({booking, onCancel}: {
                 </div>
 
                 {/*-==-==-=-=-=-=--==-=-=-=-Actions-==-==-=-=-=-=-=-=-=---==*/}
-                <div className="flex flex-col gap-2 pt-1 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-2 pt-1 sm:justify-between">
                     <ContactBranchPopover branch={branch}/>
                     {booking.status === "SCHEDULED" && (
-                        <Button variant="destructive" className="w-full sm:w-auto" onClick={onCancel}>
+                        <Button variant="destructive" className="flex-1 sm:w-auto sm:flex-initial" onClick={onCancel}>
                             Cancel
                         </Button>
                     )}

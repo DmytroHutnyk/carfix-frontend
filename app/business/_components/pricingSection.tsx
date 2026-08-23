@@ -23,9 +23,9 @@ export default function PricingSection() {
     const [selectedPlan, setSelectedPlan] = useState<PlanId | null>(null);
 
     return (
-        <section id="pricing" className="scroll-mt-6 space-y-8">
-            <h2 className="text-center text-2xl font-bold">Simple pricing overview</h2>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <section id="pricing" className="scroll-mt-6 space-y-5 lg:space-y-8">
+            <h2 className="text-center text-xl font-bold sm:text-2xl">Simple pricing overview</h2>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
                 {plans.map((plan) => {
                     const isSelected = plan.id === selectedPlan;
                     /* Before any click the "Popular" plan is highlighted; after a click the chosen one is */
@@ -33,15 +33,15 @@ export default function PricingSection() {
                     return (
                         <Card key={plan.id} className={cn("flex flex-col", isHighlighted && "border-primary")}>
                             <CardHeader>
-                                <CardTitle className="flex items-center gap-2 text-xl">
+                                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                                     {plan.name}
                                     {plan.popular && <Badge>Popular</Badge>}
                                 </CardTitle>
                                 <CardDescription>{plan.tagline}</CardDescription>
                             </CardHeader>
-                            <CardContent className="flex flex-1 flex-col gap-8">
+                            <CardContent className="flex flex-1 flex-col gap-5 sm:gap-8">
                                 <p>
-                                    <span className="text-3xl font-bold tabular-nums">${plan.monthlyPrice}</span>
+                                    <span className="text-2xl font-bold tabular-nums sm:text-3xl">${plan.monthlyPrice}</span>
                                     <span className="text-sm text-muted-foreground">/month</span>
                                 </p>
                                 <ul className="space-y-3">

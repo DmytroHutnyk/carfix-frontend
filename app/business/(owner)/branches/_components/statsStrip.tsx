@@ -12,7 +12,7 @@ export default function StatsStrip({totals}: { totals: OwnerTotals }) {
 
     return (
         <Card>
-            <CardContent className="grid grid-cols-2 gap-6 p-6 md:grid-cols-4">
+            <CardContent className="grid grid-cols-2 gap-4 p-4 md:grid-cols-4 md:gap-6 md:p-6">
                 {tiles.map(({icon: Icon, value, label}) => (
                     <div key={label} className="flex items-center gap-3">
                         <Icon className="h-6 w-6 text-muted-foreground"/>

@@ -61,7 +61,7 @@ export default function BookingFlowPopover({workshop, selectedServices, onToggle
                 <SheetContent
                     side="bottom"
                     aria-describedby={undefined}
-                    className="max-h-[85vh] overflow-y-auto rounded-t-xl p-0 pt-4"
+                    className="max-h-[85vh] overflow-y-auto rounded-t-xl p-0 pt-4 sm:p-0 sm:pt-4"
                 >
                     <SheetTitle className="sr-only">Book a visit</SheetTitle>
                     {flow}
