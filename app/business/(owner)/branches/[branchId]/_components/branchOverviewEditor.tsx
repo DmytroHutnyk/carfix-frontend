@@ -24,6 +24,7 @@ import FormErrorAlert from "@/_components/formErrorAlert";
 import BranchTabs from "@/business/(owner)/branches/[branchId]/_components/branchTabs";
 import BranchInformationCard from "@/business/(owner)/branches/[branchId]/_components/branchInformationCard";
 import OpeningHoursCard from "@/business/(owner)/branches/[branchId]/_components/openingHoursCard";
+import CancellationPolicyCard from "@/business/(owner)/branches/[branchId]/_components/cancellationPolicyCard";
 
 const STATUS_BADGE_VARIANT: Record<BranchStatus, VariantProps<typeof badgeVariants>["variant"]> = {
     ACTIVE: "success",
@@ -84,10 +85,7 @@ export default function BranchOverviewEditor({branch}: { branch: OwnerBranchDeta
 
             <OpeningHoursCard form={form}/>
 
-            <Card>
-                <CardHeader><CardTitle>Cancellation Policy</CardTitle></CardHeader>
-                <CardContent/>
-            </Card>
+            <CancellationPolicyCard form={form}/>
         </form>
     );
 }
