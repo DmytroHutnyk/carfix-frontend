@@ -7,7 +7,7 @@ import {Badge} from "@/_components/shadcn/badge";
 export default function Page(){
     return(
         <div className="py-3">
-            <section className="text-center space-y-3">
+            <section className="space-y-3">
                 <h1 className="text-3xl font-bold tracking-tight">
                     Your trusted automotive service platform
                 </h1>
@@ -21,7 +21,7 @@ export default function Page(){
 
             <section className="flex flex-col gap-y-2">
                 <p className="text-lg font-semibold pl-1.5">Key Features</p>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     {keyFeatures.map((item) => {
                         const Icon = item.icon;
                         return(
@@ -49,7 +49,7 @@ export default function Page(){
                     <div className="flex flex-col gap-y-4">
                         {howItWorks.map((step) => (
                             <CardHeader key={step.number} className="flex flex-row gap-x-2 py-2">
-                                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-amber-400 flex items-center justify-center text-white font-semibold text-lg shadow-sm">
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-semibold text-primary-foreground shadow-sm">
                                     {step.number}
                                 </div>
                                 <div className="h-10 flex flex-col justify-between">
@@ -89,7 +89,7 @@ export default function Page(){
             <Separator className="my-6" />
             <section className="flex flex-col gap-y-2">
                 <p className="text-lg font-semibold pl-1.5">What Our Customers Say</p>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     {reviews.map((testimonial) => (
                         <Card key={testimonial.name}>
                             <CardHeader>

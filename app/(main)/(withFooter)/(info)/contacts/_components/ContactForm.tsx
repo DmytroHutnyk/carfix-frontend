@@ -3,6 +3,7 @@
 import {useForm} from "react-hook-form";
 import {HelpMessage, messageSchema} from "@/features/auth/authTypes";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {cn} from "@/lib/utils";
 import {OrbitProgress} from "react-loading-indicators";
 import {Card, CardContent, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import {Input} from "@/_components/shadcn/input";
@@ -27,10 +28,10 @@ export default function ContactForm(){
     }
 
     return(
-        <Card className="flex flex-col">
+        <Card className="relative flex flex-col">
             {/*TODO display loading only on the card itself*/}
             {isSubmitting && (
-                <div className="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-card/75 ">
+                <div className="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-card/75">
                     <OrbitProgress
                         color="var(--primary)"
                         size="large"
@@ -53,10 +54,10 @@ export default function ContactForm(){
                                 id="name"
                                 type="text"
                                 placeholder="Name"
-                                className={`${errors.name ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                                className={cn(errors.name && "border-destructive focus-visible:ring-destructive")}
                             />
                             {errors.name && (
-                                <p id="email-error" className="text-sm text-destructive">
+                                <p id="name-error" className="text-sm text-destructive">
                                     {errors.name.message}
                                 </p>
                             )}
@@ -68,7 +69,7 @@ export default function ContactForm(){
                                 id="email"
                                 type="email"
                                 placeholder="Email"
-                                className={`${errors.email ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                                className={cn(errors.email && "border-destructive focus-visible:ring-destructive")}
                             />
                             {errors.email && (
                                 <p id="email-error" className="text-sm text-destructive">
@@ -83,10 +84,10 @@ export default function ContactForm(){
                                 id="message"
                                 placeholder="Message"
                                 rows={4}
-                                className={`resize-none ${errors.message ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                                className={cn("resize-none", errors.message && "border-destructive focus-visible:ring-destructive")}
                             />
                             {errors.message && (
-                                <p id="email-error" className="text-sm text-destructive">
+                                <p id="message-error" className="text-sm text-destructive">
                                     {errors.message.message}
                                 </p>
                             )}
