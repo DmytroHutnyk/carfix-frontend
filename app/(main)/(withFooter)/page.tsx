@@ -6,59 +6,59 @@ export default function Home() {
   return (
     <div>
       <div>
-            <main className="mx-auto max-w-[1425px] px-[72px] py-15 space-y-16">
+            <main className="mx-auto max-w-[1425px] px-4 py-10 space-y-10 lg:px-[72px] lg:py-15 lg:space-y-16">
               {/* Intro Section */}
               <section className="text-center space-y-4 max-w-3xl mx-auto">
-                <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
                   Find the Best Car Service Near You
                 </h1>
-                <p className="text-lg text-muted-foreground">
+                <p className="text-base sm:text-lg text-muted-foreground">
                   Connect with trusted mechanics, compare prices, and book your car service with confidence. Your vehicle deserves the best care.
                 </p>
               </section>
 
               {/* Services Grid */}
-              <section className="space-y-8">
-                  <h2 className="text-3xl font-bold text-center">Popular Services</h2>
+              <section className="space-y-6 lg:space-y-8">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-center">Popular Services</h2>
                 <Carousel opts={{
                     align: "start",
                     loop: true,
                 }} className="w-full">
                     <CarouselContent>
                         {services.map((service) => (
-                            <CarouselItem key={service.name} className="md:basis-1/2 lg:basis-1/3">
+                            <CarouselItem key={service.name} className="basis-[85%] md:basis-1/2 lg:basis-1/3">
                                 <ServiceCard name={service.name} imagePath={service.imagePath}/>
                             </CarouselItem>
                         ))}
                     </CarouselContent>
-                    <CarouselPrevious />
-                    <CarouselNext />
+                    <CarouselPrevious className="left-2 lg:-left-12"/>
+                    <CarouselNext className="right-2 lg:-right-12"/>
                 </Carousel>
               </section>
 
                 {/* Service stations */}
-              <section className="space-y-8">
-                  <p className="text-3xl font-bold text-center">Recommended service points</p>
+              <section className="space-y-6 lg:space-y-8">
+                  <p className="text-2xl sm:text-3xl font-bold text-center">Recommended service points</p>
                   <Carousel opts={{
                       align: "start",
                       loop: true,
                   }} className="w-full">
                       <CarouselContent>
                           {serviceStations.map(station => (
-                              <CarouselItem key={station.name} className="md:basis-1/2 lg:basis-1/3">
+                              <CarouselItem key={station.name} className="basis-[85%] md:basis-1/2 lg:basis-1/3">
                                   <ServiceCard name={station.name} imagePath={station.imagePath}/>
                               </CarouselItem>
                           ))}
                       </CarouselContent>
-                      <CarouselPrevious/>
-                      <CarouselNext />
+                      <CarouselPrevious className="left-2 lg:-left-12"/>
+                      <CarouselNext className="right-2 lg:-right-12"/>
                   </Carousel>
               </section>
 
               {/* How to Use CarFix Section */}
-              <section className="space-y-8">
+              <section className="space-y-6 lg:space-y-8">
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
-                  <h2 className="text-3xl font-bold">How to Use CarFix</h2>
+                  <h2 className="text-2xl sm:text-3xl font-bold">How to Use CarFix</h2>
                   <p className="text-muted-foreground">
                     Getting your car serviced has never been easier. Follow these simple steps to connect with trusted mechanics in your area.
                   </p>

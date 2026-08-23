@@ -57,10 +57,10 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
     };
 
     return (
-        <div className="flex items-center gap-2">
+        <div className="flex w-full items-center gap-2 lg:w-auto">
             {/* Distance needs a centre to measure from; every other combination is choosable. */}
             <Select value={params.sort ?? SEARCH_SORTS.NAME} onValueChange={(value) => setParam("sort", value)}>
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="h-11 w-40 flex-1 lg:h-9 lg:flex-initial">
                     <ArrowUpDown className="h-4 w-4"/>
                     <SelectValue/>
                 </SelectTrigger>
@@ -72,7 +72,7 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
 
             <Popover>
                 <PopoverTrigger asChild>
-                    <Button variant="outline">
+                    <Button variant="outline" className="h-11 shrink-0 lg:h-9 lg:shrink">
                         <SlidersHorizontal className="h-4 w-4"/>
                         Filters
                         {activeFilterCount > 0 && (
@@ -80,7 +80,11 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
                         )}
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent align="end" className="flex w-72 flex-col gap-4">
+                <PopoverContent
+                    align="end"
+                    collisionPadding={16}
+                    className="flex max-h-[var(--radix-popover-content-available-height)] w-[min(18rem,calc(100vw-2rem))] flex-col gap-4 overflow-y-auto lg:max-h-none lg:overflow-y-visible"
+                >
                     {hasCarSelect && (
                         <div className="flex flex-col gap-2">
                             <Label>For my car</Label>

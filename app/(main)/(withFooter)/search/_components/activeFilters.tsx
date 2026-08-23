@@ -62,15 +62,15 @@ export default function ActiveFilters({params}: { params: WorkshopSearchParams }
     }
 
     return (
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="-mx-4 flex items-center gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-wrap lg:overflow-x-visible lg:px-0 lg:pb-0">
             {chips.map((chip) => (
-                <Badge key={chip.key} variant="secondary" className="gap-1 py-1 pr-1 pl-2.5">
+                <Badge key={chip.key} variant="secondary" className="shrink-0 gap-1 py-1 pr-1 pl-2.5">
                     {chip.label}
                     <button
                         type="button"
                         aria-label={`Remove filter: ${chip.label}`}
                         onClick={chip.onRemove}
-                        className="rounded-full p-0.5 hover:bg-background"
+                        className="rounded-full p-1.5 hover:bg-background lg:p-0.5"
                     >
                         <X className="h-3 w-3"/>
                     </button>

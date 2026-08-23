@@ -27,7 +27,7 @@ export default function WorkshopResultCard({workshop, href, singleDay, pinned = 
                 {/* Identity row: picture on the left, everything that names the branch on the right */}
                 <div className="flex flex-col gap-4 sm:flex-row">
                     {/* Static placeholder until file upload/serving lands. 16:10, not square. */}
-                    <div className="flex aspect-[16/10] w-full shrink-0 items-center justify-center rounded-lg bg-muted sm:w-72">
+                    <div className="flex h-32 w-full shrink-0 items-center justify-center rounded-lg bg-muted sm:aspect-[16/10] sm:h-auto sm:w-72">
                         <Store className="h-10 w-10 text-muted-foreground"/>
                     </div>
 
