@@ -29,7 +29,6 @@ export default function ContactForm(){
 
     return(
         <Card className="relative flex flex-col">
-            {/*TODO display loading only on the card itself*/}
             {isSubmitting && (
                 <div className="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-card/75">
                     <OrbitProgress
