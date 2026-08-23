@@ -12,7 +12,7 @@ export default function FaqFeedback() {
     if (vote) return <p className="text-sm text-muted-foreground">Thanks for your feedback!</p>;
 
     return (
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
             <span className="text-sm text-muted-foreground">Did this help?</span>
             <Button variant="outline" size="sm" onClick={() => setVote("yes")}>
                 <ThumbsUp/> Yes

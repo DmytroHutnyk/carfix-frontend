@@ -13,9 +13,9 @@ export default function FaqSection() {
                     <AccordionItem
                         key={faq.id}
                         value={faq.id}
-                        className="rounded-xl border bg-card px-6 text-card-foreground shadow"
+                        className="rounded-xl border bg-card px-4 text-card-foreground shadow sm:px-6"
                     >
-                        <AccordionTrigger className="text-base font-semibold hover:no-underline">
+                        <AccordionTrigger className="text-left text-base font-semibold hover:no-underline">
                             {faq.question}
                         </AccordionTrigger>
                         <AccordionContent className="space-y-4">

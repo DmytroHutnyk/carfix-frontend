@@ -5,12 +5,12 @@ import ImagePlaceholder from "@/business/_components/imagePlaceholder";
 
 export default function HeroSection() {
     return (
-        <section id="try-for-free" className="grid scroll-mt-6 grid-cols-1 items-center gap-12 lg:grid-cols-2">
+        <section id="try-for-free" className="grid scroll-mt-6 grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12">
             <div className="space-y-6">
-                <h1 className="text-4xl font-bold tracking-tight md:text-5xl">
+                <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
                     Grow Your Auto Service Business with CarFix
                 </h1>
-                <p className="text-lg text-muted-foreground">
+                <p className="text-base text-muted-foreground sm:text-lg">
                     Join thousands of service points connecting with customers through our trusted platform
                 </p>
                 <ul className="space-y-3">
@@ -22,13 +22,13 @@ export default function HeroSection() {
                     ))}
                 </ul>
                 <div className="space-y-2">
-                    <Button size="lg" asChild>
+                    <Button size="lg" className="w-full sm:w-auto" asChild>
                         <Link href="/business/register">Try for Free</Link>
                     </Button>
                     <p className="text-sm text-muted-foreground">No credit card, cancel anytime</p>
                 </div>
             </div>
-            <ImagePlaceholder className="h-[450px]"/>
+            <ImagePlaceholder className="h-56 sm:h-80 lg:h-[450px]"/>
         </section>
     );
 }

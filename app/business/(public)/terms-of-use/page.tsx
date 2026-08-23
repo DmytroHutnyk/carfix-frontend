@@ -2,7 +2,7 @@ import {Separator} from "@/_components/shadcn/separator";
 
 export default function BusinessTermsOfUsePage() {
     return (
-        <main className="mx-auto max-w-4xl px-[72px] py-12">
+        <main className="mx-auto max-w-4xl px-6 py-8 lg:px-[72px] lg:py-12">
             <section className="space-y-3">
                 <h1 className="text-3xl font-bold tracking-tight">Terms of Use for Service Providers</h1>
                 <p className="text-muted-foreground">

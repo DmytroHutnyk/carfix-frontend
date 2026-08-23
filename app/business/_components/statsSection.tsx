@@ -5,7 +5,7 @@ export default function StatsSection() {
     return (
         <section>
             <Card>
-                <CardContent className="grid grid-cols-2 gap-8 p-8 md:grid-cols-4">
+                <CardContent className="grid grid-cols-2 gap-6 p-6 md:grid-cols-4 md:gap-8 md:p-8">
                     {stats.map(({icon: Icon, value, label}) => (
                         <div key={label} className="flex flex-col items-center gap-2 text-center">
                             <Icon className="h-6 w-6"/>
