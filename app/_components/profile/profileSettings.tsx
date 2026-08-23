@@ -70,7 +70,7 @@ export default function ProfileSettings() {
         <div className="py-3">
             {/*-==-==-=-=-=-=--==-=-=-=-header-==-==-=-=-=-=-=-=-=---==*/}
             <section className="space-y-3">
-                <h1 className="text-3xl font-bold tracking-tight">
+                <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
                     Profile
                 </h1>
             </section>
@@ -96,7 +96,7 @@ export default function ProfileSettings() {
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                            <div className="flex space-y-1 space-x-4">
+                            <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-1 sm:space-x-4">
                                     <Input
                                         {...register("name")}
                                         id="name"
@@ -161,17 +161,17 @@ export default function ProfileSettings() {
                             )}
                         />
 
-                        <div className="flex w-full justify-end gap-2 pt-2">
+                        <div className="flex w-full flex-col gap-2 pt-2 sm:flex-row sm:justify-end">
                             <Button
                                 type="button"
                                 variant="white"
-                                className="w-35"
+                                className="w-full sm:w-35"
                                 onClick={() => reset()}
                                 disabled={!isDirty || isSubmitting}
                             >
                                 Reset
                             </Button>
-                            <Button type="submit" className="w-35" disabled={!isDirty || isSubmitting}>
+                            <Button type="submit" className="w-full sm:w-35" disabled={!isDirty || isSubmitting}>
                                 {isSubmitting ? "Saving..." : "Save Changes"}
                             </Button>
                         </div>
@@ -189,6 +189,7 @@ export default function ProfileSettings() {
             <div className="flex justify-end pt-2">
                 <Button
                     variant="destructive"
+                    className="w-full sm:w-auto"
                     onClick={() => logout().then(() => router.replace(account && isOwner(account) ? "/business/login" : "/login"))}
                 >
                     Log out

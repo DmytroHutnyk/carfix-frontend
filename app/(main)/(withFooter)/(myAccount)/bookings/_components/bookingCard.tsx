@@ -33,7 +33,7 @@ export default function BookingCard({booking, onCancel}: {
 
     return (
         <Card>
-            <CardContent className="flex flex-col gap-4 p-6">
+            <CardContent className="flex flex-col gap-4 p-4 sm:p-6">
                 {/*-==-==-=-=-=-=--==-=-=-=-Status / date / reference-==-==-=-=-=-=-=-=-=---==*/}
                 <div className="flex flex-wrap items-center gap-3">
                     <Badge variant={STATUS_BADGE_VARIANTS[booking.status]}>
@@ -49,7 +49,7 @@ export default function BookingCard({booking, onCancel}: {
                 <Separator/>
 
                 {/*-==-==-=-=-=-=--==-=-=-=-Branch + vehicle-==-==-=-=-=-=-=-=-=---==*/}
-                <div className="flex flex-wrap items-start justify-between gap-6">
+                <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between sm:gap-6">
                     <div>
                         <h2 className="text-xl font-bold tracking-tight">{branch.name}</h2>
                         <p className="flex items-center gap-1 text-muted-foreground">
@@ -57,8 +57,8 @@ export default function BookingCard({booking, onCancel}: {
                             ul. {branch.streetName} {branch.buildingNumber}, {branch.city}
                         </p>
                     </div>
-                    <div className="text-right">
-                        <p className="flex items-center justify-end gap-2">
+                    <div className="sm:text-right">
+                        <p className="flex flex-wrap items-center gap-2 sm:justify-end">
                             <span className="font-semibold">Vehicle:</span>
                             <Car className="h-4 w-4 text-muted-foreground"/>
                             {vehicle.name} – {vehicle.brandName} {vehicle.modelName}
@@ -99,10 +99,10 @@ export default function BookingCard({booking, onCancel}: {
                 </div>
 
                 {/*-==-==-=-=-=-=--==-=-=-=-Actions-==-==-=-=-=-=-=-=-=---==*/}
-                <div className="flex items-center justify-between pt-1">
+                <div className="flex flex-col gap-2 pt-1 sm:flex-row sm:items-center sm:justify-between">
                     <ContactBranchPopover branch={branch}/>
                     {booking.status === "SCHEDULED" && (
-                        <Button variant="destructive" onClick={onCancel}>
+                        <Button variant="destructive" className="w-full sm:w-auto" onClick={onCancel}>
                             Cancel
                         </Button>
                     )}

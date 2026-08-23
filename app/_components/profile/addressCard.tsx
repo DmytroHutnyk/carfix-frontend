@@ -168,12 +168,13 @@ export default function AddressCard({address}: {address: Address | null}) {
                         </Field>
                     </div>
 
-                    <div className="flex w-full items-center justify-between gap-2 pt-2">
+                    <div className="flex w-full flex-col gap-2 pt-2 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             {address && (
                                 <Button
                                     type="button"
                                     variant="destructive"
+                                    className="w-full sm:w-auto"
                                     onClick={() => setDeleteOpen(true)}
                                     disabled={isSubmitting}
                                 >
@@ -181,11 +182,11 @@ export default function AddressCard({address}: {address: Address | null}) {
                                 </Button>
                             )}
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex flex-col gap-2 sm:flex-row">
                             <Button
                                 type="button"
                                 variant="white"
-                                className="w-35"
+                                className="w-full sm:w-35"
                                 onClick={() => {
                                     reset();
                                     setError(null);
@@ -194,7 +195,7 @@ export default function AddressCard({address}: {address: Address | null}) {
                             >
                                 Reset
                             </Button>
-                            <Button type="submit" className="w-35" disabled={!isDirty || isSubmitting}>
+                            <Button type="submit" className="w-full sm:w-35" disabled={!isDirty || isSubmitting}>
                                 {isSubmitting ? "Saving..." : "Save Changes"}
                             </Button>
                         </div>

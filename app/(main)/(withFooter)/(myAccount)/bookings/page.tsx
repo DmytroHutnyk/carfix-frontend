@@ -60,7 +60,7 @@ export default function Page() {
         <div className="py-3">
             {/*-==-==-=-=-=-=--==-=-=-=-Header-==-==-=-=-=-=-=-=-=---==*/}
             <section>
-                <h1 className="text-3xl font-bold tracking-tight">My Bookings</h1>
+                <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">My Bookings</h1>
             </section>
 
             {/*-==-==-=-=-=-=--==-=-=-=-Filters-==-==-=-=-=-=-=-=-=---==*/}

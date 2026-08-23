@@ -41,14 +41,14 @@ export default function DeleteAddressDialog({open, onOpenChange}: {
 
     return (
         <AlertDialog open={open} onOpenChange={onOpenChange}>
-            <AlertDialogContent>
+            <AlertDialogContent className="w-[calc(100%-2rem)] rounded-lg">
                 <AlertDialogHeader>
                     <AlertDialogTitle>Remove your address?</AlertDialogTitle>
                     <AlertDialogDescription>
                         Your saved address is deleted. You can add a new one at any time.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
+                <AlertDialogFooter className="gap-2 sm:gap-0">
                     <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
                     <Button variant="destructive" onClick={onConfirm} disabled={isDeleting}>
                         {isDeleting ? "Removing..." : "Remove"}

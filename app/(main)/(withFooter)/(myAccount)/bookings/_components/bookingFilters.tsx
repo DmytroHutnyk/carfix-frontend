@@ -17,14 +17,14 @@ export default function BookingFilters({filters, onChange, vehicles}: {
 }) {
     return (
         <FilterBar onClear={() => onChange(EMPTY_FILTERS)}>
-            <div className="relative">
+            <div className="relative w-full sm:w-auto">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
                 <Input
                     type="text"
                     value={filters.query}
                     onChange={(e) => onChange({...filters, query: e.target.value})}
                     placeholder="Search service point or service"
-                    className="w-72 pl-9"
+                    className="w-full pl-9 sm:w-72"
                 />
             </div>
 
@@ -32,7 +32,7 @@ export default function BookingFilters({filters, onChange, vehicles}: {
                 value={filters.carProfileId}
                 onValueChange={(v) => onChange({...filters, carProfileId: v})}
             >
-                <SelectTrigger className="w-44">
+                <SelectTrigger className="w-full sm:w-44">
                     <SelectValue/>
                 </SelectTrigger>
                 <SelectContent>
@@ -44,7 +44,7 @@ export default function BookingFilters({filters, onChange, vehicles}: {
             </Select>
 
             <DateRangePicker
-                className="w-64"
+                className="w-full sm:w-64"
                 value={filters.dateRange}
                 onChange={(dateRange) => onChange({...filters, dateRange})}
             />
@@ -53,7 +53,7 @@ export default function BookingFilters({filters, onChange, vehicles}: {
                 value={filters.status}
                 onValueChange={(v) => onChange({...filters, status: v as BookingStatus | "all"})}
             >
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="w-full sm:w-40">
                     <SelectValue/>
                 </SelectTrigger>
                 <SelectContent>

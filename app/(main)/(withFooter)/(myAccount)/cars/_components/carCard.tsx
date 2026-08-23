@@ -29,9 +29,9 @@ export default function CarCard({carProfile, onEdit, onDelete}: {
 
     return (
         <Card>
-            <CardContent className="flex gap-6 p-6">
+            <CardContent className="flex flex-col gap-4 p-4 sm:flex-row sm:gap-6 sm:p-6">
                 {/*-==-==-=-=-=-=--==-=-=-=-Image placeholder-==-==-=-=-=-=-=-=-=---==*/}
-                <div className="flex h-36 w-36 shrink-0 items-center justify-center rounded-lg bg-muted">
+                <div className="flex h-28 w-full shrink-0 items-center justify-center rounded-lg bg-muted sm:h-36 sm:w-36">
                     <Car className="h-10 w-10 text-muted-foreground"/>
                 </div>
 
@@ -41,7 +41,7 @@ export default function CarCard({carProfile, onEdit, onDelete}: {
                         {carProfile.brandName} {carProfile.modelName} {carProfile.versionName}
                     </p>
 
-                    <div className="flex items-center gap-4 pt-2">
+                    <div className="flex flex-col gap-1 pt-2 sm:flex-row sm:items-center sm:gap-4">
                         <p>
                             <span className="text-muted-foreground">VIN: </span>
                             <span className="font-semibold">{carProfile.vin ?? "—"}</span>
@@ -73,7 +73,7 @@ export default function CarCard({carProfile, onEdit, onDelete}: {
                     </dl>
 
                     {/*-==-==-=-=-=-=--==-=-=-=-Actions-==-==-=-=-=-=-=-=-=---==*/}
-                    <div className="flex justify-end gap-2 pt-2">
+                    <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:justify-end">
                         <Button onClick={onEdit}>
                             <Pencil/> Edit
                         </Button>

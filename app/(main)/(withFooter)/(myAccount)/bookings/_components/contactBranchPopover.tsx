@@ -12,9 +12,9 @@ export default function ContactBranchPopover({branch}: { branch: BookingBranch }
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button>Contact Service Point</Button>
+                <Button className="w-full sm:w-auto">Contact Service Point</Button>
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-72">
+            <PopoverContent align="start" className="w-[calc(100vw-3rem)] max-w-72 sm:w-72">
                 <div className="flex flex-col gap-3">
                     <p className="font-semibold">{branch.name}</p>
                     <a href={`tel:${branch.phoneNumber}`} className="flex items-center gap-2 hover:underline">

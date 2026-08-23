@@ -53,9 +53,9 @@ export default function Page() {
         <div className="py-3">
             {/*-==-==-=-=-=-=--==-=-=-=-Header-==-==-=-=-=-=-=-=-=---==*/}
             <section className="flex flex-wrap items-center gap-4">
-                <h1 className="text-3xl font-bold tracking-tight">My Cars</h1>
+                <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">My Cars</h1>
 
-                <Button className="ml-auto" onClick={() => setAddOpen(true)}>
+                <Button className="w-full sm:ml-auto sm:w-auto" onClick={() => setAddOpen(true)}>
                     <Plus/> Add vehicle
                 </Button>
             </section>
@@ -66,19 +66,19 @@ export default function Page() {
                     setSearchQuery("");
                     setSortKey("nameAsc");
                 }}>
-                    <div className="relative">
+                    <div className="relative w-full sm:w-auto">
                         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
                         <Input
                             type="text"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Search name, brand, model, plate"
-                            className="w-80 pl-9"
+                            className="w-full pl-9 sm:w-80"
                         />
                     </div>
 
                     <Select value={sortKey} onValueChange={(v) => setSortKey(v as CarSortKey)}>
-                        <SelectTrigger className="w-36">
+                        <SelectTrigger className="w-full sm:w-36">
                             <SelectValue/>
                         </SelectTrigger>
                         <SelectContent>

@@ -43,7 +43,7 @@ export default function CancelBookingDialog({open, onOpenChange, booking}: {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent>
+            <DialogContent className="w-[calc(100%-2rem)] rounded-lg">
                 <DialogHeader>
                     <DialogTitle>Cancel booking</DialogTitle>
                 </DialogHeader>
@@ -94,7 +94,7 @@ export default function CancelBookingDialog({open, onOpenChange, booking}: {
                 )}
 
                 {/*-==-==-=-=-=-=--==-=-=-=-Actions-==-==-=-=-=-=-=-=-=---==*/}
-                <div className="flex justify-end gap-2">
+                <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
                     <Button variant="secondary" onClick={() => onOpenChange(false)} disabled={isCancelling}>
                         Return
                     </Button>

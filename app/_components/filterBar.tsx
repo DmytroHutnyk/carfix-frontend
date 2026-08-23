@@ -15,7 +15,7 @@ export default function FilterBar({onClear, children}: {
 
             {children}
 
-            <Button className="ml-auto" onClick={onClear}>
+            <Button className="w-full sm:ml-auto sm:w-auto" onClick={onClear}>
                 Clear filters
             </Button>
         </div>

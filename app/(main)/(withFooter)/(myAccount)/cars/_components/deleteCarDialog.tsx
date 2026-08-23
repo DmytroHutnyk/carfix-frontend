@@ -43,14 +43,14 @@ export default function DeleteCarDialog({open, onOpenChange, carProfile}: {
 
     return (
         <AlertDialog open={open} onOpenChange={onOpenChange}>
-            <AlertDialogContent>
+            <AlertDialogContent className="w-[calc(100%-2rem)] rounded-lg">
                 <AlertDialogHeader>
                     <AlertDialogTitle>Delete {carProfile.name}?</AlertDialogTitle>
                     <AlertDialogDescription>
                         This removes the car profile permanently. Bookings already made are not affected.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
+                <AlertDialogFooter className="gap-2 sm:gap-0">
                     <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
                     <Button variant="destructive" onClick={onConfirm} disabled={isDeleting}>
                         {isDeleting ? "Deleting..." : "Delete"}

@@ -111,7 +111,7 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
+            <DialogContent className="max-h-[90vh] w-[calc(100%-2rem)] overflow-y-auto rounded-lg sm:max-w-md">
                 {isSubmitting && (
                     <div className="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-card/75">
                         <OrbitProgress color="var(--primary)" size="large" text="" textColor="" dense/>

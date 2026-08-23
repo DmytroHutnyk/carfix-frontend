@@ -37,7 +37,7 @@ export default function RegionCard() {
                         }
                     }}
                 >
-                    <SelectTrigger id="region" className="w-64" aria-label="Region">
+                    <SelectTrigger id="region" className="w-full sm:w-64" aria-label="Region">
                         <SelectValue/>
                     </SelectTrigger>
                     <SelectContent>
