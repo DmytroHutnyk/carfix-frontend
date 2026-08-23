@@ -8,7 +8,7 @@ export default function Page(){
     return(
         <div className="py-3">
             <section className="text-center space-y-3">
-                <h1 className="text-3xl font-bold tracking-tight">
+                <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
                     Your trusted automotive service platform
                 </h1>
                 <p className="text-muted-foreground">
@@ -21,7 +21,7 @@ export default function Page(){
 
             <section className="flex flex-col gap-y-2">
                 <p className="text-lg font-semibold pl-1.5">Key Features</p>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {keyFeatures.map((item) => {
                         const Icon = item.icon;
                         return(
@@ -52,7 +52,7 @@ export default function Page(){
                                 <div className="flex-shrink-0 w-10 h-10 rounded-full bg-amber-400 flex items-center justify-center text-white font-semibold text-lg shadow-sm">
                                     {step.number}
                                 </div>
-                                <div className="h-10 flex flex-col justify-between">
+                                <div className="flex flex-col justify-between sm:h-10">
                                     <CardTitle>
                                         {step.title}
                                     </CardTitle>
@@ -69,7 +69,7 @@ export default function Page(){
             <section className="flex flex-col gap-y-2">
                 <Card className="bg-muted">
                     <CardHeader>
-                        <div className="flex gap-x-2 items-center">
+                        <div className="flex flex-wrap gap-x-2 gap-y-1 items-center">
                             <Shield className="size-5"></Shield>
                             <CardTitle className="font-semibold">Trust & Safety</CardTitle>
                             <Badge variant="outline">No prepayment</Badge>
@@ -89,7 +89,7 @@ export default function Page(){
             <Separator className="my-6" />
             <section className="flex flex-col gap-y-2">
                 <p className="text-lg font-semibold pl-1.5">What Our Customers Say</p>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {reviews.map((testimonial) => (
                         <Card key={testimonial.name}>
                             <CardHeader>
