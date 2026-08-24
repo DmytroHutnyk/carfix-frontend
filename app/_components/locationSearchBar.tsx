@@ -38,10 +38,14 @@ interface LocationSearchBarProps {
     onValueChange: (value: string) => void;
     onPlaceSelected: (place: PickedPlace) => void;
     onCleared: () => void;
+    onSubmit?: () => void;
+    inline?: boolean;
     requestOptions?: Partial<google.maps.places.AutocompleteRequest>;
 }
 
-export default function LocationSearchBar({id, className, placeholder = "Location", value, onValueChange, onPlaceSelected, onCleared, requestOptions}: LocationSearchBarProps) {
+export type LocationFieldProps = Pick<LocationSearchBarProps, "value" | "onValueChange" | "onPlaceSelected" | "onCleared">;
+
+export default function LocationSearchBar({id, className, placeholder = "Location", value, onValueChange, onPlaceSelected, onCleared, onSubmit, inline = false, requestOptions}: LocationSearchBarProps) {
     const {suggestions, resetSession} = useAutocompleteSuggestions(value, requestOptions);
     const geocoderRef = useRef<google.maps.Geocoder | null>(null);
 
@@ -100,9 +104,21 @@ export default function LocationSearchBar({id, className, placeholder = "Locatio
         [onPlaceSelected, resetSession]
     );
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key !== "Enter" || event.defaultPrevented) return;
+        onSubmit?.();
+    };
+
+    const renderItem = (item: PlacePrediction) => (
+        <ComboboxItem key={item.placeId} value={item}>
+            {suggestionLabel(item)}
+        </ComboboxItem>
+    );
+
     return (
         <Combobox
             items={predictions}
+            inline={inline}
             inputValue={value}
             onInputValueChange={(next, details) => {
                 /* On close the combobox force-writes the selected item's label (or "") back
@@ -129,17 +145,20 @@ export default function LocationSearchBar({id, className, placeholder = "Locatio
                     </InputGroupButton>
                 )}
                 disableChevron
+                onKeyDown={handleKeyDown}
             />
-            <ComboboxContent>
-                <ComboboxEmpty>No results found</ComboboxEmpty>
-                <ComboboxList>
-                    {(item) => (
-                        <ComboboxItem key={item.placeId} value={item}>
-                            {suggestionLabel(item)}
-                        </ComboboxItem>
-                    )}
-                </ComboboxList>
-            </ComboboxContent>
+            {inline ? (
+                predictions.length === 0 ? (
+                    value.trim() !== "" && <p className="py-6 text-center text-sm text-muted-foreground">No results found</p>
+                ) : (
+                    <ComboboxList className="max-h-none px-0 py-2">{renderItem}</ComboboxList>
+                )
+            ) : (
+                <ComboboxContent>
+                    <ComboboxEmpty>No results found</ComboboxEmpty>
+                    <ComboboxList>{renderItem}</ComboboxList>
+                </ComboboxContent>
+            )}
         </Combobox>
     );
 }

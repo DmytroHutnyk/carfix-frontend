@@ -30,6 +30,7 @@ function suggestionKey(suggestion: SearchSuggestion) {
 }
 
 interface SearchBarProps {
+    id?: string;
     className?: string;
     value: string;
     onValueChange: (value: string) => void;
@@ -37,10 +38,14 @@ interface SearchBarProps {
     onSubmit: () => void;
     onSelect: (suggestion: SearchSuggestion) => void;
     /* The element the dropdown measures itself against — the whole search row */
-    anchorRef: RefObject<HTMLDivElement | null>;
+    anchorRef?: RefObject<HTMLDivElement | null>;
+    inline?: boolean;
+    autoFocus?: boolean;
 }
 
-export default function SearchBar({className, value, onValueChange, onSubmit, onSelect, anchorRef}: SearchBarProps) {
+export type SearchBarFieldProps = Pick<SearchBarProps, "value" | "onValueChange" | "onSubmit" | "onSelect">;
+
+export default function SearchBar({id, className, value, onValueChange, onSubmit, onSelect, anchorRef, inline = false, autoFocus = false}: SearchBarProps) {
     const debouncedQuery = useDebouncedValue(value.trim(), 300);
     const {suggestions, isLoading} = useSearchSuggestions(debouncedQuery);
 
@@ -74,10 +79,46 @@ export default function SearchBar({className, value, onValueChange, onSubmit, on
         onSubmit();
     };
 
+    const emptyMessage = value.trim().length < MIN_QUERY_LENGTH
+        ? "Type at least 2 characters to search"
+        : isLoading ? "Searching..." : "No results found";
+
+    const renderGroup = (group: SuggestionGroup) => (
+        <ComboboxGroup key={group.label} items={group.items}>
+            <ComboboxLabel>{group.label}</ComboboxLabel>
+            <ComboboxCollection>
+                {(item: SearchSuggestion) => (
+                    <ComboboxItem key={suggestionKey(item)} value={item}>
+                        {item.kind === "service" && (
+                            <>
+                                <Wrench className="text-muted-foreground"/>
+                                <span>{item.name}</span>
+                                <span className="ml-auto text-xs text-muted-foreground">{item.categoryName}</span>
+                            </>
+                        )}
+                        {item.kind === "category" && (
+                            <>
+                                <Tag className="text-muted-foreground"/>
+                                <span>{item.name}</span>
+                            </>
+                        )}
+                        {item.kind === "workshop" && (
+                            <>
+                                <Store className="text-muted-foreground"/>
+                                <span>{item.name}</span>
+                            </>
+                        )}
+                    </ComboboxItem>
+                )}
+            </ComboboxCollection>
+        </ComboboxGroup>
+    );
+
     return (
         <Combobox
             items={groups}
             filter={null}
+            inline={inline}
             inputValue={value}
             onInputValueChange={(next, details) => {
                 if (details.reason === "none" || details.reason === "input-clear") return;
@@ -87,53 +128,28 @@ export default function SearchBar({className, value, onValueChange, onSubmit, on
             itemToStringLabel={(suggestion: SearchSuggestion) => suggestion.name}
         >
             <ComboboxInput
+                id={id}
                 className={className}
                 placeholder="Search services..."
                 startAddon={<Search className="h-4 w-4"/>}
                 disableChevron
                 showClear
+                autoFocus={autoFocus}
                 onKeyDown={handleKeyDown}
             />
-            {/* Anchored to the whole row, so the panel spans the text field and the location field */}
-            <ComboboxContent anchor={anchorRef}>
-                <ComboboxEmpty>
-                    {value.trim().length < MIN_QUERY_LENGTH
-                        ? "Type at least 2 characters to search"
-                        : isLoading ? "Searching..." : "No results found"}
-                </ComboboxEmpty>
-                <ComboboxList>
-                    {(group: SuggestionGroup) => (
-                        <ComboboxGroup key={group.label} items={group.items}>
-                            <ComboboxLabel>{group.label}</ComboboxLabel>
-                            <ComboboxCollection>
-                                {(item: SearchSuggestion) => (
-                                    <ComboboxItem key={suggestionKey(item)} value={item}>
-                                        {item.kind === "service" && (
-                                            <>
-                                                <Wrench className="text-muted-foreground"/>
-                                                <span>{item.name}</span>
-                                                <span className="ml-auto text-xs text-muted-foreground">{item.categoryName}</span>
-                                            </>
-                                        )}
-                                        {item.kind === "category" && (
-                                            <>
-                                                <Tag className="text-muted-foreground"/>
-                                                <span>{item.name}</span>
-                                            </>
-                                        )}
-                                        {item.kind === "workshop" && (
-                                            <>
-                                                <Store className="text-muted-foreground"/>
-                                                <span>{item.name}</span>
-                                            </>
-                                        )}
-                                    </ComboboxItem>
-                                )}
-                            </ComboboxCollection>
-                        </ComboboxGroup>
-                    )}
-                </ComboboxList>
-            </ComboboxContent>
+            {inline ? (
+                groups.length === 0 ? (
+                    <p className="py-6 text-center text-sm text-muted-foreground">{emptyMessage}</p>
+                ) : (
+                    <ComboboxList className="max-h-none px-0 py-2">{renderGroup}</ComboboxList>
+                )
+            ) : (
+                /* Anchored to the whole row, so the panel spans the text field and the location field */
+                <ComboboxContent anchor={anchorRef}>
+                    <ComboboxEmpty>{emptyMessage}</ComboboxEmpty>
+                    <ComboboxList>{renderGroup}</ComboboxList>
+                </ComboboxContent>
+            )}
         </Combobox>
     );
 }
