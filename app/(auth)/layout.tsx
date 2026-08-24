@@ -5,7 +5,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
     return (
         <Suspense>
             <RedirectIfAuthenticated>
-                <div className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-background px-4 py-8 sm:px-6 sm:py-12">
+                <div className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-background px-4 py-6 lg:px-6 lg:py-12">
                     {children}
                 </div>
             </RedirectIfAuthenticated>

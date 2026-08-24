@@ -76,27 +76,27 @@ export default function Register(){
                 <Button
                     variant="ghost"
                     size="icon"
-                    className="absolute right-3 top-3 h-10 w-10 sm:h-9 sm:w-9"
+                    className="absolute right-3 top-3"
                     onClick={() => {
                         router.back();
                     }}>
                     <X className="h-5 w-5 z-10" />
                 </Button>
                 <CardHeader>
-                    <CardTitle className="text-center text-2xl">Register</CardTitle>
+                    <CardTitle className="text-center text-lg lg:text-2xl">Register</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 lg:space-y-4" noValidate>
                         <div className="space-y-1">
                             <Input
                                 {...register("name")}
                                 id="name"
                                 type="text"
                                 placeholder="Name"
-                                className={`h-10 sm:h-9 ${errors.name ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                                className={errors.name ? "border-destructive focus-visible:ring-destructive" : ""}
                             />
                             {errors.name && (
-                                <p id="name-error" className="text-sm text-destructive">
+                                <p id="name-error" className="text-xs text-destructive lg:text-sm">
                                     {errors.name.message}
                                 </p>
                             )}
@@ -108,10 +108,10 @@ export default function Register(){
                                 id="surname"
                                 type="text"
                                 placeholder="Surname"
-                                className={`h-10 sm:h-9 ${errors.surname ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                                className={errors.surname ? "border-destructive focus-visible:ring-destructive" : ""}
                             />
                             {errors.surname && (
-                                <p id="surname-error" className="text-sm text-destructive">
+                                <p id="surname-error" className="text-xs text-destructive lg:text-sm">
                                     {errors.surname.message}
                                 </p>
                             )}
@@ -145,17 +145,17 @@ export default function Register(){
                                         type="tel"
                                         name="phoneNumber"
                                         placeholder="Phone number"
-                                        className={`h-10 sm:h-9 ${errors.phoneNumber ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                                        className={errors.phoneNumber ? "border-destructive focus-visible:ring-destructive" : ""}
                                     />
                                 </div>
                             </section>
                             {errors.phoneCountryCode && (
-                                <p id="phoneCountryCode-error" className="text-sm text-destructive">
+                                <p id="phoneCountryCode-error" className="text-xs text-destructive lg:text-sm">
                                     {errors.phoneCountryCode.message}
                                 </p>
                             )}
                             {errors.phoneNumber && (
-                                <p id="phoneNumber-error" className="text-sm text-destructive">
+                                <p id="phoneNumber-error" className="text-xs text-destructive lg:text-sm">
                                     {errors.phoneNumber.message}
                                 </p>
                             )}
@@ -168,10 +168,10 @@ export default function Register(){
                                 id="email"
                                 type="email"
                                 placeholder="Email"
-                                className={`h-10 sm:h-9 ${errors.email ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                                className={errors.email ? "border-destructive focus-visible:ring-destructive" : ""}
                             />
                             {errors.email && (
-                                <p id="email-error" className="text-sm text-destructive">
+                                <p id="email-error" className="text-xs text-destructive lg:text-sm">
                                     {errors.email.message}
                                 </p>
                             )}
@@ -184,13 +184,13 @@ export default function Register(){
                                     id="password"
                                     type={showPassword ? "text" : "password"}
                                     placeholder="Password"
-                                    className={`h-10 pr-10 sm:h-9 ${errors.password ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                                    className={`pr-10 ${errors.password ? "border-destructive focus-visible:ring-destructive" : ""}`}
                                 />
                                 <Button
                                     type="button"
                                     variant="ghost"
                                     size="icon"
-                                    className="absolute right-0 top-0 h-10 w-10 sm:h-9 sm:w-9"
+                                    className="absolute right-0 top-0"
                                     onClick={() => setShowPassword(!showPassword)}
                                     aria-label={showPassword ? "Hide password" : "Show password"}
                                 >
@@ -202,7 +202,7 @@ export default function Register(){
                                 </Button>
                             </div>
                             {errors.password && (
-                                <p id="password-error" className="text-sm text-destructive">
+                                <p id="password-error" className="text-xs text-destructive lg:text-sm">
                                     {errors.password.message}
                                 </p>
                             )}
@@ -213,7 +213,7 @@ export default function Register(){
                         <Button
                             type="submit"
                             variant="default"
-                            className="h-10 w-full sm:h-9">
+                            className="w-full">
                             Register
                         </Button>
                     </form>

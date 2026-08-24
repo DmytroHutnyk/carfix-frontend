@@ -71,7 +71,7 @@ export default function LoginForm({registerHref}: { registerHref: string }) {
                 <Button
                     variant="ghost"
                     size="icon"
-                    className="absolute right-3 top-3 z-10 h-10 w-10 sm:h-9 sm:w-9"
+                    className="absolute right-3 top-3 z-10"
                     onClick={() => {
                         router.back();
                     }}
@@ -80,7 +80,7 @@ export default function LoginForm({registerHref}: { registerHref: string }) {
                 </Button>
 
                 <CardHeader>
-                    <CardTitle className="text-center text-2xl">Log In</CardTitle>
+                    <CardTitle className="text-center text-lg lg:text-2xl">Log In</CardTitle>
                 </CardHeader>
 
                 <CardContent className="space-y-4">
@@ -91,10 +91,10 @@ export default function LoginForm({registerHref}: { registerHref: string }) {
                                 id="email"
                                 type="text"
                                 placeholder="Email"
-                                className={`h-10 sm:h-9 ${errors.email ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                                className={errors.email ? "border-destructive focus-visible:ring-destructive" : ""}
                             />
                             {errors.email && (
-                                <p id="name-error" className="text-sm text-destructive">
+                                <p id="name-error" className="text-xs text-destructive lg:text-sm">
                                     {errors.email.message}
                                 </p>
                             )}
@@ -106,13 +106,13 @@ export default function LoginForm({registerHref}: { registerHref: string }) {
                                 id="password"
                                 type={showPassword ? "text" : "password"}
                                 placeholder="Password"
-                                className={`h-10 pr-10 sm:h-9 ${errors.password ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                                className={`pr-10 ${errors.password ? "border-destructive focus-visible:ring-destructive" : ""}`}
                             />
                             <Button
                                 type="button"
                                 variant="ghost"
                                 size="icon"
-                                className="absolute right-0 top-0 h-10 w-10 sm:h-9 sm:w-9"
+                                className="absolute right-0 top-0"
                                 onClick={() => setShowPassword(!showPassword)}
                             >
                                 {showPassword ? (
@@ -122,7 +122,7 @@ export default function LoginForm({registerHref}: { registerHref: string }) {
                                 )}
                             </Button>
                             {errors.password && (
-                                <p id="password-error" className="text-sm text-destructive">
+                                <p id="password-error" className="text-xs text-destructive lg:text-sm">
                                     {errors.password.message}
                                 </p>
                             )}
@@ -133,7 +133,7 @@ export default function LoginForm({registerHref}: { registerHref: string }) {
                         <Button
                             type="submit"
                             variant="default"
-                            className="h-10 w-full sm:h-9"
+                            className="w-full"
                         >
                             Log In
                         </Button>
@@ -147,7 +147,7 @@ export default function LoginForm({registerHref}: { registerHref: string }) {
 
                     <Button
                         variant="white"
-                        className="h-10 w-full sm:h-9"
+                        className="w-full"
                     >
                         Continue with Google
                         <Image
