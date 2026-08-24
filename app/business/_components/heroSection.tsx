@@ -10,25 +10,25 @@ export default function HeroSection() {
                 <h1 className="text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl">
                     Grow Your Auto Service Business with CarFix
                 </h1>
-                <p className="text-sm text-muted-foreground sm:text-lg">
+                <p className="text-sm text-muted-foreground lg:text-lg">
                     Join thousands of service points connecting with customers through our trusted platform
                 </p>
-                <ul className="space-y-2 text-sm sm:space-y-3 sm:text-base">
+                <ul className="space-y-2 text-sm lg:space-y-3 lg:text-base">
                     {benefits.map((benefit) => (
                         <li key={benefit} className="flex items-center gap-3">
-                            <Check className="h-5 w-5 shrink-0 text-success-badge-foreground"/>
+                            <Check className="h-4 w-4 shrink-0 text-success-badge-foreground lg:h-5 lg:w-5"/>
                             <span>{benefit}</span>
                         </li>
                     ))}
                 </ul>
                 <div className="space-y-2">
-                    <Button size="lg" className="w-full sm:w-auto" asChild>
+                    <Button className="w-full lg:h-10 lg:w-auto lg:px-8" asChild>
                         <Link href="/business/register">Try for Free</Link>
                     </Button>
-                    <p className="text-sm text-muted-foreground">No credit card, cancel anytime</p>
+                    <p className="text-xs text-muted-foreground lg:text-sm">No credit card, cancel anytime</p>
                 </div>
             </div>
-            <ImagePlaceholder className="h-40 sm:h-80 lg:h-[450px]"/>
+            <ImagePlaceholder className="h-32 lg:h-[450px]"/>
         </section>
     );
 }

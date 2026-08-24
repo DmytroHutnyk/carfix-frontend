@@ -7,19 +7,19 @@ import FaqFeedback from "@/business/_components/faqFeedback";
 export default function FaqSection() {
     return (
         <section id="faq" className="scroll-mt-6 space-y-5 lg:space-y-8">
-            <h2 className="text-center text-xl font-bold sm:text-2xl">Frequently asked questions</h2>
-            <Accordion type="multiple" defaultValue={faqs.map((faq) => faq.id)} className="space-y-4">
+            <h2 className="text-center text-base font-semibold lg:text-2xl lg:font-bold">Frequently asked questions</h2>
+            <Accordion type="multiple" defaultValue={faqs.map((faq) => faq.id)} className="space-y-3 lg:space-y-4">
                 {faqs.map((faq) => (
                     <AccordionItem
                         key={faq.id}
                         value={faq.id}
-                        className="rounded-xl border bg-card px-4 text-card-foreground shadow sm:px-6"
+                        className="rounded-xl border bg-card px-4 text-card-foreground shadow lg:px-6"
                     >
-                        <AccordionTrigger className="text-left text-base font-semibold hover:no-underline">
+                        <AccordionTrigger className="text-left text-sm font-semibold hover:no-underline lg:text-base">
                             {faq.question}
                         </AccordionTrigger>
-                        <AccordionContent className="space-y-4">
-                            <p className="text-base text-muted-foreground">{faq.answer}</p>
+                        <AccordionContent className="space-y-3 lg:space-y-4">
+                            <p className="text-xs text-muted-foreground lg:text-base">{faq.answer}</p>
                             <Separator/>
                             <FaqFeedback/>
                         </AccordionContent>

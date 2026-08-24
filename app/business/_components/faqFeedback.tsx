@@ -9,11 +9,11 @@ type Vote = "yes" | "no";
 export default function FaqFeedback() {
     const [vote, setVote] = useState<Vote | null>(null);
 
-    if (vote) return <p className="text-sm text-muted-foreground">Thanks for your feedback!</p>;
+    if (vote) return <p className="text-xs text-muted-foreground lg:text-sm">Thanks for your feedback!</p>;
 
     return (
         <div className="flex flex-wrap items-center gap-3">
-            <span className="text-sm text-muted-foreground">Did this help?</span>
+            <span className="text-xs text-muted-foreground lg:text-sm">Did this help?</span>
             <Button variant="outline" size="sm" onClick={() => setVote("yes")}>
                 <ThumbsUp/> Yes
             </Button>

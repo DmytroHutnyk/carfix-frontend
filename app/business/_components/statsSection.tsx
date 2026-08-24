@@ -8,9 +8,9 @@ export default function StatsSection() {
                 <CardContent className="grid grid-cols-2 gap-4 p-4 md:grid-cols-4 md:gap-8 md:p-8">
                     {stats.map(({icon: Icon, value, label}) => (
                         <div key={label} className="flex flex-col items-center gap-2 text-center">
-                            <Icon className="h-6 w-6"/>
-                            <span className="text-2xl font-bold tabular-nums sm:text-3xl">{value}</span>
-                            <span className="text-sm text-muted-foreground">{label}</span>
+                            <Icon className="h-5 w-5 lg:h-6 lg:w-6"/>
+                            <span className="text-xl font-bold tabular-nums lg:text-3xl">{value}</span>
+                            <span className="text-xs text-muted-foreground lg:text-sm">{label}</span>
                         </div>
                     ))}
                 </CardContent>
