@@ -126,7 +126,7 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
             <div className="ml-auto flex shrink-0 items-center gap-2 lg:hidden">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" className="shrink-0 [&_svg]:size-3.5">
                             <ArrowUpDown/>
                             {sort === SEARCH_SORTS.DISTANCE ? "Distance" : "Name"}
                         </Button>
@@ -143,11 +143,11 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
                     </DropdownMenuContent>
                 </DropdownMenu>
 
-                <Button variant="outline" size="sm" onClick={() => setSheetOpen(true)}>
+                <Button variant="outline" size="sm" className="shrink-0 [&_svg]:size-3.5" onClick={() => setSheetOpen(true)}>
                     <SlidersHorizontal/>
                     Filters
                     {activeFilterCount > 0 && (
-                        <Badge className="h-4 px-1.5 text-[10px] tabular-nums">{activeFilterCount}</Badge>
+                        <Badge className="h-4 shrink-0 px-1.5 text-[10px] tabular-nums">{activeFilterCount}</Badge>
                     )}
                 </Button>
 

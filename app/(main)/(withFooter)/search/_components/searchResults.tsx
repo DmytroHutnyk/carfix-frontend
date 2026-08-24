@@ -114,7 +114,7 @@ export default function SearchResults() {
                     )}
                 </div>
 
-                <div className="flex min-h-8 items-center gap-2 lg:contents">
+                <div className="flex h-8 items-center gap-2 lg:contents">
                     <ActiveFilters params={params} className="min-w-0 flex-1 overflow-x-auto lg:hidden"/>
                     <SearchControls params={params}/>
                 </div>
