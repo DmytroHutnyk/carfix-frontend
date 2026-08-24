@@ -3,24 +3,24 @@ import {Separator} from "@/_components/shadcn/separator";
 export default function Page(){
     return(
                 <div className="py-3">
-                    <section className="space-y-3">
-                        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                    <section className="space-y-1.5 lg:space-y-3">
+                        <h1 className="text-lg font-semibold tracking-tight lg:text-3xl lg:font-bold">
                             Terms of Use
                         </h1>
-                        <p className="text-sm text-muted-foreground sm:text-base">
+                        <p className="text-sm text-muted-foreground lg:text-base">
                             Legal terms and conditions for using CarFix
                         </p>
                     </section>
 
-                    <Separator className="my-4 sm:my-6" />
+                    <Separator className="my-4 lg:my-6" />
 
-                    <section className="space-y-6 sm:space-y-8">
+                    <section className="space-y-5 lg:space-y-8">
                         {termsOfUseContent.map((item) => (
                             <div key={item.number}>
-                                <h2 className="text-xl font-bold mb-2">
+                                <h2 className="text-base font-semibold mb-1.5 lg:text-xl lg:font-bold lg:mb-2">
                                     {item.number}. {item.title}
                                 </h2>
-                                <p className="text-sm text-muted-foreground sm:text-base">
+                                <p className="text-sm text-muted-foreground lg:text-base">
                                     {item.description}
                                 </p>
                             </div>
