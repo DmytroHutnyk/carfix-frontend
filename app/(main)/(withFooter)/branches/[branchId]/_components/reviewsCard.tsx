@@ -22,19 +22,19 @@ export default function ReviewsCard({branchId, rating, reviewCount}: {
 
     return (
         <Card>
-            <CardHeader className="flex flex-col items-start gap-3 sm:flex-row sm:justify-between sm:gap-4">
-                <div className="flex flex-col gap-1">
+            <CardHeader className="flex flex-row items-start justify-between gap-2 lg:gap-4">
+                <div className="flex min-w-0 flex-col gap-1">
                     <CardTitle>Reviews</CardTitle>
                     {rating != null && reviewCount != null && (
-                        <span className="flex items-center gap-2 text-sm">
-                            <StarRating rating={rating}/>
+                        <span className="flex items-center gap-1.5 text-xs lg:gap-2 lg:text-sm">
+                            <StarRating rating={rating} className="h-3 w-3 lg:h-4 lg:w-4"/>
                             <span className="font-medium">{rating}</span>
                             <span className="text-muted-foreground">· {reviewCount} reviews</span>
                         </span>
                     )}
                 </div>
                 <Select value={sort} onValueChange={(value) => setSort(value as ReviewsSort)}>
-                    <SelectTrigger className="w-32">
+                    <SelectTrigger className="w-28 shrink-0 lg:w-32">
                         <SelectValue/>
                     </SelectTrigger>
                     <SelectContent>
@@ -44,10 +44,10 @@ export default function ReviewsCard({branchId, rating, reviewCount}: {
                     </SelectContent>
                 </Select>
             </CardHeader>
-            <CardContent className="flex flex-col gap-4">
+            <CardContent className="flex flex-col gap-3 lg:gap-4">
                 {isLoading && (
-                    <div className="flex flex-col gap-3">
-                        {[1, 2, 3].map((i) => <Skeleton key={i} className="h-16 w-full"/>)}
+                    <div className="flex flex-col gap-2 lg:gap-3">
+                        {[1, 2, 3].map((i) => <Skeleton key={i} className="h-14 w-full lg:h-16"/>)}
                     </div>
                 )}
                 {isError && (
@@ -59,11 +59,11 @@ export default function ReviewsCard({branchId, rating, reviewCount}: {
                 {reviews.length > 0 && (
                     <ul className="flex flex-col divide-y">
                         {reviews.map((review) => (
-                            <li key={review.reviewId} className="flex flex-col gap-1 py-4 first:pt-0 last:pb-0">
-                                <div className="flex flex-wrap items-center gap-2">
-                                    <StarRating rating={review.starsNumber}/>
-                                    <span className="font-semibold">{reviewerName(review)}</span>
-                                    <span className="text-sm text-muted-foreground">
+                            <li key={review.reviewId} className="flex flex-col gap-1 py-3 first:pt-0 last:pb-0 lg:py-4">
+                                <div className="flex flex-wrap items-center gap-1.5 lg:gap-2">
+                                    <StarRating rating={review.starsNumber} className="h-3 w-3 lg:h-4 lg:w-4"/>
+                                    <span className="text-sm font-semibold">{reviewerName(review)}</span>
+                                    <span className="text-xs text-muted-foreground lg:text-sm">
                                         {formatReviewDate(review.createdAt)}
                                     </span>
                                 </div>
@@ -75,7 +75,8 @@ export default function ReviewsCard({branchId, rating, reviewCount}: {
                 {hasNextPage && (
                     <Button
                         variant="secondary"
-                        className="self-center"
+                        size="sm"
+                        className="self-center lg:h-9 lg:px-4 lg:py-2 lg:text-sm"
                         onClick={() => fetchNextPage()}
                         disabled={isFetchingNextPage}
                     >
