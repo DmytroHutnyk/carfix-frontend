@@ -78,8 +78,8 @@ export default function WorkshopPageContent({branchId, initialServiceName, initi
 
     return (
         <div className="mx-auto w-full max-w-[1475px] px-4 py-4 lg:px-6 lg:py-6">
-            <Breadcrumb className="mb-4">
-                <BreadcrumbList>
+            <Breadcrumb className="mb-3 lg:mb-4">
+                <BreadcrumbList className="text-xs lg:text-sm">
                     <BreadcrumbItem>
                         <BreadcrumbLink asChild>
                             <Link href="/search">Search results</Link>
@@ -169,10 +169,10 @@ export default function WorkshopPageContent({branchId, initialServiceName, initi
 function EmptyState({title, message}: { title: string; message: string }) {
     return (
         <div className="mx-auto flex min-h-[50vh] w-full max-w-[1475px] flex-col items-center justify-center gap-4 px-4 py-16 text-center lg:px-6">
-            <Store className="h-12 w-12 text-muted-foreground"/>
-            <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">{title}</h1>
-            <p className="text-muted-foreground">{message}</p>
-            <Button asChild>
+            <Store className="h-10 w-10 text-muted-foreground lg:h-12 lg:w-12"/>
+            <h1 className="text-lg font-semibold tracking-tight lg:text-3xl lg:font-bold">{title}</h1>
+            <p className="text-sm text-muted-foreground">{message}</p>
+            <Button asChild size="sm" className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm">
                 <Link href="/search">Back to search</Link>
             </Button>
         </div>
