@@ -59,12 +59,12 @@ export default function ServicesStep() {
             back={{label: "Back", onClick: back}}
             next={{label: "Done", onClick: submit}}
         >
-            <div className="flex items-center gap-2 sm:justify-between sm:gap-0">
-                <Button type="button" className="flex-1 sm:w-auto sm:flex-initial" onClick={() => setDialog({open: true, editing: null})}>
+            <div className="flex items-center justify-between gap-2">
+                <Button type="button" size="sm" className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm" onClick={() => setDialog({open: true, editing: null})}>
                     <Plus/> Add Service
                 </Button>
                 <Select value={sortKey} onValueChange={(v) => setSortKey(v as SortKey)}>
-                    <SelectTrigger className="flex-1 sm:w-[160px] sm:flex-initial">
+                    <SelectTrigger className="min-w-0 flex-1 lg:w-[160px] lg:flex-initial">
                         <ArrowUpDown className="h-4 w-4"/>
                         <SelectValue/>
                     </SelectTrigger>
@@ -75,19 +75,19 @@ export default function ServicesStep() {
             </div>
 
             {services.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No services yet — add at least one so customers can book, or finish now and add them later.</p>
+                <p className="text-xs text-muted-foreground lg:text-sm">No services yet — add at least one so customers can book, or finish now and add them later.</p>
             ) : (
                 <>
                 <div className="flex flex-col gap-3 md:hidden">
                     {sorted.map((service) => (
                         <div key={service.id} className="rounded-xl border border-border p-3">
                             <div className="flex items-start justify-between gap-2">
-                                <p className="font-medium">{service.name}</p>
+                                <p className="text-sm font-medium">{service.name}</p>
                                 <Badge variant={service.status === SERVICE_STATUS.ACTIVE ? "success" : "destructiveSoft"}>
                                     {SERVICE_STATUS_LABEL[service.status]}
                                 </Badge>
                             </div>
-                            <p className="mt-1 text-sm text-muted-foreground">
+                            <p className="mt-1 text-xs text-muted-foreground">
                                 {service.durationMinutes} min · {service.price} PLN · {categoryName(service.categoryId)}
                             </p>
                             {(service.employeeRequirements.length > 0 || service.equipmentRequirements.length > 0 || service.bayTypes.length > 0) && (
@@ -101,12 +101,12 @@ export default function ServicesStep() {
                                     {service.bayTypes.map((t) => <Badge key={t} variant="outline">{t}</Badge>)}
                                 </div>
                             )}
-                            <div className="mt-3 flex gap-2">
-                                <Button type="button" variant="accent" size="sm" className="flex-1"
+                            <div className="mt-3 flex justify-end gap-2">
+                                <Button type="button" variant="accent" size="sm"
                                         onClick={() => setDialog({open: true, editing: service})}>
                                     <Pencil/> Edit
                                 </Button>
-                                <Button type="button" variant="destructive" size="sm" className="flex-1"
+                                <Button type="button" variant="destructive" size="sm"
                                         onClick={() => setServices(services.filter((s) => s.id !== service.id))}>
                                     <Trash2/> Delete
                                 </Button>

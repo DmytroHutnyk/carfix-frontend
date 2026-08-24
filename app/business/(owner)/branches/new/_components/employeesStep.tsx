@@ -52,12 +52,12 @@ export default function EmployeesStep() {
             back={{label: "Back", onClick: () => { setEmployees(roles, rows); back(); }}}
             next={{label: "Continue", onClick: submit}}
         >
-            <Button type="button" className="w-full sm:w-auto" onClick={() => { setRows([...rows, newRow()]); setShowErrors(false); }}>
+            <Button type="button" size="sm" className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm" onClick={() => { setRows([...rows, newRow()]); setShowErrors(false); }}>
                 <Plus/> Add employee
             </Button>
 
             {rows.length === 0 && (
-                <p className="text-sm text-muted-foreground">Nobody added yet — you can also add employees later.</p>
+                <p className="text-xs text-muted-foreground lg:text-sm">Nobody added yet — you can also add employees later.</p>
             )}
 
             <div className="space-y-3">
@@ -66,7 +66,7 @@ export default function EmployeesStep() {
                     const lastNameMissing = showErrors && row.lastName.trim() === "";
                     const roleMissing = showErrors && row.role === "";
                     return (
-                        <div key={row.id} className="space-y-2 rounded-xl border border-border p-3 sm:p-4">
+                        <div key={row.id} className="space-y-2 rounded-xl border border-border p-3 lg:p-4">
                             <div className="grid grid-cols-1 items-start gap-3 md:grid-cols-[1fr_1fr_1fr_auto]">
                                 <Input value={row.firstName} onChange={(e) => update(row.id, {firstName: e.target.value})}
                                        placeholder="First name" maxLength={50} aria-label="First name"
@@ -86,7 +86,7 @@ export default function EmployeesStep() {
                                     invalid={roleMissing}
                                 />
                                 <Button type="button" variant="destructive" size="icon" aria-label="Remove"
-                                        className="justify-self-end md:justify-self-auto"
+                                        className="h-8 w-8 justify-self-end md:justify-self-auto lg:h-9 lg:w-9"
                                         onClick={() => setRows(rows.filter((r) => r.id !== row.id))}>
                                     <Trash2/>
                                 </Button>

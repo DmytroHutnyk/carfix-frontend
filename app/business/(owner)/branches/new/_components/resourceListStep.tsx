@@ -58,12 +58,12 @@ export default function ResourceListStep({
             back={{label: "Back", onClick: () => onBack(types, rows)}}
             next={{label: "Continue", onClick: submit}}
         >
-            <Button type="button" className="w-full sm:w-auto" onClick={() => { setRows([...rows, newRow()]); setShowErrors(false); }}>
+            <Button type="button" size="sm" className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm" onClick={() => { setRows([...rows, newRow()]); setShowErrors(false); }}>
                 <Plus/> {addLabel}
             </Button>
 
             {rows.length === 0 && (
-                <p className="text-sm text-muted-foreground">Nothing added yet — you can also add these later.</p>
+                <p className="text-xs text-muted-foreground lg:text-sm">Nothing added yet — you can also add these later.</p>
             )}
 
             <div className="space-y-3">
@@ -71,7 +71,7 @@ export default function ResourceListStep({
                     const nameMissing = showErrors && row.name.trim() === "";
                     const typeMissing = showErrors && row.type === "";
                     return (
-                        <div key={row.id} className="rounded-xl border border-border p-3 sm:p-4">
+                        <div key={row.id} className="rounded-xl border border-border p-3 lg:p-4">
                             <div className="grid grid-cols-1 items-start gap-3 md:grid-cols-[1fr_1fr_auto]">
                                 <div className="space-y-1">
                                     <Input
@@ -103,7 +103,7 @@ export default function ResourceListStep({
                                     type="button"
                                     variant="destructive"
                                     size="icon"
-                                    className="justify-self-end md:justify-self-auto"
+                                    className="h-8 w-8 justify-self-end md:justify-self-auto lg:h-9 lg:w-9"
                                     aria-label="Remove"
                                     onClick={() => setRows(rows.filter((r) => r.id !== row.id))}
                                 >
