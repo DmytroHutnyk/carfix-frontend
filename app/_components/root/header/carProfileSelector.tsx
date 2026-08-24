@@ -37,7 +37,7 @@ export default function CarProfileSelector({className, compact = false}: {classN
                 <Car className="h-4 w-4 shrink-0"/>
                 {!compact && <SelectValue placeholder="Select car"/>}
             </SelectTrigger>
-            <SelectContent align="start" className={cn(compact && "min-w-52")}>
+            <SelectContent align={compact ? "end" : "start"} className={cn(compact && "min-w-52")}>
                 {carProfiles.length === 0 ? (
                     <p className="px-2 py-1.5 text-sm text-muted-foreground">No car profiles yet</p>
                 ) : (
