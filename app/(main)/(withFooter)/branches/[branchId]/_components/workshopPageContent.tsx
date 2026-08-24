@@ -1,6 +1,6 @@
 "use client"
 
-import {useState} from "react";
+import {useState, useSyncExternalStore} from "react";
 import Link from "next/link";
 import {Store} from "lucide-react";
 import {Button} from "@/_components/shadcn/button";
@@ -17,6 +17,8 @@ import {isProblemDetailError} from "@/lib/apiTypes";
 import {VisitRange} from "@/features/slots/slotTypes";
 import {formatPrice} from "@/features/booking/bookingList";
 import {useWorkshop} from "@/features/workshop/useWorkshop";
+import {buildSearchUrl} from "@/features/search/searchUrl";
+import {useSearchLocation} from "@/lib/store";
 import BookingFlowPopover from "./booking/bookingFlowPopover";
 import WorkshopPageSkeleton from "./workshopPageSkeleton";
 import WorkshopGallery from "./workshopGallery";
@@ -29,12 +31,21 @@ import OpeningHoursCard from "./openingHoursCard";
 import ContactCard from "./contactCard";
 import ReviewsCard from "./reviewsCard";
 
+const subscribeToNothing = () => () => {};
+
+function useSearchHref() {
+    const searchLocation = useSearchLocation((s) => s.searchLocation);
+    const hydrated = useSyncExternalStore(subscribeToNothing, () => true, () => false);
+    return hydrated ? buildSearchUrl({kind: "browse"}, searchLocation) : "/search";
+}
+
 export default function WorkshopPageContent({branchId, initialServiceName, initialRange}: {
     branchId: string;
     initialServiceName: string | null;
     initialRange: VisitRange | null;
 }) {
     const {workshop, isLoading, isError, error} = useWorkshop(branchId);
+    const searchHref = useSearchHref();
     /* null = the user has not touched the basket yet, so the deep-linked service stays preselected */
     const [selectedIds, setSelectedIds] = useState<number[] | null>(null);
 
@@ -82,7 +93,7 @@ export default function WorkshopPageContent({branchId, initialServiceName, initi
                 <BreadcrumbList className="text-xs lg:text-sm">
                     <BreadcrumbItem>
                         <BreadcrumbLink asChild>
-                            <Link href="/search">Search results</Link>
+                            <Link href={searchHref}>Search results</Link>
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator/>
@@ -167,13 +178,14 @@ export default function WorkshopPageContent({branchId, initialServiceName, initi
 }
 
 function EmptyState({title, message}: { title: string; message: string }) {
+    const searchHref = useSearchHref();
     return (
         <div className="mx-auto flex min-h-[50vh] w-full max-w-[1475px] flex-col items-center justify-center gap-4 px-4 py-16 text-center lg:px-6">
             <Store className="h-10 w-10 text-muted-foreground lg:h-12 lg:w-12"/>
             <h1 className="text-lg font-semibold tracking-tight lg:text-3xl lg:font-bold">{title}</h1>
             <p className="text-sm text-muted-foreground">{message}</p>
             <Button asChild size="sm" className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm">
-                <Link href="/search">Back to search</Link>
+                <Link href={searchHref}>Back to search</Link>
             </Button>
         </div>
     );
