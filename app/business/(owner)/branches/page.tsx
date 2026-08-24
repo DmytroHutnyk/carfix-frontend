@@ -53,7 +53,7 @@ export default function Page() {
         <div className="py-3">
             {/*-==-==-=-=-=-=--==-=-=-=-Header-==-==-=-=-=-=-=-=-=---==*/}
             <section>
-                <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">My Service Points</h1>
+                <h1 className="text-lg font-semibold tracking-tight lg:text-3xl lg:font-bold">My Service Points</h1>
             </section>
 
             {!isError && branches.length > 0 && (
@@ -94,13 +94,13 @@ export default function Page() {
                 )}
 
                 {!isError && branches.length > 0 && visibleBranches.length === 0 && (
-                    <p className="pt-6 text-center text-muted-foreground">
+                    <p className="pt-6 text-center text-sm text-muted-foreground lg:text-base">
                         No service points match this filter.
                     </p>
                 )}
 
                 {visibleBranches.length > 0 && (
-                    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:gap-5 xl:grid-cols-3">
                         {visibleBranches.map((branch) => (
                             <BranchCard key={branch.branchId} branch={branch}/>
                         ))}
