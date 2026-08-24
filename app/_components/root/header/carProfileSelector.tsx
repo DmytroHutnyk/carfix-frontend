@@ -30,7 +30,7 @@ export default function CarProfileSelector({className, compact = false}: {classN
                 aria-label={selectedCarProfile ? `Selected car: ${selectedCarProfile.name}` : "Select car"}
                 className={cn(
                     "w-50 justify-start gap-x-1.5 [&>span]:min-w-0 [&>svg:last-of-type]:ml-auto [&>svg:last-of-type]:transition-transform [&>svg:last-of-type]:duration-300 data-[state=open]:[&>svg:last-of-type]:rotate-180",
-                    compact && "w-auto gap-x-0.5 px-2 [&>svg:last-of-type]:ml-0 [&>svg:last-of-type]:h-3 [&>svg:last-of-type]:w-3",
+                    compact && "h-9 w-9 justify-center gap-x-0.5 px-0 [&>svg:last-of-type]:ml-0 [&>svg:last-of-type]:h-3 [&>svg:last-of-type]:w-3",
                     className,
                 )}
             >

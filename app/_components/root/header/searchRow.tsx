@@ -99,7 +99,6 @@ export default function SearchRow({initialLocation}: {initialLocation: SearchLoc
         <div ref={anchorRef} className="flex flex-1 flex-col gap-1.5 lg:flex-row lg:items-center lg:gap-3">
             <div className="min-w-0 lg:flex-1">
                 <SearchBar
-                    className="h-10 lg:h-9"
                     value={text}
                     onValueChange={setText}
                     onSubmit={submitTypedText}
@@ -112,7 +111,6 @@ export default function SearchRow({initialLocation}: {initialLocation: SearchLoc
                 <div className="relative min-w-0 flex-1 lg:w-56 lg:flex-initial">
                     <GoogleApiProvider>
                         <LocationSearchBar
-                            className="h-10 lg:h-9"
                             value={locationText}
                             onValueChange={setLocationText}
                             onPlaceSelected={handlePlaceSelected}
@@ -124,7 +122,7 @@ export default function SearchRow({initialLocation}: {initialLocation: SearchLoc
                 <Button
                     onClick={submitTypedText}
                     aria-label="Search"
-                    className="h-10 w-10 shrink-0 p-0 lg:h-9 lg:w-auto lg:px-4 lg:py-2"
+                    className="w-9 shrink-0 p-0 lg:w-auto lg:px-4 lg:py-2"
                 >
                     <Search className="h-4 w-4"/>
                     <span className="hidden lg:inline">Search</span>
