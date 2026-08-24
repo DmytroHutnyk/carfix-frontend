@@ -18,7 +18,7 @@ export default function Header({initialLocation}: {initialLocation: SearchLocati
                     <MobileMenu/>
                 </div>
 
-                <Suspense fallback={<div className="flex-1"/>}>
+                <Suspense fallback={<div className="h-11 flex-1 lg:h-auto"/>}>
                     <SearchRow initialLocation={initialLocation}/>
                 </Suspense>
 
