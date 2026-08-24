@@ -47,7 +47,7 @@ export default function PreferredLocationField({value, onChange, error}: Preferr
                     requestOptions={CITY_REQUEST_OPTIONS}
                 />
             </GoogleApiProvider>
-            <FieldDescription>Your city — prefills the location in the search bar when you sign in.</FieldDescription>
+            <FieldDescription className="text-xs lg:text-sm">Your city — prefills the location in the search bar when you sign in.</FieldDescription>
             {error && <FieldError>{error}</FieldError>}
         </Field>
     );
