@@ -48,9 +48,9 @@ export default function DeleteAddressDialog({open, onOpenChange}: {
                         Your saved address is deleted. You can add a new one at any time.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter className="gap-2 sm:gap-0">
-                    <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
-                    <Button variant="destructive" onClick={onConfirm} disabled={isDeleting}>
+                <AlertDialogFooter className="gap-2 lg:gap-0">
+                    <AlertDialogCancel className="h-8 rounded-md px-3 text-xs lg:h-9 lg:px-4 lg:py-2 lg:text-sm" disabled={isDeleting}>Cancel</AlertDialogCancel>
+                    <Button variant="destructive" size="sm" className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm" onClick={onConfirm} disabled={isDeleting}>
                         {isDeleting ? "Removing..." : "Remove"}
                     </Button>
                 </AlertDialogFooter>
