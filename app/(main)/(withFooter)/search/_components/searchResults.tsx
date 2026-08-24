@@ -6,7 +6,7 @@ import {useMemo} from "react";
 
 import {useWorkshopSearch} from "@/features/search/useWorkshopSearch";
 import {buildBranchUrl, parseInitialPage, parseSearchParams} from "@/features/search/searchUrl";
-import {composeEmptyMessage, composeTitle, SEARCH_SORTS} from "@/features/search/searchList";
+import {composeEmptyMessage, composePlace, composeSubject, composeTitle, SEARCH_SORTS} from "@/features/search/searchList";
 import {countryName, COUNTRY_CENTERS, isCountryCode} from "@/lib/appTypes";
 import {toDisplayError} from "@/lib/errorHandler";
 import {isApiError} from "@/lib/apiTypes";
@@ -81,15 +81,29 @@ export default function SearchResults() {
         router.push(`${pathname}?${next.toString()}`);
     };
 
+    const countLabel = total != null ? `${total} ${total === 1 ? "workshop" : "workshops"}` : null;
+    const meta = [composePlace(echo, params.radiusKm), countLabel].filter(Boolean).join(" · ");
+
     return (
         <div className="mx-auto w-full max-w-[1475px] px-4 py-4 lg:px-6 lg:py-6">
             {/*-==-==-=-=-=-=--==-=-=-=-Sticky title row-==-==-=-=-=-=-=-=-=---==*/}
-            <section className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-2 bg-background py-2 lg:gap-3 lg:py-3">
-                <div>
-                    <h1 className="text-xl font-bold tracking-tight lg:text-3xl">{composeTitle(echo, params.radiusKm)}</h1>
+            <section className="sticky top-0 z-10 flex flex-col gap-2 bg-background py-2 lg:flex-row lg:flex-wrap lg:items-center lg:justify-between lg:gap-3 lg:py-3">
+                <div className="min-w-0">
+                    <h1 className="line-clamp-2 text-base font-semibold tracking-tight lg:line-clamp-none lg:text-3xl lg:font-bold">
+                        <span className="lg:hidden">{composeSubject(echo)}</span>
+                        <span className="hidden lg:inline">{composeTitle(echo, params.radiusKm)}</span>
+                    </h1>
+
+                    {meta && (
+                        <p className="flex items-center gap-1.5 text-xs text-muted-foreground lg:hidden">
+                            <span className="truncate">{meta}</span>
+                            {isFetching && !isFetchingNextPage && <Spinner className="h-3 w-3 shrink-0"/>}
+                        </p>
+                    )}
+
                     {total != null && (
-                        <p className="flex items-center gap-2 text-sm text-muted-foreground lg:text-base">
-                            <span>{total} {total === 1 ? "workshop" : "workshops"}</span>
+                        <p className="hidden items-center gap-2 text-base text-muted-foreground lg:flex">
+                            <span>{countLabel}</span>
                             {isFetching && !isFetchingNextPage && (
                                 <span className="flex items-center gap-1.5 text-sm">
                                     <Spinner className="h-3.5 w-3.5"/>
@@ -99,10 +113,14 @@ export default function SearchResults() {
                         </p>
                     )}
                 </div>
-                <SearchControls params={params}/>
+
+                <div className="flex min-h-8 items-center gap-2 lg:contents">
+                    <ActiveFilters params={params} className="min-w-0 flex-1 overflow-x-auto lg:hidden"/>
+                    <SearchControls params={params}/>
+                </div>
             </section>
 
-            <ActiveFilters params={params}/>
+            <ActiveFilters params={params} className="hidden flex-wrap lg:flex"/>
 
             {/*-==-==-=-=-=-=--==-=-=-=-Results-==-==-=-=-=-=-=-=-=---==*/}
             <section
@@ -128,17 +146,17 @@ export default function SearchResults() {
                             <EmptyMedia variant="icon">
                                 <SearchX/>
                             </EmptyMedia>
-                            <EmptyTitle>{composeEmptyMessage(echo, params.radiusKm)}</EmptyTitle>
-                            <EmptyDescription>Try different search terms or another location.</EmptyDescription>
+                            <EmptyTitle className="text-base lg:text-lg">{composeEmptyMessage(echo, params.radiusKm)}</EmptyTitle>
+                            <EmptyDescription className="text-xs lg:text-sm">Try different search terms or another location.</EmptyDescription>
                         </EmptyHeader>
                         <EmptyContent>
                             <div className="flex flex-wrap justify-center gap-2">
                                 {hasNarrowingFilters && hasPlaceFilter && (
-                                    <Button variant="outline" onClick={clearFilters}>
+                                    <Button variant="outline" size="sm" className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm" onClick={clearFilters}>
                                         Clear filters, keep {params.city ?? params.voivodeship}
                                     </Button>
                                 )}
-                                <Button onClick={browseCountry}>
+                                <Button size="sm" className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm" onClick={browseCountry}>
                                     Browse all workshops in {countryName(params.country) ?? "the country"}
                                 </Button>
                             </div>
@@ -159,7 +177,8 @@ export default function SearchResults() {
                 {hasNextPage && (
                     <Button
                         variant="outline"
-                        className="self-center"
+                        size="sm"
+                        className="self-center lg:h-9 lg:px-4 lg:py-2 lg:text-sm"
                         disabled={isFetchingNextPage}
                         onClick={() => fetchNextPage()}
                     >
