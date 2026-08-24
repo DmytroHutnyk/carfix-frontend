@@ -37,25 +37,24 @@ export default function WizardCard({title, subtitle, centeredTitle = false, wide
                             <Info className="h-4 w-4"/>
                         </Button>
                     </PopoverTrigger>
-                    <PopoverContent align="end" className="w-80 text-sm">{hint}</PopoverContent>
+                    <PopoverContent align="end" className="w-[calc(100vw-3rem)] max-w-80 text-xs lg:w-80 lg:text-sm">{hint}</PopoverContent>
                 </Popover>
             )}
             <CardHeader className={cn(hint && "pr-16")}>
-                <CardTitle className={cn("text-lg font-bold sm:text-2xl", centeredTitle && "text-center")}>{title}</CardTitle>
+                <CardTitle className={cn("text-base font-semibold lg:text-2xl lg:font-bold", centeredTitle && "text-center")}>{title}</CardTitle>
                 {subtitle && (
-                    <p className={cn("text-sm text-muted-foreground", centeredTitle && "text-center")}>{subtitle}</p>
+                    <p className={cn("text-xs text-muted-foreground lg:text-sm", centeredTitle && "text-center")}>{subtitle}</p>
                 )}
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 lg:space-y-4">
                 {children}
                 <FormErrorAlert message={error}/>
             </CardContent>
-            <CardFooter className="flex items-center gap-3 sm:justify-between sm:gap-0">
-                <Button type="button" variant="secondary" className="flex-1 sm:w-auto sm:flex-initial" onClick={back.onClick} disabled={busy}>{back.label}</Button>
+            <CardFooter className="flex items-center justify-end gap-2 lg:justify-between lg:gap-0">
+                <Button type="button" variant="ghost" size="sm" className="lg:h-9 lg:bg-secondary lg:px-4 lg:py-2 lg:text-sm lg:text-secondary-foreground lg:shadow-sm lg:hover:bg-secondary/80" onClick={back.onClick} disabled={busy}>{back.label}</Button>
                 <Button
                     type={next.form ? "submit" : "button"}
                     form={next.form}
-                    className="flex-1 sm:w-auto sm:flex-initial"
                     onClick={next.onClick}
                     disabled={busy || next.disabled}
                 >

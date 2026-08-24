@@ -30,7 +30,7 @@ function TimeSelect({value, onChange, placeholder, ariaLabel, disabled, invalid}
 }) {
     return (
         <Select value={value} onValueChange={onChange} disabled={disabled}>
-            <SelectTrigger aria-label={ariaLabel} aria-invalid={invalid || undefined} className={cn("w-full sm:w-[130px]", invalid && "border-destructive")}>
+            <SelectTrigger aria-label={ariaLabel} aria-invalid={invalid || undefined} className={cn("w-full lg:w-[130px]", invalid && "border-destructive")}>
                 <SelectValue placeholder={placeholder}/>
             </SelectTrigger>
             <SelectContent>
@@ -93,9 +93,9 @@ export default function OpeningHoursStep() {
                     const closed = days?.[day]?.status === DAY_STATUS.CLOSED;
                     const dayErrors = errors.days?.[day];
                     return (
-                        <div key={day} className="space-y-2 rounded-xl border border-border p-3 sm:p-4">
-                            <div className="grid grid-cols-2 items-center gap-3 sm:grid-cols-[120px_130px_130px_1fr]">
-                                <span className="col-span-2 text-sm font-medium sm:col-span-1 sm:text-base">{WEEKDAY_LABEL[day]}</span>
+                        <div key={day} className="space-y-2 rounded-xl border border-border p-3 lg:p-4">
+                            <div className="grid grid-cols-2 items-center gap-2 lg:grid-cols-[120px_130px_130px_1fr] lg:gap-3">
+                                <span className="col-span-2 text-sm font-medium lg:col-span-1 lg:text-base">{WEEKDAY_LABEL[day]}</span>
                                 <Controller
                                     control={control}
                                     name={`days.${day}.opensAt`}
@@ -119,7 +119,7 @@ export default function OpeningHoursStep() {
                                     name={`days.${day}.status`}
                                     render={({field}) => (
                                         <Select value={field.value} onValueChange={(v) => onStatusChange(day, v as DayStatus)}>
-                                            <SelectTrigger aria-label={`${WEEKDAY_LABEL[day]} status`} className="col-span-2 sm:col-span-1"><SelectValue/></SelectTrigger>
+                                            <SelectTrigger aria-label={`${WEEKDAY_LABEL[day]} status`} className="col-span-2 lg:col-span-1"><SelectValue/></SelectTrigger>
                                             <SelectContent>
                                                 {STATUSES.map((s) => <SelectItem key={s} value={s}>{DAY_STATUS_LABEL[s]}</SelectItem>)}
                                             </SelectContent>
@@ -132,11 +132,11 @@ export default function OpeningHoursStep() {
                     );
                 })}
 
-                <div className="flex flex-wrap gap-3 pt-1">
-                    <Button type="button" variant="default" onClick={copyMondayToWeekdays}>
+                <div className="flex flex-wrap gap-2 pt-1 lg:gap-3">
+                    <Button type="button" variant="default" size="sm" className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm" onClick={copyMondayToWeekdays}>
                         <Copy/> Copy Mon to weekdays
                     </Button>
-                    <Button type="button" variant="destructive" onClick={clearAll}>
+                    <Button type="button" variant="destructive" size="sm" className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm" onClick={clearAll}>
                         <Trash2/> Clear all
                     </Button>
                 </div>
