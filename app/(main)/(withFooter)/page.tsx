@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div>
       <div>
-            <main className="mx-auto max-w-[1425px] px-4 py-6 space-y-8 lg:px-[72px] lg:py-15 lg:space-y-16">
+            <main className="mx-auto max-w-[1425px] px-4 py-4 space-y-6 lg:px-[72px] lg:py-15 lg:space-y-16">
               {/* Intro Section */}
               <section className="text-center space-y-2 sm:space-y-4 max-w-3xl mx-auto">
                 <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight">
@@ -18,8 +18,8 @@ export default function Home() {
               </section>
 
               {/* Services Grid */}
-              <section className="space-y-4 lg:space-y-8">
-                  <h2 className="text-xl sm:text-3xl font-bold text-center">Popular Services</h2>
+              <section className="space-y-3 lg:space-y-8">
+                  <h2 className="text-base sm:text-xl lg:text-3xl font-bold text-center">Popular Services</h2>
                 <Carousel opts={{
                     align: "start",
                     loop: true,
@@ -37,8 +37,8 @@ export default function Home() {
               </section>
 
                 {/* Service stations */}
-              <section className="space-y-4 lg:space-y-8">
-                  <p className="text-xl sm:text-3xl font-bold text-center">Recommended service points</p>
+              <section className="space-y-3 lg:space-y-8">
+                  <p className="text-base sm:text-xl lg:text-3xl font-bold text-center">Recommended service points</p>
                   <Carousel opts={{
                       align: "start",
                       loop: true,
@@ -56,14 +56,14 @@ export default function Home() {
               </section>
 
               {/* How to Use CarFix Section */}
-              <section className="space-y-4 lg:space-y-8">
+              <section className="space-y-3 lg:space-y-8">
                 <div className="text-center space-y-2 sm:space-y-4 max-w-2xl mx-auto">
-                  <h2 className="text-xl sm:text-3xl font-bold">How to Use CarFix</h2>
+                  <h2 className="text-base sm:text-xl lg:text-3xl font-bold">How to Use CarFix</h2>
                   <p className="text-sm sm:text-base text-muted-foreground">
                     Getting your car serviced has never been easier. Follow these simple steps to connect with trusted mechanics in your area.
                   </p>
                 </div>
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-8">
                   {steps.map((step) => (
                     <div key={step.number} className="flex flex-col items-center text-center space-y-3 sm:space-y-4">
                       <div className="h-12 w-12 sm:h-16 sm:w-16 rounded-full bg-primary flex items-center justify-center">
