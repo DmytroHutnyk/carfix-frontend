@@ -3,9 +3,8 @@
 import {useState} from "react";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
-import {icons, LucideIcon, Menu} from "lucide-react";
+import {ChevronRight, icons, LucideIcon, Menu} from "lucide-react";
 import {Button} from "@/_components/shadcn/button";
-import {Separator} from "@/_components/shadcn/separator";
 import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger} from "@/_components/shadcn/sheet";
 import {OwnerMenuItem, PRIMARY_ITEMS, SECONDARY_ITEMS} from "@/business/(owner)/_components/ownerMenu";
 
@@ -17,19 +16,18 @@ export default function OwnerMobileNav({businessName}: { businessName: string | 
         const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
         const Icon: LucideIcon = icons[item.icon];
         return (
-            <Button
+            <Link
                 key={item.href}
-                variant="ghost"
-                className="h-10 justify-start gap-3"
+                replace
+                href={item.href}
                 data-active={isActive}
                 onClick={() => setOpen(false)}
-                asChild
+                className="flex h-11 items-center gap-3 px-4 text-sm data-[active=true]:bg-accent data-[active=true]:font-medium"
             >
-                <Link replace href={item.href}>
-                    <Icon className="h-5 w-5"/>
-                    {item.label}
-                </Link>
-            </Button>
+                <Icon className="h-4 w-4 shrink-0 text-muted-foreground"/>
+                <span className="truncate">{item.label}</span>
+                <ChevronRight className="ml-auto h-4 w-4 shrink-0 text-muted-foreground"/>
+            </Link>
         );
     });
 
@@ -40,14 +38,14 @@ export default function OwnerMobileNav({businessName}: { businessName: string | 
                     <Menu className="h-5 w-5"/>
                 </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-72 p-0 sm:p-0">
-                <SheetHeader className="px-3 pb-2 pt-4">
-                    <SheetTitle className="text-left">{businessName ?? "Menu"}</SheetTitle>
+            <SheetContent side="left" className="flex w-[82vw] max-w-[320px] flex-col gap-0 p-0 lg:p-0">
+                <SheetHeader className="h-12 shrink-0 justify-center border-b px-4 pr-12">
+                    <SheetTitle className="truncate text-sm font-semibold">{businessName ?? "Menu"}</SheetTitle>
                 </SheetHeader>
-                <nav className="flex flex-col gap-y-1 px-3 pb-6">
-                    {renderItems(PRIMARY_ITEMS)}
-                    <Separator className="my-2"/>
-                    {renderItems(SECONDARY_ITEMS)}
+                <nav className="flex-1 overflow-y-auto">
+                    <div className="divide-y">{renderItems(PRIMARY_ITEMS)}</div>
+                    <div className="h-2 border-y bg-muted/40"/>
+                    <div className="divide-y">{renderItems(SECONDARY_ITEMS)}</div>
                 </nav>
             </SheetContent>
         </Sheet>

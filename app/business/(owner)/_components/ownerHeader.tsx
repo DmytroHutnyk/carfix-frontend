@@ -26,6 +26,7 @@ export default function OwnerHeader() {
                     )}
                     <Button
                         variant="headerOutline"
+                        className="w-9 p-0 sm:w-auto sm:px-4 sm:py-2"
                         onClick={() => logout().then(() => router.replace("/business/login"))}
                     >
                         <LogOut/> <span className="hidden sm:inline">Log out</span>
