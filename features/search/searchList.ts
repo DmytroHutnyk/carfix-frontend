@@ -51,6 +51,18 @@ export function composeTitle(echo: SearchEcho | undefined, radiusKm: number | nu
     return `Search results for: "${where ? `${text} ${where}` : text}"`;
 }
 
+export function composeSubject(echo: SearchEcho | undefined): string {
+    const text = echo?.q ?? echo?.serviceName ?? echo?.categoryName;
+    return text ?? "All workshops";
+}
+
+export function composePlace(echo: SearchEcho | undefined, radiusKm: number | null): string | null {
+    if (!echo) return null;
+    const place = echo.city ?? echo.voivodeship ?? countryName(echo.country);
+    if (!place) return null;
+    return radiusKm != null ? `Within ${radiusKm} km of ${place}` : place;
+}
+
 export function composeEmptyMessage(echo: SearchEcho | undefined, radiusKm: number | null): string {
     if (!echo) return "No workshops found";
     const text = echo.q ?? echo.serviceName ?? echo.categoryName;

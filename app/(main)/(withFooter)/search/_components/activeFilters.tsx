@@ -8,6 +8,7 @@ import {useSelectedCarProfile} from "@/features/carProfile/useSelectedCarProfile
 import {AVAILABILITY_PARAMS, formatAvailabilityLabel, hasAvailabilityFilter} from "@/features/search/searchList";
 import {WorkshopSearchParams} from "@/features/search/searchTypes";
 import {Badge} from "@/_components/shadcn/badge";
+import {cn} from "@/lib/utils";
 
 /**
  * The filters currently narrowing the search, each removable in one click.
@@ -16,7 +17,7 @@ import {Badge} from "@/_components/shadcn/badge";
  * looked like nothing had happened. A chip is the standing answer: it is visible without
  * opening anything, and removing it is the same one action as applying it.
  */
-export default function ActiveFilters({params}: { params: WorkshopSearchParams }) {
+export default function ActiveFilters({params, className}: { params: WorkshopSearchParams; className?: string }) {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -62,9 +63,9 @@ export default function ActiveFilters({params}: { params: WorkshopSearchParams }
     }
 
     return (
-        <div className="no-scrollbar -mx-4 flex items-center gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-wrap lg:overflow-x-visible lg:px-0 lg:pb-0">
+        <div className={cn("no-scrollbar flex items-center gap-2", className)}>
             {chips.map((chip) => (
-                <Badge key={chip.key} variant="secondary" className="shrink-0 gap-1 py-1 pr-1 pl-2.5">
+                <Badge key={chip.key} variant="secondary" className="h-6 shrink-0 gap-1 py-0 pr-1 pl-2.5 lg:h-auto lg:py-1">
                     {chip.label}
                     <button
                         type="button"
