@@ -1,6 +1,6 @@
 import {Card, CardContent, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import {Separator} from "@/_components/shadcn/separator";
-import ContactForm from "@/(main)/(info)/contacts/_components/ContactForm";
+import ContactForm from "@/(main)/(withFooter)/(info)/contacts/_components/ContactForm";
 
 export default function Page(){
     return(
