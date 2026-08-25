@@ -31,8 +31,8 @@ export default function Home() {
                             </CarouselItem>
                         ))}
                     </CarouselContent>
-                    <CarouselPrevious className="left-2 lg:-left-12"/>
-                    <CarouselNext className="right-2 lg:-right-12"/>
+                    <CarouselPrevious className="hidden left-2 lg:inline-flex lg:-left-12"/>
+                    <CarouselNext className="hidden right-2 lg:inline-flex lg:-right-12"/>
                 </Carousel>
               </section>
 
@@ -50,8 +50,8 @@ export default function Home() {
                               </CarouselItem>
                           ))}
                       </CarouselContent>
-                      <CarouselPrevious className="left-2 lg:-left-12"/>
-                      <CarouselNext className="right-2 lg:-right-12"/>
+                      <CarouselPrevious className="hidden left-2 lg:inline-flex lg:-left-12"/>
+                      <CarouselNext className="hidden right-2 lg:inline-flex lg:-right-12"/>
                   </Carousel>
               </section>
 
