@@ -7,10 +7,10 @@ export default function MyAccountLayout({ children }: {
 }) {
     return (
         <RequireAuth role={ROLE.CUSTOMER}>
-            <div className="flex mx-auto max-w-[1425px] px-[72px] py-6 min-h-[calc(100vh-115px)]">
-                <div className="grid grid-cols-[256px_1fr] gap-5 flex-1">
+            <div className="flex mx-auto max-w-[1425px] px-4 py-4 sm:px-6 lg:px-[72px] lg:py-6 min-h-[calc(100vh-115px)]">
+                <div className="grid grid-cols-1 grid-rows-[auto_1fr] gap-4 lg:grid-cols-[256px_1fr] lg:grid-rows-none lg:gap-5 flex-1">
                     <SideBar menuItems={menuItems}/>
-                    <div className="py-3">
+                    <div className="min-w-0 py-1 lg:py-3">
                         {children}
                     </div>
                 </div>
@@ -20,7 +20,7 @@ export default function MyAccountLayout({ children }: {
 }
 
 const menuItems: SideBarItem[] = [
-    { href: "/profile",      label: "My Profile",      icon: "CircleUserRound" },
-    { href: "/cars",      label: "My Cars",      icon: "Car" },
-    { href: "/bookings",  label: "My Bookings",  icon: "Calendar" },
+    { href: "/profile",   label: "My Profile",   shortLabel: "Profile",  icon: "CircleUserRound" },
+    { href: "/cars",      label: "My Cars",      shortLabel: "Cars",     icon: "Car" },
+    { href: "/bookings",  label: "My Bookings",  shortLabel: "Bookings", icon: "Calendar" },
 ];

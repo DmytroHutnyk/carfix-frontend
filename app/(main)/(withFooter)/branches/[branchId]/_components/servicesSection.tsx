@@ -28,7 +28,7 @@ export default function ServicesSection({categories, selectedIds, onToggle}: {
                 {categories.map((category) => (
                     <Collapsible key={category.categoryId} defaultOpen>
                         <CollapsibleTrigger className="group flex w-full items-center justify-between border-b py-2">
-                            <span className="font-semibold">{category.name}</span>
+                            <span className="text-sm font-semibold lg:text-base">{category.name}</span>
                             <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]:rotate-180"/>
                         </CollapsibleTrigger>
                         <CollapsibleContent>
@@ -36,17 +36,18 @@ export default function ServicesSection({categories, selectedIds, onToggle}: {
                                 {category.services.map((service) => {
                                     const selected = selectedIds.includes(service.serviceId);
                                     return (
-                                        <li key={service.serviceId} className="flex items-center gap-4 py-3">
+                                        <li key={service.serviceId} className="flex items-center gap-2 py-2 lg:gap-4 lg:py-3">
                                             <span className="min-w-0 flex-1">
-                                                <span className="block font-medium">{service.name}</span>
-                                                <span className="block text-sm text-muted-foreground">
+                                                <span className="block truncate text-sm font-medium lg:text-base">{service.name}</span>
+                                                <span className="block text-xs text-muted-foreground lg:text-sm">
                                                     Duration: {service.durationMinutes} minutes
                                                 </span>
                                             </span>
-                                            <span className="shrink-0 font-semibold tabular-nums">
+                                            <span className="shrink-0 text-sm font-semibold tabular-nums lg:text-base">
                                                 {formatPrice(service.price)}
                                             </span>
                                             <Button
+                                                className="shrink-0"
                                                 variant={selected ? "secondary" : "default"}
                                                 size="sm"
                                                 disabled={!selected && basketFull}

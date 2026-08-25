@@ -7,28 +7,28 @@ import {Badge} from "@/_components/shadcn/badge";
 export default function Page(){
     return(
         <div className="py-3">
-            <section className="text-center space-y-3">
-                <h1 className="text-3xl font-bold tracking-tight">
+            <section className="text-center space-y-1.5 lg:space-y-3">
+                <h1 className="text-lg font-semibold tracking-tight lg:text-3xl lg:font-bold">
                     Your trusted automotive service platform
                 </h1>
-                <p className="text-muted-foreground">
+                <p className="text-sm text-muted-foreground lg:text-base">
                     Connect with verified automotive service providers. Book appointments,
                     compare prices, and get your car serviced with confidence and convenience.
                 </p>
             </section>
 
-            <Separator className="my-6" />
+            <Separator className="my-4 lg:my-6" />
 
             <section className="flex flex-col gap-y-2">
-                <p className="text-lg font-semibold pl-1.5">Key Features</p>
-                <div className="grid grid-cols-2 gap-4">
+                <p className="text-base font-semibold pl-1.5 lg:text-lg">Key Features</p>
+                <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-4">
                     {keyFeatures.map((item) => {
                         const Icon = item.icon;
                         return(
                             <Card key={item.title}>
                                 <CardHeader>
                                     <div className="flex gap-x-2 items-center">
-                                        <Icon className="size-5"></Icon>
+                                        <Icon className="size-4 lg:size-5"></Icon>
                                         <CardTitle>{item.title}</CardTitle>
                                     </div>
                                     <CardDescription className="pl-[28px]">
@@ -41,18 +41,18 @@ export default function Page(){
                 </div>
             </section>
 
-            <Separator className="my-6"/>
+            <Separator className="my-4 lg:my-6"/>
 
             <section className="flex flex-col gap-y-2">
-                <p className="text-lg font-semibold pl-1.5">How It Works</p>
+                <p className="text-base font-semibold pl-1.5 lg:text-lg">How It Works</p>
                 <Card className="py-4">
-                    <div className="flex flex-col gap-y-4">
+                    <div className="flex flex-col gap-y-2 lg:gap-y-4">
                         {howItWorks.map((step) => (
-                            <CardHeader key={step.number} className="flex flex-row gap-x-2 py-2">
-                                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-amber-400 flex items-center justify-center text-white font-semibold text-lg shadow-sm">
+                            <CardHeader key={step.number} className="flex flex-row gap-x-2 py-1.5 lg:py-2">
+                                <div className="flex-shrink-0 w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-amber-400 flex items-center justify-center text-white font-semibold text-sm lg:text-lg shadow-sm">
                                     {step.number}
                                 </div>
-                                <div className="h-10 flex flex-col justify-between">
+                                <div className="flex flex-col justify-between lg:h-10">
                                     <CardTitle>
                                         {step.title}
                                     </CardTitle>
@@ -65,12 +65,12 @@ export default function Page(){
                     </div>
                 </Card>
             </section>
-            <Separator className="my-6" />
+            <Separator className="my-4 lg:my-6" />
             <section className="flex flex-col gap-y-2">
                 <Card className="bg-muted">
                     <CardHeader>
-                        <div className="flex gap-x-2 items-center">
-                            <Shield className="size-5"></Shield>
+                        <div className="flex flex-wrap gap-x-2 gap-y-1 items-center">
+                            <Shield className="size-4 lg:size-5"></Shield>
                             <CardTitle className="font-semibold">Trust & Safety</CardTitle>
                             <Badge variant="outline">No prepayment</Badge>
                         </div>
@@ -86,10 +86,10 @@ export default function Page(){
                 </Card>
             </section>
 
-            <Separator className="my-6" />
+            <Separator className="my-4 lg:my-6" />
             <section className="flex flex-col gap-y-2">
-                <p className="text-lg font-semibold pl-1.5">What Our Customers Say</p>
-                <div className="grid grid-cols-2 gap-4">
+                <p className="text-base font-semibold pl-1.5 lg:text-lg">What Our Customers Say</p>
+                <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-4">
                     {reviews.map((testimonial) => (
                         <Card key={testimonial.name}>
                             <CardHeader>
@@ -105,7 +105,7 @@ export default function Page(){
                                             {[...Array(5)].map((_, i) => (
                                                 <Star
                                                     key={i}
-                                                    className="size-4 fill-foreground text-foreground"
+                                                    className="size-3.5 fill-foreground text-foreground lg:size-4"
                                                 />
                                             ))}
                                         </div>

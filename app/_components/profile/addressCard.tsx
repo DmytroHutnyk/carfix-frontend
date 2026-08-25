@@ -105,17 +105,17 @@ export default function AddressCard({address}: {address: Address | null}) {
                 <CardDescription>Your address information</CardDescription>
             </CardHeader>
             <CardContent>
-                <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
+                <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-3 lg:space-y-4">
                     <Field>
                         <FieldLabel htmlFor="addressSearch">Find your address</FieldLabel>
                         <GoogleApiProvider>
                             <AddressSearchBar id="addressSearch" onAddressPicked={applyPicked}/>
                         </GoogleApiProvider>
-                        <FieldDescription>Street, city, region and country are filled from the address you pick.</FieldDescription>
+                        <FieldDescription className="text-xs lg:text-sm">Street, city, region and country are filled from the address you pick.</FieldDescription>
                         {pickError && <FieldError>{pickError.message}</FieldError>}
                     </Field>
 
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-[1fr_8rem_8rem]">
+                    <div className="grid grid-cols-1 gap-3 lg:grid-cols-[1fr_8rem_8rem] lg:gap-4">
                         <Field>
                             <FieldLabel htmlFor="streetName">Street</FieldLabel>
                             <Input id="streetName" {...register("streetName")} readOnly className={READ_ONLY_INPUT}/>
@@ -141,7 +141,7 @@ export default function AddressCard({address}: {address: Address | null}) {
                         </Field>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-4">
                         <Field>
                             <FieldLabel htmlFor="postalCode">Postal code</FieldLabel>
                             <Input
@@ -157,7 +157,7 @@ export default function AddressCard({address}: {address: Address | null}) {
                         </Field>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-4">
                         <Field>
                             <FieldLabel htmlFor="region">Region</FieldLabel>
                             <Input id="region" {...register("region")} readOnly className={READ_ONLY_INPUT}/>
@@ -168,12 +168,14 @@ export default function AddressCard({address}: {address: Address | null}) {
                         </Field>
                     </div>
 
-                    <div className="flex w-full items-center justify-between gap-2 pt-2">
+                    <div className="flex w-full flex-row items-center justify-between gap-2 pt-2">
                         <div>
                             {address && (
                                 <Button
                                     type="button"
                                     variant="destructive"
+                                    size="sm"
+                                    className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm"
                                     onClick={() => setDeleteOpen(true)}
                                     disabled={isSubmitting}
                                 >
@@ -185,7 +187,8 @@ export default function AddressCard({address}: {address: Address | null}) {
                             <Button
                                 type="button"
                                 variant="white"
-                                className="w-35"
+                                size="sm"
+                                className="lg:h-9 lg:w-35 lg:px-4 lg:py-2 lg:text-sm"
                                 onClick={() => {
                                     reset();
                                     setError(null);
@@ -194,7 +197,7 @@ export default function AddressCard({address}: {address: Address | null}) {
                             >
                                 Reset
                             </Button>
-                            <Button type="submit" className="w-35" disabled={!isDirty || isSubmitting}>
+                            <Button type="submit" size="sm" className="lg:h-9 lg:w-35 lg:px-4 lg:py-2 lg:text-sm" disabled={!isDirty || isSubmitting}>
                                 {isSubmitting ? "Saving..." : "Save Changes"}
                             </Button>
                         </div>

@@ -111,19 +111,19 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
+            <DialogContent className="max-h-[90vh] w-[calc(100%-2rem)] overflow-y-auto rounded-lg sm:max-w-md">
                 {isSubmitting && (
                     <div className="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-card/75">
                         <OrbitProgress color="var(--primary)" size="large" text="" textColor="" dense/>
                     </div>
                 )}
                 <DialogHeader>
-                    <DialogTitle className="text-center text-2xl font-bold">
+                    <DialogTitle className="text-center text-base font-semibold lg:text-2xl lg:font-bold">
                         {isEdit ? "Edit Vehicle" : "Add Vehicle"}
                     </DialogTitle>
                 </DialogHeader>
 
-                <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
+                <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-3 lg:space-y-4">
                     {/*-==-==-=-=-=-=--==-=-=-=-Name-==-==-=-=-=-=-=-=-=---==*/}
                     <Field>
                         <FieldLabel htmlFor="carName">Name</FieldLabel>
@@ -134,7 +134,7 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                             placeholder="e.g. Family Car"
                             className={cn(errors.name && "border-destructive focus-visible:ring-destructive")}
                         />
-                        {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+                        {errors.name && <p className="text-xs text-destructive lg:text-sm">{errors.name.message}</p>}
                     </Field>
 
                     {/*-==-==-=-=-=-=--==-=-=-=-Catalog cascade (add only)-==-==-=-=-=-=-=-=-=---==*/}
@@ -223,7 +223,7 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                             )}
                         />
                         {errors.modelVersionId && (
-                            <p className="text-sm text-destructive">{errors.modelVersionId.message}</p>
+                            <p className="text-xs text-destructive lg:text-sm">{errors.modelVersionId.message}</p>
                         )}
                     </Field>
 
@@ -296,7 +296,7 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                             placeholder="Enter 17-character VIN"
                             className={cn(errors.vin && "border-destructive focus-visible:ring-destructive")}
                         />
-                        {errors.vin && <p className="text-sm text-destructive">{errors.vin.message}</p>}
+                        {errors.vin && <p className="text-xs text-destructive lg:text-sm">{errors.vin.message}</p>}
                     </Field>
 
                     <Field>
@@ -308,7 +308,7 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                             placeholder="e.g. WA 12345"
                             className={cn(errors.plates && "border-destructive focus-visible:ring-destructive")}
                         />
-                        {errors.plates && <p className="text-sm text-destructive">{errors.plates.message}</p>}
+                        {errors.plates && <p className="text-xs text-destructive lg:text-sm">{errors.plates.message}</p>}
                     </Field>
 
                     <Button type="submit" className="w-full" disabled={isSubmitting}>

@@ -14,7 +14,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
           border-input 
           bg-transparent 
           px-3 py-1 
-          text-base 
+          text-sm 
           shadow-sm 
           transition-all 
           duration-300 
@@ -31,7 +31,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
           focus-visible:shadow-input-focus
           focus-visible:scale-[1.001]
           disabled:cursor-not-allowed 
-          disabled:opacity-50 md:text-sm`,
+          disabled:opacity-50`,
           className
         )}
         ref={ref}

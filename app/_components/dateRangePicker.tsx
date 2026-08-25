@@ -8,6 +8,7 @@ import {DateRange} from "react-day-picker";
 import {Popover, PopoverContent, PopoverTrigger} from "@/_components/shadcn/popover";
 import {Button} from "@/_components/shadcn/button";
 import {Calendar} from "@/_components/shadcn/calendar";
+import {useIsMobile} from "@/lib/use-mobile";
 import {cn} from "@/lib/utils";
 import {DateRangeValue} from "@/lib/appTypes";
 
@@ -40,6 +41,7 @@ export default function DateRangePicker({
     maxDays?: number;
 }) {
     const [open, setOpen] = useState(false);
+    const isMobile = useIsMobile();
 
     const selected: DateRange | undefined = value.from || value.to
         ? {from: toDate(value.from), to: toDate(value.to)}
@@ -56,12 +58,12 @@ export default function DateRangePicker({
                     <span className="truncate">{label(value, placeholder)}</span>
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
+            <PopoverContent className="w-auto max-w-[calc(100vw-2rem)] overflow-x-auto p-0" align="start">
                 <Calendar
                     mode="range"
                     selected={selected}
                     defaultMonth={selected?.from}
-                    numberOfMonths={numberOfMonths}
+                    numberOfMonths={isMobile ? 1 : numberOfMonths}
                     startMonth={minDate}
                     disabled={minDate ? {before: minDate} : undefined}
                     /* react-day-picker's `max` bounds the gap (to − from) in days, not the day count, so an inclusive N-day window is N − 1 */

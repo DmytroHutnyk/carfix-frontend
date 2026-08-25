@@ -227,6 +227,13 @@
     @apply text-sm font-normal leading-none tracking-normal;
   }
 
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   .shadow-input-focus {
     box-shadow: 
       0 0 0 3px oklch(0.708 0 0 / 0.25),

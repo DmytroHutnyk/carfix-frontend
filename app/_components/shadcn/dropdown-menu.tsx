@@ -15,7 +15,7 @@ const DropdownMenuTrigger = React.forwardRef<
   <DropdownMenuPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex h-9 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] focus-visible:outline-none focus-visible:border-ring/40 focus-visible:ring-0 focus-visible:shadow-input-focus focus-visible:scale-[1.001] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+      "flex rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] focus-visible:outline-none focus-visible:border-ring/40 focus-visible:ring-0 focus-visible:shadow-input-focus focus-visible:scale-[1.001] disabled:cursor-not-allowed disabled:opacity-50",
       className
     )}
     {...props}
