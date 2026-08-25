@@ -41,11 +41,12 @@ interface SearchBarProps {
     anchorRef?: RefObject<HTMLDivElement | null>;
     inline?: boolean;
     autoFocus?: boolean;
+    inputRef?: RefObject<HTMLInputElement | null>;
 }
 
 export type SearchBarFieldProps = Pick<SearchBarProps, "value" | "onValueChange" | "onSubmit" | "onSelect">;
 
-export default function SearchBar({id, className, value, onValueChange, onSubmit, onSelect, anchorRef, inline = false, autoFocus = false}: SearchBarProps) {
+export default function SearchBar({id, className, value, onValueChange, onSubmit, onSelect, anchorRef, inline = false, autoFocus = false, inputRef}: SearchBarProps) {
     const debouncedQuery = useDebouncedValue(value.trim(), 300);
     const {suggestions, isLoading} = useSearchSuggestions(debouncedQuery);
 
@@ -128,6 +129,7 @@ export default function SearchBar({id, className, value, onValueChange, onSubmit
             itemToStringLabel={(suggestion: SearchSuggestion) => suggestion.name}
         >
             <ComboboxInput
+                ref={inputRef}
                 id={id}
                 className={className}
                 placeholder="Search services..."
