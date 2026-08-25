@@ -19,6 +19,16 @@ import {
 const DEFAULT_FILTER: BranchFilterKey = "all";
 const DEFAULT_SORT: BranchSortKey = "nameAsc";
 
+function BranchSortContent() {
+    return (
+        <SelectContent>
+            {BRANCH_SORT_OPTIONS.map((o) => (
+                <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+            ))}
+        </SelectContent>
+    );
+}
+
 export default function BranchFilters({filter, sort, onFilterChange, onSortChange}: {
     filter: BranchFilterKey;
     sort: BranchSortKey;
@@ -84,11 +94,7 @@ export default function BranchFilters({filter, sort, onFilterChange, onSortChang
                         <Label htmlFor="branch-filter-sort">Sort by</Label>
                         <Select value={draftSort} onValueChange={(v) => setDraftSort(v as BranchSortKey)}>
                             <SelectTrigger id="branch-filter-sort" className="w-full"><SelectValue/></SelectTrigger>
-                            <SelectContent>
-                                {BRANCH_SORT_OPTIONS.map((o) => (
-                                    <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                                ))}
-                            </SelectContent>
+                            <BranchSortContent/>
                         </Select>
                     </div>
                 </div>
@@ -113,11 +119,7 @@ export default function BranchFilters({filter, sort, onFilterChange, onSortChang
                         <ArrowUpDown className="h-4 w-4 text-muted-foreground"/>
                         <SelectValue/>
                     </SelectTrigger>
-                    <SelectContent>
-                        {BRANCH_SORT_OPTIONS.map((o) => (
-                            <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                        ))}
-                    </SelectContent>
+                    <BranchSortContent/>
                 </Select>
 
                 <Button className="shrink-0" asChild>

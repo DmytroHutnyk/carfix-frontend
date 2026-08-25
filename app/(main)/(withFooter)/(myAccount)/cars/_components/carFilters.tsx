@@ -14,6 +14,24 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_
 
 const DEFAULT_SORT: CarSortKey = "nameAsc";
 
+function SortSelect({value, onChange, triggerId, triggerClassName}: {
+    value: CarSortKey;
+    onChange: (value: CarSortKey) => void;
+    triggerId?: string;
+    triggerClassName: string;
+}) {
+    return (
+        <Select value={value} onValueChange={(v) => onChange(v as CarSortKey)}>
+            <SelectTrigger id={triggerId} className={triggerClassName}><SelectValue/></SelectTrigger>
+            <SelectContent>
+                {CAR_SORT_OPTIONS.map((o) => (
+                    <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                ))}
+            </SelectContent>
+        </Select>
+    );
+}
+
 export default function CarFilters({query, sortKey, onQueryChange, onSortChange, onClear}: {
     query: string;
     sortKey: CarSortKey;
@@ -62,14 +80,7 @@ export default function CarFilters({query, sortKey, onQueryChange, onSortChange,
             >
                 <div className="flex flex-col gap-1.5">
                     <Label htmlFor="car-sort">Order</Label>
-                    <Select value={draftSort} onValueChange={(v) => setDraftSort(v as CarSortKey)}>
-                        <SelectTrigger id="car-sort" className="w-full"><SelectValue/></SelectTrigger>
-                        <SelectContent>
-                            {CAR_SORT_OPTIONS.map((o) => (
-                                <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                    <SortSelect value={draftSort} onChange={setDraftSort} triggerId="car-sort" triggerClassName="w-full"/>
                 </div>
             </FilterSheet>
 
@@ -89,14 +100,7 @@ export default function CarFilters({query, sortKey, onQueryChange, onSortChange,
                     />
                 </div>
 
-                <Select value={sortKey} onValueChange={(v) => onSortChange(v as CarSortKey)}>
-                    <SelectTrigger className="w-36"><SelectValue/></SelectTrigger>
-                    <SelectContent>
-                        {CAR_SORT_OPTIONS.map((o) => (
-                            <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
+                <SortSelect value={sortKey} onChange={onSortChange} triggerClassName="w-36"/>
 
                 <Button className="ml-auto" onClick={onClear}>
                     Clear filters

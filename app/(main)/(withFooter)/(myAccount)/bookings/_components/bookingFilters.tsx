@@ -24,6 +24,41 @@ function activeCount(filters: BookingFilterState): number {
     ].filter(Boolean).length;
 }
 
+interface SelectProps<T extends string> {
+    value: T;
+    onChange: (value: T) => void;
+    triggerId?: string;
+    triggerClassName: string;
+}
+
+function VehicleSelect({vehicles, value, onChange, triggerId, triggerClassName}: SelectProps<string> & {vehicles: Vehicle[]}) {
+    return (
+        <Select value={value} onValueChange={onChange}>
+            <SelectTrigger id={triggerId} className={triggerClassName}><SelectValue/></SelectTrigger>
+            <SelectContent>
+                <SelectItem value="all">All vehicles</SelectItem>
+                {vehicles.map((v) => (
+                    <SelectItem key={v.value} value={v.value}>{v.label}</SelectItem>
+                ))}
+            </SelectContent>
+        </Select>
+    );
+}
+
+function StatusSelect({value, onChange, triggerId, triggerClassName}: SelectProps<BookingStatus | "all">) {
+    return (
+        <Select value={value} onValueChange={(v) => onChange(v as BookingStatus | "all")}>
+            <SelectTrigger id={triggerId} className={triggerClassName}><SelectValue/></SelectTrigger>
+            <SelectContent>
+                <SelectItem value="all">All statuses</SelectItem>
+                {BOOKING_STATUSES.map((s) => (
+                    <SelectItem key={s} value={s}>{STATUS_LABELS[s]}</SelectItem>
+                ))}
+            </SelectContent>
+        </Select>
+    );
+}
+
 export default function BookingFilters({filters, onChange, vehicles}: {
     filters: BookingFilterState;
     onChange: (next: BookingFilterState) => void;
@@ -70,18 +105,13 @@ export default function BookingFilters({filters, onChange, vehicles}: {
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-1.5">
                         <Label htmlFor="booking-filter-vehicle">Vehicle</Label>
-                        <Select
+                        <VehicleSelect
+                            vehicles={vehicles}
                             value={draft.carProfileId}
-                            onValueChange={(v) => setDraft({...draft, carProfileId: v})}
-                        >
-                            <SelectTrigger id="booking-filter-vehicle" className="w-full"><SelectValue/></SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All vehicles</SelectItem>
-                                {vehicles.map((v) => (
-                                    <SelectItem key={v.value} value={v.value}>{v.label}</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                            onChange={(carProfileId) => setDraft({...draft, carProfileId})}
+                            triggerId="booking-filter-vehicle"
+                            triggerClassName="w-full"
+                        />
                     </div>
 
                     <div className="flex flex-col gap-1.5">
@@ -96,18 +126,12 @@ export default function BookingFilters({filters, onChange, vehicles}: {
 
                     <div className="flex flex-col gap-1.5">
                         <Label htmlFor="booking-filter-status">Status</Label>
-                        <Select
+                        <StatusSelect
                             value={draft.status}
-                            onValueChange={(v) => setDraft({...draft, status: v as BookingStatus | "all"})}
-                        >
-                            <SelectTrigger id="booking-filter-status" className="w-full"><SelectValue/></SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All statuses</SelectItem>
-                                {BOOKING_STATUSES.map((s) => (
-                                    <SelectItem key={s} value={s}>{STATUS_LABELS[s]}</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                            onChange={(status) => setDraft({...draft, status})}
+                            triggerId="booking-filter-status"
+                            triggerClassName="w-full"
+                        />
                     </div>
                 </div>
             </FilterSheet>
@@ -128,18 +152,12 @@ export default function BookingFilters({filters, onChange, vehicles}: {
                     />
                 </div>
 
-                <Select
+                <VehicleSelect
+                    vehicles={vehicles}
                     value={filters.carProfileId}
-                    onValueChange={(v) => onChange({...filters, carProfileId: v})}
-                >
-                    <SelectTrigger className="w-44"><SelectValue/></SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="all">All vehicles</SelectItem>
-                        {vehicles.map((v) => (
-                            <SelectItem key={v.value} value={v.value}>{v.label}</SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
+                    onChange={(carProfileId) => onChange({...filters, carProfileId})}
+                    triggerClassName="w-44"
+                />
 
                 <DateRangePicker
                     className="w-64"
@@ -147,18 +165,11 @@ export default function BookingFilters({filters, onChange, vehicles}: {
                     onChange={(dateRange) => onChange({...filters, dateRange})}
                 />
 
-                <Select
+                <StatusSelect
                     value={filters.status}
-                    onValueChange={(v) => onChange({...filters, status: v as BookingStatus | "all"})}
-                >
-                    <SelectTrigger className="w-40"><SelectValue/></SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="all">All statuses</SelectItem>
-                        {BOOKING_STATUSES.map((s) => (
-                            <SelectItem key={s} value={s}>{STATUS_LABELS[s]}</SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
+                    onChange={(status) => onChange({...filters, status})}
+                    triggerClassName="w-40"
+                />
 
                 <Button className="ml-auto" onClick={() => onChange(EMPTY_FILTERS)}>
                     Clear filters
