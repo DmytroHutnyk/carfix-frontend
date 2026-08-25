@@ -8,7 +8,7 @@ import {Label} from "@/_components/shadcn/label";
 import {ToggleGroup, ToggleGroupItem} from "@/_components/shadcn/toggle-group";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 import FilterSheet from "@/_components/filterSheet";
-import FilterButton from "@/(main)/(withFooter)/(myAccount)/_components/filterButton";
+import FilterButton from "@/_components/filterButton";
 import {
     BRANCH_FILTER_OPTIONS,
     BRANCH_SORT_OPTIONS,

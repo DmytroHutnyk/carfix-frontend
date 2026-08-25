@@ -7,7 +7,7 @@ import {BOOKING_STATUSES, BookingStatus} from "@/features/booking/bookingTypes";
 import {BookingFilterState, EMPTY_FILTERS, STATUS_LABELS} from "@/features/booking/bookingList";
 
 import FilterSheet from "@/_components/filterSheet";
-import FilterButton from "@/(main)/(withFooter)/(myAccount)/_components/filterButton";
+import FilterButton from "@/_components/filterButton";
 import DateRangePicker from "@/_components/dateRangePicker";
 import {Input} from "@/_components/shadcn/input";
 import {Button} from "@/_components/shadcn/button";

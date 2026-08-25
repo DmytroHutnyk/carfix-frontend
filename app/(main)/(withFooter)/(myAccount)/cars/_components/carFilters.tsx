@@ -6,7 +6,7 @@ import {Filter, Search} from "lucide-react";
 import {CAR_SORT_OPTIONS, CarSortKey} from "@/features/carProfile/carProfileList";
 
 import FilterSheet from "@/_components/filterSheet";
-import FilterButton from "@/(main)/(withFooter)/(myAccount)/_components/filterButton";
+import FilterButton from "@/_components/filterButton";
 import {Input} from "@/_components/shadcn/input";
 import {Button} from "@/_components/shadcn/button";
 import {Label} from "@/_components/shadcn/label";
