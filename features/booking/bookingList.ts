@@ -22,6 +22,7 @@ export const STATUS_LABELS: Record<BookingStatus, string> = {
     IN_PROGRESS: "In progress",
     COMPLETED: "Completed",
     CANCELLED: "Cancelled",
+    NO_SHOW: "No-show",
 };
 
 export function filterBookings(list: Booking[], filters: BookingFilterState): Booking[] {

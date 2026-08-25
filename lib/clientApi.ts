@@ -95,8 +95,6 @@ export const clientApi = {
                 credentials: 'include',
             });
 
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
             return await parseResponse<T>(response);
         } catch (err) {
             return toClientSideError(err);
@@ -111,8 +109,6 @@ export const clientApi = {
                 body: dataToSend !== undefined ? JSON.stringify(dataToSend) : undefined,
                 credentials: 'include',
             });
-
-            await new Promise(resolve => setTimeout(resolve, 1000));
 
             return await parseResponse<TResponse>(response);
         } catch (err) {
@@ -129,8 +125,6 @@ export const clientApi = {
                 credentials: 'include',
             });
 
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
             return await parseResponse<TResponse>(response);
         } catch (err) {
             return toClientSideError(err);
@@ -146,8 +140,6 @@ export const clientApi = {
                 credentials: 'include',
             });
 
-            await new Promise(resolve => setTimeout(resolve, 10000));
-
             return await parseResponse<TResponse>(response);
         } catch (err) {
             return toClientSideError(err);
@@ -161,8 +153,6 @@ export const clientApi = {
                 headers: this.defaultHeaders,
                 credentials: 'include',
             });
-
-            await new Promise(resolve => setTimeout(resolve, 1000));
 
             if (response.ok) {
                 return;
