@@ -1,7 +1,8 @@
 "use client"
 
+import {useEffect} from "react";
 import {ExternalLink, MapPin} from "lucide-react";
-import {Map, Marker} from "@vis.gl/react-google-maps";
+import {Map, Marker, useMap} from "@vis.gl/react-google-maps";
 import GoogleApiProvider from "@/lib/providers/googleApiProvider";
 import {Button} from "@/_components/shadcn/button";
 import {Card, CardContent} from "@/_components/shadcn/card";
@@ -23,10 +24,11 @@ export default function MapCard({workshop}: { workshop: Workshop }) {
                                 defaultCenter={{lat, lng}}
                                 defaultZoom={15}
                                 disableDefaultUI
+                                keyboardShortcuts={false}
                                 gestureHandling="none"
                                 clickableIcons={false}
                             >
-                                <Marker position={{lat, lng}}/>
+                                <WorkshopMarker lat={lat} lng={lng}/>
                             </Map>
                         </GoogleApiProvider>
                     </div>
@@ -45,4 +47,17 @@ export default function MapCard({workshop}: { workshop: Workshop }) {
             </CardContent>
         </Card>
     );
+}
+
+function WorkshopMarker({lat, lng}: { lat: number; lng: number }) {
+    const map = useMap();
+
+    useEffect(() => {
+        if (!map) return;
+        const observer = new ResizeObserver(() => map.setCenter({lat, lng}));
+        observer.observe(map.getDiv());
+        return () => observer.disconnect();
+    }, [map, lat, lng]);
+
+    return <Marker position={{lat, lng}}/>;
 }
