@@ -23,9 +23,9 @@ export default function PricingSection() {
     const [selectedPlan, setSelectedPlan] = useState<PlanId | null>(null);
 
     return (
-        <section id="pricing" className="scroll-mt-6 space-y-8">
-            <h2 className="text-center text-2xl font-bold">Simple pricing overview</h2>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <section id="pricing" className="scroll-mt-6 space-y-5 lg:space-y-8">
+            <h2 className="text-center text-base font-semibold lg:text-2xl lg:font-bold">Simple pricing overview</h2>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
                 {plans.map((plan) => {
                     const isSelected = plan.id === selectedPlan;
                     /* Before any click the "Popular" plan is highlighted; after a click the chosen one is */
@@ -33,20 +33,20 @@ export default function PricingSection() {
                     return (
                         <Card key={plan.id} className={cn("flex flex-col", isHighlighted && "border-primary")}>
                             <CardHeader>
-                                <CardTitle className="flex items-center gap-2 text-xl">
+                                <CardTitle className="flex items-center gap-2 text-base lg:text-xl">
                                     {plan.name}
                                     {plan.popular && <Badge>Popular</Badge>}
                                 </CardTitle>
                                 <CardDescription>{plan.tagline}</CardDescription>
                             </CardHeader>
-                            <CardContent className="flex flex-1 flex-col gap-8">
+                            <CardContent className="flex flex-1 flex-col gap-4 lg:gap-8">
                                 <p>
-                                    <span className="text-3xl font-bold tabular-nums">${plan.monthlyPrice}</span>
-                                    <span className="text-sm text-muted-foreground">/month</span>
+                                    <span className="text-xl font-bold tabular-nums lg:text-3xl">${plan.monthlyPrice}</span>
+                                    <span className="text-xs text-muted-foreground lg:text-sm">/month</span>
                                 </p>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2 lg:space-y-3">
                                     {plan.features.map((feature) => (
-                                        <li key={feature} className="flex items-center gap-2 text-sm">
+                                        <li key={feature} className="flex items-center gap-2 text-xs lg:text-sm">
                                             <Check className="h-4 w-4 shrink-0 text-success-badge-foreground"/>
                                             {feature}
                                         </li>
@@ -55,7 +55,8 @@ export default function PricingSection() {
                             </CardContent>
                             <CardFooter>
                                 <Button
-                                    className="w-full"
+                                    size="sm"
+                                    className="w-full lg:h-9 lg:px-4 lg:py-2 lg:text-sm"
                                     variant={isHighlighted ? "default" : "accent"}
                                     aria-pressed={isSelected}
                                     onClick={() => setSelectedPlan(plan.id)}

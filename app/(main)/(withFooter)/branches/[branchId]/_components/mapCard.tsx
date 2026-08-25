@@ -17,7 +17,7 @@ export default function MapCard({workshop}: { workshop: Workshop }) {
         <Card>
             <CardContent className="flex flex-col gap-3 p-4">
                 {lat != null && lng != null ? (
-                    <div className="h-44 w-full overflow-hidden rounded-lg">
+                    <div className="h-36 w-full overflow-hidden rounded-lg lg:h-44">
                         <GoogleApiProvider>
                             <Map
                                 defaultCenter={{lat, lng}}
@@ -31,12 +31,12 @@ export default function MapCard({workshop}: { workshop: Workshop }) {
                         </GoogleApiProvider>
                     </div>
                 ) : (
-                    <div className="flex h-44 w-full items-center justify-center rounded-lg bg-muted">
+                    <div className="flex h-36 w-full items-center justify-center rounded-lg bg-muted lg:h-44">
                         <MapPin className="h-8 w-8 text-muted-foreground"/>
                     </div>
                 )}
                 {url && (
-                    <Button asChild className="w-full">
+                    <Button asChild size="sm" className="w-full lg:h-9 lg:px-4 lg:py-2 lg:text-sm">
                         <a href={url} target="_blank" rel="noopener noreferrer">
                             <ExternalLink className="h-4 w-4"/> See on Maps
                         </a>

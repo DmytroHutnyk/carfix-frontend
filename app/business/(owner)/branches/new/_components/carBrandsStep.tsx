@@ -49,7 +49,7 @@ export default function CarBrandsStep() {
             next={{label: "Continue", onClick: onContinue}}
         >
             <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search brands…"/>
-            <div className="rounded-xl border border-border p-4">
+            <div className="rounded-xl border border-border p-3 lg:p-4">
                 <div className="flex items-center gap-3">
                     <Checkbox
                         id="brands-select-all"
@@ -59,14 +59,14 @@ export default function CarBrandsStep() {
                     <Label htmlFor="brands-select-all" className="font-semibold">Select all</Label>
                 </div>
                 <Separator className="my-3"/>
-                <ScrollArea className="h-72">
-                    <div className="space-y-3 pr-3">
-                        {isBrandsLoading && <p className="text-sm text-muted-foreground">Loading brands…</p>}
+                <ScrollArea className="max-h-64 [&_[data-radix-scroll-area-viewport]]:max-h-64 lg:h-72 lg:max-h-72 lg:[&_[data-radix-scroll-area-viewport]]:max-h-72">
+                    <div className="space-y-2.5 pr-3 lg:space-y-3">
+                        {isBrandsLoading && <p className="text-xs text-muted-foreground lg:text-sm">Loading brands…</p>}
                         {isBrandsError && (
-                            <p className="text-sm text-destructive">Couldn't load brands — reload the page and try again</p>
+                            <p className="text-xs text-destructive lg:text-sm">Couldn't load brands — reload the page and try again</p>
                         )}
                         {!isBrandsLoading && !isBrandsError && visible.length === 0 && (
-                            <p className="text-sm text-muted-foreground">No brands match “{query}”</p>
+                            <p className="text-xs text-muted-foreground lg:text-sm">No brands match “{query}”</p>
                         )}
                         {visible.map((brand) => (
                             <div key={brand.id} className="flex items-center gap-3">
@@ -81,7 +81,7 @@ export default function CarBrandsStep() {
                     </div>
                 </ScrollArea>
             </div>
-            <p className="text-sm text-muted-foreground">{selected.length} selected</p>
+            <p className="text-xs text-muted-foreground lg:text-sm">{selected.length} selected</p>
         </WizardCard>
     );
 }

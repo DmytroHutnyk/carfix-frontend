@@ -63,12 +63,12 @@ export default function ServiceFormDialog({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
+            <DialogContent className="max-h-[90vh] max-w-[calc(100vw-2rem)] overflow-y-auto sm:max-w-lg">
                 <DialogHeader>
-                    <DialogTitle className="text-2xl font-bold">{isEdit ? "Edit service" : "Add new service"}</DialogTitle>
+                    <DialogTitle className="text-base font-semibold lg:text-2xl lg:font-bold">{isEdit ? "Edit service" : "Add new service"}</DialogTitle>
                 </DialogHeader>
 
-                <form onSubmit={handleSubmit(submit)} noValidate className="space-y-4">
+                <form onSubmit={handleSubmit(submit)} noValidate className="space-y-3 lg:space-y-4">
                     <Field>
                         <div className="flex items-center gap-2">
                             <FieldLabel htmlFor="service-name">Name</FieldLabel>
@@ -93,7 +93,7 @@ export default function ServiceFormDialog({
                         <FieldError message={errors.description?.message}/>
                     </Field>
 
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
                         <Field>
                             <FieldLabel htmlFor="service-duration">Duration (minutes)</FieldLabel>
                             <Input {...register("durationMinutes", {valueAsNumber: true})} id="service-duration" type="number" min={1} step={1}
@@ -163,6 +163,7 @@ export default function ServiceFormDialog({
                                         )}
                                     />
                                     <Button type="button" variant="ghost" size="icon" aria-label="Remove requirement"
+                                            className="h-8 w-8 lg:h-9 lg:w-9"
                                             disabled={employeeRequirements.fields.length === 1}
                                             onClick={() => employeeRequirements.remove(index)}>
                                         <Trash2/>
@@ -195,6 +196,7 @@ export default function ServiceFormDialog({
                                         )}
                                     />
                                     <Button type="button" variant="ghost" size="icon" aria-label="Remove requirement"
+                                            className="h-8 w-8 lg:h-9 lg:w-9"
                                             onClick={() => equipmentRequirements.remove(index)}>
                                         <Trash2/>
                                     </Button>
@@ -225,8 +227,8 @@ export default function ServiceFormDialog({
                         />
                     </Field>
 
-                    <div className="flex items-center justify-between pt-2">
-                        <Button type="button" variant="secondary" onClick={() => onOpenChange(false)}>Cancel</Button>
+                    <div className="flex items-center justify-end gap-2 pt-2 lg:justify-between lg:gap-0">
+                        <Button type="button" variant="ghost" size="sm" className="lg:h-9 lg:bg-secondary lg:px-4 lg:py-2 lg:text-sm lg:text-secondary-foreground lg:shadow-sm lg:hover:bg-secondary/80" onClick={() => onOpenChange(false)}>Cancel</Button>
                         <Button type="submit">Save</Button>
                     </div>
                 </form>

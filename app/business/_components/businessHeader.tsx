@@ -4,7 +4,7 @@ import BusinessAuthNavigation from "@/business/_components/businessAuthNavigatio
 export default function BusinessHeader() {
     return (
         <header className="w-full bg-background shadow-[0px_1px_3px_rgba(0,0,0,0.1)]">
-            <div className="mx-auto flex max-w-[1475px] items-center justify-between px-6 py-3">
+            <div className="mx-auto flex max-w-[1475px] items-center justify-between gap-2 px-4 py-2 sm:px-6 sm:py-3">
                 <Logo/>
                 <BusinessAuthNavigation/>
             </div>

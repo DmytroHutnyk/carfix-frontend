@@ -23,7 +23,7 @@ export default function SlotGrid({slots, selectedStartTime, onSelect}: {
             {groupSlotsByPeriod(slots).map((group) => (
                 <div key={group.period} className="flex flex-col gap-2">
                     <p className="text-xs font-medium text-muted-foreground">{group.label}</p>
-                    <div className="grid grid-cols-4 gap-2">
+                    <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
                         {group.slots.map((slot) => (
                             <ToggleGroupItem
                                 key={slot.startTime}

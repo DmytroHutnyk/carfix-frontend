@@ -18,11 +18,11 @@ export default function BrandsCard({brands}: { brands: WorkshopBrand[] }) {
             <CardHeader><CardTitle>Brands we work with</CardTitle></CardHeader>
             <CardContent className="flex flex-col gap-3">
                 {/* Wrap, don't grid: fixed columns clip long names ("Volks…"), flow fits as many per row as actually fit */}
-                <ul className="flex flex-wrap gap-x-4 gap-y-3">
+                <ul className="flex flex-wrap gap-x-3 gap-y-2 lg:gap-x-4 lg:gap-y-3">
                     {visible.map((brand) => (
                         <li key={brand.carBrandId} className="flex items-center gap-2">
                             {/* Logo placeholder until brand assets exist */}
-                            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted">
+                            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted lg:h-9 lg:w-9">
                                 <CarFront className="h-4 w-4 text-muted-foreground"/>
                             </span>
                             <span className="text-sm whitespace-nowrap">{brand.name}</span>

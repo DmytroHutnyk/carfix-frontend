@@ -30,12 +30,12 @@ export default function OpeningHoursCard({openingHours, tz}: {
                     </span>
                 </div>
                 <Collapsible>
-                    <CollapsibleTrigger className="group mt-2 flex items-center gap-1 text-sm text-muted-foreground">
+                    <CollapsibleTrigger className="group mt-2 flex items-center gap-1 text-xs text-muted-foreground lg:text-sm">
                         Expand
                         <ChevronRight className="h-4 w-4 transition-transform group-data-[state=open]:rotate-90"/>
                     </CollapsibleTrigger>
                     <CollapsibleContent>
-                        <dl className="mt-3 grid grid-cols-[max-content_auto] gap-x-6 gap-y-1 text-sm">
+                        <dl className="mt-3 grid grid-cols-[max-content_auto] gap-x-6 gap-y-1 text-xs lg:text-sm">
                             {DAY_ORDER.map((day) => {
                                 const rows = hoursForDay(openingHours, day);
                                 return (
