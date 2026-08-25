@@ -7,13 +7,8 @@ import {ChevronLeft, ChevronRight, icons, LucideIcon} from "lucide-react";
 import {Card, CardContent} from "@/_components/shadcn/card";
 import {Button} from "@/_components/shadcn/button";
 import {Separator} from "@/_components/shadcn/separator";
+import {OwnerMenuItem, PRIMARY_ITEMS, SECONDARY_ITEMS} from "@/business/(owner)/_components/ownerMenu";
 import {cn} from "@/lib/utils";
-
-interface OwnerMenuItem {
-    href: string;
-    label: string;
-    icon: keyof typeof icons;
-}
 
 export default function OwnerSidebar() {
     const pathname = usePathname();
@@ -40,7 +35,7 @@ export default function OwnerSidebar() {
     });
 
     return (
-        <aside className={cn("shrink-0 transition-[width]", collapsed ? "w-16" : "w-64")}>
+        <aside className={cn("hidden shrink-0 transition-[width] lg:block", collapsed ? "w-16" : "w-64")}>
             <Card className="p-4">
                 <CardContent className="flex flex-col gap-y-2 p-0">
                     <div className={cn("flex items-center", collapsed ? "justify-center" : "justify-between")}>
@@ -64,16 +59,3 @@ export default function OwnerSidebar() {
         </aside>
     );
 }
-
-const PRIMARY_ITEMS: OwnerMenuItem[] = [
-    {href: "/business/branches", label: "My Service Points", icon: "Store"},
-    {href: "/business/subscriptions", label: "Subscriptions", icon: "CreditCard"},
-    {href: "/business/statistics", label: "Statistics", icon: "ChartColumn"},
-    {href: "/business/profile", label: "Profile", icon: "CircleUserRound"},
-];
-
-const SECONDARY_ITEMS: OwnerMenuItem[] = [
-    {href: "/business/contact", label: "Contact Us", icon: "Phone"},
-    {href: "/business/faq", label: "FAQ", icon: "CircleQuestionMark"},
-    {href: "/business/terms-of-use", label: "Terms of Use", icon: "FileText"},
-];

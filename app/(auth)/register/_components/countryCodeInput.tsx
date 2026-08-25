@@ -17,12 +17,12 @@ export default function CountryCodeInput({value, setValue} : {value: string, set
                     variant="white"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[90px] justify-between">
+                    className="h-9 w-[90px] justify-between">
                     {value ? value : <p className="text-muted-foreground">+XXX</p>}
                     <ChevronsUpDown className="opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[195px] p-0">
+            <PopoverContent className="w-[195px] p-0" align="start" collisionPadding={8}>
                 <Command>
                     <CommandInput placeholder="Search country code"></CommandInput>
                     <CommandList>

@@ -8,6 +8,7 @@ import {useSelectedCarProfile} from "@/features/carProfile/useSelectedCarProfile
 import {AVAILABILITY_PARAMS, formatAvailabilityLabel, hasAvailabilityFilter} from "@/features/search/searchList";
 import {WorkshopSearchParams} from "@/features/search/searchTypes";
 import {Badge} from "@/_components/shadcn/badge";
+import {cn} from "@/lib/utils";
 
 /**
  * The filters currently narrowing the search, each removable in one click.
@@ -16,7 +17,7 @@ import {Badge} from "@/_components/shadcn/badge";
  * looked like nothing had happened. A chip is the standing answer: it is visible without
  * opening anything, and removing it is the same one action as applying it.
  */
-export default function ActiveFilters({params}: { params: WorkshopSearchParams }) {
+export default function ActiveFilters({params, className}: { params: WorkshopSearchParams; className?: string }) {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -62,17 +63,17 @@ export default function ActiveFilters({params}: { params: WorkshopSearchParams }
     }
 
     return (
-        <div className="flex flex-wrap items-center gap-2">
+        <div className={cn("no-scrollbar flex items-center gap-2", className)}>
             {chips.map((chip) => (
-                <Badge key={chip.key} variant="secondary" className="gap-1 py-1 pr-1 pl-2.5">
-                    {chip.label}
+                <Badge key={chip.key} variant="secondary" className="h-8 shrink-0 gap-1 py-0 pr-1 pl-2.5 lg:h-auto lg:py-1">
+                    <span className="max-w-36 truncate lg:max-w-none">{chip.label}</span>
                     <button
                         type="button"
                         aria-label={`Remove filter: ${chip.label}`}
                         onClick={chip.onRemove}
-                        className="rounded-full p-0.5 hover:bg-background"
+                        className="shrink-0 rounded-full p-1 hover:bg-background lg:p-0.5"
                     >
-                        <X className="h-3 w-3"/>
+                        <X className="h-3.5 w-3.5 lg:h-3 lg:w-3"/>
                     </button>
                 </Badge>
             ))}

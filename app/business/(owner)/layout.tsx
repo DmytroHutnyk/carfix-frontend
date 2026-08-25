@@ -10,7 +10,7 @@ export default function OwnerLayout({children}: { children: ReactNode }) {
         <RequireAuth role={ROLE.OWNER}>
             <div className="flex min-h-screen flex-col">
                 <OwnerHeader/>
-                <div className="mx-auto flex w-full max-w-[1425px] flex-1 gap-5 px-[72px] py-6">
+                <div className="mx-auto flex w-full max-w-[1425px] flex-1 gap-5 px-4 py-4 sm:px-6 lg:px-[72px] lg:py-6">
                     <OwnerSidebar/>
                     <main className="min-w-0 flex-1 py-3">
                         {children}

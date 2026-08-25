@@ -43,19 +43,19 @@ export default function CancelBookingDialog({open, onOpenChange, booking}: {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent>
+            <DialogContent className="w-[calc(100%-2rem)] rounded-lg">
                 <DialogHeader>
                     <DialogTitle>Cancel booking</DialogTitle>
                 </DialogHeader>
 
                 {/*-==-==-=-=-=-=--==-=-=-=-Booking summary-==-==-=-=-=-=-=-=-=---==*/}
-                <div className="flex flex-col items-start gap-2">
+                <div className="flex flex-col items-start gap-2 text-xs lg:text-base">
                     <p className="flex items-center gap-2 text-muted-foreground">
-                        <CalendarDays className="h-4 w-4"/>
+                        <CalendarDays className="h-3.5 w-3.5 lg:h-4 lg:w-4"/>
                         {formatBookingDate(booking.date)} · {formatTime(booking.startTime)}–{formatTime(booking.endTime)}
                     </p>
                     <p className="flex items-center gap-2 text-muted-foreground">
-                        <MapPin className="h-4 w-4"/>
+                        <MapPin className="h-3.5 w-3.5 lg:h-4 lg:w-4"/>
                         {booking.branch.name}
                     </p>
                     <Badge variant="secondary">#{booking.reference}</Badge>
@@ -66,7 +66,7 @@ export default function CancelBookingDialog({open, onOpenChange, booking}: {
                 {/*-==-==-=-=-=-=--==-=-=-=-Penalty / safe notice-==-==-=-=-=-=-=-=-=---==*/}
                 {penalty ? (
                     <>
-                        <div className="rounded-lg border border-destructive/50 p-4 text-destructive">
+                        <div className="rounded-lg border border-destructive/50 p-3 text-xs text-destructive lg:p-4 lg:text-base">
                             <p className="flex items-center gap-2 font-semibold">
                                 <TriangleAlert className="h-4 w-4"/>
                                 Penalty applies.
@@ -85,7 +85,7 @@ export default function CancelBookingDialog({open, onOpenChange, booking}: {
                         </div>
                     </>
                 ) : (
-                    <div className="rounded-lg border border-success-badge p-4">
+                    <div className="rounded-lg border border-success-badge p-3 text-xs lg:p-4 lg:text-base">
                         <p className="flex items-center gap-2">
                             <CircleCheck className="h-4 w-4 text-success-badge-foreground"/>
                             You can safely cancel this booking
@@ -95,11 +95,13 @@ export default function CancelBookingDialog({open, onOpenChange, booking}: {
 
                 {/*-==-==-=-=-=-=--==-=-=-=-Actions-==-==-=-=-=-=-=-=-=---==*/}
                 <div className="flex justify-end gap-2">
-                    <Button variant="secondary" onClick={() => onOpenChange(false)} disabled={isCancelling}>
+                    <Button variant="secondary" size="sm" className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm" onClick={() => onOpenChange(false)} disabled={isCancelling}>
                         Return
                     </Button>
                     <Button
                         variant="destructive"
+                        size="sm"
+                        className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm"
                         onClick={onConfirm}
                         disabled={isCancelling || (penalty && !acknowledged)}
                     >

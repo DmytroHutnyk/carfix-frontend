@@ -108,7 +108,7 @@ export default function WhenStep({
                 </div>
             )}
 
-            <div className="flex items-center justify-between gap-3 border-t pt-3">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t pt-3">
                 <p className="min-w-0 text-sm">
                     {pick
                         ? `${formatBookingDate(pick.date)} · ${pick.startTime} – ${pick.endTime}`
@@ -129,7 +129,7 @@ function SlotsSkeleton() {
             <div className="flex gap-1">
                 {Array.from({length: MAX_RANGE_DAYS}, (_, i) => <Skeleton key={i} className="h-16 flex-1"/>)}
             </div>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
                 {Array.from({length: 8}, (_, i) => <Skeleton key={i} className="h-9"/>)}
             </div>
         </div>

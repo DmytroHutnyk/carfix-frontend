@@ -96,7 +96,7 @@ export default function VerifyEmailDialog({email, children}: {email: string; chi
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogTrigger asChild>{children}</DialogTrigger>
-            <DialogContent>
+            <DialogContent className="w-[calc(100%-2rem)] rounded-lg">
                 <DialogHeader>
                     <DialogTitle>Verify your email</DialogTitle>
                     <DialogDescription>
@@ -107,13 +107,13 @@ export default function VerifyEmailDialog({email, children}: {email: string; chi
                 </DialogHeader>
 
                 {verified ? (
-                    <div className="flex flex-col items-center gap-4 py-2">
-                        <CircleCheck className="h-12 w-12 text-success-badge-foreground"/>
-                        <p className="font-medium">{email} is verified</p>
-                        <Button type="button" className="w-35" onClick={() => setOpen(false)}>Close</Button>
+                    <div className="flex flex-col items-center gap-3 py-2 lg:gap-4">
+                        <CircleCheck className="h-10 w-10 text-success-badge-foreground lg:h-12 lg:w-12"/>
+                        <p className="text-sm font-medium lg:text-base">{email} is verified</p>
+                        <Button type="button" size="sm" className="lg:h-9 lg:w-35 lg:px-4 lg:py-2 lg:text-sm" onClick={() => setOpen(false)}>Close</Button>
                     </div>
                 ) : (
-                    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
+                    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-3 lg:space-y-4">
                         <Field>
                             <FieldLabel htmlFor="verification-code">Verification code</FieldLabel>
                             <Controller
@@ -148,13 +148,14 @@ export default function VerifyEmailDialog({email, children}: {email: string; chi
                             <Button
                                 type="button"
                                 variant="link"
-                                className="px-0"
+                                size="sm"
+                                className="px-0 lg:h-9 lg:py-2 lg:text-sm"
                                 onClick={sendCode}
                                 disabled={cooldown > 0 || isRequesting || isSubmitting}
                             >
                                 {cooldown > 0 ? `Resend code in ${cooldown}s` : "Resend code"}
                             </Button>
-                            <Button type="submit" className="w-35" disabled={isSubmitting || isRequesting}>
+                            <Button type="submit" size="sm" className="lg:h-9 lg:w-35 lg:px-4 lg:py-2 lg:text-sm" disabled={isSubmitting || isRequesting}>
                                 {isSubmitting ? "Verifying..." : "Verify"}
                             </Button>
                         </div>

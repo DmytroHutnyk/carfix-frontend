@@ -30,9 +30,9 @@ export default function SummaryCard({workshop, selectedServices, onToggle, initi
                         <ul className="flex flex-col gap-2">
                             {selectedServices.map((service) => (
                                 <li key={service.serviceId}
-                                    className="flex flex-col gap-2 rounded-lg bg-muted/50 p-3">
+                                    className="flex flex-col gap-2 rounded-lg bg-muted/50 p-2.5 lg:p-3">
                                     {/* Full width, wrapping: a truncated service name is unreadable in a 360px rail */}
-                                    <span className="font-medium wrap-anywhere">{service.name}</span>
+                                    <span className="text-sm font-medium wrap-anywhere">{service.name}</span>
                                     <div className="flex items-center justify-between gap-3">
                                         <span className="text-sm font-semibold tabular-nums">
                                             {formatPrice(service.price)}

@@ -2,28 +2,34 @@
 
 import {Search} from "lucide-react";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import {useMemo, useSyncExternalStore} from "react";
+import {useEffect, useMemo, useState, useSyncExternalStore} from "react";
+import {format} from "date-fns";
 
 import {Button} from "@/_components/shadcn/button";
 import {useComboboxAnchor} from "@/_components/shadcn/combobox";
-import SearchBar from "@/_components/root/header/searchBar";
-import LocationSearchBar, {PickedPlace} from "@/_components/locationSearchBar";
+import SearchBar, {SearchBarFieldProps} from "@/_components/root/header/searchBar";
+import LocationSearchBar, {LocationFieldProps, PickedPlace} from "@/_components/locationSearchBar";
+import MobileSearchSheet from "@/_components/root/header/mobileSearchSheet";
 import GoogleApiProvider from "@/lib/providers/googleApiProvider";
 
 import {MIN_QUERY_LENGTH} from "@/features/search/useSearchSuggestions";
 import {SearchSuggestion} from "@/features/search/searchTypes";
 import {buildSearchUrl, parseSearchParams, searchTextFromParams, SearchIntent} from "@/features/search/searchUrl";
-import {isCountryCode, SearchLocation} from "@/lib/appTypes";
+import {countryName, isCountryCode, SearchLocation} from "@/lib/appTypes";
 import {useSearchLocation} from "@/lib/store";
 import {useUrlDraft} from "@/lib/use-url-draft";
 
 const subscribeToNothing = () => () => {};
+
+const dayLabel = (iso: string) => format(new Date(`${iso}T00:00:00`), "MMM d");
 
 export default function SearchRow({initialLocation}: {initialLocation: SearchLocation}) {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const anchorRef = useComboboxAnchor();
+
+    const [sheetOpen, setSheetOpen] = useState(false);
 
     const storeLocation = useSearchLocation((s) => s.searchLocation);
     const setSearchLocation = useSearchLocation((s) => s.setSearchLocation);
@@ -95,33 +101,74 @@ export default function SearchRow({initialLocation}: {initialLocation: SearchLoc
         if (onResultsPage) go(currentIntent(), cleared);
     };
 
+    const searchField: SearchBarFieldProps = {
+        value: text,
+        onValueChange: setText,
+        onSubmit: submitTypedText,
+        onSelect: handleSelect,
+    };
+
+    const locationField: LocationFieldProps = {
+        value: locationText,
+        onValueChange: setLocationText,
+        onPlaceSelected: handlePlaceSelected,
+        onCleared: handleCleared,
+    };
+
+    const closeSheet = () => setSheetOpen(false);
+
+    const sheetSearchField: SearchBarFieldProps = {
+        ...searchField,
+        onSubmit: () => {
+            submitTypedText();
+            closeSheet();
+        },
+        onSelect: (suggestion) => {
+            handleSelect(suggestion);
+            closeSheet();
+        },
+    };
+
+    /* Every other way out of the sheet is a navigation — a suggestion picked, a place picked on /search */
+    const paramsKey = searchParams.toString();
+    useEffect(() => {
+        setSheetOpen(false);
+    }, [pathname, paramsKey]);
+
+    const dates = params.from && params.to
+        ? (params.from === params.to ? dayLabel(params.from) : `${dayLabel(params.from)} – ${dayLabel(params.to)}`)
+        : "Any date";
+    const pillSummary = `${location.city ?? countryName(location.country) ?? location.country} · ${dates}`;
+
     return (
-        <div ref={anchorRef} className="flex flex-1 items-center gap-3">
-            <div className="flex-1">
-                <SearchBar
-                    value={text}
-                    onValueChange={setText}
-                    onSubmit={submitTypedText}
-                    onSelect={handleSelect}
-                    anchorRef={anchorRef}
-                />
+        <GoogleApiProvider>
+            <div ref={anchorRef} className="hidden flex-1 items-center gap-3 lg:flex">
+                {!sheetOpen && (
+                    <>
+                        <div className="min-w-0 flex-1">
+                            <SearchBar {...searchField} anchorRef={anchorRef}/>
+                        </div>
+
+                        <div className="relative w-56 min-w-0">
+                            <LocationSearchBar {...locationField}/>
+                        </div>
+
+                        <Button onClick={submitTypedText} aria-label="Search" className="shrink-0">
+                            <Search className="h-4 w-4"/>
+                            <span>Search</span>
+                        </Button>
+                    </>
+                )}
             </div>
 
-            <div className="relative w-56">
-                <GoogleApiProvider>
-                    <LocationSearchBar
-                        value={locationText}
-                        onValueChange={setLocationText}
-                        onPlaceSelected={handlePlaceSelected}
-                        onCleared={handleCleared}
-                    />
-                </GoogleApiProvider>
-            </div>
-
-            <Button onClick={submitTypedText}>
-                <Search className="h-4 w-4"/>
-                Search
-            </Button>
-        </div>
+            <MobileSearchSheet
+                open={sheetOpen}
+                onOpenChange={setSheetOpen}
+                query={urlText}
+                summary={pillSummary}
+                search={sheetSearchField}
+                location={locationField}
+            />
+        </GoogleApiProvider>
     );
 }

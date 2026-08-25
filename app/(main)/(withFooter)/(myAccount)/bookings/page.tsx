@@ -60,11 +60,11 @@ export default function Page() {
         <div className="py-3">
             {/*-==-==-=-=-=-=--==-=-=-=-Header-==-==-=-=-=-=-=-=-=---==*/}
             <section>
-                <h1 className="text-3xl font-bold tracking-tight">My Bookings</h1>
+                <h1 className="text-lg font-semibold tracking-tight lg:text-3xl lg:font-bold">My Bookings</h1>
             </section>
 
             {/*-==-==-=-=-=-=--==-=-=-=-Filters-==-==-=-=-=-=-=-=-=---==*/}
-            <section className="pt-6">
+            <section className="pt-4 lg:pt-6">
                 <BookingFilters
                     filters={filters}
                     onChange={setFilters}
@@ -73,7 +73,7 @@ export default function Page() {
             </section>
 
             {/*-==-==-=-=-=-=--==-=-=-=-List-==-==-=-=-=-=-=-=-=---==*/}
-            <section className="flex flex-col gap-y-4 pt-6">
+            <section className="flex flex-col gap-3 pt-4 lg:gap-y-4 lg:pt-6">
                 {isError && (
                     <FormErrorAlert message={toDisplayError(error as ApiError).message}/>
                 )}
@@ -91,7 +91,7 @@ export default function Page() {
                 )}
 
                 {!isError && bookings.length > 0 && visibleBookings.length === 0 && (
-                    <p className="pt-6 text-center text-muted-foreground">
+                    <p className="pt-6 text-center text-sm text-muted-foreground lg:text-base">
                         No bookings match your filters.
                     </p>
                 )}

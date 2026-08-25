@@ -53,25 +53,25 @@ export default function Page() {
         <div className="py-3">
             {/*-==-==-=-=-=-=--==-=-=-=-Header-==-==-=-=-=-=-=-=-=---==*/}
             <section>
-                <h1 className="text-3xl font-bold tracking-tight">My Service Points</h1>
+                <h1 className="text-lg font-semibold tracking-tight lg:text-3xl lg:font-bold">My Service Points</h1>
             </section>
 
             {!isError && branches.length > 0 && (
                 <>
                     {/*-==-==-=-=-=-=--==-=-=-=-Filters-==-==-=-=-=-=-=-=-=---==*/}
-                    <section className="pt-6">
+                    <section className="pt-4 lg:pt-6">
                         <BranchFilters filter={filter} sort={sort} onFilterChange={setFilter} onSortChange={setSort}/>
                     </section>
 
                     {/*-==-==-=-=-=-=--==-=-=-=-Totals-==-==-=-=-=-=-=-=-=---==*/}
-                    <section className="pt-6">
+                    <section className="pt-4 lg:pt-6">
                         <StatsStrip totals={totals}/>
                     </section>
                 </>
             )}
 
             {/*-==-==-=-=-=-=--==-=-=-=-Cards-==-==-=-=-=-=-=-=-=---==*/}
-            <section className="pt-6">
+            <section className="pt-4 lg:pt-6">
                 {isError && (
                     <FormErrorAlert message={toDisplayError(error as ApiError).message}/>
                 )}
@@ -94,13 +94,13 @@ export default function Page() {
                 )}
 
                 {!isError && branches.length > 0 && visibleBranches.length === 0 && (
-                    <p className="pt-6 text-center text-muted-foreground">
+                    <p className="pt-6 text-center text-sm text-muted-foreground lg:text-base">
                         No service points match this filter.
                     </p>
                 )}
 
                 {visibleBranches.length > 0 && (
-                    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:gap-5 xl:grid-cols-3">
                         {visibleBranches.map((branch) => (
                             <BranchCard key={branch.branchId} branch={branch}/>
                         ))}

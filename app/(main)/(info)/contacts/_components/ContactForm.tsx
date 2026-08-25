@@ -42,7 +42,7 @@ export default function ContactForm(){
             )
             }
             <CardHeader>
-                <CardTitle className="text-xl">Send us a message</CardTitle>
+                <CardTitle className="text-base lg:text-xl">Send us a message</CardTitle>
             </CardHeader>
             <CardContent className="flex-1">
                 <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col h-full">
@@ -56,7 +56,7 @@ export default function ContactForm(){
                                 className={`${errors.name ? "border-destructive focus-visible:ring-destructive" : ""}`}
                             />
                             {errors.name && (
-                                <p id="email-error" className="text-sm text-destructive">
+                                <p id="email-error" className="text-xs text-destructive lg:text-sm">
                                     {errors.name.message}
                                 </p>
                             )}
@@ -71,7 +71,7 @@ export default function ContactForm(){
                                 className={`${errors.email ? "border-destructive focus-visible:ring-destructive" : ""}`}
                             />
                             {errors.email && (
-                                <p id="email-error" className="text-sm text-destructive">
+                                <p id="email-error" className="text-xs text-destructive lg:text-sm">
                                     {errors.email.message}
                                 </p>
                             )}
@@ -86,7 +86,7 @@ export default function ContactForm(){
                                 className={`resize-none ${errors.message ? "border-destructive focus-visible:ring-destructive" : ""}`}
                             />
                             {errors.message && (
-                                <p id="email-error" className="text-sm text-destructive">
+                                <p id="email-error" className="text-xs text-destructive lg:text-sm">
                                     {errors.message.message}
                                 </p>
                             )}

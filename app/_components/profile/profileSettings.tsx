@@ -70,14 +70,14 @@ export default function ProfileSettings() {
         <div className="py-3">
             {/*-==-==-=-=-=-=--==-=-=-=-header-==-==-=-=-=-=-=-=-=---==*/}
             <section className="space-y-3">
-                <h1 className="text-3xl font-bold tracking-tight">
+                <h1 className="text-lg font-semibold tracking-tight lg:text-3xl lg:font-bold">
                     Profile
                 </h1>
             </section>
 
 
             {/*-==-==-=-=-=-=--==-=-=-=-Cards-==-==-=-=-=-=-=-=-=---==*/}
-            <section className="flex flex-col gap-y-2 pt-5">
+            <section className="flex flex-col gap-3 pt-4 lg:gap-y-2 lg:pt-5">
                 <Card className="relative">
                     {isSubmitting && (
                         <div className="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-card/75 ">
@@ -95,8 +95,8 @@ export default function ProfileSettings() {
                         <CardDescription>Your personal details and preferences</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                            <div className="flex space-y-1 space-x-4">
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 lg:space-y-4">
+                            <div className="flex flex-col space-y-3 lg:flex-row lg:space-y-1 lg:space-x-4">
                                     <Input
                                         {...register("name")}
                                         id="name"
@@ -105,7 +105,7 @@ export default function ProfileSettings() {
                                         className={errors.name ? "border-destructive focus-visible:ring-destructive" : ""}
                                     />
                                     {errors.name && (
-                                        <p id="name-error" className="text-sm text-destructive">
+                                        <p id="name-error" className="text-xs text-destructive lg:text-sm">
                                             {errors.name.message}
                                         </p>
                                     )}
@@ -118,7 +118,7 @@ export default function ProfileSettings() {
                                         className={errors.surname ? "border-destructive focus-visible:ring-destructive" : ""}
                                     />
                                     {errors.surname && (
-                                        <p id="surname-error" className="text-sm text-destructive">
+                                        <p id="surname-error" className="text-xs text-destructive lg:text-sm">
                                             {errors.surname.message}
                                         </p>
                                     )}
@@ -141,7 +141,7 @@ export default function ProfileSettings() {
                                     )}
                                 />
                                 {errors.dateOfBirth && (
-                                    <p id="surname-error" className="text-sm text-destructive">
+                                    <p id="surname-error" className="text-xs text-destructive lg:text-sm">
                                         {errors.dateOfBirth.message}
                                     </p>
                                 )}
@@ -165,13 +165,14 @@ export default function ProfileSettings() {
                             <Button
                                 type="button"
                                 variant="white"
-                                className="w-35"
+                                size="sm"
+                                className="lg:h-9 lg:w-35 lg:px-4 lg:py-2 lg:text-sm"
                                 onClick={() => reset()}
                                 disabled={!isDirty || isSubmitting}
                             >
                                 Reset
                             </Button>
-                            <Button type="submit" className="w-35" disabled={!isDirty || isSubmitting}>
+                            <Button type="submit" size="sm" className="lg:h-9 lg:w-35 lg:px-4 lg:py-2 lg:text-sm" disabled={!isDirty || isSubmitting}>
                                 {isSubmitting ? "Saving..." : "Save Changes"}
                             </Button>
                         </div>
@@ -189,6 +190,8 @@ export default function ProfileSettings() {
             <div className="flex justify-end pt-2">
                 <Button
                     variant="destructive"
+                    size="sm"
+                    className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm"
                     onClick={() => logout().then(() => router.replace(account && isOwner(account) ? "/business/login" : "/login"))}
                 >
                     Log out

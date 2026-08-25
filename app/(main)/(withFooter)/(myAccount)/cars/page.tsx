@@ -2,7 +2,7 @@
 
 import {useMemo, useState} from "react";
 import {OrbitProgress} from "react-loading-indicators";
-import {Car, Plus, Search} from "lucide-react";
+import {Car, Plus} from "lucide-react";
 
 import {useAuth} from "@/features/auth/useAuth";
 import {isCustomer} from "@/features/user/userTypes";
@@ -13,11 +13,9 @@ import {toDisplayError} from "@/lib/errorHandler";
 import {ApiError} from "@/lib/apiTypes";
 
 import {Button} from "@/_components/shadcn/button";
-import {Input} from "@/_components/shadcn/input";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 import {Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle} from "@/_components/shadcn/empty";
 import FormErrorAlert from "@/_components/formErrorAlert";
-import FilterBar from "@/_components/filterBar";
+import CarFilters from "@/(main)/(withFooter)/(myAccount)/cars/_components/carFilters";
 import CarCard from "@/(main)/(withFooter)/(myAccount)/cars/_components/carCard";
 import CarFormDialog from "@/(main)/(withFooter)/(myAccount)/cars/_components/carFormDialog";
 import DeleteCarDialog from "@/(main)/(withFooter)/(myAccount)/cars/_components/deleteCarDialog";
@@ -52,46 +50,34 @@ export default function Page() {
     return (
         <div className="py-3">
             {/*-==-==-=-=-=-=--==-=-=-=-Header-==-==-=-=-=-=-=-=-=---==*/}
-            <section className="flex flex-wrap items-center gap-4">
-                <h1 className="text-3xl font-bold tracking-tight">My Cars</h1>
+            <section className="flex flex-wrap items-center gap-3 lg:gap-4">
+                <h1 className="text-lg font-semibold tracking-tight lg:text-3xl lg:font-bold">My Cars</h1>
 
-                <Button className="ml-auto" onClick={() => setAddOpen(true)}>
+                <Button
+                    size="sm"
+                    className="ml-auto lg:h-9 lg:px-4 lg:py-2 lg:text-sm"
+                    onClick={() => setAddOpen(true)}
+                >
                     <Plus/> Add vehicle
                 </Button>
             </section>
 
             {/*-==-==-=-=-=-=--==-=-=-=-Filters-==-==-=-=-=-=-=-=-=---==*/}
-            <section className="pt-6">
-                <FilterBar onClear={() => {
-                    setSearchQuery("");
-                    setSortKey("nameAsc");
-                }}>
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
-                        <Input
-                            type="text"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Search name, brand, model, plate"
-                            className="w-80 pl-9"
-                        />
-                    </div>
-
-                    <Select value={sortKey} onValueChange={(v) => setSortKey(v as CarSortKey)}>
-                        <SelectTrigger className="w-36">
-                            <SelectValue/>
-                        </SelectTrigger>
-                        <SelectContent>
-                            {CAR_SORT_OPTIONS.map((o) => (
-                                <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                </FilterBar>
+            <section className="pt-4 lg:pt-6">
+                <CarFilters
+                    query={searchQuery}
+                    sortKey={sortKey}
+                    onQueryChange={setSearchQuery}
+                    onSortChange={setSortKey}
+                    onClear={() => {
+                        setSearchQuery("");
+                        setSortKey("nameAsc");
+                    }}
+                />
             </section>
 
             {/*-==-==-=-=-=-=--==-=-=-=-List-==-==-=-=-=-=-=-=-=---==*/}
-            <section className="flex flex-col gap-y-4 pt-6">
+            <section className="flex flex-col gap-3 pt-4 lg:gap-y-4 lg:pt-6">
                 {isError && (
                     <FormErrorAlert message={toDisplayError(error as ApiError).message}/>
                 )}
@@ -114,7 +100,7 @@ export default function Page() {
                 )}
 
                 {!isError && carProfiles.length > 0 && visibleCars.length === 0 && (
-                    <p className="pt-6 text-center text-muted-foreground">No cars match your search.</p>
+                    <p className="pt-6 text-center text-sm text-muted-foreground lg:text-base">No cars match your search.</p>
                 )}
 
                 {visibleCars.map((carProfile) => (

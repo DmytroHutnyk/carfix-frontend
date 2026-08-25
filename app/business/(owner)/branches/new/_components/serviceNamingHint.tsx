@@ -18,7 +18,7 @@ const EXAMPLES = [
 export default function ServiceNamingHint() {
     return (
         <div className="space-y-3">
-            <p className="text-base font-semibold">How to name a service</p>
+            <p className="text-sm font-semibold lg:text-base">How to name a service</p>
             <ul className="list-disc space-y-1 pl-4">
                 {RULES.map((rule) => <li key={rule}>{rule}</li>)}
             </ul>

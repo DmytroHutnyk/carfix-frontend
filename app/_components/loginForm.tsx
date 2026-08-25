@@ -80,7 +80,7 @@ export default function LoginForm({registerHref}: { registerHref: string }) {
                 </Button>
 
                 <CardHeader>
-                    <CardTitle className="text-center text-2xl">Log In</CardTitle>
+                    <CardTitle className="text-center text-lg lg:text-2xl">Log In</CardTitle>
                 </CardHeader>
 
                 <CardContent className="space-y-4">
@@ -94,7 +94,7 @@ export default function LoginForm({registerHref}: { registerHref: string }) {
                                 className={errors.email ? "border-destructive focus-visible:ring-destructive" : ""}
                             />
                             {errors.email && (
-                                <p id="name-error" className="text-sm text-destructive">
+                                <p id="name-error" className="text-xs text-destructive lg:text-sm">
                                     {errors.email.message}
                                 </p>
                             )}
@@ -112,7 +112,7 @@ export default function LoginForm({registerHref}: { registerHref: string }) {
                                 type="button"
                                 variant="ghost"
                                 size="icon"
-                                className="absolute right-0 top-0 h-9 w-9"
+                                className="absolute right-0 top-0"
                                 onClick={() => setShowPassword(!showPassword)}
                             >
                                 {showPassword ? (
@@ -122,7 +122,7 @@ export default function LoginForm({registerHref}: { registerHref: string }) {
                                 )}
                             </Button>
                             {errors.password && (
-                                <p id="password-error" className="text-sm text-destructive">
+                                <p id="password-error" className="text-xs text-destructive lg:text-sm">
                                     {errors.password.message}
                                 </p>
                             )}

@@ -29,19 +29,21 @@ export default function CarCard({carProfile, onEdit, onDelete}: {
 
     return (
         <Card>
-            <CardContent className="flex gap-6 p-6">
+            <CardContent className="flex gap-3 p-3 lg:gap-6 lg:p-6">
                 {/*-==-==-=-=-=-=--==-=-=-=-Image placeholder-==-==-=-=-=-=-=-=-=---==*/}
-                <div className="flex h-36 w-36 shrink-0 items-center justify-center rounded-lg bg-muted">
-                    <Car className="h-10 w-10 text-muted-foreground"/>
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-muted lg:h-36 lg:w-36 lg:rounded-lg">
+                    <Car className="h-6 w-6 text-muted-foreground lg:h-10 lg:w-10"/>
                 </div>
 
-                <div className="flex flex-1 flex-col gap-1">
-                    <h2 className="text-2xl font-bold tracking-tight">{carProfile.name}</h2>
-                    <p className="text-muted-foreground">
+                <div className="flex min-w-0 flex-1 flex-col gap-0.5 lg:gap-1">
+                    <h2 className="truncate text-sm font-semibold tracking-tight lg:whitespace-normal lg:text-2xl lg:font-bold">
+                        {carProfile.name}
+                    </h2>
+                    <p className="truncate text-xs text-muted-foreground lg:whitespace-normal lg:text-base">
                         {carProfile.brandName} {carProfile.modelName} {carProfile.versionName}
                     </p>
 
-                    <div className="flex items-center gap-4 pt-2">
+                    <div className="flex flex-col gap-0.5 pt-1.5 text-xs lg:flex-row lg:items-center lg:gap-4 lg:pt-2 lg:text-base">
                         <p>
                             <span className="text-muted-foreground">VIN: </span>
                             <span className="font-semibold">{carProfile.vin ?? "—"}</span>
@@ -52,7 +54,7 @@ export default function CarCard({carProfile, onEdit, onDelete}: {
                         </p>
                     </div>
 
-                    <dl className="grid w-fit grid-cols-[max-content_max-content_auto] items-center gap-x-3 gap-y-1 pt-1">
+                    <dl className="grid w-fit grid-cols-[max-content_max-content_auto] items-center gap-x-2 gap-y-0.5 pt-1 text-xs lg:gap-x-3 lg:gap-y-1 lg:text-base">
                         {expiryDates.map(({label, value}) => (
                             <Fragment key={label}>
                                 <dt className="text-muted-foreground">{label}</dt>
@@ -74,10 +76,10 @@ export default function CarCard({carProfile, onEdit, onDelete}: {
 
                     {/*-==-==-=-=-=-=--==-=-=-=-Actions-==-==-=-=-=-=-=-=-=---==*/}
                     <div className="flex justify-end gap-2 pt-2">
-                        <Button onClick={onEdit}>
+                        <Button variant="ghost" size="sm" className="lg:h-9 lg:bg-primary lg:px-4 lg:py-2 lg:text-sm lg:text-primary-foreground lg:shadow lg:hover:bg-primary/90" onClick={onEdit}>
                             <Pencil/> Edit
                         </Button>
-                        <Button variant="destructive" onClick={onDelete}>
+                        <Button variant="destructive" size="sm" className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm" onClick={onDelete}>
                             <Trash2/> Delete
                         </Button>
                     </div>

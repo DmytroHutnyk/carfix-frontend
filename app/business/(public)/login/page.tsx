@@ -6,7 +6,7 @@ export default function BusinessLoginPage() {
     return (
         <Suspense>
             <RedirectIfAuthenticated>
-                <div className="flex min-h-[calc(100vh-115px)] items-center justify-center px-6 py-12">
+                <div className="flex min-h-[calc(100vh-115px)] items-center justify-center px-4 py-6 lg:px-6 lg:py-12">
                     <LoginForm registerHref="/business/register"/>
                 </div>
             </RedirectIfAuthenticated>
