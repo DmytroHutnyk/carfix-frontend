@@ -1,10 +1,10 @@
 "use client"
 
 import {useState} from "react";
-import Link from "next/link";
 import {usePathname} from "next/navigation";
-import {ChevronRight, icons, LucideIcon, Menu} from "lucide-react";
+import {icons, LucideIcon, Menu} from "lucide-react";
 import {Button} from "@/_components/shadcn/button";
+import MenuLinkRow from "@/_components/menuLinkRow";
 import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger} from "@/_components/shadcn/sheet";
 import {OwnerMenuItem, PRIMARY_ITEMS, SECONDARY_ITEMS} from "@/business/(owner)/_components/ownerMenu";
 
@@ -16,18 +16,15 @@ export default function OwnerMobileNav({businessName}: { businessName: string | 
         const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
         const Icon: LucideIcon = icons[item.icon];
         return (
-            <Link
+            <MenuLinkRow
                 key={item.href}
                 replace
                 href={item.href}
-                data-active={isActive}
-                onClick={() => setOpen(false)}
-                className="flex h-11 items-center gap-3 px-4 text-sm data-[active=true]:bg-accent data-[active=true]:font-medium"
-            >
-                <Icon className="h-4 w-4 shrink-0 text-muted-foreground"/>
-                <span className="truncate">{item.label}</span>
-                <ChevronRight className="ml-auto h-4 w-4 shrink-0 text-muted-foreground"/>
-            </Link>
+                label={item.label}
+                icon={Icon}
+                active={isActive}
+                onNavigate={() => setOpen(false)}
+            />
         );
     });
 

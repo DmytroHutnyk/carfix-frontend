@@ -6,7 +6,6 @@ import {
     Briefcase,
     Calendar,
     Car,
-    ChevronRight,
     CircleQuestionMark,
     CircleUserRound,
     FileText,
@@ -24,7 +23,7 @@ import CarProfileSelector from "@/_components/root/header/carProfileSelector";
 import LanguageRegionSelector from "@/_components/root/header/languageRegionSelector";
 import {useAuth} from "@/features/auth/useAuth";
 import {isOwner} from "@/features/user/userTypes";
-import {cn} from "@/lib/utils";
+import MenuLinkRow from "@/_components/menuLinkRow";
 
 interface MenuRow {
     href: string;
@@ -84,7 +83,7 @@ export default function MobileMenu() {
                         {!isLoading && (
                             <div className="divide-y">
                                 {accountRows.map((row) => (
-                                    <MenuLinkRow key={row.href} row={row} onNavigate={close}/>
+                                    <MenuLinkRow key={row.href} {...row} onNavigate={close}/>
                                 ))}
                                 {isAuthenticated && (
                                     <button
@@ -106,7 +105,7 @@ export default function MobileMenu() {
 
                         <div className="divide-y">
                             {INFO_ROWS.map((row) => (
-                                <MenuLinkRow key={row.href} row={row} onNavigate={close}/>
+                                <MenuLinkRow key={row.href} {...row} onNavigate={close}/>
                             ))}
                         </div>
                     </nav>
@@ -118,19 +117,4 @@ export default function MobileMenu() {
             </Sheet>
         </div>
     )
-}
-
-function MenuLinkRow({row, onNavigate}: {row: MenuRow; onNavigate: () => void}) {
-    const Icon = row.icon;
-    return (
-        <Link
-            href={row.href}
-            onClick={onNavigate}
-            className={cn("flex h-11 items-center gap-3 px-4 text-sm", row.strong && "font-semibold")}
-        >
-            <Icon className={cn("h-4 w-4 shrink-0", row.strong ? "text-foreground" : "text-muted-foreground")}/>
-            <span className="truncate">{row.label}</span>
-            <ChevronRight className="ml-auto h-4 w-4 shrink-0 text-muted-foreground"/>
-        </Link>
-    );
 }
