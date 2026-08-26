@@ -54,8 +54,13 @@ function WorkshopMarker({lat, lng}: { lat: number; lng: number }) {
 
     useEffect(() => {
         if (!map) return;
-        const observer = new ResizeObserver(() => map.setCenter({lat, lng}));
+        const refit = () => {
+            google.maps.event.trigger(map, "resize");
+            map.setCenter({lat, lng});
+        };
+        const observer = new ResizeObserver(refit);
         observer.observe(map.getDiv());
+        refit();
         return () => observer.disconnect();
     }, [map, lat, lng]);
 
