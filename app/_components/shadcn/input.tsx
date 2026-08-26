@@ -14,7 +14,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
           border-input 
           bg-transparent 
           px-3 py-1 
-          text-sm 
+          text-base lg:text-sm 
           shadow-sm 
           transition-all 
           duration-300 

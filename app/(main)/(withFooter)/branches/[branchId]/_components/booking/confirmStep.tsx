@@ -17,6 +17,7 @@ import {useSelectedCarProfile} from "@/features/carProfile/useSelectedCarProfile
 import {toDisplayError} from "@/lib/errorHandler";
 import {ApiError, DisplayError} from "@/lib/apiTypes";
 import StepHeader from "./stepHeader";
+import StepFooter from "./stepFooter";
 
 export default function ConfirmStep({workshop, services, pick, stepIndex, stepCount, onBack, onBooked, onRepick}: {
     workshop: Workshop;
@@ -114,7 +115,7 @@ export default function ConfirmStep({workshop, services, pick, stepIndex, stepCo
 
                 <FormErrorAlert message={error?.message ?? null}/>
 
-                <div className="flex justify-end gap-2">
+                <StepFooter>
                     <Button variant="secondary" onClick={onBack} disabled={isBooking}>Back</Button>
                     {needsLogin ? (
                         /* The login page returns the visitor here with router.back() — the app carries no return-to param */
@@ -129,7 +130,7 @@ export default function ConfirmStep({workshop, services, pick, stepIndex, stepCo
                             {isBooking ? "Booking..." : "Confirm booking"}
                         </Button>
                     )}
-                </div>
+                </StepFooter>
             </div>
         </div>
     );

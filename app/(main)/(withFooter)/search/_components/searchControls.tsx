@@ -12,18 +12,12 @@ import {useUrlDraft} from "@/lib/use-url-draft";
 
 import {Badge} from "@/_components/shadcn/badge";
 import {Button} from "@/_components/shadcn/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuRadioGroup,
-    DropdownMenuRadioItemWithCheck,
-    DropdownMenuTrigger,
-} from "@/_components/shadcn/dropdown-menu";
 import {Label} from "@/_components/shadcn/label";
 import {Popover, PopoverContent, PopoverTrigger} from "@/_components/shadcn/popover";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 import {Slider} from "@/_components/shadcn/slider";
 import FilterSheet from "@/_components/filterSheet";
+import OptionSheet, {SheetOption} from "@/_components/optionSheet";
 import AvailabilityFilter from "@/(main)/(withFooter)/search/_components/availabilityFilter";
 
 const ALL_BRANDS = "all";
@@ -47,9 +41,14 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
        dropped the moment the URL changes, so a page-level clear resets it too. */
     const [radius, setRadius] = useUrlDraft(params.radiusKm ?? DEFAULT_RADIUS_KM);
     const [sheetOpen, setSheetOpen] = useState(false);
+    const [sortSheetOpen, setSortSheetOpen] = useState(false);
 
     const activeFilterCount = (params.radiusKm != null ? 1 : 0) + (carFilterActive ? 1 : 0) + (hasAvailability ? 1 : 0);
     const sort = params.sort ?? SEARCH_SORTS.NAME;
+    const sortOptions: SheetOption[] = [
+        {value: SEARCH_SORTS.DISTANCE, label: "Distance", disabled: !hasCoords},
+        {value: SEARCH_SORTS.NAME, label: "Name A–Z"},
+    ];
 
     const setParam = (key: string, value: string | null) => {
         const next = new URLSearchParams(searchParams);
@@ -124,24 +123,15 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
         <>
             {/*-==-==-=-=-=-=--==-=-=-=-Mobile toolbar-==-==-=-=-=-=-=-=-=---==*/}
             <div className="ml-auto flex shrink-0 items-center gap-2 lg:hidden">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="sm" className="shrink-0 [&_svg]:size-3.5">
-                            <ArrowUpDown/>
-                            {sort === SEARCH_SORTS.DISTANCE ? "Distance" : "Name"}
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuRadioGroup value={sort} onValueChange={(value) => setParam("sort", value)}>
-                            <DropdownMenuRadioItemWithCheck value={SEARCH_SORTS.DISTANCE} disabled={!hasCoords}>
-                                Distance
-                            </DropdownMenuRadioItemWithCheck>
-                            <DropdownMenuRadioItemWithCheck value={SEARCH_SORTS.NAME}>
-                                Name A–Z
-                            </DropdownMenuRadioItemWithCheck>
-                        </DropdownMenuRadioGroup>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    className="shrink-0 [&_svg]:size-3.5"
+                    onClick={() => setSortSheetOpen(true)}
+                >
+                    <ArrowUpDown/>
+                    {sort === SEARCH_SORTS.DISTANCE ? "Distance" : "Name"}
+                </Button>
 
                 <Button variant="outline" size="sm" className="shrink-0 [&_svg]:size-3.5" onClick={() => setSheetOpen(true)}>
                     <SlidersHorizontal/>
@@ -150,6 +140,15 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
                         <Badge className="h-4 shrink-0 px-1.5 text-[10px] tabular-nums">{activeFilterCount}</Badge>
                     )}
                 </Button>
+
+                <OptionSheet
+                    open={sortSheetOpen}
+                    onOpenChange={setSortSheetOpen}
+                    title="Sort by"
+                    value={sort}
+                    options={sortOptions}
+                    onSelect={(value) => setParam("sort", value)}
+                />
 
                 <FilterSheet
                     open={sheetOpen}

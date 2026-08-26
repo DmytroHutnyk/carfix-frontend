@@ -8,12 +8,13 @@ import {formatPrice} from "@/features/booking/bookingList";
 import {MAX_SERVICES_PER_VISIT} from "@/features/slots/slotList";
 import BookingFlowPopover from "./booking/bookingFlowPopover";
 
-export default function SummaryCard({workshop, selectedServices, onToggle, initialRange, onBookingComplete}: {
+export default function SummaryCard({workshop, selectedServices, onToggle, initialRange, onBookingComplete, ctaRef}: {
     workshop: Workshop;
     selectedServices: WorkshopService[];
     onToggle: (serviceId: number) => void;
     initialRange: VisitRange | null;
     onBookingComplete: () => void;
+    ctaRef?: (node: HTMLElement | null) => void;
 }) {
     const total = selectedServices.reduce((sum, service) => sum + service.price, 0);
 
@@ -51,13 +52,15 @@ export default function SummaryCard({workshop, selectedServices, onToggle, initi
                         </div>
                     </>
                 )}
-                <BookingFlowPopover
-                    workshop={workshop}
-                    selectedServices={selectedServices}
-                    onToggleService={onToggle}
-                    initialRange={initialRange}
-                    onBookingComplete={onBookingComplete}
-                />
+                <div ref={ctaRef}>
+                    <BookingFlowPopover
+                        workshop={workshop}
+                        selectedServices={selectedServices}
+                        onToggleService={onToggle}
+                        initialRange={initialRange}
+                        onBookingComplete={onBookingComplete}
+                    />
+                </div>
             </CardContent>
         </Card>
     );

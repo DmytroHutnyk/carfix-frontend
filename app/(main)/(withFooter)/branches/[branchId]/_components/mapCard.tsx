@@ -15,7 +15,7 @@ export default function MapCard({workshop}: { workshop: Workshop }) {
 
     return (
         <Card>
-            <CardContent className="flex flex-col gap-3 p-4">
+            <CardContent className="flex flex-col gap-3 p-4 lg:p-6">
                 {lat != null && lng != null ? (
                     <div className="h-36 w-full overflow-hidden rounded-lg lg:h-44">
                         <GoogleApiProvider>
@@ -23,6 +23,7 @@ export default function MapCard({workshop}: { workshop: Workshop }) {
                                 defaultCenter={{lat, lng}}
                                 defaultZoom={15}
                                 disableDefaultUI
+                                keyboardShortcuts={false}
                                 gestureHandling="none"
                                 clickableIcons={false}
                             >

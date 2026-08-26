@@ -1,5 +1,5 @@
 "use client"
-import {useRef} from "react";
+import {useEffect, useRef} from "react";
 import {Search} from "lucide-react";
 import {Button} from "@/_components/shadcn/button";
 import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger} from "@/_components/shadcn/sheet";
@@ -19,6 +19,28 @@ interface MobileSearchSheetProps {
 export default function MobileSearchSheet({open, onOpenChange, query, summary, search, location}: MobileSearchSheetProps) {
     const servicesInputRef = useRef<HTMLInputElement>(null);
 
+    useEffect(() => {
+        const viewport = window.visualViewport;
+        if (!open || !viewport) return;
+
+        const root = document.documentElement;
+        const sync = () => {
+            root.style.setProperty("--search-sheet-height", `${viewport.height}px`);
+            root.style.setProperty("--search-sheet-top", `${viewport.offsetTop}px`);
+        };
+
+        sync();
+        viewport.addEventListener("resize", sync);
+        viewport.addEventListener("scroll", sync);
+
+        return () => {
+            viewport.removeEventListener("resize", sync);
+            viewport.removeEventListener("scroll", sync);
+            root.style.removeProperty("--search-sheet-height");
+            root.style.removeProperty("--search-sheet-top");
+        };
+    }, [open]);
+
     return (
         <div className="lg:hidden">
             <Sheet open={open} onOpenChange={onOpenChange}>
@@ -28,7 +50,8 @@ export default function MobileSearchSheet({open, onOpenChange, query, summary, s
 
                 <SheetContent
                     side="top"
-                    className="flex h-[100dvh] flex-col gap-0 p-4 lg:p-4"
+                    style={{height: "var(--search-sheet-height, 100dvh)", top: "var(--search-sheet-top, 0px)"}}
+                    className="flex flex-col gap-0 p-4 lg:p-4"
                     onOpenAutoFocus={(event) => {
                         event.preventDefault();
                         servicesInputRef.current?.focus();
@@ -43,7 +66,7 @@ export default function MobileSearchSheet({open, onOpenChange, query, summary, s
                         <LocationSearchBar inline onSubmit={search.onSubmit} {...location}/>
                     </div>
 
-                    <div className="shrink-0 pt-3">
+                    <div className="shrink-0 pt-3 pb-[env(safe-area-inset-bottom)]">
                         <Button className="w-full" onClick={search.onSubmit}>
                             <Search className="h-4 w-4"/>
                             Search
