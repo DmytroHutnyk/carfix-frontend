@@ -134,6 +134,7 @@ export default function LocationSearchBar({id, className, placeholder = "Locatio
                 id={id}
                 className={className}
                 placeholder={placeholder}
+                enterKeyHint="search"
                 startAddon={<MapPin className="h-4 w-4"/>}
                 endAddon={value !== "" && (
                     <InputGroupButton size="icon-xs" variant="ghost" aria-label="Clear location"
