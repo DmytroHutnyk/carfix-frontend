@@ -43,7 +43,6 @@ export default function BookingFlow({workshop, selectedServices, onToggleService
     const goNext = () => setStep(steps[stepIndex + 1]);
 
     const stepRef = useRef<HTMLDivElement>(null);
-    // Each step swap unmounts the focused button; a non-modal popover does not recapture focus, so move it to the new step
     useEffect(() => {
         stepRef.current?.focus();
     }, [step, booking]);

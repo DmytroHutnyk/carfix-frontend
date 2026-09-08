@@ -19,7 +19,7 @@ import {formatPrice} from "@/features/booking/bookingList";
 import {useWorkshop} from "@/features/workshop/useWorkshop";
 import {buildSearchUrl} from "@/features/search/searchUrl";
 import {useSearchLocation} from "@/lib/store";
-import BookingFlowPopover from "./booking/bookingFlowPopover";
+import BookingFlowDialog from "./booking/bookingFlowDialog";
 import {CANCELLATION_POLICY_CONTENT} from "@/features/ownerBranch/cancellationPolicyContent";
 import WorkshopPageSkeleton from "./workshopPageSkeleton";
 import WorkshopGallery from "./workshopGallery";
@@ -166,7 +166,7 @@ export default function WorkshopPageContent({branchId, initialServiceName, initi
                         <p className="text-sm font-semibold tabular-nums">{formatPrice(selectedTotal)}</p>
                     </div>
                     <div className="w-32 shrink-0">
-                        <BookingFlowPopover
+                        <BookingFlowDialog
                             workshop={workshop}
                             selectedServices={selectedServices}
                             onToggleService={toggleService}

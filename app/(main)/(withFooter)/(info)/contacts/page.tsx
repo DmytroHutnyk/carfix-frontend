@@ -1,6 +1,6 @@
 import {Card, CardContent, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import {Separator} from "@/_components/shadcn/separator";
-import ContactForm from "@/(main)/(info)/contacts/_components/ContactForm";
+import ContactForm from "@/(main)/(withFooter)/(info)/contacts/_components/ContactForm";
 
 export default function Page(){
     return(
@@ -17,7 +17,6 @@ export default function Page(){
 
             <Separator className="my-4 lg:my-6" />
 
-            {/*-==-==-=-=-=-=--==-=-=-=-Cards-==-==-=-=-=-=-=-=-=---==*/}
             <section className="flex flex-col gap-y-2">
                 <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-4">
                     {/*-==-==-=-=-=-=--==-=-=-=-Support Info-==-==-=-=-=-=-=-=-=---==*/}
@@ -27,7 +26,6 @@ export default function Page(){
                         </CardHeader>
                         <CardContent className="space-y-4 lg:space-y-6">
 
-                            {/*-==-==-=-=-=-=--==-=-=-=-Email-==-==-=-=-=-=-=-=-=---==*/}
                             <div className="space-y-1">
                                 <p className="text-sm font-semibold lg:text-base">Email Support</p>
                                 <a
@@ -38,7 +36,6 @@ export default function Page(){
                                 </a>
                             </div>
 
-                            {/*-==-==-=-=-=-=--==-=-=-=-Phone-==-==-=-=-=-=-=-=-=---==*/}
                             <div className="space-y-1">
                                 <p className="text-sm font-semibold lg:text-base">Phone Support</p>
                                 <a
@@ -50,7 +47,6 @@ export default function Page(){
                                 <p className="text-xs text-muted-foreground lg:text-sm">Mon-Fri 8:00-18:00</p>
                             </div>
 
-                            {/*-==-==-=-=-=-=--==-=-=-=-Address-==-==-=-=-=-=-=-=-=---==*/}
                             <div className="space-y-1">
                                 <p className="text-sm font-semibold lg:text-base">Business Address</p>
                                 <div className="text-sm text-muted-foreground lg:text-base">
@@ -63,7 +59,6 @@ export default function Page(){
                     </Card>
 
 
-                    {/*-==-==-=-=-=-=--==-=-=-=-Message form-==-==-=-=-=-=-=-=-=---==*/}
                     <ContactForm/>
                 </div>
             </section>

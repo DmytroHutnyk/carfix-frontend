@@ -51,6 +51,8 @@
   --availability-medium: #D97706;
   --availability-low: #DC2626;
 
+  --overlay: oklch(0 0 0 / 0.4);
+
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
@@ -105,6 +107,8 @@
   --availability-high: #22C55E;
   --availability-medium: #FBBF24;
   --availability-low: #EF4444;
+
+  --overlay: oklch(0 0 0 / 0.6);
 
   --border: oklch(0 0 0);
   --input: oklch(1 0 0 / 15%);
@@ -171,6 +175,8 @@
   --color-availability-high: var(--availability-high);
   --color-availability-medium: var(--availability-medium);
   --color-availability-low: var(--availability-low);
+
+  --color-overlay: var(--overlay);
 
   --color-border: var(--border);
   --color-input: var(--input);

@@ -62,7 +62,7 @@ export default function ConfirmStep({workshop, services, pick, stepIndex, stepCo
     };
 
     return (
-        <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col gap-4 p-6">
             <StepHeader title="Confirm your booking" stepIndex={stepIndex} stepCount={stepCount}/>
 
             <div className="flex flex-col gap-2 text-sm">
