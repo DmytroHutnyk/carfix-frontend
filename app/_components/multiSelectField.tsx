@@ -23,7 +23,6 @@ interface MultiSelectFieldProps {
     emptyMessage?: string;
 }
 
-/* Multi pick from a user-defined list, shown as removable chips under the trigger; optional inline creation. */
 export default function MultiSelectField({
                                              id, values, options, onChange, onCreate, placeholder, maxNameLength, ariaLabel,
                                              createLabel = "Add", searchPlaceholder = "Search…",

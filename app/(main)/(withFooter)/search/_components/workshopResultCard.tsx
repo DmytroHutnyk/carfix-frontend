@@ -24,9 +24,7 @@ export default function WorkshopResultCard({workshop, href, singleDay, pinned = 
                     <Badge className="w-fit">The workshop you picked</Badge>
                 )}
 
-                {/* Identity row: picture on the left, everything that names the branch on the right */}
                 <div className="flex gap-3 lg:gap-4">
-                    {/* Static placeholder until file upload/serving lands. 16:10, not square. */}
                     <div className="flex h-18 w-18 shrink-0 items-center justify-center rounded-md bg-muted lg:aspect-[16/10] lg:h-auto lg:w-72 lg:rounded-lg">
                         <Store className="h-6 w-6 text-muted-foreground lg:h-10 lg:w-10"/>
                     </div>
@@ -75,7 +73,6 @@ export default function WorkshopResultCard({workshop, href, singleDay, pinned = 
                     </div>
                 </div>
 
-                {/* Matched services run the full width, below the picture */}
                 {workshop.matchedServices.length > 0 && (
                     <ul className="flex flex-col gap-1.5 border-t pt-2 lg:gap-2 lg:pt-3">
                         {workshop.matchedServices.map((service) => (

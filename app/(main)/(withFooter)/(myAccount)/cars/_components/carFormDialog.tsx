@@ -124,7 +124,6 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-3 lg:space-y-4">
-                    {/*-==-==-=-=-=-=--==-=-=-=-Name-==-==-=-=-=-=-=-=-=---==*/}
                     <Field>
                         <FieldLabel htmlFor="carName">Name</FieldLabel>
                         <Input
@@ -137,7 +136,6 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                         {errors.name && <p className="text-xs text-destructive lg:text-sm">{errors.name.message}</p>}
                     </Field>
 
-                    {/*-==-==-=-=-=-=--==-=-=-=-Catalog cascade (add only)-==-==-=-=-=-=-=-=-=---==*/}
                     {!isEdit && (
                         <>
                             <Field>
@@ -194,7 +192,6 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                         </>
                     )}
 
-                    {/*-==-==-=-=-=-=--==-=-=-=-Version-==-==-=-=-=-=-=-=-=---==*/}
                     <Field>
                         <FieldLabel>Version</FieldLabel>
                         <Controller
@@ -227,7 +224,6 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                         )}
                     </Field>
 
-                    {/*-==-==-=-=-=-=--==-=-=-=-Year-==-==-=-=-=-=-=-=-=---==*/}
                     {!isEdit && (
                         <Field>
                             <FieldLabel>Year</FieldLabel>
@@ -252,7 +248,6 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                         </Field>
                     )}
 
-                    {/*-==-==-=-=-=-=--==-=-=-=-Dates-==-==-=-=-=-=-=-=-=---==*/}
                     <Controller
                         name="insuranceDate"
                         control={control}
@@ -286,7 +281,6 @@ export default function CarFormDialog({open, onOpenChange, carProfile}: {
                         )}
                     />
 
-                    {/*-==-==-=-=-=-=--==-=-=-=-VIN + Plates-==-==-=-=-=-=-=-=-=---==*/}
                     <Field>
                         <FieldLabel htmlFor="vin">VIN</FieldLabel>
                         <Input

@@ -2,7 +2,7 @@ import Link from "next/link";
 import {CalendarDays, CircleCheck, MapPin} from "lucide-react";
 import {Badge} from "@/_components/shadcn/badge";
 import {Button} from "@/_components/shadcn/button";
-import {PopoverDescription, PopoverHeader, PopoverTitle} from "@/_components/shadcn/popover";
+import {DialogDescription, DialogHeader, DialogTitle} from "@/_components/shadcn/dialog";
 import {Booking} from "@/features/booking/bookingTypes";
 import {formatBookingDate, formatTime} from "@/features/booking/bookingList";
 import StepFooter from "./stepFooter";
@@ -12,16 +12,16 @@ export default function BookedStep({booking, onClose}: {
     onClose: () => void;
 }) {
     return (
-        <div className="flex flex-col gap-4 p-4">
-            <PopoverHeader>
-                <PopoverTitle className="flex items-center gap-2 text-base">
+        <div className="flex flex-col gap-4 p-6">
+            <DialogHeader className="space-y-0.5 pr-8 text-left">
+                <DialogTitle className="flex items-center gap-2 text-base">
                     <CircleCheck className="h-4 w-4 shrink-0 text-success-badge-foreground"/>
                     Booked
-                </PopoverTitle>
-                <PopoverDescription className="text-xs">
+                </DialogTitle>
+                <DialogDescription className="text-xs">
                     You can review or cancel it in My Bookings.
-                </PopoverDescription>
-            </PopoverHeader>
+                </DialogDescription>
+            </DialogHeader>
 
             <div className="flex flex-col items-start gap-2 text-sm">
                 <Badge variant="secondary">#{booking.reference}</Badge>

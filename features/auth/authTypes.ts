@@ -1,21 +1,15 @@
-/* auth request response */
 import {Account} from "@/features/user/userTypes";
 import {z} from "zod";
 
 export interface AuthState {
-    /* the authenticated account (role + user core + role tail); */
     account: Account | null;
 
-    /* True during initial session validity check */
     isLoading: boolean;
 
-    /* True if the account is authenticated (account is not null) */
     isAuthenticated: boolean;
 
-    /* True if session check is failed with an error 401 */
     isError: boolean;
 
-    /* Object error if session check is failed, null otherwise */
     error: Error | null;
 }
 
@@ -28,7 +22,6 @@ export interface AuthActions {
 export interface UseAuthReturn extends AuthState, AuthActions {
 }
 
-//          Register
 export const registerSchema = z.object({
     name: z.string()
         .trim()
@@ -70,7 +63,6 @@ export const registerSchema = z.object({
 export type RegisterData = z.infer<typeof registerSchema>;
 
 
-//          Login
 export const loginSchema = z.object({
     email: z.string()
         .min(1, "Email is required")
@@ -82,7 +74,6 @@ export const loginSchema = z.object({
 export type LoginCredentials = z.infer<typeof loginSchema>
 
 
-//          Message form - /contacts page
 export const messageSchema = z.object({
     name: z.string()
         .trim()

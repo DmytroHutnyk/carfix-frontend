@@ -1,13 +1,11 @@
 # syntax=docker/dockerfile:1
 
-# ---------- deps ----------
 FROM node:22-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
-# ---------- build ----------
 FROM node:22-alpine AS build
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
@@ -24,7 +22,6 @@ ENV NEXT_PUBLIC_API_BASE=$NEXT_PUBLIC_API_BASE \
 
 RUN npm run build
 
-# ---------- run ----------
 FROM node:22-alpine AS run
 WORKDIR /app
 ENV NODE_ENV=production \

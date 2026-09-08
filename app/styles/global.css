@@ -1,8 +1,6 @@
 @import "tailwindcss";
-/*@import "tw-animate-css";*/
 @plugin "tailwindcss-animate";
 
-/* --- Light tokens --- */
 :root {
   --radius: 0.625rem;
 
@@ -29,7 +27,6 @@
   --accent-foreground-hov: #18181B;
   --accent-background: #FFFBEB;
 
-  /* Header outline button colors */
   --header-outline: #FFFBEB;
   --header-outline-foreground: #854D0E;
   --header-outline-foreground-hov: #EAB308;
@@ -50,6 +47,8 @@
   --availability-high: #15803D;
   --availability-medium: #D97706;
   --availability-low: #DC2626;
+
+  --overlay: oklch(0 0 0 / 0.4);
 
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
@@ -73,7 +72,6 @@
   --logo: #FACC15;
 }
 
-/* --- Dark tokens --- */
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -105,6 +103,8 @@
   --availability-high: #22C55E;
   --availability-medium: #FBBF24;
   --availability-low: #EF4444;
+
+  --overlay: oklch(0 0 0 / 0.6);
 
   --border: oklch(0 0 0);
   --input: oklch(1 0 0 / 15%);
@@ -150,7 +150,6 @@
   --color-accent-background: var(--accent-background);
   --color-accent-foreground-hov: var(--accent-foreground-hov);
 
-    /* Header outline button colors */
   --color-header-outline: var(--header-outline);
   --color-header-outline-foreground: var(--header-outline-foreground);
   --color-header-outline-foreground-hov: var(--header-outline-foreground-hov);
@@ -171,6 +170,8 @@
   --color-availability-high: var(--availability-high);
   --color-availability-medium: var(--availability-medium);
   --color-availability-low: var(--availability-low);
+
+  --color-overlay: var(--overlay);
 
   --color-border: var(--border);
   --color-input: var(--input);
@@ -194,7 +195,6 @@
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
 
-  /*---break---*/
   @keyframes accordion-down {
     from {
       height: 0;
@@ -203,7 +203,6 @@
       height: var(--radix-accordion-content-height);
     }
   }
-  /*---break---*/
   @keyframes accordion-up {
     from {
       height: var(--radix-accordion-content-height);

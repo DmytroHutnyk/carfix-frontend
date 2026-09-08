@@ -10,13 +10,7 @@ import {WorkshopSearchParams} from "@/features/search/searchTypes";
 import {Badge} from "@/_components/shadcn/badge";
 import {cn} from "@/lib/utils";
 
-/**
- * The filters currently narrowing the search, each removable in one click.
- *
- * The Filters popover hides its own state behind a click, which is why a committed radius
- * looked like nothing had happened. A chip is the standing answer: it is visible without
- * opening anything, and removing it is the same one action as applying it.
- */
+// Chips keep committed popover filters visible and individually removable.
 export default function ActiveFilters({params, className}: { params: WorkshopSearchParams; className?: string }) {
     const router = useRouter();
     const pathname = usePathname();

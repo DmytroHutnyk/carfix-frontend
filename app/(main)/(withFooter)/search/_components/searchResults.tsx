@@ -49,7 +49,6 @@ export default function SearchResults() {
         hasNextPage, isFetchingNextPage, fetchNextPage,
     } = useWorkshopSearch(effectiveParams, initialPage, searchEnabled);
 
-    // used for clearing filters
     const NARROWING = ["q", "serviceName", "categoryId", "label", "pinnedBranchId", "radiusKm", "from", "to", "timeFrom", "timeTo"] as const;
     const hasNarrowingFilters = NARROWING.some((key) => searchParams.has(key)) || carFilterActive;
     const hasPlaceFilter = searchParams.has("city") || searchParams.has("voivodeship");
@@ -86,7 +85,6 @@ export default function SearchResults() {
 
     return (
         <div className="mx-auto w-full max-w-[1475px] px-4 py-4 lg:px-6 lg:py-6">
-            {/*-==-==-=-=-=-=--==-=-=-=-Sticky title row-==-==-=-=-=-=-=-=-=---==*/}
             <section className="sticky top-0 z-10 flex flex-col gap-2 bg-background py-2 lg:flex-row lg:flex-wrap lg:items-center lg:justify-between lg:gap-3 lg:py-3">
                 <div className="min-w-0">
                     <h1 className="line-clamp-2 text-base font-semibold tracking-tight lg:line-clamp-none lg:text-3xl lg:font-bold">
@@ -122,7 +120,6 @@ export default function SearchResults() {
 
             <ActiveFilters params={params} className="hidden flex-wrap lg:flex"/>
 
-            {/*-==-==-=-=-=-=--==-=-=-=-Results-==-==-=-=-=-=-=-=-=---==*/}
             <section
                 aria-busy={isFetching}
                 className={cn(

@@ -7,7 +7,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {OrbitProgress} from "react-loading-indicators";
 
 import {useAuth} from "@/features/auth/useAuth";
-import {isOwner} from "@/features/user/userTypes";
+import {isCustomer, isOwner} from "@/features/user/userTypes";
 import {useUpdateCore} from "@/features/user/useUpdateCore";
 import {UpdateUserCore, updateUserCoreSchema} from "@/features/user/profileManagementTypes";
 import {toDisplayError} from "@/lib/errorHandler";
@@ -23,15 +23,18 @@ import RegionCard from "@/_components/profile/regionCard";
 import ContactSecurityCard from "@/_components/profile/contactSecurityCard";
 import AddressCard from "@/_components/profile/addressCard";
 import PreferredLocationField from "@/_components/profile/preferredLocationField";
+import DeleteAccountDialog from "@/_components/profile/deleteAccountDialog";
 
 const OLDEST_BIRTH_YEARS_BACK = -120;
 
 export default function ProfileSettings() {
     const [error, setError] = useState<string | null>(null);
+    const [deleteOpen, setDeleteOpen] = useState(false);
     const router = useRouter();
     const { updateCore } = useUpdateCore();
     const { account, logout } = useAuth();
     const user = account?.user ?? null;
+    const canDeleteAccount = account !== null && isCustomer(account);
 
     const birthBounds = useMemo(() => ({
         min: yearsFromToday(OLDEST_BIRTH_YEARS_BACK),
@@ -68,7 +71,6 @@ export default function ProfileSettings() {
 
     return(
         <div className="py-3">
-            {/*-==-==-=-=-=-=--==-=-=-=-header-==-==-=-=-=-=-=-=-=---==*/}
             <section className="space-y-3">
                 <h1 className="text-lg font-semibold tracking-tight lg:text-3xl lg:font-bold">
                     Profile
@@ -76,7 +78,6 @@ export default function ProfileSettings() {
             </section>
 
 
-            {/*-==-==-=-=-=-=--==-=-=-=-Cards-==-==-=-=-=-=-=-=-=---==*/}
             <section className="flex flex-col gap-3 pt-4 lg:gap-y-2 lg:pt-5">
                 <Card className="relative">
                     {isSubmitting && (
@@ -187,7 +188,17 @@ export default function ProfileSettings() {
                 <AddressCard address={user?.address ?? null}/>
             </section>
 
-            <div className="flex justify-end pt-2">
+            <div className="flex justify-end gap-2 pt-2">
+                {canDeleteAccount && (
+                    <Button
+                        variant="destructive"
+                        size="sm"
+                        className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm"
+                        onClick={() => setDeleteOpen(true)}
+                    >
+                        Delete account
+                    </Button>
+                )}
                 <Button
                     variant="destructive"
                     size="sm"
@@ -197,6 +208,10 @@ export default function ProfileSettings() {
                     Log out
                 </Button>
             </div>
+
+            {canDeleteAccount && (
+                <DeleteAccountDialog open={deleteOpen} onOpenChange={setDeleteOpen}/>
+            )}
         </div>
 
 

@@ -10,6 +10,10 @@ export interface UseUpdateAddressReturn {
     deleteAddress: () => Promise<void>;
 }
 
+export interface UseDeleteAccountReturn {
+    deleteAccount: () => Promise<void>;
+}
+
 export const locationSchema = z.object({
     city: z.string().min(1, "Pick a city from the suggestions"),
     region: z.string().min(1, "Pick a city from the suggestions"),
@@ -18,9 +22,6 @@ export const locationSchema = z.object({
     longitude: z.number().nullable(),
 });
 
-/* Shared user-core fields editable from the profile page. The backend resolves the
- * principal from the session, so no id is sent. Role tails get
- * their own schema + endpoint. */
 export const updateUserCoreSchema = z.object({
     name: z.string()
         .trim()
@@ -32,7 +33,7 @@ export const updateUserCoreSchema = z.object({
         .min(1, "Surname is required")
         .max(50, "Surname cannot exceed 50 characters"),
 
-    dateOfBirth: z.string()       // ISO date string "2000-01-15"
+    dateOfBirth: z.string()
         .nullable()
         .optional()
         .refine(
@@ -64,7 +65,6 @@ export interface UpdateUserRequest {
     preferredLocation: LocationRequest | null;
 }
 
-/* Address card form; countryName is display-only and never sent. */
 export const updateAddressSchema = z.object({
     streetName: z.string()
         .trim()

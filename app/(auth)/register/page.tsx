@@ -117,9 +117,7 @@ export default function Register(){
                             )}
                         </div>
 
-                        {/* Section for country code and phone number*/}
                         <div className="space-y-1">
-                            {/*Hidden input for countryCode*/}
                             <Input
                                 {...register("phoneCountryCode")}
                                 id="phoneCountryCode"

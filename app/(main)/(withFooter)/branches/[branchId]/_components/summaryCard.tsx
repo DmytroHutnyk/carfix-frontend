@@ -6,7 +6,7 @@ import {Workshop, WorkshopService} from "@/features/workshop/workshopTypes";
 import {VisitRange} from "@/features/slots/slotTypes";
 import {formatPrice} from "@/features/booking/bookingList";
 import {MAX_SERVICES_PER_VISIT} from "@/features/slots/slotList";
-import BookingFlowPopover from "./booking/bookingFlowPopover";
+import BookingFlowDialog from "./booking/bookingFlowDialog";
 
 export default function SummaryCard({workshop, selectedServices, onToggle, initialRange, onBookingComplete, ctaRef}: {
     workshop: Workshop;
@@ -53,7 +53,7 @@ export default function SummaryCard({workshop, selectedServices, onToggle, initi
                     </>
                 )}
                 <div ref={ctaRef}>
-                    <BookingFlowPopover
+                    <BookingFlowDialog
                         workshop={workshop}
                         selectedServices={selectedServices}
                         onToggleService={onToggle}

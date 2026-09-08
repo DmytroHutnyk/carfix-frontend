@@ -37,7 +37,7 @@ export default function OwnerSidebar() {
     return (
         <aside className={cn("hidden shrink-0 transition-[width] lg:block", collapsed ? "w-16" : "w-64")}>
             <Card className="p-4">
-                <CardContent className="flex flex-col gap-y-2 p-0">
+                <CardContent className="flex flex-col gap-y-2 p-0 lg:p-0">
                     <div className={cn("flex items-center", collapsed ? "justify-center" : "justify-between")}>
                         {!collapsed && <span className="px-4 font-semibold">Menu</span>}
                         <Button

@@ -19,9 +19,10 @@ import {formatPrice} from "@/features/booking/bookingList";
 import {useWorkshop} from "@/features/workshop/useWorkshop";
 import {buildSearchUrl} from "@/features/search/searchUrl";
 import {useSearchLocation} from "@/lib/store";
+import BookingFlowDialog from "./booking/bookingFlowDialog";
+import {CANCELLATION_POLICY_CONTENT} from "@/features/ownerBranch/cancellationPolicyContent";
 import {cn} from "@/lib/utils";
 import {useInViewport} from "./useInViewport";
-import BookingFlowPopover from "./booking/bookingFlowPopover";
 import WorkshopPageSkeleton from "./workshopPageSkeleton";
 import WorkshopGallery from "./workshopGallery";
 import WorkshopHeading from "./workshopHeading";
@@ -125,7 +126,9 @@ export default function WorkshopPageContent({branchId, initialServiceName, initi
                                 <Card>
                                     <CardHeader><CardTitle>Cancellation Policy</CardTitle></CardHeader>
                                     <CardContent>
-                                        <p className="text-sm text-muted-foreground">{workshop.cancellationPolicy}</p>
+                                        <p className="text-sm text-muted-foreground">
+                                            {CANCELLATION_POLICY_CONTENT[workshop.cancellationPolicy].details}
+                                        </p>
                                     </CardContent>
                                 </Card>
                             )}
@@ -174,7 +177,7 @@ export default function WorkshopPageContent({branchId, initialServiceName, initi
                         <p className="text-sm font-semibold tabular-nums">{formatPrice(selectedTotal)}</p>
                     </div>
                     <div className="w-32 shrink-0">
-                        <BookingFlowPopover
+                        <BookingFlowDialog
                             workshop={workshop}
                             selectedServices={selectedServices}
                             onToggleService={toggleService}

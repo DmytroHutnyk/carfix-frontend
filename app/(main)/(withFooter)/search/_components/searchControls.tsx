@@ -121,7 +121,6 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
 
     return (
         <>
-            {/*-==-==-=-=-=-=--==-=-=-=-Mobile toolbar-==-==-=-=-=-=-=-=-=---==*/}
             <div className="ml-auto flex shrink-0 items-center gap-2 lg:hidden">
                 <Button
                     variant="outline"
@@ -161,7 +160,6 @@ export default function SearchControls({params}: { params: WorkshopSearchParams 
                 </FilterSheet>
             </div>
 
-            {/*-==-==-=-=-=-=--==-=-=-=-Desktop controls-==-==-=-=-=-=-=-=-=---==*/}
             <div className="hidden w-auto items-center gap-2 lg:flex">
                 {/* Distance needs a centre to measure from; every other combination is choosable. */}
                 <Select value={sort} onValueChange={(value) => setParam("sort", value)}>

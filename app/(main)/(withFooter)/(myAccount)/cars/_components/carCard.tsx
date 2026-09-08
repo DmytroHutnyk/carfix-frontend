@@ -30,7 +30,6 @@ export default function CarCard({carProfile, onEdit, onDelete}: {
     return (
         <Card>
             <CardContent className="flex gap-3 p-3 lg:gap-6 lg:p-6">
-                {/*-==-==-=-=-=-=--==-=-=-=-Image placeholder-==-==-=-=-=-=-=-=-=---==*/}
                 <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-muted lg:h-36 lg:w-36 lg:rounded-lg">
                     <Car className="h-6 w-6 text-muted-foreground lg:h-10 lg:w-10"/>
                 </div>
@@ -74,7 +73,6 @@ export default function CarCard({carProfile, onEdit, onDelete}: {
                         ))}
                     </dl>
 
-                    {/*-==-==-=-=-=-=--==-=-=-=-Actions-==-==-=-=-=-=-=-=-=---==*/}
                     <div className="flex justify-end gap-2 pt-2">
                         <Button variant="ghost" size="sm" className="lg:h-9 lg:bg-primary lg:px-4 lg:py-2 lg:text-sm lg:text-primary-foreground lg:shadow lg:hover:bg-primary/90" onClick={onEdit}>
                             <Pencil/> Edit

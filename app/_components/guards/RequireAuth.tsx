@@ -9,7 +9,6 @@ import {loginPathFor, withReturnTo} from "@/lib/returnTo";
 
 type RequireAuthProps = {
     children: ReactNode;
-    // role for future
     role?: UserRole;
 };
 

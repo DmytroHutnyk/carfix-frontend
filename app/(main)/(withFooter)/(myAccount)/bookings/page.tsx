@@ -23,6 +23,7 @@ import FormErrorAlert from "@/_components/formErrorAlert";
 import BookingFilters from "@/(main)/(withFooter)/(myAccount)/bookings/_components/bookingFilters";
 import BookingCard from "@/(main)/(withFooter)/(myAccount)/bookings/_components/bookingCard";
 import CancelBookingDialog from "@/(main)/(withFooter)/(myAccount)/bookings/_components/cancelBookingDialog";
+import ReviewDialog from "@/(main)/(withFooter)/(myAccount)/bookings/_components/reviewDialog";
 
 export default function Page() {
     // Login redirect is handled upstream: proxy.ts cookie pre-filter + RequireAuth in the
@@ -35,6 +36,8 @@ export default function Page() {
 
     const [filters, setFilters] = useState<BookingFilterState>(EMPTY_FILTERS);
     const [cancelTarget, setCancelTarget] = useState<Booking | null>(null);
+    const [reviewTarget, setReviewTarget] = useState<Booking | null>(null);
+    const [reviewedIds, setReviewedIds] = useState<Set<string>>(new Set());
 
     const vehicles = useMemo(
         () => [...carProfiles]
@@ -58,12 +61,10 @@ export default function Page() {
 
     return (
         <div className="py-3">
-            {/*-==-==-=-=-=-=--==-=-=-=-Header-==-==-=-=-=-=-=-=-=---==*/}
             <section>
                 <h1 className="text-lg font-semibold tracking-tight lg:text-3xl lg:font-bold">My Bookings</h1>
             </section>
 
-            {/*-==-==-=-=-=-=--==-=-=-=-Filters-==-==-=-=-=-=-=-=-=---==*/}
             <section className="pt-4 lg:pt-6">
                 <BookingFilters
                     filters={filters}
@@ -72,7 +73,6 @@ export default function Page() {
                 />
             </section>
 
-            {/*-==-==-=-=-=-=--==-=-=-=-List-==-==-=-=-=-=-=-=-=---==*/}
             <section className="flex flex-col gap-3 pt-4 lg:gap-y-4 lg:pt-6">
                 {isError && (
                     <FormErrorAlert message={toDisplayError(error as ApiError).message}/>
@@ -101,16 +101,29 @@ export default function Page() {
                         key={booking.bookingId}
                         booking={booking}
                         onCancel={() => setCancelTarget(booking)}
+                        onReview={() => setReviewTarget(booking)}
+                        isReviewed={reviewedIds.has(booking.bookingId)}
                     />
                 ))}
             </section>
 
-            {/*-==-==-=-=-=-=--==-=-=-=-Cancel dialog-==-==-=-=-=-=-=-=-=---==*/}
             {cancelTarget && (
                 <CancelBookingDialog
                     open={true}
                     onOpenChange={(open) => !open && setCancelTarget(null)}
                     booking={cancelTarget}
+                />
+            )}
+
+            {reviewTarget && (
+                <ReviewDialog
+                    open={true}
+                    onOpenChange={(open) => !open && setReviewTarget(null)}
+                    booking={reviewTarget}
+                    onReviewed={(bookingId) => {
+                        setReviewedIds((prev) => new Set(prev).add(bookingId));
+                        setReviewTarget(null);
+                    }}
                 />
             )}
         </div>

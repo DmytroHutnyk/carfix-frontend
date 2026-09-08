@@ -1,13 +1,5 @@
-/**
- * SOURCE: vis.gl react-google-maps<br>
- * URL: https://github.com/visgl/react-google-maps/tree/main/examples/autocomplete<br>
- * CITATION KEY: [G-MAPS-PLACES-01]<br>
- * ACCESSED: 2026-02-24<br>
- * DERIVATION: Based on the project’s example implementation.<br>
- * MODIFICATIONS:
- * - TODO
- */
-
+// Based on vis.gl's autocomplete example, accessed 2026-02-24:
+// https://github.com/visgl/react-google-maps/tree/main/examples/autocomplete
 
 import {useEffect, useRef, useState} from 'react';
 import {useMapsLibrary} from '@vis.gl/react-google-maps';
@@ -22,40 +14,6 @@ export type UseAutocompleteSuggestionsReturn = {
   resetSession: () => void;
 };
 
-/**
- * A reusable hook that retrieves autocomplete suggestions from the Google Places API.
- * The data is loaded from the new Autocomplete Data API.
- * (https://developers.google.com/maps/documentation/javascript/place-autocomplete-data)
- *
- * @param inputString The input string for which to fetch autocomplete suggestions.
- * @param requestOptions Overrides for the hook's defaults (e.g. `includedPrimaryTypes`, `includedRegionCodes`);
- *   pass a module-level constant — the effect does not re-run on a new object identity.
- *   (See {@link https://developers.google.com/maps/documentation/javascript/reference/autocomplete-data#AutocompleteRequest}).
- *
- * @returns An object containing the autocomplete suggestions, the current loading-status,
- *   and a function to reset the session.
- *
- * @example
- * ```jsx
- * const MyComponent = () => {
- *   const [input, setInput] = useState('');
- *   const { suggestions, isLoading, resetSession } = useAutocompleteSuggestions(input, {
- *     includedPrimaryTypes: ['restaurant']
- *   });
- *
- *   return (
- *     <div>
- *       <input value={input} onChange={(e) => setInput(e.target.value)} />
- *       <ul>
- *         {suggestions.map(({placePrediction}) => (
- *           <li key={placePrediction.placeId}>{placePrediction.text.text}</li>
- *         ))}
- *       </ul>
- *     </div>
- *   );
- * }
- * ```
- */
 export function useAutocompleteSuggestions(
     inputString: string,
     requestOptions: Partial<AutocompleteRequest> = {}
@@ -64,36 +22,29 @@ export function useAutocompleteSuggestions(
     const country = useSearchLocation((s) => s.searchLocation.country);
     const language = useLanguage((s) => s.language);
 
-    // stores the current sessionToken
     const sessionTokenRef =
         useRef<AutocompleteSessionToken>(null);
 
-    // the suggestions based on the specified input
     const [suggestions, setSuggestions] = useState<AutocompleteSuggestion[]>([]);
 
-    // indicates if there is currently an incomplete request to the places API
     const [isLoading, setIsLoading] = useState(false);
 
-    // once the PlacesLibrary is loaded and whenever the input changes, a query
-    // is sent to the Autocomplete Data API.
     useEffect(() => {
         if (!placesLib) return;
 
         const {AutocompleteSessionToken, AutocompleteSuggestion} = placesLib;
 
-        // Create a new session if one doesn't already exist. This has to be reset
-        // after `fetchFields` for one of the returned places is called by calling
-        // the `resetSession` function returned from this hook.
+        // One token groups requests until the selected place closes Google's billing session.
         if (!sessionTokenRef.current) {
             sessionTokenRef.current = new AutocompleteSessionToken();
         }
 
         const request: AutocompleteRequest = {
             includedPrimaryTypes: ["locality", "administrative_area_level_1", "country"],
-            locationBias: "IP_BIAS",        /*Bias results to a specified location.*/
-            includedRegionCodes: [country],  /*Only include results in the specified regions*/
-            language: language,             /*The results may be in mixed languages if the language used in input is different from language, or if the returned Place does not have a translation from the local language to language.*/
-            region: country,                 /*This affects address formatting, result ranking, and may influence what results are returned. This does not restrict results to the specified region.*/
+            locationBias: "IP_BIAS",
+            includedRegionCodes: [country],
+            language: language,
+            region: country,
             ...requestOptions,
             input: inputString,
             sessionToken: sessionTokenRef.current
@@ -109,9 +60,7 @@ export function useAutocompleteSuggestions(
             setSuggestions(res.suggestions);
             setIsLoading(false);
         });
-        // is intentionally excluded to avoid re-fetching on every render (object
-        // reference changes), and suggestions.length is only used in the
-        // early-return guard.
+        // requestOptions changes by identity; suggestions only guards clearing.
         // eslint-disable-next-line react-hooks/exhaustive-deps -- requestOptions
     }, [placesLib, inputString, country, language]);
 

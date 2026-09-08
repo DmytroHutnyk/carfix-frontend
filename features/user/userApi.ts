@@ -33,9 +33,6 @@ function toUpdateUserAddressRequest(form: UpdateAddress): UpdateUserAddressReque
     };
 }
 
-/* Shared user-core writes — role-agnostic. The backend resolves the principal from the
- * session and returns the updated core, which the hook splices into `account.user`.
- * Role tails live in their own api module (e.g. ownerApi.updateBusiness → /owners/me). */
 export const userApi = {
     async updateCore(data: UpdateUserCore): Promise<User> {
         const result = await clientApi.put<User, UpdateUserRequest>('/users/me', toUpdateUserRequest(data));
@@ -59,6 +56,14 @@ export const userApi = {
 
     async deleteAddress(): Promise<void> {
         const result = await clientApi.delete('/users/me/address');
+
+        if (isApiError(result)) {
+            throw result;
+        }
+    },
+
+    async deleteAccount(): Promise<void> {
+        const result = await clientApi.delete('/users/me');
 
         if (isApiError(result)) {
             throw result;
