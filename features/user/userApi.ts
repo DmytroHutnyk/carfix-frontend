@@ -65,6 +65,14 @@ export const userApi = {
         }
     },
 
+    async deleteAccount(): Promise<void> {
+        const result = await clientApi.delete('/users/me');
+
+        if (isApiError(result)) {
+            throw result;
+        }
+    },
+
     async requestEmailVerification(): Promise<void> {
         const result = await clientApi.post<void, undefined>('/users/me/email-verification');
 

@@ -10,6 +10,10 @@ export interface UseUpdateAddressReturn {
     deleteAddress: () => Promise<void>;
 }
 
+export interface UseDeleteAccountReturn {
+    deleteAccount: () => Promise<void>;
+}
+
 export const locationSchema = z.object({
     city: z.string().min(1, "Pick a city from the suggestions"),
     region: z.string().min(1, "Pick a city from the suggestions"),
