@@ -131,6 +131,7 @@ export default function SearchBar({id, className, value, onValueChange, onSubmit
                 id={id}
                 className={className}
                 placeholder="Search services..."
+                enterKeyHint="search"
                 startAddon={<Search className="h-4 w-4"/>}
                 disableChevron
                 showClear

@@ -11,6 +11,7 @@ import {useBranchSlots} from "@/features/slots/useBranchSlots";
 import {SlotPick, VisitRange} from "@/features/slots/slotTypes";
 import {defaultDate, hasSlot, MAX_RANGE_DAYS, parseIsoDate, todayIsoInTz} from "@/features/slots/slotList";
 import StepHeader from "./stepHeader";
+import StepFooter from "./stepFooter";
 import DayStrip from "./dayStrip";
 import SlotGrid from "./slotGrid";
 
@@ -108,17 +109,19 @@ export default function WhenStep({
                 </div>
             )}
 
-            <div className="flex flex-wrap items-center justify-between gap-3 border-t pt-3">
-                <p className="min-w-0 text-sm">
-                    {pick
-                        ? `${formatBookingDate(pick.date)} · ${pick.startTime} – ${pick.endTime}`
-                        : "Pick a time to continue"}
-                </p>
-                <div className="flex shrink-0 gap-2">
-                    {onBack && <Button variant="secondary" onClick={onBack}>Back</Button>}
-                    <Button onClick={onContinue} disabled={!pick}>Continue</Button>
-                </div>
-            </div>
+            <StepFooter
+                className="border-t pt-3"
+                note={
+                    <p className="min-w-0 text-sm">
+                        {pick
+                            ? `${formatBookingDate(pick.date)} · ${pick.startTime} – ${pick.endTime}`
+                            : "Pick a time to continue"}
+                    </p>
+                }
+            >
+                {onBack && <Button variant="secondary" onClick={onBack}>Back</Button>}
+                <Button onClick={onContinue} disabled={!pick}>Continue</Button>
+            </StepFooter>
         </div>
     );
 }

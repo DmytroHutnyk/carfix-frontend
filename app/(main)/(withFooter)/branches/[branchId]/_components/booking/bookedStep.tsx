@@ -5,6 +5,7 @@ import {Button} from "@/_components/shadcn/button";
 import {DialogDescription, DialogHeader, DialogTitle} from "@/_components/shadcn/dialog";
 import {Booking} from "@/features/booking/bookingTypes";
 import {formatBookingDate, formatTime} from "@/features/booking/bookingList";
+import StepFooter from "./stepFooter";
 
 export default function BookedStep({booking, onClose}: {
     booking: Booking;
@@ -34,10 +35,10 @@ export default function BookedStep({booking, onClose}: {
                 </p>
             </div>
 
-            <div className="flex justify-end gap-2">
+            <StepFooter>
                 <Button variant="secondary" onClick={onClose}>Close</Button>
                 <Button asChild><Link href="/bookings">My Bookings</Link></Button>
-            </div>
+            </StepFooter>
         </div>
     );
 }

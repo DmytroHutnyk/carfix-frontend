@@ -21,6 +21,8 @@ import {buildSearchUrl} from "@/features/search/searchUrl";
 import {useSearchLocation} from "@/lib/store";
 import BookingFlowDialog from "./booking/bookingFlowDialog";
 import {CANCELLATION_POLICY_CONTENT} from "@/features/ownerBranch/cancellationPolicyContent";
+import {cn} from "@/lib/utils";
+import {useInViewport} from "./useInViewport";
 import WorkshopPageSkeleton from "./workshopPageSkeleton";
 import WorkshopGallery from "./workshopGallery";
 import WorkshopHeading from "./workshopHeading";
@@ -33,6 +35,7 @@ import ContactCard from "./contactCard";
 import ReviewsCard from "./reviewsCard";
 
 const subscribeToNothing = () => () => {};
+const STICKY_BAR_INSET = 72;
 
 function useSearchHref() {
     const searchLocation = useSearchLocation((s) => s.searchLocation);
@@ -49,6 +52,7 @@ export default function WorkshopPageContent({branchId, initialServiceName, initi
     const searchHref = useSearchHref();
     /* null = the user has not touched the basket yet, so the deep-linked service stays preselected */
     const [selectedIds, setSelectedIds] = useState<number[] | null>(null);
+    const {ref: ctaRef, inViewport: ctaInViewport} = useInViewport(STICKY_BAR_INSET);
 
     if (isLoading) return <WorkshopPageSkeleton/>;
     if (isError && isProblemDetailError(error) && error.status === 404) {
@@ -153,12 +157,19 @@ export default function WorkshopPageContent({branchId, initialServiceName, initi
                         onToggle={toggleService}
                         initialRange={initialRange}
                         onBookingComplete={() => setSelectedIds([])}
+                        ctaRef={ctaRef}
                     />
                 </div>
             </div>
 
             {selectedServices.length > 0 && (
-                <div className="sticky bottom-0 z-30 -mx-4 mt-6 flex items-center gap-3 border-t bg-background px-4 py-2.5 lg:hidden">
+                <div
+                    inert={ctaInViewport}
+                    className={cn(
+                        "sticky bottom-0 z-30 -mx-4 mt-6 flex items-center gap-3 border-t bg-background px-4 py-2.5 transition-opacity duration-200 lg:hidden",
+                        ctaInViewport && "opacity-0"
+                    )}
+                >
                     <div className="min-w-0 flex-1">
                         <p className="text-xs text-muted-foreground">
                             {selectedServices.length} {selectedServices.length === 1 ? "service" : "services"} selected
