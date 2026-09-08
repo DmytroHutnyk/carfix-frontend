@@ -3,17 +3,13 @@ import {clientApi} from "@/lib/clientApi";
 import {LoginCredentials, RegisterData} from "@/features/auth/authTypes";
 import {isApiError} from "@/lib/apiTypes";
 
-/* Auth is role-agnostic: the backend resolves the principal's role from the session and
- * returns the matching Account variant (user core + role tail) in one response. Only
- * `register` is role-specific — registration creates a role aggregate from a role-specific
- * payload (`registerOwner` will be added when owners can self-register). */
 export const authApi = {
     async getSession(): Promise<Account | null> {
         const result = await clientApi.get<Account>('/auth/me')
 
         console.log("refetched")
         if (isApiError(result)) {
-            //401 is expected normal behaviour when the user is not logged in, that is why null returned
+            // An anonymous session is expected, not an error state.
             if ('status' in result && result.status === 401) {
                 return null;
             }
@@ -33,7 +29,6 @@ export const authApi = {
         return result;
     },
 
-    //maybe we will even make registration universal for customer and owner, to have one endpoint and owner wil submit other details in profile settings
     async registerCustomer(registerData: RegisterData): Promise<Account> {
         const result = await clientApi.post<Account, RegisterData>('/customer/auth/register', registerData);
 

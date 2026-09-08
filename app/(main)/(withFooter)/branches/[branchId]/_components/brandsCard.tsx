@@ -21,7 +21,6 @@ export default function BrandsCard({brands}: { brands: WorkshopBrand[] }) {
                 <ul className="flex flex-wrap gap-x-3 gap-y-2 lg:gap-x-4 lg:gap-y-3">
                     {visible.map((brand) => (
                         <li key={brand.carBrandId} className="flex items-center gap-2">
-                            {/* Logo placeholder until brand assets exist */}
                             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted lg:h-9 lg:w-9">
                                 <CarFront className="h-4 w-4 text-muted-foreground"/>
                             </span>

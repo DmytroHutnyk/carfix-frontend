@@ -5,7 +5,6 @@ import ContactForm from "@/(main)/(withFooter)/(info)/contacts/_components/Conta
 export default function Page(){
     return(
         <div className="py-3">
-            {/*-==-==-=-=-=-=--==-=-=-=-header-==-==-=-=-=-=-=-=-=---==*/}
             <section className="space-y-1.5 lg:space-y-3">
                 <h1 className="text-lg font-semibold tracking-tight lg:text-3xl lg:font-bold">
                     Contact Us
@@ -19,7 +18,6 @@ export default function Page(){
 
             <section className="flex flex-col gap-y-2">
                 <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-4">
-                    {/*-==-==-=-=-=-=--==-=-=-=-Support Info-==-==-=-=-=-=-=-=-=---==*/}
                     <Card>
                         <CardHeader>
                             <CardTitle className="text-base lg:text-xl">Support Information</CardTitle>

@@ -7,7 +7,6 @@ export default function Home() {
     <div>
       <div>
             <main className="mx-auto max-w-[1425px] px-4 py-4 space-y-6 lg:px-[72px] lg:py-15 lg:space-y-16">
-              {/* Intro Section */}
               <section className="text-center space-y-2 sm:space-y-4 max-w-3xl mx-auto">
                 <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight">
                   Find the Best Car Service Near You
@@ -17,7 +16,6 @@ export default function Home() {
                 </p>
               </section>
 
-              {/* Services Grid */}
               <section className="space-y-3 lg:space-y-8">
                   <h2 className="text-base sm:text-xl lg:text-3xl font-bold text-center">Popular Services</h2>
                 <Carousel opts={{
@@ -36,7 +34,6 @@ export default function Home() {
                 </Carousel>
               </section>
 
-                {/* Service stations */}
               <section className="space-y-3 lg:space-y-8">
                   <p className="text-base sm:text-xl lg:text-3xl font-bold text-center">Recommended service points</p>
                   <Carousel opts={{
@@ -55,7 +52,6 @@ export default function Home() {
                   </Carousel>
               </section>
 
-              {/* How to Use CarFix Section */}
               <section className="space-y-3 lg:space-y-8">
                 <div className="text-center space-y-2 sm:space-y-4 max-w-2xl mx-auto">
                   <h2 className="text-base sm:text-xl lg:text-3xl font-bold">How to Use CarFix</h2>

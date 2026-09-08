@@ -12,7 +12,6 @@ export type BranchStatus = (typeof BRANCH_STATUSES)[number];
 export const CANCELLATION_POLICIES = ["STRICT", "MODERATE", "FLEXIBLE"] as const;
 export type CancellationPolicy = (typeof CANCELLATION_POLICIES)[number];
 
-// Mirrors backend OwnerBranchSummaryResponse (latestReviews[] mirrors BranchReviewResponse = WorkshopReview)
 export interface OwnerBranchSummary {
     branchId: string;
     name: string;

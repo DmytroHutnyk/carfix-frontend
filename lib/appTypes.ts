@@ -1,13 +1,9 @@
-/*Interface and location search engine language*/
 export type Language = "EN" | "PL" | "UK";
 
-/*location search engine country restriction*/
 export type CountryCode = "PL" | "DE" | "FR" | "ES" | "IT" | "GB" | "UA" | "US" | "CA";
 
-/*used for grouping the countries in selection bar*/
 type Continent = "Europe" | "North America";
 
-/*Used for zustand state (useSearchLocation) to keep one source of truth location restriction for location search engine */
 export interface SearchLocation {
     city: string | null,
     region: string | null,
@@ -22,7 +18,6 @@ export interface Country {
     continent: Continent;
 }
 
-/*to move somewhere else?*/
 export const LANGUAGES: Language[] = ["EN", "PL", "UK"];
 
 export const COUNTRIES: Country[] = [
@@ -42,7 +37,6 @@ export const FLAG_PLACEHOLDERS: Record<CountryCode, string> = {
     IT: "🇮🇹", GB: "🇬🇧", UA: "🇺🇦", US: "🇺🇸", CA: "🇨🇦",
 };
 
-/* Inclusive date range used by filters; ISO date strings ("2026-08-12"), nulls mean unbounded */
 export interface DateRangeValue {
     from: string | null;
     to: string | null;
@@ -50,28 +44,24 @@ export interface DateRangeValue {
 
 export const EMPTY_DATE_RANGE: DateRangeValue = {from: null, to: null};
 
-/* Capital-city centres. A search with no city still needs a point to measure a radius
-   from and to show distances against; this is that point. Coordinates are the capitals'
-   city centres */
+// Country centers anchor radius searches that have no city.
 export const COUNTRY_CENTERS: Record<CountryCode, { lat: number; lng: number }> = {
-    PL: { lat: 52.2297, lng: 21.0122 },   // Warsaw
-    DE: { lat: 52.5200, lng: 13.4050 },   // Berlin
-    FR: { lat: 48.8566, lng: 2.3522 },    // Paris
-    ES: { lat: 40.4168, lng: -3.7038 },   // Madrid
-    IT: { lat: 41.9028, lng: 12.4964 },   // Rome
-    GB: { lat: 51.5074, lng: -0.1278 },   // London
-    UA: { lat: 50.4501, lng: 30.5234 },   // Kyiv
-    US: { lat: 38.9072, lng: -77.0369 },  // Washington, D.C.
-    CA: { lat: 45.4215, lng: -75.6972 },  // Ottawa
+    PL: { lat: 52.2297, lng: 21.0122 },
+    DE: { lat: 52.5200, lng: 13.4050 },
+    FR: { lat: 48.8566, lng: 2.3522 },
+    ES: { lat: 40.4168, lng: -3.7038 },
+    IT: { lat: 41.9028, lng: 12.4964 },
+    GB: { lat: 51.5074, lng: -0.1278 },
+    UA: { lat: 50.4501, lng: 30.5234 },
+    US: { lat: 38.9072, lng: -77.0369 },
+    CA: { lat: 45.4215, lng: -75.6972 },
 };
 
-/* Narrows an external code (Google geocode, URL param, cookie) to a supported country. */
 export function isCountryCode(code: string | null | undefined): code is CountryCode {
     return code != null && code in COUNTRY_CENTERS;
 }
 
-/* The wire carries ISO codes; the UI shows names. Unknown codes pass through unchanged
-   rather than disappearing, so a stale URL still reads sensibly. */
+// Preserve unknown codes so stale URLs remain readable.
 export function countryName(code: string | null): string | null {
     if (!code) return null;
     return COUNTRIES.find((country) => country.code === code)?.name ?? code;

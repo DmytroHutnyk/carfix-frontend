@@ -25,7 +25,6 @@ export function useAuth(): UseAuthReturn {
         },
     });
 
-    // for now that is actually registerCustomerMutation, but it is a subject to change
     const registerMutation = useMutation({
         mutationFn: authApi.registerCustomer,
         onSuccess: (account) => {
@@ -46,16 +45,13 @@ export function useAuth(): UseAuthReturn {
     const isAuthenticated = account !== null;
 
     return {
-        // State
         account,
         isAuthenticated,
 
-        //initial session check
         isLoading: sessionQuery.isLoading,
         isError: sessionQuery.isError,
         error: sessionQuery.error,
 
-        // Actions
         login: (credentials: LoginCredentials) => loginMutation.mutateAsync(credentials),
         //TODO rename RegisterData to RegisterCustomerData
         register: (registerData: RegisterData) => registerMutation.mutateAsync(registerData),

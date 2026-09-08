@@ -14,7 +14,6 @@ import {useAutocompleteSuggestions} from "@/lib/use-autocomplete-suggestions";
 
 type PlacePrediction = google.maps.places.PlacePrediction;
 
-/** Everything one geocoded street address contributes to the address form. */
 export type PickedAddress = {
     streetName: string | null;
     buildingNumber: string | null;
@@ -28,8 +27,7 @@ export type PickedAddress = {
     googlePlaceId: string | null;
 };
 
-/* Street-level results only, from any country: a home address is not tied to the country the
-   user browses workshops in. */
+// Home-address results are independent of workshop search country.
 const ADDRESS_REQUEST_OPTIONS: Partial<google.maps.places.AutocompleteRequest> = {
     includedPrimaryTypes: ["street_address", "premise", "subpremise", "route"],
     includedRegionCodes: [],
@@ -60,7 +58,7 @@ export default function AddressSearchBar({id, placeholder = "Search your address
 
             const place: google.maps.places.Place = prediction.toPlace();
 
-            // fetchFields closes the autocomplete session (bundled billing)
+            // fetchFields closes Google's billable autocomplete session.
             place
                 .fetchFields({fields: []})
                 .then(() => {

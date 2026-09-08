@@ -1,4 +1,3 @@
-// Shared identity core
 //TODO infer from zod schema
 export interface Location {
     city: string;
@@ -46,7 +45,6 @@ export const ROLE = {
 
 export type UserRole = (typeof ROLE)[keyof typeof ROLE];
 
-// Specific user types
 export interface CustomerAccount {
     role: typeof ROLE.CUSTOMER;
     user: User;

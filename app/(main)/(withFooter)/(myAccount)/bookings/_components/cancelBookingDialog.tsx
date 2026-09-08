@@ -48,7 +48,6 @@ export default function CancelBookingDialog({open, onOpenChange, booking}: {
                     <DialogTitle>Cancel booking</DialogTitle>
                 </DialogHeader>
 
-                {/*-==-==-=-=-=-=--==-=-=-=-Booking summary-==-==-=-=-=-=-=-=-=---==*/}
                 <div className="flex flex-col items-start gap-2 text-xs lg:text-base">
                     <p className="flex items-center gap-2 text-muted-foreground">
                         <CalendarDays className="h-3.5 w-3.5 lg:h-4 lg:w-4"/>
@@ -63,7 +62,6 @@ export default function CancelBookingDialog({open, onOpenChange, booking}: {
 
                 <Separator/>
 
-                {/*-==-==-=-=-=-=--==-=-=-=-Penalty / safe notice-==-==-=-=-=-=-=-=-=---==*/}
                 {penalty ? (
                     <>
                         <div className="rounded-lg border border-destructive/50 p-3 text-xs text-destructive lg:p-4 lg:text-base">
@@ -93,7 +91,6 @@ export default function CancelBookingDialog({open, onOpenChange, booking}: {
                     </div>
                 )}
 
-                {/*-==-==-=-=-=-=--==-=-=-=-Actions-==-==-=-=-=-=-=-=-=---==*/}
                 <div className="flex justify-end gap-2">
                     <Button variant="secondary" size="sm" className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm" onClick={() => onOpenChange(false)} disabled={isCancelling}>
                         Return

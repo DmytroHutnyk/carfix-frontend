@@ -5,9 +5,9 @@ import {ApiError, isProblemDetailError} from "@/lib/apiTypes";
 
 export type BookingFilterState = {
     query: string;
-    carProfileId: string;          // "all" or a carProfileId
+    carProfileId: string;
     status: BookingStatus | "all";
-    dateRange: DateRangeValue;     // inclusive on both ends; nulls mean "unbounded"
+    dateRange: DateRangeValue;
 };
 
 export const EMPTY_FILTERS: BookingFilterState = {
@@ -45,7 +45,6 @@ function startMillis(b: Booking): number {
     return new Date(`${b.date}T${b.startTime}`).getTime();
 }
 
-/** Upcoming bookings first (soonest first), then past bookings (most recent first). */
 export function sortBookings(list: Booking[], now: Date = new Date()): Booking[] {
     const nowMs = now.getTime();
     const upcoming = list.filter((b) => startMillis(b) >= nowMs)
@@ -59,7 +58,6 @@ export function formatBookingDate(isoDate: string): string {
     return format(new Date(isoDate + "T00:00:00"), "EEE, MMM d, yyyy");
 }
 
-/** Backend serializes LocalTime as "HH:mm:ss" — display without seconds. */
 export function formatTime(time: string): string {
     return time.slice(0, 5);
 }
@@ -68,12 +66,11 @@ export function formatPrice(price: number): string {
     return `${Number.isInteger(price) ? price : price.toFixed(2)} PLN`;
 }
 
-/** Penalty warning applies once "now" is past the safe-cancel threshold. Informational only. */
 export function isPenaltyCancel(booking: Booking, now: Date = new Date()): boolean {
     return now.getTime() > new Date(booking.safeCancelUntil).getTime();
 }
 
-/** The picked slot is taken or already past — the cached slot grid lies, so it must be refetched and re-picked. */
+// A rejected slot proves cached availability stale and forces a refetch.
 export function isStaleSlotError(error: ApiError): boolean {
     if (!isProblemDetailError(error)) return false;
     return error.code === "SLOT_NOT_AVAILABLE" || error.errors?.startTime !== undefined;

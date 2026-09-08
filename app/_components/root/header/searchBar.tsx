@@ -34,10 +34,8 @@ interface SearchBarProps {
     className?: string;
     value: string;
     onValueChange: (value: string) => void;
-    /* Enter pressed with enough characters typed */
     onSubmit: () => void;
     onSelect: (suggestion: SearchSuggestion) => void;
-    /* The element the dropdown measures itself against — the whole search row */
     anchorRef?: RefObject<HTMLDivElement | null>;
     inline?: boolean;
     autoFocus?: boolean;
@@ -146,7 +144,6 @@ export default function SearchBar({id, className, value, onValueChange, onSubmit
                     <ComboboxList className="max-h-none px-0 py-2">{renderGroup}</ComboboxList>
                 )
             ) : (
-                /* Anchored to the whole row, so the panel spans the text field and the location field */
                 <ComboboxContent anchor={anchorRef}>
                     <ComboboxEmpty>{emptyMessage}</ComboboxEmpty>
                     <ComboboxList>{renderGroup}</ComboboxList>

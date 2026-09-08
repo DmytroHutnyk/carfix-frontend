@@ -5,8 +5,8 @@ export interface CarProfile {
     name: string;
     vin: string | null;
     plates: string | null;
-    serviceCertificateDate: string | null; // ISO date "2026-03-01"
-    insuranceDate: string | null;          // ISO date
+    serviceCertificateDate: string | null;
+    insuranceDate: string | null;
     brandId: number;
     brandName: string;
     modelId: number;
@@ -15,7 +15,6 @@ export interface CarProfile {
     versionName: string;
 }
 
-// Catalog reads (backend CarBrandResponse / CarModelResponse / ModelVersionResponse)
 export interface CarBrand {
     id: number;
     name: string;
@@ -29,9 +28,9 @@ export interface CarModel {
 
 export interface ModelVersion {
     id: number;
-    name: string;               // engine/variant label, e.g. "XV70 2.5 Hybrid"
+    name: string;
     startProduction: number | null;
-    endProduction: number | null; // null = still in production
+    endProduction: number | null;
     modelId: number;
 }
 

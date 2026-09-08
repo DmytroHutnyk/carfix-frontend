@@ -10,11 +10,7 @@ export type SearchIntent =
     | { kind: "workshop"; branchId: string; name: string }
     | { kind: "browse" };
 
-/**
- * The one place a /search URL is created. Every navigation into the results page goes
- * through here, so the page can treat its URL as complete and never fall back to store
- * state it cannot see.
- */
+// Every search navigation uses this complete URL instead of hidden store state.
 export function buildSearchUrl(intent: SearchIntent, location: SearchLocation): string {
     const params = new URLSearchParams();
 
@@ -40,7 +36,6 @@ export function buildSearchUrl(intent: SearchIntent, location: SearchLocation): 
     if (location.city) params.set("city", location.city);
     if (location.region) params.set("voivodeship", location.region);
 
-    // always set from the toggle
     params.set("country", location.country);
 
     const hasCityCoordinates = location.lat != null && location.lng != null;
@@ -70,7 +65,7 @@ export function parseSearchParams(sp: ReadonlyURLSearchParams): WorkshopSearchPa
     const serviceName = sp.get("serviceName");
     const from = sp.get("from");
     const to = sp.get("to");
-    /* Availability only exists for a concrete service and needs a well-formed pair of dates — a stale or hand-edited URL must not become a 400 or a render crash */
+    // Ignore malformed URL ranges before they reach date parsing or backend validation.
     const hasRange = !!serviceName && isIsoDate(from) && isIsoDate(to) && from <= to;
     const timeFrom = hasRange ? asTimeOfDay(sp.get("timeFrom")) : null;
     const timeTo = hasRange ? asTimeOfDay(sp.get("timeTo")) : null;
@@ -86,7 +81,6 @@ export function parseSearchParams(sp: ReadonlyURLSearchParams): WorkshopSearchPa
         lat: toNumber(sp.get("lat")),
         lng: toNumber(sp.get("lng")),
         radiusKm: toNumber(sp.get("radiusKm")),
-        /* Filled from the selected car by the results page, never from the URL */
         carProfileId: null,
         allBrands: sp.get("allBrands") != null,
         sort: sp.get("sort"),
@@ -107,7 +101,6 @@ export function searchTextFromParams(params: WorkshopSearchParams): string {
     return params.label ?? params.q ?? params.serviceName ?? "";
 }
 
-/* The card hands the searched service (and the availability range) to the workshop page, which preselects them */
 export function buildBranchUrl(branchId: string, params: WorkshopSearchParams): string {
     const query = new URLSearchParams();
     if (params.serviceName) {

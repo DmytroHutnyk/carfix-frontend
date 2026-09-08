@@ -4,7 +4,6 @@ import {Button} from "@/_components/shadcn/button";
 import {Input} from "@/_components/shadcn/input";
 import {Eye, EyeOff, X} from 'lucide-react'
 import {useState} from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import {useRouter, useSearchParams} from "next/navigation";
@@ -138,25 +137,6 @@ export default function LoginForm({registerHref}: { registerHref: string }) {
                             Log In
                         </Button>
                     </form>
-
-                    <div className="flex items-center">
-                        <div className="h-px flex-1 bg-border"></div>
-                        <span className="px-4 text-xs text-muted-foreground">or</span>
-                        <div className="h-px flex-1 bg-border"></div>
-                    </div>
-
-                    <Button
-                        variant="white"
-                        className="w-full"
-                    >
-                        Continue with Google
-                        <Image
-                            src="/google-logo.svg"
-                            alt="google logo"
-                            width={20}
-                            height={20}
-                        />
-                    </Button>
                 </CardContent>
 
                 <CardFooter className="flex-col">

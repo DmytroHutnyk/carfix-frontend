@@ -49,7 +49,6 @@ export default function Page() {
 
     return (
         <div className="py-3">
-            {/*-==-==-=-=-=-=--==-=-=-=-Header-==-==-=-=-=-=-=-=-=---==*/}
             <section className="flex flex-wrap items-center gap-3 lg:gap-4">
                 <h1 className="text-lg font-semibold tracking-tight lg:text-3xl lg:font-bold">My Cars</h1>
 
@@ -62,7 +61,6 @@ export default function Page() {
                 </Button>
             </section>
 
-            {/*-==-==-=-=-=-=--==-=-=-=-Filters-==-==-=-=-=-=-=-=-=---==*/}
             <section className="pt-4 lg:pt-6">
                 <CarFilters
                     query={searchQuery}
@@ -76,7 +74,6 @@ export default function Page() {
                 />
             </section>
 
-            {/*-==-==-=-=-=-=--==-=-=-=-List-==-==-=-=-=-=-=-=-=---==*/}
             <section className="flex flex-col gap-3 pt-4 lg:gap-y-4 lg:pt-6">
                 {isError && (
                     <FormErrorAlert message={toDisplayError(error as ApiError).message}/>
@@ -113,7 +110,6 @@ export default function Page() {
                 ))}
             </section>
 
-            {/*-==-==-=-=-=-=--==-=-=-=-Dialogs-==-==-=-=-=-=-=-=-=---==*/}
             {addOpen && (
                 <CarFormDialog open={addOpen} onOpenChange={setAddOpen}/>
             )}

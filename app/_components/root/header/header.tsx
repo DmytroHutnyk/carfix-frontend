@@ -13,7 +13,6 @@ export default function Header({initialLocation}: {initialLocation: SearchLocati
             <div className="mx-auto flex max-w-[1475px] flex-col gap-2 px-4 py-2 lg:flex-row lg:items-center lg:gap-7 lg:px-6 lg:py-3">
 
                 <div className="flex h-9 min-w-0 items-center justify-between gap-2 lg:h-auto lg:contents">
-                    {/* Logo and slogan*/}
                     <Logo/>
                     <MobileMenu/>
                 </div>
@@ -22,7 +21,6 @@ export default function Header({initialLocation}: {initialLocation: SearchLocati
                     <SearchRow initialLocation={initialLocation}/>
                 </Suspense>
 
-                {/* Buttons for LoggedIn user and for guest*/}
                 <div className="hidden lg:contents">
                     <AuthNavigation/>
                 </div>

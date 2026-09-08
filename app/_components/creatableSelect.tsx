@@ -22,7 +22,6 @@ interface CreatableSelectProps {
     className?: string;
 }
 
-/* Single pick from a user-defined list; typing a name that is not in the list offers to add it. */
 export default function CreatableSelect({
                                             id, value, options, onChange, onCreate, placeholder, maxNameLength, ariaLabel,
                                             createLabel = "Add", searchPlaceholder = "Search or type a new one…",

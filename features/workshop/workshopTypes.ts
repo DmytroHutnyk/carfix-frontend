@@ -1,6 +1,5 @@
 import type {CancellationPolicy} from "@/features/ownerBranch/ownerBranchTypes";
 
-// Backend wire contract: WorkshopResponse and its nested records
 export interface WorkshopBrand {
     carBrandId: number;
     name: string;
@@ -52,7 +51,6 @@ export interface Workshop {
 
 export type ReviewsSort = "newest" | "highest" | "lowest";
 
-// Backend wire contract: WorkshopReviewsPageResponse
 export interface WorkshopReview {
     reviewId: string;
     starsNumber: number;

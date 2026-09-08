@@ -92,13 +92,11 @@ export interface WorkshopSearchParams {
     label: string | null;
     city: string | null;
     voivodeship: string | null;
-    /* 2-letter ISO code from the region selector */
     country: string | null;
     lat: number | null;
     lng: number | null;
     radiusKm: number | null;
     carProfileId: string | null;
-    /* URL-only: explicit opt-out of the selected-car brand filter */
     allBrands: boolean;
     sort: string | null;
     pinnedBranchId: string | null;

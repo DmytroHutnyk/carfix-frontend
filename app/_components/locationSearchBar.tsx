@@ -15,7 +15,6 @@ import {CountryCode, isCountryCode} from "@/lib/appTypes";
 
 type PlacePrediction = google.maps.places.PlacePrediction;
 
-/** Everything one geocoded place contributes to a search. */
 export type PickedPlace = {
     city: string | null;
     region: string | null;
@@ -49,7 +48,6 @@ export default function LocationSearchBar({id, className, placeholder = "Locatio
     const {suggestions, resetSession} = useAutocompleteSuggestions(value, requestOptions);
     const geocoderRef = useRef<google.maps.Geocoder | null>(null);
 
-    // map AutocompleteSuggestion[] to placePrediction[]
     const predictions = useMemo(
         () =>
             suggestions
@@ -64,7 +62,7 @@ export default function LocationSearchBar({id, className, placeholder = "Locatio
 
             const place: google.maps.places.Place = prediction.toPlace();
 
-            // fetchFields closes the autocomplete session (bundled billing)
+            // fetchFields closes Google's billable autocomplete session.
             place
                 .fetchFields({fields: []})
                 .then(() => {

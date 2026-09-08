@@ -71,7 +71,6 @@ export default function ProfileSettings() {
 
     return(
         <div className="py-3">
-            {/*-==-==-=-=-=-=--==-=-=-=-header-==-==-=-=-=-=-=-=-=---==*/}
             <section className="space-y-3">
                 <h1 className="text-lg font-semibold tracking-tight lg:text-3xl lg:font-bold">
                     Profile
@@ -79,7 +78,6 @@ export default function ProfileSettings() {
             </section>
 
 
-            {/*-==-==-=-=-=-=--==-=-=-=-Cards-==-==-=-=-=-=-=-=-=---==*/}
             <section className="flex flex-col gap-3 pt-4 lg:gap-y-2 lg:pt-5">
                 <Card className="relative">
                     {isSubmitting && (

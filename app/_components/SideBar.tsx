@@ -35,7 +35,7 @@ export default function SideBar({menuItems, mobile = "segmented"}: {
             )}
 
             <Card className="hidden p-4 lg:block">
-                <CardContent className="p-0">
+                <CardContent className="p-0 lg:p-0">
                     <nav className="flex flex-col gap-2">
                         {menuItems.map((item) => {
                             const isActive = pathName === item.href;

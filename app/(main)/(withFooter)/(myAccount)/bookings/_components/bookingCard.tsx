@@ -37,7 +37,6 @@ export default function BookingCard({booking, onCancel, onReview, isReviewed}: {
     return (
         <Card>
             <CardContent className="flex flex-col gap-3 p-3 lg:gap-4 lg:p-6">
-                {/*-==-==-=-=-=-=--==-=-=-=-Status / date / reference-==-==-=-=-=-=-=-=-=---==*/}
                 <div className="flex flex-wrap items-center gap-2 lg:gap-3">
                     <Badge variant={STATUS_BADGE_VARIANTS[booking.status]}>
                         {STATUS_LABELS[booking.status]}
@@ -51,7 +50,6 @@ export default function BookingCard({booking, onCancel, onReview, isReviewed}: {
 
                 <Separator/>
 
-                {/*-==-==-=-=-=-=--==-=-=-=-Branch + vehicle-==-==-=-=-=-=-=-=-=---==*/}
                 <div className="flex flex-col gap-2 lg:flex-row lg:flex-wrap lg:items-start lg:justify-between lg:gap-6">
                     <div className="space-y-0.5">
                         <h2 className="text-sm font-semibold tracking-tight lg:text-xl lg:font-bold">{branch.name}</h2>
@@ -72,7 +70,6 @@ export default function BookingCard({booking, onCancel, onReview, isReviewed}: {
                     </div>
                 </div>
 
-                {/*-==-==-=-=-=-=--==-=-=-=-Services-==-==-=-=-=-=-=-=-=---==*/}
                 <div>
                     <h3 className="pb-2 text-xs font-medium text-muted-foreground lg:text-base lg:font-semibold lg:text-foreground">
                         Selected services
@@ -119,7 +116,6 @@ export default function BookingCard({booking, onCancel, onReview, isReviewed}: {
                     </div>
                 </div>
 
-                {/*-==-==-=-=-=-=--==-=-=-=-Actions-==-==-=-=-=-=-=-=-=---==*/}
                 <div className="flex items-center justify-end gap-2 pt-1 lg:justify-between">
                     <ContactBranchPopover branch={branch}/>
                     {booking.status === "SCHEDULED" && (

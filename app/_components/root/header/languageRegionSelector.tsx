@@ -41,7 +41,6 @@ export default function LanguageRegionSelector() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="bg-background w-72 p-3">
 
-                {/* Language section */}
                 <DropdownMenuLabel className="flex items-center gap-2 px-0 pb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     <Globe className="h-3.5 w-3.5" />
                     Language
@@ -67,7 +66,6 @@ export default function LanguageRegionSelector() {
                     </div>
                 </DropdownMenuRadioGroup>
 
-                {/* Region separator with centered label */}
                 <div className="relative my-4">
                     <DropdownMenuSeparator className="my-0" />
                     <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
