@@ -1,6 +1,4 @@
-import Link from "next/link";
 import {Check} from "lucide-react";
-import {Button} from "@/_components/shadcn/button";
 import ImagePlaceholder from "@/business/_components/imagePlaceholder";
 
 export default function HeroSection() {
@@ -22,9 +20,6 @@ export default function HeroSection() {
                     ))}
                 </ul>
                 <div className="space-y-2">
-                    <Button className="w-full lg:h-10 lg:w-auto lg:px-8" asChild>
-                        <Link href="/business/register">Try for Free</Link>
-                    </Button>
                     <p className="text-xs text-muted-foreground lg:text-sm">No credit card, cancel anytime</p>
                 </div>
             </div>
