@@ -23,6 +23,7 @@ import FormErrorAlert from "@/_components/formErrorAlert";
 import BookingFilters from "@/(main)/(withFooter)/(myAccount)/bookings/_components/bookingFilters";
 import BookingCard from "@/(main)/(withFooter)/(myAccount)/bookings/_components/bookingCard";
 import CancelBookingDialog from "@/(main)/(withFooter)/(myAccount)/bookings/_components/cancelBookingDialog";
+import ReviewDialog from "@/(main)/(withFooter)/(myAccount)/bookings/_components/reviewDialog";
 
 export default function Page() {
     // Login redirect is handled upstream: proxy.ts cookie pre-filter + RequireAuth in the
@@ -35,6 +36,8 @@ export default function Page() {
 
     const [filters, setFilters] = useState<BookingFilterState>(EMPTY_FILTERS);
     const [cancelTarget, setCancelTarget] = useState<Booking | null>(null);
+    const [reviewTarget, setReviewTarget] = useState<Booking | null>(null);
+    const [reviewedIds, setReviewedIds] = useState<Set<string>>(new Set());
 
     const vehicles = useMemo(
         () => [...carProfiles]
@@ -101,6 +104,8 @@ export default function Page() {
                         key={booking.bookingId}
                         booking={booking}
                         onCancel={() => setCancelTarget(booking)}
+                        onReview={() => setReviewTarget(booking)}
+                        isReviewed={reviewedIds.has(booking.bookingId)}
                     />
                 ))}
             </section>
@@ -111,6 +116,19 @@ export default function Page() {
                     open={true}
                     onOpenChange={(open) => !open && setCancelTarget(null)}
                     booking={cancelTarget}
+                />
+            )}
+
+            {/*-==-==-=-=-=-=--==-=-=-=-Review dialog-==-==-=-=-=-=-=-=-=---==*/}
+            {reviewTarget && (
+                <ReviewDialog
+                    open={true}
+                    onOpenChange={(open) => !open && setReviewTarget(null)}
+                    booking={reviewTarget}
+                    onReviewed={(bookingId) => {
+                        setReviewedIds((prev) => new Set(prev).add(bookingId));
+                        setReviewTarget(null);
+                    }}
                 />
             )}
         </div>

@@ -26,9 +26,11 @@ const STATUS_BADGE_VARIANTS: Record<BookingStatus, "default" | "success" | "seco
     NO_SHOW: "destructive",
 };
 
-export default function BookingCard({booking, onCancel}: {
+export default function BookingCard({booking, onCancel, onReview, isReviewed}: {
     booking: Booking;
     onCancel: () => void;
+    onReview: () => void;
+    isReviewed: boolean;
 }) {
     const {branch, vehicle} = booking;
 
@@ -128,6 +130,17 @@ export default function BookingCard({booking, onCancel}: {
                             onClick={onCancel}
                         >
                             Cancel
+                        </Button>
+                    )}
+                    {booking.status === "COMPLETED" && (
+                        <Button
+                            variant={isReviewed ? "secondary" : "default"}
+                            size="sm"
+                            className="lg:h-9 lg:px-4 lg:py-2 lg:text-sm"
+                            onClick={onReview}
+                            disabled={isReviewed}
+                        >
+                            {isReviewed ? "Reviewed" : "Leave a review"}
                         </Button>
                     )}
                 </div>
