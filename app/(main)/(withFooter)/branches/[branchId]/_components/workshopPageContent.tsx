@@ -20,6 +20,7 @@ import {useWorkshop} from "@/features/workshop/useWorkshop";
 import {buildSearchUrl} from "@/features/search/searchUrl";
 import {useSearchLocation} from "@/lib/store";
 import BookingFlowPopover from "./booking/bookingFlowPopover";
+import {CANCELLATION_POLICY_CONTENT} from "@/features/ownerBranch/cancellationPolicyContent";
 import WorkshopPageSkeleton from "./workshopPageSkeleton";
 import WorkshopGallery from "./workshopGallery";
 import WorkshopHeading from "./workshopHeading";
@@ -121,7 +122,9 @@ export default function WorkshopPageContent({branchId, initialServiceName, initi
                                 <Card>
                                     <CardHeader><CardTitle>Cancellation Policy</CardTitle></CardHeader>
                                     <CardContent>
-                                        <p className="text-sm text-muted-foreground">{workshop.cancellationPolicy}</p>
+                                        <p className="text-sm text-muted-foreground">
+                                            {CANCELLATION_POLICY_CONTENT[workshop.cancellationPolicy].details}
+                                        </p>
                                     </CardContent>
                                 </Card>
                             )}
