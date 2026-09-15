@@ -14,7 +14,7 @@ const THUMBNAILS: { id: number; label: string | null }[] = [
 export default function BranchPhotosPlaceholder() {
     return (
         <div className="space-y-3">
-            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-border bg-muted">
+            <div className="relative aspect-[16/7] w-full overflow-hidden rounded-xl border border-border bg-muted">
                 <div className="flex h-full w-full items-center justify-center">
                     <ImageIcon className="h-10 w-10 text-muted-foreground"/>
                 </div>
@@ -42,7 +42,7 @@ export default function BranchPhotosPlaceholder() {
                 {THUMBNAILS.map((thumb) => (
                     <div
                         key={thumb.id}
-                        className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-muted"
+                        className="relative aspect-[16/10] overflow-hidden rounded-lg border border-border bg-muted"
                     >
                         <div className="flex h-full w-full items-center justify-center">
                             <ImageIcon className="h-6 w-6 text-muted-foreground"/>

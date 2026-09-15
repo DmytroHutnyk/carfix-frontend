@@ -8,7 +8,7 @@ import {cn} from "@/lib/utils";
 
 import AddressSearchBar, {PickedAddress} from "@/_components/addressSearchBar";
 import {Card, CardContent, CardHeader, CardTitle} from "@/_components/shadcn/card";
-import {Field, FieldDescription, FieldError, FieldLabel} from "@/_components/shadcn/field";
+import {Field, FieldError, FieldLabel} from "@/_components/shadcn/field";
 import {Input} from "@/_components/shadcn/input";
 import {Textarea} from "@/_components/shadcn/textarea";
 import BranchPhotosPlaceholder from "@/business/(owner)/branches/[branchId]/_components/branchPhotosPlaceholder";
@@ -78,7 +78,6 @@ export default function BranchInformationCard({form}: { form: UseFormReturn<Bran
                             <GoogleApiProvider>
                                 <AddressSearchBar id="branchAddressSearch" onAddressPicked={applyPicked}/>
                             </GoogleApiProvider>
-                            <FieldDescription>Street, city, region and country are filled from the address you pick.</FieldDescription>
                             {pickError && <FieldError>{pickError.message}</FieldError>}
                         </Field>
 
