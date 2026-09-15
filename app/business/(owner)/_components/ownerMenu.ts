@@ -14,7 +14,7 @@ export const PRIMARY_ITEMS: OwnerMenuItem[] = [
 ];
 
 export const SECONDARY_ITEMS: OwnerMenuItem[] = [
-    {href: "/business/contact", label: "Contact Us", icon: "Phone"},
-    {href: "/business/faq", label: "FAQ", icon: "CircleQuestionMark"},
-    {href: "/business/terms-of-use", label: "Terms of Use", icon: "FileText"},
+    {href: "/business/help/contact", label: "Contact Us", icon: "Phone"},
+    {href: "/business/help/faq", label: "FAQ", icon: "CircleQuestionMark"},
+    {href: "/business/help/terms-of-use", label: "Terms of Use", icon: "FileText"},
 ];

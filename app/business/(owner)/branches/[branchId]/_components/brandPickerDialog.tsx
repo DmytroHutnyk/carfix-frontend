@@ -63,7 +63,7 @@ export default function BrandPickerDialog({selected, onConfirm}: {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogTrigger asChild>
-                <Button type="button" variant="outline" size="sm"><Plus/> Add Brand</Button>
+                <Button type="button" size="sm"><Plus/> Add Brand</Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>

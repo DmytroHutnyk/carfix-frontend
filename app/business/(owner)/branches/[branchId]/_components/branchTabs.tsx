@@ -20,7 +20,7 @@ export default function BranchTabs({active}: { active: BranchTabKey }) {
         <div role="tablist" className="flex w-full gap-1 overflow-x-auto rounded-lg bg-muted p-1">
             {BRANCH_TABS.map((tab) => {
                 const selected = tab.key === active;
-                const base = "shrink-0 rounded-md px-3 py-1.5 text-sm font-medium whitespace-nowrap";
+                const base = "flex-1 rounded-md px-3 py-1.5 text-center text-sm font-medium whitespace-nowrap";
 
                 if (selected) {
                     return (
@@ -28,7 +28,7 @@ export default function BranchTabs({active}: { active: BranchTabKey }) {
                             key={tab.key}
                             role="tab"
                             aria-selected="true"
-                            className={cn(base, "bg-secondary text-secondary-foreground shadow-sm")}
+                            className={cn(base, "bg-accent text-accent-foreground shadow-sm")}
                         >
                             {tab.label}
                         </span>
