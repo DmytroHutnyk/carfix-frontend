@@ -37,8 +37,6 @@ export default function OwnerEmployeeCard({employee, selected, onSelect}: {
                     {employeeStatusLabel(employee.status)}
                 </Badge>
             )}
-
-            <span className="truncate text-xs text-muted-foreground">ID {employee.id}</span>
         </button>
     );
 }

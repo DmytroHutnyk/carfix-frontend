@@ -52,6 +52,10 @@ export default function EmployeeEditor({employee, submitLabel, onSubmit}: {
         <Card>
             <CardContent className="p-4 lg:p-6">
                 <form onSubmit={handleSubmit(submit)} noValidate className="flex flex-col gap-4">
+                    {employee && (
+                        <span className="break-all text-xs text-muted-foreground">ID {employee.id}</span>
+                    )}
+
                     <div className="grid gap-4 sm:grid-cols-2">
                         <Field label="Name" error={errors.name?.message}>
                             <Input {...register("name")} className={cn(errors.name && "border-destructive focus-visible:ring-destructive")}/>
