@@ -13,7 +13,7 @@ const BRANCH_TABS = [
 
 export type BranchTabKey = (typeof BRANCH_TABS)[number]["key"];
 
-const NAVIGABLE_TABS = new Set<BranchTabKey>(["overview", "bookings", "employees", "equipment", "reviews", "carBays"]);
+const NAVIGABLE_TABS = new Set<BranchTabKey>(["overview", "bookings", "employees", "equipment", "reviews", "carBays", "services"]);
 
 export default function BranchTabs({active}: { active: BranchTabKey }) {
     return (
