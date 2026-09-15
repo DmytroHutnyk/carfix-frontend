@@ -40,6 +40,9 @@ export default function ServiceFormDialog({
     const {categories, isLoading: categoriesLoading, isError: categoriesError} = useServiceCategories();
     const [hintOpen, setHintOpen] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
+    const [extraBayTypes, setExtraBayTypes] = useState<string[]>([]);
+    const [extraRoles, setExtraRoles] = useState<string[]>([]);
+    const [extraEquipmentTypes, setExtraEquipmentTypes] = useState<string[]>([]);
 
     const {register, control, handleSubmit, formState: {errors, isSubmitting}} = useForm<ServiceForm>({
         resolver: zodResolver(serviceFormSchema),
@@ -89,6 +92,7 @@ export default function ServiceFormDialog({
                         </div>
                         <Input {...register("name")} id="service-name" placeholder="Service name"
                                aria-invalid={!!errors.name || undefined} className={invalid(errors.name)}/>
+                        <p className="text-xs text-muted-foreground">Name services by part and action, e.g. “Brake pads replacement — front”. Keep them 2–5 words.</p>
                         {fieldError(errors.name?.message)}
                     </Field>
 
@@ -142,9 +146,11 @@ export default function ServiceFormDialog({
                             control={control}
                             name="bayTypes"
                             render={({field}) => (
-                                <MultiSelectField id="service-bay-types" values={field.value} options={bayTypeOptions} onChange={field.onChange}
-                                                  placeholder="Select bay types" maxNameLength={40} invalid={Boolean(errors.bayTypes)}
-                                                  emptyMessage={optionsLoading ? "Loading…" : "No bay types yet — add one on the Car Bays tab"}/>
+                                <MultiSelectField id="service-bay-types" values={field.value}
+                                                  options={[...new Set([...bayTypeOptions, ...extraBayTypes])]} onChange={field.onChange}
+                                                  onCreate={(name) => setExtraBayTypes((p) => p.includes(name) ? p : [...p, name])}
+                                                  createLabel="Add bay type" placeholder="Select bay types" maxNameLength={40} invalid={Boolean(errors.bayTypes)}
+                                                  emptyMessage={optionsLoading ? "Loading…" : "No bay types yet — type a name to add one"}/>
                             )}
                         />
                         {fieldError(errors.bayTypes?.message)}
@@ -160,10 +166,12 @@ export default function ServiceFormDialog({
                                         control={control}
                                         name={`employeeRequirements.${index}.roles`}
                                         render={({field}) => (
-                                            <MultiSelectField id={`service-employee-req-${index}`} values={field.value} options={roleOptions} onChange={field.onChange}
-                                                              placeholder="Select roles" maxNameLength={50} ariaLabel={`Required employee ${index + 1} roles`}
+                                            <MultiSelectField id={`service-employee-req-${index}`} values={field.value}
+                                                              options={[...new Set([...roleOptions, ...extraRoles])]} onChange={field.onChange}
+                                                              onCreate={(name) => setExtraRoles((p) => p.includes(name) ? p : [...p, name])}
+                                                              createLabel="Add role" placeholder="Select roles" maxNameLength={50} ariaLabel={`Required employee ${index + 1} roles`}
                                                               invalid={Boolean(errors.employeeRequirements?.[index]?.roles)}
-                                                              emptyMessage={optionsLoading ? "Loading…" : "No roles yet — add an employee with roles first"}/>
+                                                              emptyMessage={optionsLoading ? "Loading…" : "No roles yet — type a name to add one"}/>
                                         )}
                                     />
                                     <Button type="button" variant="ghost" size="icon" aria-label="Remove requirement"
@@ -192,10 +200,12 @@ export default function ServiceFormDialog({
                                         control={control}
                                         name={`equipmentRequirements.${index}.types`}
                                         render={({field}) => (
-                                            <MultiSelectField id={`service-equipment-req-${index}`} values={field.value} options={equipmentTypeOptions} onChange={field.onChange}
-                                                              placeholder="Select equipment" maxNameLength={40} ariaLabel={`Required equipment ${index + 1} categories`}
+                                            <MultiSelectField id={`service-equipment-req-${index}`} values={field.value}
+                                                              options={[...new Set([...equipmentTypeOptions, ...extraEquipmentTypes])]} onChange={field.onChange}
+                                                              onCreate={(name) => setExtraEquipmentTypes((p) => p.includes(name) ? p : [...p, name])}
+                                                              createLabel="Add equipment type" placeholder="Select equipment" maxNameLength={40} ariaLabel={`Required equipment ${index + 1} categories`}
                                                               invalid={Boolean(errors.equipmentRequirements?.[index]?.types)}
-                                                              emptyMessage={optionsLoading ? "Loading…" : "No equipment types yet — add equipment first"}/>
+                                                              emptyMessage={optionsLoading ? "Loading…" : "No equipment types yet — type a name to add one"}/>
                                         )}
                                     />
                                     <Button type="button" variant="ghost" size="icon" aria-label="Remove requirement"

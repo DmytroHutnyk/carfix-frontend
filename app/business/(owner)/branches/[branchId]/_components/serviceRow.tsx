@@ -1,7 +1,7 @@
 'use client'
 
 import {useState} from "react";
-import {ChevronDown, Copy, Eye, EyeOff, Pencil, Trash2} from "lucide-react";
+import {ChevronDown, Eye, EyeOff, Pencil, Trash2} from "lucide-react";
 
 import {OwnerService} from "@/features/ownerService/ownerServiceTypes";
 import {formatDuration, formatPln, serviceStatusLabel, serviceStatusVariant} from "@/features/ownerService/ownerServiceList";
@@ -24,45 +24,40 @@ import {cn} from "@/lib/utils";
 interface ServiceRowProps {
     service: OwnerService;
     onEdit: () => void;
-    onDuplicate: () => void;
     onToggleStatus: () => void;
     onDelete: () => void;
 }
 
-export default function ServiceRow({service, onEdit, onDuplicate, onToggleStatus, onDelete}: ServiceRowProps) {
+export default function ServiceRow({service, onEdit, onToggleStatus, onDelete}: ServiceRowProps) {
     const [open, setOpen] = useState(false);
     const [deleteOpen, setDeleteOpen] = useState(false);
     const isActive = service.status === "ACTIVE";
 
     return (
         <Collapsible open={open} onOpenChange={setOpen} className="rounded-lg border bg-card text-card-foreground">
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 p-3">
-                <CollapsibleTrigger className="flex min-w-0 flex-1 items-center gap-2 text-left [&[data-state=open]>svg]:rotate-180">
-                    <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200"/>
-                    <span className="min-w-0 truncate text-sm font-semibold">{service.name}</span>
+            <div className="flex flex-col gap-2 p-3">
+                <CollapsibleTrigger className="flex min-w-0 items-center gap-2 text-left [&[data-state=open]>svg]:rotate-180">
+                    <span className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1">
+                        <span className="min-w-0 break-words text-sm font-semibold">{service.name}</span>
+                        <Badge variant={serviceStatusVariant(service.status)} className="shrink-0">{serviceStatusLabel(service.status)}</Badge>
+                        <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
+                            <span className="tabular-nums">{formatDuration(service.durationMinutes)}</span>
+                            <span className="font-medium tabular-nums text-foreground">{formatPln(service.price)}</span>
+                            {service.bayTypes.slice(0, 2).map((type) => <Badge key={type} variant="outline">{type}</Badge>)}
+                            {service.bayTypes.length > 2 && <Badge variant="outline">+{service.bayTypes.length - 2}</Badge>}
+                            <span>Roles ({service.employeeRequirements.length})</span>
+                            <span>Equipment ({service.equipmentRequirements.length})</span>
+                        </span>
+                    </span>
+                    <ChevronDown className="ml-auto h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200"/>
                 </CollapsibleTrigger>
 
-                <Badge variant={serviceStatusVariant(service.status)}>{serviceStatusLabel(service.status)}</Badge>
-                <span className="text-xs tabular-nums text-muted-foreground">{formatDuration(service.durationMinutes)}</span>
-                <span className="text-sm font-medium tabular-nums">{formatPln(service.price)}</span>
-
-                <div className="flex flex-wrap items-center gap-1">
-                    {service.bayTypes.slice(0, 2).map((type) => <Badge key={type} variant="outline">{type}</Badge>)}
-                    {service.bayTypes.length > 2 && <Badge variant="outline">+{service.bayTypes.length - 2}</Badge>}
-                </div>
-
-                <span className="text-xs text-muted-foreground">Roles ({service.employeeRequirements.length})</span>
-                <span className="text-xs text-muted-foreground">Equipment ({service.equipmentRequirements.length})</span>
-
-                <div className="ml-auto flex items-center gap-1">
-                    <Button type="button" variant="ghost" size="icon" aria-label={isActive ? "Suspend service" : "Activate service"} onClick={onToggleStatus}>
-                        {isActive ? <Eye/> : <EyeOff/>}
-                    </Button>
+                <div className="flex items-center justify-end gap-1">
                     <Button type="button" variant="ghost" size="icon" aria-label="Edit service" onClick={onEdit}>
                         <Pencil/>
                     </Button>
-                    <Button type="button" variant="ghost" size="icon" aria-label="Duplicate service" onClick={onDuplicate}>
-                        <Copy/>
+                    <Button type="button" variant="ghost" size="icon" aria-label={isActive ? "Suspend service" : "Activate service"} onClick={onToggleStatus}>
+                        {isActive ? <Eye/> : <EyeOff/>}
                     </Button>
                     <Button type="button" variant="ghost" size="icon" aria-label="Delete service" onClick={() => setDeleteOpen(true)}>
                         <Trash2/>
@@ -105,18 +100,6 @@ export default function ServiceRow({service, onEdit, onDuplicate, onToggleStatus
                             </dd>
                         </div>
                     </dl>
-
-                    <div className="flex flex-wrap items-center gap-2">
-                        <Button type="button" variant="outline" size="sm" onClick={onEdit}>
-                            <Pencil/> Edit
-                        </Button>
-                        <Button type="button" variant="outline" size="sm" onClick={onToggleStatus}>
-                            {isActive ? <><EyeOff/> Suspend</> : <><Eye/> Activate</>}
-                        </Button>
-                        <Button type="button" variant="outline" size="sm" onClick={() => setDeleteOpen(true)}>
-                            <Trash2/> Delete
-                        </Button>
-                    </div>
                 </div>
             </CollapsibleContent>
 

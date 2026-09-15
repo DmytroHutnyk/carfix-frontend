@@ -18,6 +18,7 @@ import {
 import {isApiError} from "@/lib/apiTypes";
 import {toDisplayError} from "@/lib/errorHandler";
 import {ApiError} from "@/lib/apiTypes";
+import {cn} from "@/lib/utils";
 
 import {Input} from "@/_components/shadcn/input";
 import {Button} from "@/_components/shadcn/button";
@@ -41,6 +42,7 @@ export default function BranchServicesContent({branchId}: { branchId: string }) 
     const [categoryQuery, setCategoryQuery] = useState("");
     const [sort, setSort] = useState<OwnerServiceSort>("nameAsc");
     const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+    const [categoriesCollapsed, setCategoriesCollapsed] = useState(false);
     const [collapsedIds, setCollapsedIds] = useState<Set<number>>(new Set());
     const [dialog, setDialog] = useState<DialogState | null>(null);
     const [actionError, setActionError] = useState<string | null>(null);
@@ -84,7 +86,8 @@ export default function BranchServicesContent({branchId}: { branchId: string }) 
 
     return (
         <BranchTabShell branchId={branchId} active="services">
-            <div className="grid gap-4 lg:grid-cols-[minmax(0,380px)_1fr] lg:gap-6">
+            <div className={cn("grid gap-4 lg:gap-6",
+                categoriesCollapsed ? "lg:grid-cols-[auto_1fr]" : "lg:grid-cols-[minmax(0,380px)_1fr]")}>
                 <ServiceCategorySidebar
                     counts={counts}
                     totalCount={filtered.length}
@@ -94,6 +97,8 @@ export default function BranchServicesContent({branchId}: { branchId: string }) 
                     onQueryChange={setCategoryQuery}
                     onExpandAll={expandAll}
                     onCollapseAll={collapseAll}
+                    collapsed={categoriesCollapsed}
+                    onToggleCollapsed={() => setCategoriesCollapsed((v) => !v)}
                 />
 
                 <div className="flex flex-col gap-3">
@@ -119,10 +124,6 @@ export default function BranchServicesContent({branchId}: { branchId: string }) 
                             <Plus/> New service
                         </Button>
                     </div>
-
-                    <p className="rounded-lg border bg-muted/40 px-3 py-2 text-xs text-muted-foreground">
-                        Name services by part and action, e.g. “Brake pads replacement — front”. Keep them 2–5 words.
-                    </p>
 
                     {actionError && <FormErrorAlert message={actionError}/>}
                     {isError && <FormErrorAlert message={toDisplayError(error as ApiError).message}/>}
@@ -150,7 +151,6 @@ export default function BranchServicesContent({branchId}: { branchId: string }) 
                                             key={service.id}
                                             service={service}
                                             onEdit={() => setDialog({mode: "edit", serviceId: service.id, initial: toServiceForm(service)})}
-                                            onDuplicate={() => setDialog({mode: "create", initial: {...toServiceForm(service), name: `${service.name} (copy)`}})}
                                             onToggleStatus={() => toggleStatus(service)}
                                             onDelete={() => runAction(() => deleteService(service.id))}
                                         />
