@@ -4,6 +4,7 @@ import {useState} from "react";
 import {Controller, useFieldArray, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Info, Plus, Trash2} from "lucide-react";
+
 import {Dialog, DialogContent, DialogHeader, DialogTitle} from "@/_components/shadcn/dialog";
 import {Field, FieldLabel} from "@/_components/shadcn/field";
 import {Input} from "@/_components/shadcn/input";
@@ -13,62 +14,70 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/_components/shadcn/popo
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 import MultiSelectField from "@/_components/multiSelectField";
 import ServiceNamingHint from "@/_components/serviceNamingHint";
-import FieldError from "@/business/(owner)/branches/new/_components/fieldError";
+import FormErrorAlert from "@/_components/formErrorAlert";
 import {useServiceCategories} from "@/features/branchRegistration/useServiceCategories";
-import {
-    EMPTY_SERVICE_FORM,
-    SERVICE_STATUS,
-    SERVICE_STATUS_LABEL,
-    ServiceForm,
-    serviceFormSchema,
-    ServiceStatus,
-} from "@/features/branchRegistration/branchRegistrationTypes";
+import {ServiceForm, serviceFormSchema} from "@/features/ownerService/ownerServiceTypes";
+import {isApiError} from "@/lib/apiTypes";
+import {toDisplayError} from "@/lib/errorHandler";
 import {cn} from "@/lib/utils";
 
 interface ServiceFormDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    initial?: ServiceForm;
-    bayTypes: string[];
-    roles: string[];
-    equipmentTypes: string[];
-    onCreateBayType: (name: string) => void;
-    onCreateRole: (name: string) => void;
-    onCreateEquipmentType: (name: string) => void;
-    onSave: (form: ServiceForm) => void;
+    mode: "create" | "edit";
+    initial: ServiceForm;
+    bayTypeOptions: string[];
+    roleOptions: string[];
+    equipmentTypeOptions: string[];
+    optionsLoading: boolean;
+    onSubmit: (form: ServiceForm) => Promise<void>;
 }
 
 export default function ServiceFormDialog({
-                                              open, onOpenChange, initial, bayTypes, roles, equipmentTypes,
-                                              onCreateBayType, onCreateRole, onCreateEquipmentType, onSave,
+                                              open, onOpenChange, mode, initial, bayTypeOptions, roleOptions,
+                                              equipmentTypeOptions, optionsLoading, onSubmit,
                                           }: ServiceFormDialogProps) {
-    const isEdit = initial !== undefined;
     const {categories, isLoading: categoriesLoading, isError: categoriesError} = useServiceCategories();
     const [hintOpen, setHintOpen] = useState(false);
+    const [submitError, setSubmitError] = useState<string | null>(null);
+    const [extraBayTypes, setExtraBayTypes] = useState<string[]>([]);
+    const [extraRoles, setExtraRoles] = useState<string[]>([]);
+    const [extraEquipmentTypes, setExtraEquipmentTypes] = useState<string[]>([]);
 
-    const {register, control, handleSubmit, formState: {errors}} = useForm<ServiceForm>({
+    const {register, control, handleSubmit, formState: {errors, isSubmitting}} = useForm<ServiceForm>({
         resolver: zodResolver(serviceFormSchema),
         mode: "onSubmit",
-        defaultValues: initial ?? EMPTY_SERVICE_FORM,
+        defaultValues: initial,
     });
     const employeeRequirements = useFieldArray({control, name: "employeeRequirements"});
     const equipmentRequirements = useFieldArray({control, name: "equipmentRequirements"});
 
     const invalid = (has: unknown) => cn(!!has && "border-destructive focus-visible:ring-destructive");
+    const fieldError = (message?: string) =>
+        message ? <p className="text-xs text-destructive lg:text-sm">{message}</p> : null;
 
-    const submit = (form: ServiceForm) => {
-        onSave(form);
-        onOpenChange(false);
+    const submit = async (form: ServiceForm) => {
+        setSubmitError(null);
+        try {
+            await onSubmit(form);
+            onOpenChange(false);
+        } catch (err) {
+            setSubmitError(isApiError(err) ? toDisplayError(err).message : "Something went wrong. Please try again.");
+        }
     };
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-h-[90vh] max-w-[calc(100vw-2rem)] overflow-y-auto sm:max-w-lg">
                 <DialogHeader>
-                    <DialogTitle className="text-base font-semibold lg:text-2xl lg:font-bold">{isEdit ? "Edit service" : "Add new service"}</DialogTitle>
+                    <DialogTitle className="text-base font-semibold lg:text-2xl lg:font-bold">
+                        {mode === "edit" ? "Edit service" : "Add new service"}
+                    </DialogTitle>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(submit)} noValidate className="space-y-3 lg:space-y-4">
+                    <FormErrorAlert message={submitError}/>
+
                     <Field>
                         <div className="flex items-center gap-2">
                             <FieldLabel htmlFor="service-name">Name</FieldLabel>
@@ -83,14 +92,15 @@ export default function ServiceFormDialog({
                         </div>
                         <Input {...register("name")} id="service-name" placeholder="Service name"
                                aria-invalid={!!errors.name || undefined} className={invalid(errors.name)}/>
-                        <FieldError message={errors.name?.message}/>
+                        <p className="text-xs text-muted-foreground">Name services by part and action, e.g. “Brake pads replacement — front”. Keep them 2–5 words.</p>
+                        {fieldError(errors.name?.message)}
                     </Field>
 
                     <Field>
                         <FieldLabel htmlFor="service-description">Description</FieldLabel>
                         <Textarea {...register("description")} id="service-description" placeholder="Optional description" rows={3}
                                   aria-invalid={!!errors.description || undefined} className={invalid(errors.description)}/>
-                        <FieldError message={errors.description?.message}/>
+                        {fieldError(errors.description?.message)}
                     </Field>
 
                     <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
@@ -98,13 +108,13 @@ export default function ServiceFormDialog({
                             <FieldLabel htmlFor="service-duration">Duration (minutes)</FieldLabel>
                             <Input {...register("durationMinutes", {valueAsNumber: true})} id="service-duration" type="number" min={1} step={1}
                                    aria-invalid={!!errors.durationMinutes || undefined} className={invalid(errors.durationMinutes)}/>
-                            <FieldError message={errors.durationMinutes?.message}/>
+                            {fieldError(errors.durationMinutes?.message)}
                         </Field>
                         <Field>
                             <FieldLabel htmlFor="service-price">Price (PLN)</FieldLabel>
                             <Input {...register("price", {valueAsNumber: true})} id="service-price" type="number" min={0} step="0.01"
                                    aria-invalid={!!errors.price || undefined} className={invalid(errors.price)}/>
-                            <FieldError message={errors.price?.message}/>
+                            {fieldError(errors.price?.message)}
                         </Field>
                     </div>
 
@@ -125,8 +135,8 @@ export default function ServiceFormDialog({
                                 </Select>
                             )}
                         />
-                        <FieldError message={errors.categoryId?.message}/>
-                        {categoriesError && <FieldError message="Couldn't load categories — reload the page and try again"/>}
+                        {fieldError(errors.categoryId?.message)}
+                        {categoriesError && fieldError("Couldn't load categories — reload the page and try again")}
                     </Field>
 
                     <Field>
@@ -136,13 +146,14 @@ export default function ServiceFormDialog({
                             control={control}
                             name="bayTypes"
                             render={({field}) => (
-                                <MultiSelectField id="service-bay-types" values={field.value} options={bayTypes} onChange={field.onChange}
-                                                  onCreate={onCreateBayType} placeholder="Select bay types" createLabel="Add bay type"
-                                                  maxNameLength={40} invalid={Boolean(errors.bayTypes)}
-                                                  emptyMessage="No bay types yet — type a name to add one"/>
+                                <MultiSelectField id="service-bay-types" values={field.value}
+                                                  options={[...new Set([...bayTypeOptions, ...extraBayTypes])]} onChange={field.onChange}
+                                                  onCreate={(name) => setExtraBayTypes((p) => p.includes(name) ? p : [...p, name])}
+                                                  createLabel="Add bay type" placeholder="Select bay types" maxNameLength={40} invalid={Boolean(errors.bayTypes)}
+                                                  emptyMessage={optionsLoading ? "Loading…" : "No bay types yet — type a name to add one"}/>
                             )}
                         />
-                        <FieldError message={errors.bayTypes?.message}/>
+                        {fieldError(errors.bayTypes?.message)}
                     </Field>
 
                     <Field>
@@ -155,11 +166,12 @@ export default function ServiceFormDialog({
                                         control={control}
                                         name={`employeeRequirements.${index}.roles`}
                                         render={({field}) => (
-                                            <MultiSelectField id={`service-employee-req-${index}`} values={field.value} options={roles} onChange={field.onChange}
-                                                              onCreate={onCreateRole} placeholder="Select roles" createLabel="Add role"
-                                                              maxNameLength={50} ariaLabel={`Required employee ${index + 1} roles`}
+                                            <MultiSelectField id={`service-employee-req-${index}`} values={field.value}
+                                                              options={[...new Set([...roleOptions, ...extraRoles])]} onChange={field.onChange}
+                                                              onCreate={(name) => setExtraRoles((p) => p.includes(name) ? p : [...p, name])}
+                                                              createLabel="Add role" placeholder="Select roles" maxNameLength={50} ariaLabel={`Required employee ${index + 1} roles`}
                                                               invalid={Boolean(errors.employeeRequirements?.[index]?.roles)}
-                                                              emptyMessage="No roles yet — type a name to add one"/>
+                                                              emptyMessage={optionsLoading ? "Loading…" : "No roles yet — type a name to add one"}/>
                                         )}
                                     />
                                     <Button type="button" variant="ghost" size="icon" aria-label="Remove requirement"
@@ -168,11 +180,11 @@ export default function ServiceFormDialog({
                                             onClick={() => employeeRequirements.remove(index)}>
                                         <Trash2/>
                                     </Button>
-                                    <FieldError message={errors.employeeRequirements?.[index]?.roles?.message}/>
+                                    {fieldError(errors.employeeRequirements?.[index]?.roles?.message)}
                                 </div>
                             ))}
                         </div>
-                        <FieldError message={errors.employeeRequirements?.root?.message ?? errors.employeeRequirements?.message}/>
+                        {fieldError(errors.employeeRequirements?.root?.message ?? errors.employeeRequirements?.message)}
                         <Button type="button" variant="outline" size="sm" onClick={() => employeeRequirements.append({roles: []})}>
                             <Plus/> Add another required employee
                         </Button>
@@ -188,11 +200,12 @@ export default function ServiceFormDialog({
                                         control={control}
                                         name={`equipmentRequirements.${index}.types`}
                                         render={({field}) => (
-                                            <MultiSelectField id={`service-equipment-req-${index}`} values={field.value} options={equipmentTypes} onChange={field.onChange}
-                                                              onCreate={onCreateEquipmentType} placeholder="Select equipment" createLabel="Add category"
-                                                              maxNameLength={40} ariaLabel={`Required equipment ${index + 1} categories`}
+                                            <MultiSelectField id={`service-equipment-req-${index}`} values={field.value}
+                                                              options={[...new Set([...equipmentTypeOptions, ...extraEquipmentTypes])]} onChange={field.onChange}
+                                                              onCreate={(name) => setExtraEquipmentTypes((p) => p.includes(name) ? p : [...p, name])}
+                                                              createLabel="Add equipment type" placeholder="Select equipment" maxNameLength={40} ariaLabel={`Required equipment ${index + 1} categories`}
                                                               invalid={Boolean(errors.equipmentRequirements?.[index]?.types)}
-                                                              emptyMessage="No equipment categories yet — type a name to add one"/>
+                                                              emptyMessage={optionsLoading ? "Loading…" : "No equipment types yet — type a name to add one"}/>
                                         )}
                                     />
                                     <Button type="button" variant="ghost" size="icon" aria-label="Remove requirement"
@@ -200,7 +213,7 @@ export default function ServiceFormDialog({
                                             onClick={() => equipmentRequirements.remove(index)}>
                                         <Trash2/>
                                     </Button>
-                                    <FieldError message={errors.equipmentRequirements?.[index]?.types?.message}/>
+                                    {fieldError(errors.equipmentRequirements?.[index]?.types?.message)}
                                 </div>
                             ))}
                         </div>
@@ -209,27 +222,11 @@ export default function ServiceFormDialog({
                         </Button>
                     </Field>
 
-                    <Field>
-                        <FieldLabel htmlFor="service-status">Status</FieldLabel>
-                        <Controller
-                            control={control}
-                            name="status"
-                            render={({field}) => (
-                                <Select value={field.value} onValueChange={(v) => field.onChange(v as ServiceStatus)}>
-                                    <SelectTrigger id="service-status"><SelectValue/></SelectTrigger>
-                                    <SelectContent>
-                                        {[SERVICE_STATUS.ACTIVE, SERVICE_STATUS.SUSPENDED].map((s) => (
-                                            <SelectItem key={s} value={s}>{SERVICE_STATUS_LABEL[s]}</SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            )}
-                        />
-                    </Field>
-
                     <div className="flex items-center justify-end gap-2 pt-2 lg:justify-between lg:gap-0">
-                        <Button type="button" variant="ghost" size="sm" className="lg:h-9 lg:bg-secondary lg:px-4 lg:py-2 lg:text-sm lg:text-secondary-foreground lg:shadow-sm lg:hover:bg-secondary/80" onClick={() => onOpenChange(false)}>Cancel</Button>
-                        <Button type="submit">Save</Button>
+                        <Button type="button" variant="ghost" size="sm" disabled={isSubmitting}
+                                className="lg:h-9 lg:bg-secondary lg:px-4 lg:py-2 lg:text-sm lg:text-secondary-foreground lg:shadow-sm lg:hover:bg-secondary/80"
+                                onClick={() => onOpenChange(false)}>Cancel</Button>
+                        <Button type="submit" disabled={isSubmitting}>{isSubmitting ? "Saving…" : "Save"}</Button>
                     </div>
                 </form>
             </DialogContent>

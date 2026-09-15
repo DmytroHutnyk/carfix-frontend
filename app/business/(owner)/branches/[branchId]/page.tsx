@@ -4,6 +4,7 @@ import BranchEmployeesContent from "@/business/(owner)/branches/[branchId]/_comp
 import BranchReviewsContent from "@/business/(owner)/branches/[branchId]/_components/branchReviewsContent";
 import BranchEquipmentContent from "@/business/(owner)/branches/[branchId]/_components/branchEquipmentContent";
 import BranchServiceBaysContent from "@/business/(owner)/branches/[branchId]/_components/branchServiceBaysContent";
+import BranchServicesContent from "@/business/(owner)/branches/[branchId]/_components/branchServicesContent";
 
 export default async function Page({params, searchParams}: {
     params: Promise<{ branchId: string }>;
@@ -17,5 +18,6 @@ export default async function Page({params, searchParams}: {
     if (tab === "reviews") return <BranchReviewsContent branchId={branchId}/>;
     if (tab === "equipment") return <BranchEquipmentContent branchId={branchId}/>;
     if (tab === "carBays") return <BranchServiceBaysContent branchId={branchId}/>;
+    if (tab === "services") return <BranchServicesContent branchId={branchId}/>;
     return <BranchOverviewContent branchId={branchId}/>;
 }
