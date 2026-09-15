@@ -47,9 +47,11 @@ export default function BranchTabs({active}: { active: BranchTabKey }) {
     }, [active]);
 
     useEffect(() => {
-        const onResize = () => setPill(measure(active));
-        window.addEventListener("resize", onResize);
-        return () => window.removeEventListener("resize", onResize);
+        const list = listRef.current;
+        if (!list) return;
+        const observer = new ResizeObserver(() => setPill(measure(active)));
+        observer.observe(list);
+        return () => observer.disconnect();
     }, [active]);
 
     return (
