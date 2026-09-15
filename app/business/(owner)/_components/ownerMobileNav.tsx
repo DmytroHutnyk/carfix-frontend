@@ -13,7 +13,8 @@ export default function OwnerMobileNav({businessName}: { businessName: string | 
     const [open, setOpen] = useState(false);
 
     const renderItems = (items: OwnerMenuItem[]) => items.map((item) => {
-        const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+        const isActive = pathname === item.href
+            || (item.href !== "/business/branches" && pathname.startsWith(`${item.href}/`));
         const Icon: LucideIcon = icons[item.icon];
         return (
             <MenuLinkRow

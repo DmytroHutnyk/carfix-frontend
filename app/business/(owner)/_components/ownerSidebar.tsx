@@ -1,6 +1,6 @@
 "use client"
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
 import {ChevronLeft, ChevronRight, icons, LucideIcon} from "lucide-react";
@@ -12,10 +12,14 @@ import {cn} from "@/lib/utils";
 
 export default function OwnerSidebar() {
     const pathname = usePathname();
-    const [collapsed, setCollapsed] = useState(false);
+    const insideBranch = pathname.startsWith("/business/branches/");
+    const [collapsed, setCollapsed] = useState(insideBranch);
+
+    useEffect(() => setCollapsed(insideBranch), [insideBranch]);
 
     const renderItems = (items: OwnerMenuItem[]) => items.map((item) => {
-        const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+        const isActive = pathname === item.href
+            || (item.href !== "/business/branches" && pathname.startsWith(`${item.href}/`));
         const Icon: LucideIcon = icons[item.icon];
         return (
             <Button
