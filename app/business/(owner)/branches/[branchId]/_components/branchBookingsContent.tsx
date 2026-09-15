@@ -23,7 +23,7 @@ export default function BranchBookingsContent({branchId}: { branchId: string }) 
     const [day, setDay] = useState<Date>(() => new Date());
     const [query, setQuery] = useState("");
     const [sort, setSort] = useState<OwnerBookingSort>("startAsc");
-    const [selectedRef, setSelectedRef] = useState<string | null>(null);
+    const [selectedIdx, setSelectedIdx] = useState(0);
 
     const isoDate = format(day, "yyyy-MM-dd");
     const {bookings, isLoading, isError, error} = useOwnerBranchBookings(branchId, isoDate);
@@ -33,7 +33,8 @@ export default function BranchBookingsContent({branchId}: { branchId: string }) 
         [bookings, query, sort]
     );
 
-    const selected = visible.find((b) => b.reference === selectedRef) ?? visible[0] ?? null;
+    const activeIdx = selectedIdx < visible.length ? selectedIdx : 0;
+    const selected = visible[activeIdx] ?? null;
 
     return (
         <BranchTabShell branchId={branchId} active="bookings">
@@ -86,12 +87,12 @@ export default function BranchBookingsContent({branchId}: { branchId: string }) 
                         <p className="py-8 text-center text-sm text-muted-foreground">No bookings for this day.</p>
                     ) : (
                         <div className="flex flex-col gap-2">
-                            {visible.map((booking) => (
+                            {visible.map((booking, i) => (
                                 <OwnerBookingCard
-                                    key={booking.reference}
+                                    key={`${booking.reference}-${i}`}
                                     booking={booking}
-                                    selected={selected?.reference === booking.reference}
-                                    onSelect={() => setSelectedRef(booking.reference)}
+                                    selected={i === activeIdx}
+                                    onSelect={() => setSelectedIdx(i)}
                                 />
                             ))}
                         </div>
