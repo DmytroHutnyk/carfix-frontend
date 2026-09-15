@@ -86,8 +86,8 @@ export default function ServiceCategorySidebar({
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <Button type="button" variant="ghost" size="sm" onClick={onExpandAll}>Expand all</Button>
-                        <Button type="button" variant="ghost" size="sm" onClick={onCollapseAll}>Collapse all</Button>
+                        <Button type="button" variant="outline" size="sm" className="flex-1" onClick={onExpandAll}>Expand all</Button>
+                        <Button type="button" variant="outline" size="sm" className="flex-1" onClick={onCollapseAll}>Collapse all</Button>
                     </div>
                 </div>
             </CardContent>

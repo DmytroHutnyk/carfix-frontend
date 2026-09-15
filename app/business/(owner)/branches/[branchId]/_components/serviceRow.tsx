@@ -34,40 +34,36 @@ export default function ServiceRow({service, onEdit, onToggleStatus, onDelete}: 
     const isActive = service.status === "ACTIVE";
 
     return (
-        <Collapsible open={open} onOpenChange={setOpen} className="rounded-lg border bg-card text-card-foreground">
-            <div className="flex flex-col gap-2 p-3">
-                <CollapsibleTrigger className="flex min-w-0 items-center gap-2 text-left [&[data-state=open]>svg]:rotate-180">
-                    <span className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1">
-                        <span className="min-w-0 break-words text-sm font-semibold">{service.name}</span>
-                        <Badge variant={serviceStatusVariant(service.status)} className="shrink-0">{serviceStatusLabel(service.status)}</Badge>
-                        <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
-                            <span className="tabular-nums">{formatDuration(service.durationMinutes)}</span>
-                            <span className="font-medium tabular-nums text-foreground">{formatPln(service.price)}</span>
-                            {service.bayTypes.slice(0, 2).map((type) => <Badge key={type} variant="outline">{type}</Badge>)}
-                            {service.bayTypes.length > 2 && <Badge variant="outline">+{service.bayTypes.length - 2}</Badge>}
-                            <span>Roles ({service.employeeRequirements.length})</span>
-                            <span>Equipment ({service.equipmentRequirements.length})</span>
-                        </span>
-                    </span>
-                    <ChevronDown className="ml-auto h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200"/>
-                </CollapsibleTrigger>
+        <Collapsible open={open} onOpenChange={setOpen} className="col-span-full grid grid-cols-subgrid rounded-lg border bg-card px-3 text-card-foreground">
+            <CollapsibleTrigger className="col-span-full grid grid-cols-subgrid items-center justify-items-start gap-x-4 py-3 text-left [&[data-state=open]>svg]:rotate-180">
+                <span className="min-w-0 break-words text-sm font-semibold">{service.name}</span>
+                <Badge variant={serviceStatusVariant(service.status)}>{serviceStatusLabel(service.status)}</Badge>
+                <span className="text-xs tabular-nums text-muted-foreground">{formatDuration(service.durationMinutes)}</span>
+                <span className="text-xs font-medium tabular-nums">{formatPln(service.price)}</span>
+                <span className="flex items-center gap-1">
+                    {service.bayTypes.slice(0, 2).map((type) => <Badge key={type} variant="outline">{type}</Badge>)}
+                    {service.bayTypes.length > 2 && <Badge variant="outline">+{service.bayTypes.length - 2}</Badge>}
+                </span>
+                <span className="whitespace-nowrap text-xs text-muted-foreground">Roles ({service.employeeRequirements.length})</span>
+                <span className="whitespace-nowrap text-xs text-muted-foreground">Equipment ({service.equipmentRequirements.length})</span>
+                <ChevronDown className="h-4 w-4 shrink-0 justify-self-end text-muted-foreground transition-transform duration-200"/>
+            </CollapsibleTrigger>
 
-                <div className="flex items-center justify-end gap-1">
-                    <Button type="button" variant="ghost" size="icon" aria-label="Edit service" onClick={onEdit}>
-                        <Pencil/>
-                    </Button>
-                    <Button type="button" variant="ghost" size="icon" aria-label={isActive ? "Suspend service" : "Activate service"} onClick={onToggleStatus}>
-                        {isActive ? <Eye/> : <EyeOff/>}
-                    </Button>
-                    <Button type="button" variant="ghost" size="icon" aria-label="Delete service" onClick={() => setDeleteOpen(true)}>
-                        <Trash2/>
-                    </Button>
-                </div>
+            <div className="col-span-full flex items-center justify-end gap-1 pb-3">
+                <Button type="button" variant="ghost" size="icon" aria-label="Edit service" onClick={onEdit}>
+                    <Pencil/>
+                </Button>
+                <Button type="button" variant="ghost" size="icon" aria-label={isActive ? "Suspend service" : "Activate service"} onClick={onToggleStatus}>
+                    {isActive ? <Eye/> : <EyeOff/>}
+                </Button>
+                <Button type="button" variant="ghost" size="icon" aria-label="Delete service" onClick={() => setDeleteOpen(true)}>
+                    <Trash2/>
+                </Button>
             </div>
 
-            <CollapsibleContent>
+            <CollapsibleContent className="col-span-full overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
                 <Separator/>
-                <div className="space-y-4 p-3">
+                <div className="space-y-4 py-3">
                     {service.description && <p className="text-sm text-muted-foreground">{service.description}</p>}
 
                     <dl className="grid gap-4 sm:grid-cols-2">

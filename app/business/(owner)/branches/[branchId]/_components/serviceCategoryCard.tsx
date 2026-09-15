@@ -29,8 +29,12 @@ export default function ServiceCategoryCard({categoryName, count, open, onOpenCh
                     </span>
                     <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200"/>
                 </CollapsibleTrigger>
-                <CollapsibleContent className="space-y-2 px-4 pb-4 lg:px-6 lg:pb-6">
-                    {children}
+                <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+                    <div className="overflow-x-auto px-4 pb-4 lg:px-6 lg:pb-6">
+                        <div className="grid min-w-full grid-cols-[minmax(0,max-content)_repeat(6,auto)_1fr] gap-2">
+                            {children}
+                        </div>
+                    </div>
                 </CollapsibleContent>
             </Collapsible>
         </Card>

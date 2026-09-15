@@ -2,7 +2,7 @@
 
 import {useMemo, useState} from "react";
 import {addDays, differenceInCalendarDays, format, subYears} from "date-fns";
-import {CalendarX2, ChevronLeft, ChevronRight, Filter, Search} from "lucide-react";
+import {CalendarX2, ChevronLeft, ChevronRight} from "lucide-react";
 import {OrbitProgress} from "react-loading-indicators";
 
 import {useOwnerBranchBookings} from "@/features/ownerBooking/useOwnerBranchBookings";
@@ -10,7 +10,6 @@ import {OwnerBookingSort, filterOwnerBookings, sortOwnerBookings} from "@/featur
 import {toDisplayError} from "@/lib/errorHandler";
 import {ApiError} from "@/lib/apiTypes";
 
-import {Input} from "@/_components/shadcn/input";
 import {Button} from "@/_components/shadcn/button";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 import {Card, CardContent} from "@/_components/shadcn/card";
@@ -18,6 +17,7 @@ import {Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle} from "@/_c
 import DateRangePicker from "@/_components/dateRangePicker";
 import FormErrorAlert from "@/_components/formErrorAlert";
 import BranchTabShell from "@/business/(owner)/branches/[branchId]/_components/branchTabShell";
+import BranchFilterBar from "@/business/(owner)/branches/[branchId]/_components/branchFilterBar";
 import ResultCount from "@/business/(owner)/branches/[branchId]/_components/resultCount";
 import OwnerBookingCard from "@/business/(owner)/branches/[branchId]/_components/ownerBookingCard";
 import BookingDetailPanel from "@/business/(owner)/branches/[branchId]/_components/bookingDetailPanel";
@@ -63,34 +63,20 @@ export default function BranchBookingsContent({branchId}: { branchId: string }) 
                         <h2 className="text-lg font-semibold tracking-tight">Bookings</h2>
                     </section>
 
-                    <div className="flex flex-wrap items-center gap-3 rounded-xl border p-3">
-                        <p className="flex items-center gap-2 text-base font-semibold">
-                            <Filter className="h-4 w-4"/> Filters:
-                        </p>
-
-                        <div className="relative min-w-0 flex-1">
-                            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
-                            <Input
-                                value={query}
-                                onChange={(e) => setQuery(e.target.value)}
-                                placeholder="Search customer, plate, service"
-                                className="pl-9"
-                            />
-                        </div>
-
-                        <div className="flex w-full items-center gap-2">
-                            <Select value={sort} onValueChange={(value) => setSort(value as OwnerBookingSort)}>
-                                <SelectTrigger className="w-[170px]"><SelectValue/></SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="startAsc">Earliest first</SelectItem>
-                                    <SelectItem value="startDesc">Latest first</SelectItem>
-                                </SelectContent>
-                            </Select>
-                            <Button variant="outline" className="ml-auto" onClick={() => { setQuery(""); setSort("startAsc"); }}>
-                                Clear filters
-                            </Button>
-                        </div>
-                    </div>
+                    <BranchFilterBar
+                        query={query}
+                        onQueryChange={setQuery}
+                        searchPlaceholder="Search customer, plate, service"
+                        onClear={() => { setQuery(""); setSort("startAsc"); }}
+                    >
+                        <Select value={sort} onValueChange={(value) => setSort(value as OwnerBookingSort)}>
+                            <SelectTrigger className="w-full"><SelectValue/></SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="startAsc">Earliest first</SelectItem>
+                                <SelectItem value="startDesc">Latest first</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </BranchFilterBar>
 
                     <div className="flex items-center gap-2">
                         <Button type="button" variant="outline" size="icon" onClick={() => shiftRange(-1)} aria-label="Previous range">
