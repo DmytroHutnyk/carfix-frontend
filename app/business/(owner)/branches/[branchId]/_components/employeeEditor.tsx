@@ -145,9 +145,9 @@ export default function EmployeeEditor({employee, submitLabel, onSubmit}: {
                     <Separator/>
 
                     <Collapsible defaultOpen>
-                        <CollapsibleTrigger type="button" className="flex w-full items-center justify-between text-sm font-semibold">
+                        <CollapsibleTrigger type="button" className="flex w-full items-center justify-between text-sm font-semibold [&[data-state=open]>svg]:rotate-180">
                             Address
-                            <ChevronDown className="h-4 w-4"/>
+                            <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200"/>
                         </CollapsibleTrigger>
                         <CollapsibleContent className="pt-3">
                             <div className="grid gap-4 sm:grid-cols-2">
@@ -173,9 +173,9 @@ export default function EmployeeEditor({employee, submitLabel, onSubmit}: {
                     <Separator/>
 
                     <Collapsible>
-                        <CollapsibleTrigger type="button" className="flex w-full items-center justify-between text-sm font-semibold">
+                        <CollapsibleTrigger type="button" className="flex w-full items-center justify-between text-sm font-semibold [&[data-state=open]>svg]:rotate-180">
                             Working Schedule
-                            <ChevronDown className="h-4 w-4"/>
+                            <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200"/>
                         </CollapsibleTrigger>
                         <CollapsibleContent className="pt-3">
                             <p className="text-sm text-muted-foreground">Working schedule editing is coming soon.</p>

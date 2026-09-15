@@ -6,6 +6,7 @@ export type OwnerEmployeeBadgeVariant =
     "default" | "secondary" | "destructive" | "destructiveSoft" | "success" | "outline";
 
 const STATUS_LABELS: Record<string, string> = {
+    ACTIVE: "Active",
     AVAILABLE: "Available",
     BUSY: "Busy",
     OUT_OF_WORKING_HOURS: "Out of working hours",
@@ -13,6 +14,7 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 const STATUS_VARIANT: Record<string, OwnerEmployeeBadgeVariant> = {
+    ACTIVE: "success",
     AVAILABLE: "success",
     BUSY: "default",
     OUT_OF_WORKING_HOURS: "secondary",

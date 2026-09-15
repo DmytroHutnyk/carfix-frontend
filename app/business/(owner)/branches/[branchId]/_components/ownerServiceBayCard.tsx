@@ -14,7 +14,7 @@ export default function OwnerServiceBayCard({bay, selected, onSelect}: {
             onClick={onSelect}
             className={cn(
                 "flex w-full flex-col gap-2 rounded-xl border bg-card p-4 text-left text-card-foreground shadow-sm transition-colors",
-                selected ? "border-primary bg-accent/40" : "hover:bg-accent/30"
+                selected ? "border-primary bg-accent/20" : "hover:bg-accent/15"
             )}
         >
             <div className="flex items-center justify-between gap-2">
