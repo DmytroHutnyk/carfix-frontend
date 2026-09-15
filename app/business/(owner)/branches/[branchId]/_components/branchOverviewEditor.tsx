@@ -23,6 +23,7 @@ import FormErrorAlert from "@/_components/formErrorAlert";
 import BranchTabs from "@/business/(owner)/branches/[branchId]/_components/branchTabs";
 import BranchInformationCard from "@/business/(owner)/branches/[branchId]/_components/branchInformationCard";
 import OpeningHoursCard from "@/business/(owner)/branches/[branchId]/_components/openingHoursCard";
+import CarBrandsCard from "@/business/(owner)/branches/[branchId]/_components/carBrandsCard";
 import CancellationPolicyCard from "@/business/(owner)/branches/[branchId]/_components/cancellationPolicyCard";
 
 const STATUS_BADGE_VARIANT: Record<BranchStatus, VariantProps<typeof badgeVariants>["variant"]> = {
@@ -83,6 +84,8 @@ export default function BranchOverviewEditor({branch}: { branch: OwnerBranchDeta
             <BranchInformationCard form={form}/>
 
             <OpeningHoursCard form={form}/>
+
+            <CarBrandsCard form={form}/>
 
             <CancellationPolicyCard form={form}/>
         </form>

@@ -15,9 +15,9 @@ import {
 } from "@/features/branchRegistration/branchRegistrationTypes";
 
 import {Button} from "@/_components/shadcn/button";
-import {Card, CardContent, CardHeader, CardTitle} from "@/_components/shadcn/card";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 import FieldError from "@/business/(owner)/branches/new/_components/fieldError";
+import CollapsibleCard from "@/business/(owner)/branches/[branchId]/_components/collapsibleCard";
 import TimeSelect from "@/business/(owner)/branches/[branchId]/_components/timeSelect";
 import ExceptionsSection from "@/business/(owner)/branches/[branchId]/_components/exceptionsSection";
 
@@ -47,9 +47,8 @@ export default function OpeningHoursCard({form}: { form: UseFormReturn<BranchOve
     };
 
     return (
-        <Card>
-            <CardHeader><CardTitle>Opening Hours</CardTitle></CardHeader>
-            <CardContent className="space-y-6">
+        <CollapsibleCard title="Opening Hours">
+            <div className="space-y-6">
                 <div className="space-y-3">
                     {WEEKDAYS.map((day) => {
                         const closed = days?.[day]?.status === DAY_STATUS.CLOSED;
@@ -102,7 +101,7 @@ export default function OpeningHoursCard({form}: { form: UseFormReturn<BranchOve
                 </Button>
 
                 <ExceptionsSection form={form}/>
-            </CardContent>
-        </Card>
+            </div>
+        </CollapsibleCard>
     );
 }
