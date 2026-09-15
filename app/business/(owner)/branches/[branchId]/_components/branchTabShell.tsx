@@ -50,7 +50,7 @@ export default function BranchTabShell({branchId, active, children}: {
     return (
         <div className="space-y-6 py-3">
             <section className="flex flex-wrap items-center gap-3">
-                <h1 className="text-3xl font-bold tracking-tight">{branch.name}</h1>
+                <h1 className="text-lg font-semibold tracking-tight lg:text-3xl lg:font-bold">{branch.name}</h1>
                 <Badge variant={STATUS_BADGE_VARIANT[branch.status]}>{BRANCH_STATUS_LABELS[branch.status]}</Badge>
             </section>
 

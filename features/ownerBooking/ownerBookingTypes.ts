@@ -24,6 +24,7 @@ export interface OwnerBookingEmployee {
 export interface OwnerBooking {
     reference: string;
     status: string;
+    date: string;
     start: string;
     end: string;
     customer: OwnerBookingCustomer;

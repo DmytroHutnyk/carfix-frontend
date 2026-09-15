@@ -1,10 +1,10 @@
 import {CalendarDays, Car, MapPin} from "lucide-react";
 
-import {Booking, BookingStatus} from "@/features/booking/bookingTypes";
-import {STATUS_LABELS, formatBookingDate, formatPrice, formatTime} from "@/features/booking/bookingList";
+import {Booking} from "@/features/booking/bookingTypes";
+import {formatBookingDate, formatPrice, formatTime} from "@/features/booking/bookingList";
 
 import {Card, CardContent} from "@/_components/shadcn/card";
-import {Badge} from "@/_components/shadcn/badge";
+import BookingStatusBadge from "@/_components/bookingStatusBadge";
 import {Button} from "@/_components/shadcn/button";
 import {Separator} from "@/_components/shadcn/separator";
 import {
@@ -18,14 +18,6 @@ import {
 } from "@/_components/shadcn/table";
 import ContactBranchPopover from "@/(main)/(withFooter)/(myAccount)/bookings/_components/contactBranchPopover";
 
-const STATUS_BADGE_VARIANTS: Record<BookingStatus, "default" | "success" | "secondary" | "destructiveSoft" | "destructive"> = {
-    SCHEDULED: "success",
-    IN_PROGRESS: "default",
-    COMPLETED: "secondary",
-    CANCELLED: "destructiveSoft",
-    NO_SHOW: "destructive",
-};
-
 export default function BookingCard({booking, onCancel, onReview, isReviewed}: {
     booking: Booking;
     onCancel: () => void;
@@ -38,9 +30,7 @@ export default function BookingCard({booking, onCancel, onReview, isReviewed}: {
         <Card>
             <CardContent className="flex flex-col gap-3 p-3 lg:gap-4 lg:p-6">
                 <div className="flex flex-wrap items-center gap-2 lg:gap-3">
-                    <Badge variant={STATUS_BADGE_VARIANTS[booking.status]}>
-                        {STATUS_LABELS[booking.status]}
-                    </Badge>
+                    <BookingStatusBadge status={booking.status}/>
                     <p className="flex items-center gap-1.5 text-xs text-muted-foreground lg:gap-2 lg:text-base">
                         <CalendarDays className="h-3.5 w-3.5 lg:h-4 lg:w-4"/>
                         {formatBookingDate(booking.date)} · {formatTime(booking.startTime)}–{formatTime(booking.endTime)}

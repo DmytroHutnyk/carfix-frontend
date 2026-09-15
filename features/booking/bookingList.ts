@@ -17,14 +17,6 @@ export const EMPTY_FILTERS: BookingFilterState = {
     dateRange: EMPTY_DATE_RANGE,
 };
 
-export const STATUS_LABELS: Record<BookingStatus, string> = {
-    SCHEDULED: "Scheduled",
-    IN_PROGRESS: "In progress",
-    COMPLETED: "Completed",
-    CANCELLED: "Cancelled",
-    NO_SHOW: "No-show",
-};
-
 export function filterBookings(list: Booking[], filters: BookingFilterState): Booking[] {
     const q = filters.query.trim().toLowerCase();
     return list.filter((b) => {

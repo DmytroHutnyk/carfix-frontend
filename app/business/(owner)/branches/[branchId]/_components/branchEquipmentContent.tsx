@@ -1,7 +1,7 @@
 'use client'
 
 import {useMemo, useState} from "react";
-import {Plus, Search} from "lucide-react";
+import {Filter, Plus, Search, Wrench} from "lucide-react";
 import {OrbitProgress} from "react-loading-indicators";
 
 import {useOwnerEquipment} from "@/features/ownerEquipment/useOwnerEquipment";
@@ -14,8 +14,10 @@ import {Input} from "@/_components/shadcn/input";
 import {Button} from "@/_components/shadcn/button";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 import {Card, CardContent} from "@/_components/shadcn/card";
+import {Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle} from "@/_components/shadcn/empty";
 import FormErrorAlert from "@/_components/formErrorAlert";
 import BranchTabShell from "@/business/(owner)/branches/[branchId]/_components/branchTabShell";
+import ResultCount from "@/business/(owner)/branches/[branchId]/_components/resultCount";
 import OwnerEquipmentCard from "@/business/(owner)/branches/[branchId]/_components/ownerEquipmentCard";
 import EquipmentEditor from "@/business/(owner)/branches/[branchId]/_components/equipmentEditor";
 
@@ -29,6 +31,11 @@ export default function BranchEquipmentContent({branchId}: { branchId: string })
     const visible = useMemo(
         () => sortEquipment(filterEquipment(equipment, query), sort),
         [equipment, query, sort]
+    );
+
+    const typeOptions = useMemo(
+        () => [...new Set(equipment.map((e) => e.type).filter(Boolean))].sort((a, b) => a.localeCompare(b)),
+        [equipment]
     );
 
     const selected = isAdding ? null : (visible.find((e) => e.id === selectedId) ?? visible[0] ?? null);
@@ -50,28 +57,8 @@ export default function BranchEquipmentContent({branchId}: { branchId: string })
         <BranchTabShell branchId={branchId} active="equipment">
             <div className="grid gap-4 lg:grid-cols-[minmax(0,380px)_1fr] lg:gap-6">
                 <div className="flex flex-col gap-3">
-                    <h2 className="text-lg font-semibold tracking-tight">Equipment Browser</h2>
-
-                    <div className="relative">
-                        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
-                        <Input
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
-                            placeholder="Search by name"
-                            className="pl-9"
-                        />
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        <Select value={sort} onValueChange={(value) => setSort(value as OwnerEquipmentSort)}>
-                            <SelectTrigger className="w-[150px]">
-                                <SelectValue/>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="nameAsc">Name A–Z</SelectItem>
-                                <SelectItem value="nameDesc">Name Z–A</SelectItem>
-                            </SelectContent>
-                        </Select>
+                    <section className="flex flex-wrap items-center gap-3">
+                        <h2 className="text-lg font-semibold tracking-tight">Equipment</h2>
                         <Button
                             type="button"
                             className="ml-auto"
@@ -80,14 +67,40 @@ export default function BranchEquipmentContent({branchId}: { branchId: string })
                                 setSelectedId(null);
                             }}
                         >
-                            <Plus/>
-                            Add equipment
+                            <Plus/> Add equipment
                         </Button>
+                    </section>
+
+                    <div className="flex flex-wrap items-center gap-3 rounded-xl border p-3">
+                        <p className="flex items-center gap-2 text-base font-semibold">
+                            <Filter className="h-4 w-4"/> Filters:
+                        </p>
+
+                        <div className="relative min-w-0 flex-1">
+                            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
+                            <Input
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                                placeholder="Search by name"
+                                className="pl-9"
+                            />
+                        </div>
+
+                        <div className="flex w-full items-center gap-2">
+                            <Select value={sort} onValueChange={(value) => setSort(value as OwnerEquipmentSort)}>
+                                <SelectTrigger className="w-40"><SelectValue/></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="nameAsc">Name A–Z</SelectItem>
+                                    <SelectItem value="nameDesc">Name Z–A</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <Button variant="outline" className="ml-auto" onClick={() => { setQuery(""); setSort("nameAsc"); }}>
+                                Clear filters
+                            </Button>
+                        </div>
                     </div>
 
-                    <span className="text-xs text-muted-foreground">
-                        Result: {visible.length} {visible.length === 1 ? "entry" : "entries"}
-                    </span>
+                    <ResultCount count={visible.length}/>
 
                     {isError && <FormErrorAlert message={toDisplayError(error as ApiError).message}/>}
 
@@ -95,8 +108,18 @@ export default function BranchEquipmentContent({branchId}: { branchId: string })
                         <div className="flex min-h-[30vh] items-center justify-center">
                             <OrbitProgress color="var(--primary)" size="medium" text="" textColor="" dense/>
                         </div>
+                    ) : equipment.length === 0 ? (
+                        <Empty>
+                            <EmptyHeader>
+                                <EmptyMedia variant="icon">
+                                    <Wrench/>
+                                </EmptyMedia>
+                                <EmptyTitle>No equipment yet</EmptyTitle>
+                                <EmptyDescription>Add equipment to manage it here.</EmptyDescription>
+                            </EmptyHeader>
+                        </Empty>
                     ) : visible.length === 0 ? (
-                        <p className="py-8 text-center text-sm text-muted-foreground">No equipment yet.</p>
+                        <p className="pt-6 text-center text-sm text-muted-foreground">No equipment match your filters.</p>
                     ) : (
                         <div className="flex flex-col gap-2">
                             {visible.map((item) => (
@@ -118,6 +141,8 @@ export default function BranchEquipmentContent({branchId}: { branchId: string })
                     {showEditor ? (
                         <EquipmentEditor
                             equipment={selected}
+                            typeOptions={typeOptions}
+                            isNew={isAdding}
                             submitLabel={isAdding || !selected ? "Add equipment" : "Save changes"}
                             onSubmit={onSubmit}
                         />

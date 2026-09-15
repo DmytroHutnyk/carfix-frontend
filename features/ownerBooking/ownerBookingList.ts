@@ -1,34 +1,7 @@
 import {format} from "date-fns";
 import {OwnerBooking} from "@/features/ownerBooking/ownerBookingTypes";
 
-export const OWNER_BOOKING_STATUS_LABELS: Record<string, string> = {
-    SCHEDULED: "Scheduled",
-    IN_PROGRESS: "In progress",
-    COMPLETED: "Completed",
-    CANCELLED: "Cancelled",
-    NO_SHOW: "No-show",
-};
-
 export type OwnerBookingSort = "startAsc" | "startDesc";
-
-export type OwnerBookingBadgeVariant =
-    "default" | "secondary" | "destructive" | "destructiveSoft" | "success" | "outline";
-
-const OWNER_BOOKING_STATUS_VARIANT: Record<string, OwnerBookingBadgeVariant> = {
-    SCHEDULED: "success",
-    IN_PROGRESS: "default",
-    COMPLETED: "secondary",
-    CANCELLED: "destructiveSoft",
-    NO_SHOW: "destructive",
-};
-
-export function ownerBookingStatusLabel(status: string): string {
-    return OWNER_BOOKING_STATUS_LABELS[status] ?? status;
-}
-
-export function ownerBookingStatusVariant(status: string): OwnerBookingBadgeVariant {
-    return OWNER_BOOKING_STATUS_VARIANT[status] ?? "secondary";
-}
 
 export function formatClock(value: string): string {
     const parsed = new Date(value);
@@ -44,6 +17,12 @@ export function formatDateTime(value: string): string {
 
 export function formatMoney(price: number): string {
     return `${Number.isInteger(price) ? price : price.toFixed(2)} PLN`;
+}
+
+export function formatBookingDate(value: string): string {
+    const parsed = new Date(value + "T00:00:00");
+    if (!Number.isNaN(parsed.getTime())) return format(parsed, "EEE, MMM d");
+    return value;
 }
 
 export function initialsOf(name: string): string {
@@ -73,5 +52,9 @@ export function filterOwnerBookings(list: OwnerBooking[], query: string): OwnerB
 
 export function sortOwnerBookings(list: OwnerBooking[], sort: OwnerBookingSort): OwnerBooking[] {
     const factor = sort === "startDesc" ? -1 : 1;
-    return [...list].sort((a, b) => a.start.localeCompare(b.start) * factor);
+    return [...list].sort((a, b) => {
+        const byDate = a.date.localeCompare(b.date);
+        if (byDate !== 0) return byDate * factor;
+        return a.start.localeCompare(b.start) * factor;
+    });
 }
