@@ -14,7 +14,7 @@ export default function OwnerEmployeeCard({employee, selected, onSelect}: {
             onClick={onSelect}
             className={cn(
                 "flex w-full flex-col gap-2 rounded-xl border bg-card p-4 text-left text-card-foreground shadow-sm transition-colors",
-                selected ? "border-primary bg-accent/20" : "hover:bg-accent/15"
+                selected ? "border-primary bg-accent/10" : "hover:bg-accent/10"
             )}
         >
             <span className="min-w-0 truncate text-sm font-semibold">{fullName(employee)}</span>

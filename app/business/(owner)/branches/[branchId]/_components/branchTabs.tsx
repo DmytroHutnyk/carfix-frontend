@@ -1,3 +1,6 @@
+'use client'
+
+import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
 
@@ -15,20 +18,62 @@ export type BranchTabKey = (typeof BRANCH_TABS)[number]["key"];
 
 const NAVIGABLE_TABS = new Set<BranchTabKey>(["overview", "bookings", "employees", "equipment", "reviews", "carBays"]);
 
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+let lastActiveKey: BranchTabKey | null = null;
+
 export default function BranchTabs({active}: { active: BranchTabKey }) {
+    const listRef = useRef<HTMLDivElement>(null);
+    const [pill, setPill] = useState<{ left: number; width: number } | null>(null);
+
+    const measure = (key: BranchTabKey) => {
+        const el = listRef.current?.querySelector<HTMLElement>(`[data-tab="${key}"]`);
+        return el ? {left: el.offsetLeft, width: el.offsetWidth} : null;
+    };
+
+    useIsoLayoutEffect(() => {
+        const target = measure(active);
+        if (!target) return;
+
+        const from = lastActiveKey && lastActiveKey !== active ? measure(lastActiveKey) : null;
+        lastActiveKey = active;
+
+        if (from) {
+            setPill(from);
+            const id = requestAnimationFrame(() => setPill(target));
+            return () => cancelAnimationFrame(id);
+        }
+        setPill(target);
+    }, [active]);
+
+    useEffect(() => {
+        const onResize = () => setPill(measure(active));
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
+    }, [active]);
+
     return (
-        <div role="tablist" className="flex w-full gap-1 overflow-x-auto rounded-lg bg-muted p-1">
+        <div ref={listRef} role="tablist" className="relative flex w-full gap-1 overflow-x-auto rounded-lg bg-muted p-1">
+            {pill && (
+                <span
+                    aria-hidden
+                    className="absolute top-1 bottom-1 rounded-md bg-accent shadow-sm transition-[left,width] duration-300 ease-out"
+                    style={{left: pill.left, width: pill.width}}
+                />
+            )}
+
             {BRANCH_TABS.map((tab) => {
                 const selected = tab.key === active;
-                const base = "flex-1 rounded-md px-3 py-1.5 text-center text-sm font-medium whitespace-nowrap";
+                const base = "relative z-10 flex-1 rounded-md px-3 py-1.5 text-center text-sm font-medium whitespace-nowrap";
 
                 if (selected) {
                     return (
                         <span
                             key={tab.key}
+                            data-tab={tab.key}
                             role="tab"
                             aria-selected="true"
-                            className={cn(base, "bg-accent text-accent-foreground shadow-sm")}
+                            className={cn(base, "text-accent-foreground")}
                         >
                             {tab.label}
                         </span>
@@ -39,6 +84,7 @@ export default function BranchTabs({active}: { active: BranchTabKey }) {
                     return (
                         <Link
                             key={tab.key}
+                            data-tab={tab.key}
                             role="tab"
                             aria-selected="false"
                             href={`?tab=${tab.key}`}
@@ -52,6 +98,7 @@ export default function BranchTabs({active}: { active: BranchTabKey }) {
                 return (
                     <button
                         key={tab.key}
+                        data-tab={tab.key}
                         type="button"
                         role="tab"
                         aria-selected="false"
