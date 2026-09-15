@@ -1,8 +1,8 @@
 'use client'
 
 import {useMemo, useState} from "react";
-import {addDays, format} from "date-fns";
-import {ChevronLeft, ChevronRight, Search} from "lucide-react";
+import {addDays, differenceInCalendarDays, format, subYears} from "date-fns";
+import {CalendarX2, ChevronLeft, ChevronRight, Filter, Search} from "lucide-react";
 import {OrbitProgress} from "react-loading-indicators";
 
 import {useOwnerBranchBookings} from "@/features/ownerBooking/useOwnerBranchBookings";
@@ -14,19 +14,38 @@ import {Input} from "@/_components/shadcn/input";
 import {Button} from "@/_components/shadcn/button";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 import {Card, CardContent} from "@/_components/shadcn/card";
+import {Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle} from "@/_components/shadcn/empty";
+import DateRangePicker from "@/_components/dateRangePicker";
 import FormErrorAlert from "@/_components/formErrorAlert";
 import BranchTabShell from "@/business/(owner)/branches/[branchId]/_components/branchTabShell";
+import ResultCount from "@/business/(owner)/branches/[branchId]/_components/resultCount";
 import OwnerBookingCard from "@/business/(owner)/branches/[branchId]/_components/ownerBookingCard";
 import BookingDetailPanel from "@/business/(owner)/branches/[branchId]/_components/bookingDetailPanel";
 
 export default function BranchBookingsContent({branchId}: { branchId: string }) {
-    const [day, setDay] = useState<Date>(() => new Date());
+    const [range, setRange] = useState<{from: Date; to: Date}>(() => {
+        const t = new Date();
+        return {from: t, to: t};
+    });
     const [query, setQuery] = useState("");
     const [sort, setSort] = useState<OwnerBookingSort>("startAsc");
     const [selectedIdx, setSelectedIdx] = useState(0);
 
-    const isoDate = format(day, "yyyy-MM-dd");
-    const {bookings, isLoading, isError, error} = useOwnerBranchBookings(branchId, isoDate);
+    const isoFrom = format(range.from, "yyyy-MM-dd");
+    const isoTo = format(range.to, "yyyy-MM-dd");
+    const {bookings, isLoading, isError, error} = useOwnerBranchBookings(branchId, isoFrom, isoTo);
+
+    const spanDays = differenceInCalendarDays(range.to, range.from) + 1;
+    const singleDay = spanDays === 1;
+    const today = useMemo(() => new Date(), []);
+    const minDate = useMemo(() => subYears(today, 5), [today]);
+
+    const shiftRange = (dir: number) =>
+        setRange((r) => ({from: addDays(r.from, dir * spanDays), to: addDays(r.to, dir * spanDays)}));
+
+    const rangeLabel = singleDay
+        ? format(range.from, "EEE, MMM d")
+        : `${format(range.from, "MMM d")} – ${format(range.to, "MMM d")}`;
 
     const visible = useMemo(
         () => sortOwnerBookings(filterOwnerBookings(bookings, query), sort),
@@ -40,42 +59,65 @@ export default function BranchBookingsContent({branchId}: { branchId: string }) 
         <BranchTabShell branchId={branchId} active="bookings">
             <div className="grid gap-4 lg:grid-cols-[minmax(0,380px)_1fr] lg:gap-6">
                 <div className="flex flex-col gap-3">
-                    <h2 className="text-lg font-semibold tracking-tight">Bookings Browser</h2>
+                    <section className="flex flex-wrap items-center gap-3">
+                        <h2 className="text-lg font-semibold tracking-tight">Bookings</h2>
+                    </section>
 
-                    <div className="relative">
-                        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
-                        <Input
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
-                            placeholder="Search customer, plate, service"
-                            className="pl-9"
-                        />
+                    <div className="flex flex-wrap items-center gap-3 rounded-xl border p-3">
+                        <p className="flex items-center gap-2 text-base font-semibold">
+                            <Filter className="h-4 w-4"/> Filters:
+                        </p>
+
+                        <div className="relative min-w-0 flex-1">
+                            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
+                            <Input
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                                placeholder="Search customer, plate, service"
+                                className="pl-9"
+                            />
+                        </div>
+
+                        <div className="flex w-full items-center gap-2">
+                            <Select value={sort} onValueChange={(value) => setSort(value as OwnerBookingSort)}>
+                                <SelectTrigger className="w-[170px]"><SelectValue/></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="startAsc">Earliest first</SelectItem>
+                                    <SelectItem value="startDesc">Latest first</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <Button variant="outline" className="ml-auto" onClick={() => { setQuery(""); setSort("startAsc"); }}>
+                                Clear filters
+                            </Button>
+                        </div>
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <Button type="button" variant="outline" size="icon" onClick={() => setDay((d) => addDays(d, -1))} aria-label="Previous day">
+                        <Button type="button" variant="outline" size="icon" onClick={() => shiftRange(-1)} aria-label="Previous range">
                             <ChevronLeft/>
                         </Button>
-                        <span className="flex-1 text-center text-sm font-medium tabular-nums">{format(day, "EEE, MMM d")}</span>
-                        <Button type="button" variant="outline" size="icon" onClick={() => setDay((d) => addDays(d, 1))} aria-label="Next day">
+                        <DateRangePicker
+                            value={{from: isoFrom, to: isoTo}}
+                            onChange={(next) => {
+                                if (!next.from) return;
+                                const from = new Date(next.from + "T00:00:00");
+                                const to = next.to ? new Date(next.to + "T00:00:00") : from;
+                                setRange({from, to});
+                            }}
+                            minDate={minDate}
+                            maxDays={92}
+                            trigger={
+                                <Button type="button" variant="outline" className="min-w-0 flex-1 justify-center text-sm font-medium tabular-nums">
+                                    <span className="truncate">{rangeLabel}</span>
+                                </Button>
+                            }
+                        />
+                        <Button type="button" variant="outline" size="icon" onClick={() => shiftRange(1)} aria-label="Next range">
                             <ChevronRight/>
                         </Button>
                     </div>
 
-                    <div className="flex items-center justify-between gap-2">
-                        <Select value={sort} onValueChange={(value) => setSort(value as OwnerBookingSort)}>
-                            <SelectTrigger className="w-[170px]">
-                                <SelectValue/>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="startAsc">Earliest first</SelectItem>
-                                <SelectItem value="startDesc">Latest first</SelectItem>
-                            </SelectContent>
-                        </Select>
-                        <span className="text-xs text-muted-foreground">
-                            Result: {visible.length} {visible.length === 1 ? "entry" : "entries"}
-                        </span>
-                    </div>
+                    <ResultCount count={visible.length}/>
 
                     {isError && <FormErrorAlert message={toDisplayError(error as ApiError).message}/>}
 
@@ -83,8 +125,20 @@ export default function BranchBookingsContent({branchId}: { branchId: string }) 
                         <div className="flex min-h-[30vh] items-center justify-center">
                             <OrbitProgress color="var(--primary)" size="medium" text="" textColor="" dense/>
                         </div>
+                    ) : bookings.length === 0 ? (
+                        <Empty>
+                            <EmptyHeader>
+                                <EmptyMedia variant="icon">
+                                    <CalendarX2/>
+                                </EmptyMedia>
+                                <EmptyTitle>{singleDay ? "No bookings for this day" : "No bookings in this range"}</EmptyTitle>
+                                <EmptyDescription>
+                                    {singleDay ? "Pick another day to see its bookings." : "Pick another range to see its bookings."}
+                                </EmptyDescription>
+                            </EmptyHeader>
+                        </Empty>
                     ) : visible.length === 0 ? (
-                        <p className="py-8 text-center text-sm text-muted-foreground">No bookings for this day.</p>
+                        <p className="pt-6 text-center text-sm text-muted-foreground">No bookings match your filters.</p>
                     ) : (
                         <div className="flex flex-col gap-2">
                             {visible.map((booking, i) => (
@@ -92,6 +146,7 @@ export default function BranchBookingsContent({branchId}: { branchId: string }) 
                                     key={`${booking.reference}-${i}`}
                                     booking={booking}
                                     selected={i === activeIdx}
+                                    showDate={!singleDay}
                                     onSelect={() => setSelectedIdx(i)}
                                 />
                             ))}
@@ -101,7 +156,10 @@ export default function BranchBookingsContent({branchId}: { branchId: string }) 
 
                 <div>
                     {selected ? (
-                        <BookingDetailPanel booking={selected} dateLabel={format(day, "EEEE, MMMM d, yyyy")}/>
+                        <BookingDetailPanel
+                            booking={selected}
+                            dateLabel={format(new Date(selected.date + "T00:00:00"), "EEEE, MMMM d, yyyy")}
+                        />
                     ) : (
                         <Card>
                             <CardContent className="flex min-h-[30vh] items-center justify-center p-4 text-sm text-muted-foreground lg:p-6">

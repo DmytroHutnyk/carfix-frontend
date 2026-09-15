@@ -13,7 +13,7 @@ export default function OwnerEmployeeCard({employee, selected, onSelect}: {
             type="button"
             onClick={onSelect}
             className={cn(
-                "flex w-full flex-col gap-2 rounded-xl border bg-card p-4 text-left text-card-foreground shadow-sm transition-colors",
+                "flex w-full flex-col gap-2 rounded-xl border bg-card p-4 text-left text-card-foreground shadow transition-colors",
                 selected ? "border-primary bg-accent/10" : "hover:bg-accent/10"
             )}
         >

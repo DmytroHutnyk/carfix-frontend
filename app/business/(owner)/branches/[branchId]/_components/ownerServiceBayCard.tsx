@@ -13,14 +13,11 @@ export default function OwnerServiceBayCard({bay, selected, onSelect}: {
             type="button"
             onClick={onSelect}
             className={cn(
-                "flex w-full flex-col gap-2 rounded-xl border bg-card p-4 text-left text-card-foreground shadow-sm transition-colors",
+                "flex w-full flex-col gap-2 rounded-xl border bg-card p-4 text-left text-card-foreground shadow transition-colors",
                 selected ? "border-primary bg-accent/10" : "hover:bg-accent/10"
             )}
         >
-            <div className="flex items-center justify-between gap-2">
-                <span className="min-w-0 truncate text-sm font-semibold">{bay.name}</span>
-                <span className="shrink-0 text-xs tabular-nums text-muted-foreground">#{bay.id}</span>
-            </div>
+            <span className="truncate text-sm font-semibold">{bay.name}</span>
 
             {bay.type && <Badge variant="outline" className="self-start">{bay.type}</Badge>}
 
