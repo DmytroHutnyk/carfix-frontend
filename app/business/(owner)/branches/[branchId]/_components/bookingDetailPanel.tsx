@@ -19,7 +19,7 @@ export default function BookingDetailPanel({booking, dateLabel}: {
 }) {
     return (
         <Card>
-            <CardContent className="flex flex-col gap-5 p-6">
+            <CardContent className="flex flex-col gap-5 p-4 lg:p-6">
                 <div>
                     <div className="flex flex-wrap items-center gap-2">
                         <h2 className="text-lg font-semibold tracking-tight">{dateLabel}</h2>

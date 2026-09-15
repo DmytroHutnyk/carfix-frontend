@@ -51,7 +51,7 @@ export default function ServiceBayEditor({bay, types, submitLabel, onSubmit}: {
 
     return (
         <Card>
-            <CardContent className="p-6">
+            <CardContent className="p-4 lg:p-6">
                 <form onSubmit={handleSubmit(submit)} noValidate className="flex flex-col gap-4">
                     <div className="grid gap-4 sm:grid-cols-2">
                         <div className="flex flex-col gap-1.5">

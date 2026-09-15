@@ -123,7 +123,7 @@ export default function BranchEmployeesContent({branchId}: { branchId: string })
                         />
                     ) : (
                         <Card>
-                            <CardContent className="flex min-h-[30vh] items-center justify-center p-6 text-sm text-muted-foreground">
+                            <CardContent className="flex min-h-[30vh] items-center justify-center p-4 text-sm text-muted-foreground lg:p-6">
                                 Select an employee or add a new one.
                             </CardContent>
                         </Card>

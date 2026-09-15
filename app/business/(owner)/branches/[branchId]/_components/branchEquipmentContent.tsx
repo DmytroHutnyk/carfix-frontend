@@ -123,7 +123,7 @@ export default function BranchEquipmentContent({branchId}: { branchId: string })
                         />
                     ) : (
                         <Card>
-                            <CardContent className="flex min-h-[30vh] items-center justify-center p-6 text-sm text-muted-foreground">
+                            <CardContent className="flex min-h-[30vh] items-center justify-center p-4 text-sm text-muted-foreground lg:p-6">
                                 Select an item or add new equipment.
                             </CardContent>
                         </Card>

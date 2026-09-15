@@ -124,7 +124,7 @@ export default function BranchServiceBaysContent({branchId}: { branchId: string 
                         />
                     ) : (
                         <Card>
-                            <CardContent className="flex min-h-[30vh] items-center justify-center p-6 text-sm text-muted-foreground">
+                            <CardContent className="flex min-h-[30vh] items-center justify-center p-4 text-sm text-muted-foreground lg:p-6">
                                 Select a car bay or add a new one.
                             </CardContent>
                         </Card>
