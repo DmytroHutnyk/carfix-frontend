@@ -25,6 +25,7 @@ export default function CarBrandsCard({form}: { form: UseFormReturn<BranchOvervi
     return (
         <CollapsibleCard title="Car brands we work with">
             <div className="space-y-3">
+                <BrandPickerDialog selected={selectedBrandIds} onConfirm={setBrands}/>
                 <div className="flex flex-wrap items-center gap-2">
                     {isBrandsLoading && selectedBrandIds.length > 0 && (
                         <p className="text-sm text-muted-foreground">Loading brands…</p>
@@ -42,7 +43,6 @@ export default function CarBrandsCard({form}: { form: UseFormReturn<BranchOvervi
                             </button>
                         </Badge>
                     ))}
-                    <BrandPickerDialog selected={selectedBrandIds} onConfirm={setBrands}/>
                 </div>
                 {errors.carBrandIds && <FieldError>{errors.carBrandIds.message}</FieldError>}
             </div>
