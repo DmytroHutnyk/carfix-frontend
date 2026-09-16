@@ -36,12 +36,12 @@ export default function ServiceRow({service, onEdit, onToggleStatus, onDelete}: 
     return (
         <Collapsible open={open} onOpenChange={setOpen} className="col-span-full grid grid-cols-subgrid rounded-lg border bg-card px-3 text-card-foreground">
             <CollapsibleTrigger className="col-span-full grid grid-cols-subgrid items-center justify-items-start gap-x-2 py-3 text-left [&[data-state=open]>svg]:rotate-180">
-                <span title={service.name} className="min-w-0 justify-self-stretch truncate text-sm font-semibold">{service.name}</span>
+                <span title={service.name} className="w-full line-clamp-2 text-sm font-semibold">{service.name}</span>
                 <Badge variant={serviceStatusVariant(service.status)}>{serviceStatusLabel(service.status)}</Badge>
                 <span className="text-xs tabular-nums text-muted-foreground">{formatDuration(service.durationMinutes)}</span>
                 <span className="text-xs font-medium tabular-nums">{formatPln(service.price)}</span>
-                <span className="flex min-w-0 flex-wrap items-center gap-1 justify-self-stretch overflow-hidden">
-                    {service.bayTypes.slice(0, 2).map((type) => <Badge key={type} variant="outline">{type}</Badge>)}
+                <span className="flex w-full flex-wrap items-center gap-1 overflow-hidden">
+                    {service.bayTypes.slice(0, 2).map((type) => <Badge key={type} variant="outline" className="max-w-full truncate">{type}</Badge>)}
                     {service.bayTypes.length > 2 && <Badge variant="outline">+{service.bayTypes.length - 2}</Badge>}
                 </span>
                 <span className="whitespace-nowrap text-xs text-muted-foreground">Roles ({service.employeeRequirements.length})</span>
