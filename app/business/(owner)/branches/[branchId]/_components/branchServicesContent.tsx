@@ -18,7 +18,6 @@ import {
 import {isApiError} from "@/lib/apiTypes";
 import {toDisplayError} from "@/lib/errorHandler";
 import {ApiError} from "@/lib/apiTypes";
-import {cn} from "@/lib/utils";
 
 import {Input} from "@/_components/shadcn/input";
 import {Button} from "@/_components/shadcn/button";
@@ -86,8 +85,7 @@ export default function BranchServicesContent({branchId}: { branchId: string }) 
 
     return (
         <BranchTabShell branchId={branchId} active="services">
-            <div className={cn("grid gap-4 lg:gap-6",
-                categoriesCollapsed ? "lg:grid-cols-[auto_1fr]" : "lg:grid-cols-[minmax(0,380px)_1fr]")}>
+            <div className="grid gap-4 lg:grid-cols-[auto_1fr] lg:gap-6">
                 <ServiceCategorySidebar
                     counts={counts}
                     totalCount={filtered.length}

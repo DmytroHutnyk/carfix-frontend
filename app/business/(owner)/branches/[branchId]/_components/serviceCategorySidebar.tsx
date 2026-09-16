@@ -39,7 +39,7 @@ export default function ServiceCategorySidebar({
     );
 
     return (
-        <Card className={cn("self-start transition-[width]", collapsed && "lg:w-16")}>
+        <Card className={cn("transition-[width] lg:w-[380px]", collapsed && "lg:w-16")}>
             <CardContent className="flex flex-col gap-3 p-4 lg:p-6">
                 <div className={cn("flex items-center gap-2", collapsed ? "justify-between lg:justify-center" : "justify-between")}>
                     <h2 className={cn("text-lg font-semibold tracking-tight", collapsed && "lg:hidden")}>Categories</h2>

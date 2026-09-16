@@ -31,7 +31,7 @@ export default function ServiceCategoryCard({categoryName, count, open, onOpenCh
                 </CollapsibleTrigger>
                 <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
                     <div className="overflow-x-auto px-4 pb-4 lg:px-6 lg:pb-6">
-                        <div className="grid min-w-full grid-cols-[minmax(0,max-content)_repeat(6,auto)_1fr] gap-2">
+                        <div className="grid min-w-full grid-cols-[minmax(0,2fr)_9.5rem_3.5rem_5rem_minmax(0,1fr)_4rem_5.5rem_1.25rem] gap-x-2 gap-y-2">
                             {children}
                         </div>
                     </div>
