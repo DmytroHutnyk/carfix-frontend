@@ -16,7 +16,7 @@ export default function BranchReviewsContent({branchId}: { branchId: string }) {
     return (
         <BranchTabShell branchId={branchId} active="reviews">
             <Card>
-                <CardContent className="flex flex-col gap-4 p-6">
+                <CardContent className="flex flex-col gap-4 p-4 lg:p-6">
                     <div className="flex items-center justify-between gap-2">
                         <h2 className="text-lg font-semibold tracking-tight">Reviews</h2>
                         {total != null && <span className="text-sm text-muted-foreground">{total} total</span>}

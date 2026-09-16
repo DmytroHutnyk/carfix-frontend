@@ -1,7 +1,7 @@
 'use client'
 
 import {useMemo, useState} from "react";
-import {Plus, Search} from "lucide-react";
+import {Plus, Warehouse} from "lucide-react";
 import {OrbitProgress} from "react-loading-indicators";
 
 import {useOwnerServiceBays} from "@/features/ownerServiceBay/useOwnerServiceBays";
@@ -10,12 +10,14 @@ import {OwnerServiceBaySort, filterServiceBays, sortServiceBays} from "@/feature
 import {toDisplayError} from "@/lib/errorHandler";
 import {ApiError} from "@/lib/apiTypes";
 
-import {Input} from "@/_components/shadcn/input";
 import {Button} from "@/_components/shadcn/button";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 import {Card, CardContent} from "@/_components/shadcn/card";
+import {Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle} from "@/_components/shadcn/empty";
 import FormErrorAlert from "@/_components/formErrorAlert";
 import BranchTabShell from "@/business/(owner)/branches/[branchId]/_components/branchTabShell";
+import BranchFilterBar from "@/business/(owner)/branches/[branchId]/_components/branchFilterBar";
+import ResultCount from "@/business/(owner)/branches/[branchId]/_components/resultCount";
 import OwnerServiceBayCard from "@/business/(owner)/branches/[branchId]/_components/ownerServiceBayCard";
 import ServiceBayEditor from "@/business/(owner)/branches/[branchId]/_components/serviceBayEditor";
 
@@ -50,28 +52,8 @@ export default function BranchServiceBaysContent({branchId}: { branchId: string 
         <BranchTabShell branchId={branchId} active="carBays">
             <div className="grid gap-4 lg:grid-cols-[minmax(0,380px)_1fr] lg:gap-6">
                 <div className="flex flex-col gap-3">
-                    <h2 className="text-lg font-semibold tracking-tight">Car Bays Browser</h2>
-
-                    <div className="relative">
-                        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
-                        <Input
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
-                            placeholder="Search by name"
-                            className="pl-9"
-                        />
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        <Select value={sort} onValueChange={(value) => setSort(value as OwnerServiceBaySort)}>
-                            <SelectTrigger className="w-[150px]">
-                                <SelectValue/>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="nameAsc">Name A–Z</SelectItem>
-                                <SelectItem value="nameDesc">Name Z–A</SelectItem>
-                            </SelectContent>
-                        </Select>
+                    <section className="flex flex-wrap items-center gap-3">
+                        <h2 className="text-lg font-semibold tracking-tight">Car Bays</h2>
                         <Button
                             type="button"
                             className="ml-auto"
@@ -80,14 +62,26 @@ export default function BranchServiceBaysContent({branchId}: { branchId: string 
                                 setSelectedId(null);
                             }}
                         >
-                            <Plus/>
-                            Add Car Bay
+                            <Plus/> Add Car Bay
                         </Button>
-                    </div>
+                    </section>
 
-                    <span className="text-xs text-muted-foreground">
-                        Result: {visible.length} {visible.length === 1 ? "entry" : "entries"}
-                    </span>
+                    <BranchFilterBar
+                        query={query}
+                        onQueryChange={setQuery}
+                        searchPlaceholder="Search by name"
+                        onClear={() => { setQuery(""); setSort("nameAsc"); }}
+                    >
+                        <Select value={sort} onValueChange={(value) => setSort(value as OwnerServiceBaySort)}>
+                            <SelectTrigger className="w-full"><SelectValue/></SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="nameAsc">Name A–Z</SelectItem>
+                                <SelectItem value="nameDesc">Name Z–A</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </BranchFilterBar>
+
+                    <ResultCount count={visible.length}/>
 
                     {isError && <FormErrorAlert message={toDisplayError(error as ApiError).message}/>}
 
@@ -95,8 +89,18 @@ export default function BranchServiceBaysContent({branchId}: { branchId: string 
                         <div className="flex min-h-[30vh] items-center justify-center">
                             <OrbitProgress color="var(--primary)" size="medium" text="" textColor="" dense/>
                         </div>
+                    ) : serviceBays.length === 0 ? (
+                        <Empty>
+                            <EmptyHeader>
+                                <EmptyMedia variant="icon">
+                                    <Warehouse/>
+                                </EmptyMedia>
+                                <EmptyTitle>No car bays yet</EmptyTitle>
+                                <EmptyDescription>Add a car bay to manage it here.</EmptyDescription>
+                            </EmptyHeader>
+                        </Empty>
                     ) : visible.length === 0 ? (
-                        <p className="py-8 text-center text-sm text-muted-foreground">No car bays yet.</p>
+                        <p className="pt-6 text-center text-sm text-muted-foreground">No car bays match your filters.</p>
                     ) : (
                         <div className="flex flex-col gap-2">
                             {visible.map((bay) => (
@@ -119,12 +123,13 @@ export default function BranchServiceBaysContent({branchId}: { branchId: string 
                         <ServiceBayEditor
                             bay={selected}
                             types={types}
+                            isNew={isAdding}
                             submitLabel={isAdding || !selected ? "Add Car Bay" : "Save changes"}
                             onSubmit={onSubmit}
                         />
                     ) : (
                         <Card>
-                            <CardContent className="flex min-h-[30vh] items-center justify-center p-6 text-sm text-muted-foreground">
+                            <CardContent className="flex min-h-[30vh] items-center justify-center p-4 text-sm text-muted-foreground lg:p-6">
                                 Select a car bay or add a new one.
                             </CardContent>
                         </Card>

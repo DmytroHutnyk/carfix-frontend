@@ -1,11 +1,13 @@
 import {OwnerBooking} from "@/features/ownerBooking/ownerBookingTypes";
-import {formatClock, initialsOf, ownerBookingStatusLabel, ownerBookingStatusVariant} from "@/features/ownerBooking/ownerBookingList";
+import {formatBookingDate, formatClock, initialsOf} from "@/features/ownerBooking/ownerBookingList";
 import {cn} from "@/lib/utils";
 import {Badge} from "@/_components/shadcn/badge";
+import BookingStatusBadge from "@/_components/bookingStatusBadge";
 
-export default function OwnerBookingCard({booking, selected, onSelect}: {
+export default function OwnerBookingCard({booking, selected, showDate, onSelect}: {
     booking: OwnerBooking;
     selected: boolean;
+    showDate: boolean;
     onSelect: () => void;
 }) {
     return (
@@ -13,17 +15,18 @@ export default function OwnerBookingCard({booking, selected, onSelect}: {
             type="button"
             onClick={onSelect}
             className={cn(
-                "flex w-full flex-col gap-2 rounded-xl border bg-card p-4 text-left text-card-foreground shadow-sm transition-colors",
-                selected ? "border-primary bg-accent/40" : "hover:bg-accent/30"
+                "flex w-full flex-col gap-2 rounded-xl border bg-card p-4 text-left text-card-foreground shadow transition-colors",
+                selected ? "border-primary bg-accent/10" : "hover:bg-accent/10"
             )}
         >
+            {showDate && (
+                <p className="text-xs font-medium text-muted-foreground">{formatBookingDate(booking.date)}</p>
+            )}
             <div className="flex items-center justify-between gap-2">
                 <span className="text-sm font-semibold tabular-nums">
                     {formatClock(booking.start)}–{formatClock(booking.end)}
                 </span>
-                <Badge variant={ownerBookingStatusVariant(booking.status)}>
-                    {ownerBookingStatusLabel(booking.status)}
-                </Badge>
+                <BookingStatusBadge status={booking.status}/>
             </div>
 
             <div>
@@ -55,7 +58,6 @@ export default function OwnerBookingCard({booking, selected, onSelect}: {
                     </span>
                 )}
                 {booking.bay && <Badge variant="secondary">{booking.bay}</Badge>}
-                <span className="ml-auto tabular-nums">#{booking.reference}</span>
             </div>
         </button>
     );

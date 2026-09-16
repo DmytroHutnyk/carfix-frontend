@@ -4,7 +4,8 @@ import {useState} from "react";
 import {Filter, Search} from "lucide-react";
 
 import {BOOKING_STATUSES, BookingStatus} from "@/features/booking/bookingTypes";
-import {BookingFilterState, EMPTY_FILTERS, STATUS_LABELS} from "@/features/booking/bookingList";
+import {BookingFilterState, EMPTY_FILTERS} from "@/features/booking/bookingList";
+import {bookingStatusLabel} from "@/_components/bookingStatusBadge";
 
 import FilterSheet from "@/_components/filterSheet";
 import FilterButton from "@/_components/filterButton";
@@ -52,7 +53,7 @@ function StatusSelect({value, onChange, triggerId, triggerClassName}: SelectProp
             <SelectContent>
                 <SelectItem value="all">All statuses</SelectItem>
                 {BOOKING_STATUSES.map((s) => (
-                    <SelectItem key={s} value={s}>{STATUS_LABELS[s]}</SelectItem>
+                    <SelectItem key={s} value={s}>{bookingStatusLabel(s)}</SelectItem>
                 ))}
             </SelectContent>
         </Select>

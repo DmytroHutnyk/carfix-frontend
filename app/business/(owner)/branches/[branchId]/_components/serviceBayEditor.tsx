@@ -21,14 +21,15 @@ import {Input} from "@/_components/shadcn/input";
 import {Textarea} from "@/_components/shadcn/textarea";
 import {Button} from "@/_components/shadcn/button";
 import {Label} from "@/_components/shadcn/label";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/_components/shadcn/select";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/_components/shadcn/collapsible";
 import {Separator} from "@/_components/shadcn/separator";
 import FormErrorAlert from "@/_components/formErrorAlert";
+import CreatableSelect from "@/_components/creatableSelect";
 
-export default function ServiceBayEditor({bay, types, submitLabel, onSubmit}: {
+export default function ServiceBayEditor({bay, types, isNew, submitLabel, onSubmit}: {
     bay: OwnerServiceBay | null;
     types: OwnerServiceBayType[];
+    isNew: boolean;
     submitLabel: string;
     onSubmit: (form: ServiceBayForm) => Promise<void>;
 }) {
@@ -50,8 +51,8 @@ export default function ServiceBayEditor({bay, types, submitLabel, onSubmit}: {
     };
 
     return (
-        <Card>
-            <CardContent className="p-6">
+        <Card className={cn(isNew && "border-success-badge-foreground ring-2 ring-success-badge-foreground/40")}>
+            <CardContent className="p-4 lg:p-6">
                 <form onSubmit={handleSubmit(submit)} noValidate className="flex flex-col gap-4">
                     <div className="grid gap-4 sm:grid-cols-2">
                         <div className="flex flex-col gap-1.5">
@@ -60,26 +61,24 @@ export default function ServiceBayEditor({bay, types, submitLabel, onSubmit}: {
                             {errors.name && <p className="text-xs text-destructive lg:text-sm">{errors.name.message}</p>}
                         </div>
                         <Controller
-                            name="serviceBayTypeId"
+                            name="serviceBayType"
                             control={control}
                             render={({field}) => (
                                 <div className="flex flex-col gap-1.5">
                                     <Label>Type</Label>
-                                    <Select
-                                        value={field.value ? String(field.value) : ""}
-                                        onValueChange={(value) => field.onChange(Number(value))}
-                                    >
-                                        <SelectTrigger className={cn(errors.serviceBayTypeId && "border-destructive focus-visible:ring-destructive")}>
-                                            <SelectValue placeholder="Select a type"/>
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {types.map((type) => (
-                                                <SelectItem key={type.id} value={String(type.id)}>{type.name}</SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                    {errors.serviceBayTypeId && (
-                                        <p className="text-xs text-destructive lg:text-sm">{errors.serviceBayTypeId.message}</p>
+                                    <CreatableSelect
+                                        value={field.value}
+                                        options={types.map((type) => type.name)}
+                                        onChange={field.onChange}
+                                        onCreate={() => {}}
+                                        placeholder="Select or add a type"
+                                        maxNameLength={40}
+                                        ariaLabel="Type"
+                                        createLabel="Add type"
+                                        invalid={!!errors.serviceBayType}
+                                    />
+                                    {errors.serviceBayType && (
+                                        <p className="text-xs text-destructive lg:text-sm">{errors.serviceBayType.message}</p>
                                     )}
                                 </div>
                             )}

@@ -6,14 +6,12 @@ export type OwnerEquipmentBadgeVariant =
     "default" | "secondary" | "destructive" | "destructiveSoft" | "success" | "outline";
 
 const STATUS_LABELS: Record<string, string> = {
-    AVAILABLE: "Available",
-    BUSY: "Busy",
+    ACTIVE: "Active",
     SUSPENDED: "Suspended",
 };
 
 const STATUS_VARIANT: Record<string, OwnerEquipmentBadgeVariant> = {
-    AVAILABLE: "success",
-    BUSY: "default",
+    ACTIVE: "success",
     SUSPENDED: "destructiveSoft",
 };
 

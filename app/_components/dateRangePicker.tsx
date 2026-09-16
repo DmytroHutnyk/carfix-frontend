@@ -1,6 +1,6 @@
 'use client'
 
-import {useState} from "react";
+import {ReactNode, useState} from "react";
 import {format} from "date-fns";
 import {CalendarDays} from "lucide-react";
 import {DateRange} from "react-day-picker";
@@ -30,7 +30,7 @@ function label(value: DateRangeValue, placeholder: string): string {
 }
 
 export default function DateRangePicker({
-    value, onChange, placeholder = "Any date", className, numberOfMonths = 2, minDate, maxDays,
+    value, onChange, placeholder = "Any date", className, numberOfMonths = 2, minDate, maxDays, trigger,
 }: {
     value: DateRangeValue;
     onChange: (value: DateRangeValue) => void;
@@ -39,6 +39,7 @@ export default function DateRangePicker({
     numberOfMonths?: number;
     minDate?: Date;
     maxDays?: number;
+    trigger?: ReactNode;
 }) {
     const [open, setOpen] = useState(false);
     const isMobile = useIsMobile();
@@ -50,13 +51,15 @@ export default function DateRangePicker({
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-                <Button
-                    variant="outline"
-                    className={cn("justify-start gap-x-2 font-normal", className)}
-                >
-                    <CalendarDays className="h-4 w-4 shrink-0 text-muted-foreground"/>
-                    <span className="truncate">{label(value, placeholder)}</span>
-                </Button>
+                {trigger ?? (
+                    <Button
+                        variant="outline"
+                        className={cn("justify-start gap-x-2 font-normal", className)}
+                    >
+                        <CalendarDays className="h-4 w-4 shrink-0 text-muted-foreground"/>
+                        <span className="truncate">{label(value, placeholder)}</span>
+                    </Button>
+                )}
             </PopoverTrigger>
             <PopoverContent className="w-auto max-w-[calc(100vw-2rem)] overflow-x-auto p-0" align="start">
                 <Calendar

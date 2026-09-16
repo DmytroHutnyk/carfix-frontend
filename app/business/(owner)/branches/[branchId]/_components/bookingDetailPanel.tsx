@@ -6,11 +6,10 @@ import {
     formatDateTime,
     formatMoney,
     initialsOf,
-    ownerBookingStatusLabel,
-    ownerBookingStatusVariant,
 } from "@/features/ownerBooking/ownerBookingList";
 import {Card, CardContent} from "@/_components/shadcn/card";
 import {Badge} from "@/_components/shadcn/badge";
+import BookingStatusBadge from "@/_components/bookingStatusBadge";
 import {Separator} from "@/_components/shadcn/separator";
 
 export default function BookingDetailPanel({booking, dateLabel}: {
@@ -19,14 +18,11 @@ export default function BookingDetailPanel({booking, dateLabel}: {
 }) {
     return (
         <Card>
-            <CardContent className="flex flex-col gap-5 p-6">
+            <CardContent className="flex flex-col gap-5 p-4 lg:p-6">
                 <div>
                     <div className="flex flex-wrap items-center gap-2">
                         <h2 className="text-lg font-semibold tracking-tight">{dateLabel}</h2>
-                        <Badge variant={ownerBookingStatusVariant(booking.status)}>
-                            {ownerBookingStatusLabel(booking.status)}
-                        </Badge>
-                        <span className="ml-auto text-sm tabular-nums text-muted-foreground">#{booking.reference}</span>
+                        <BookingStatusBadge status={booking.status}/>
                     </div>
                     <p className="pt-1 text-sm tabular-nums text-muted-foreground">
                         {formatClock(booking.start)}–{formatClock(booking.end)}

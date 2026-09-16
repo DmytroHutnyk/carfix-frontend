@@ -13,19 +13,16 @@ export default function OwnerEmployeeCard({employee, selected, onSelect}: {
             type="button"
             onClick={onSelect}
             className={cn(
-                "flex w-full flex-col gap-2 rounded-xl border bg-card p-4 text-left text-card-foreground shadow-sm transition-colors",
-                selected ? "border-primary bg-accent/40" : "hover:bg-accent/30"
+                "flex w-full flex-col gap-2 rounded-xl border bg-card p-4 text-left text-card-foreground shadow transition-colors",
+                selected ? "border-primary bg-accent/10" : "hover:bg-accent/10"
             )}
         >
-            <div className="flex items-center justify-between gap-2">
-                <span className="min-w-0 truncate text-sm font-semibold">{fullName(employee)}</span>
-                <span className="max-w-[8rem] shrink-0 truncate text-xs tabular-nums text-muted-foreground">#{employee.id}</span>
-            </div>
+            <span className="min-w-0 truncate text-sm font-semibold">{fullName(employee)}</span>
 
             {employee.roles.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                     {employee.roles.map((role, i) => (
-                        <Badge key={`${role}-${i}`} variant="outline">{role}</Badge>
+                        <Badge key={`${role}-${i}`} variant="secondary">{role}</Badge>
                     ))}
                 </div>
             )}

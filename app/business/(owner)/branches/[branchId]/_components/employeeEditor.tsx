@@ -24,14 +24,16 @@ import {Badge} from "@/_components/shadcn/badge";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/_components/shadcn/collapsible";
 import {Separator} from "@/_components/shadcn/separator";
 import FormErrorAlert from "@/_components/formErrorAlert";
+import CreatableSelect from "@/_components/creatableSelect";
 
-export default function EmployeeEditor({employee, submitLabel, onSubmit}: {
+export default function EmployeeEditor({employee, roleOptions, isNew, submitLabel, onSubmit}: {
     employee: OwnerEmployee | null;
+    roleOptions: string[];
+    isNew: boolean;
     submitLabel: string;
     onSubmit: (form: EmployeeForm) => Promise<void>;
 }) {
     const [error, setError] = useState<string | null>(null);
-    const [roleDraft, setRoleDraft] = useState("");
 
     const {register, control, handleSubmit, formState: {errors, isSubmitting, isDirty}} = useForm<EmployeeForm>({
         resolver: zodResolver(employeeFormSchema),
@@ -49,8 +51,8 @@ export default function EmployeeEditor({employee, submitLabel, onSubmit}: {
     };
 
     return (
-        <Card>
-            <CardContent className="p-6">
+        <Card className={cn(isNew && "border-success-badge-foreground ring-2 ring-success-badge-foreground/40")}>
+            <CardContent className="p-4 lg:p-6">
                 <form onSubmit={handleSubmit(submit)} noValidate className="flex flex-col gap-4">
                     <div className="grid gap-4 sm:grid-cols-2">
                         <Field label="Name" error={errors.name?.message}>
@@ -92,32 +94,26 @@ export default function EmployeeEditor({employee, submitLabel, onSubmit}: {
                         name="roles"
                         control={control}
                         render={({field}) => {
-                            const addRole = () => {
-                                const value = roleDraft.trim();
-                                if (!value || field.value.includes(value)) {
-                                    setRoleDraft("");
-                                    return;
+                            const addRole = (role: string) => {
+                                const value = role.trim();
+                                if (value && !field.value.includes(value)) {
+                                    field.onChange([...field.value, value]);
                                 }
-                                field.onChange([...field.value, value]);
-                                setRoleDraft("");
                             };
                             return (
                                 <div className="flex flex-col gap-1.5">
                                     <Label>Roles</Label>
-                                    <div className="flex gap-2">
-                                        <Input
-                                            value={roleDraft}
-                                            onChange={(e) => setRoleDraft(e.target.value)}
-                                            onKeyDown={(e) => {
-                                                if (e.key === "Enter") {
-                                                    e.preventDefault();
-                                                    addRole();
-                                                }
-                                            }}
-                                            placeholder="Add a role"
-                                        />
-                                        <Button type="button" variant="secondary" onClick={addRole}>Add</Button>
-                                    </div>
+                                    <CreatableSelect
+                                        value=""
+                                        options={roleOptions}
+                                        onChange={addRole}
+                                        onCreate={addRole}
+                                        placeholder="Select or add a role"
+                                        maxNameLength={50}
+                                        ariaLabel="Role"
+                                        createLabel="Add role"
+                                        invalid={!!errors.roles}
+                                    />
                                     {field.value.length > 0 && (
                                         <div className="flex flex-wrap gap-1 pt-1">
                                             {field.value.map((role) => (
@@ -145,9 +141,9 @@ export default function EmployeeEditor({employee, submitLabel, onSubmit}: {
                     <Separator/>
 
                     <Collapsible defaultOpen>
-                        <CollapsibleTrigger type="button" className="flex w-full items-center justify-between text-sm font-semibold">
+                        <CollapsibleTrigger type="button" className="flex w-full items-center justify-between text-sm font-semibold [&[data-state=open]>svg]:rotate-180">
                             Address
-                            <ChevronDown className="h-4 w-4"/>
+                            <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200"/>
                         </CollapsibleTrigger>
                         <CollapsibleContent className="pt-3">
                             <div className="grid gap-4 sm:grid-cols-2">
@@ -173,9 +169,9 @@ export default function EmployeeEditor({employee, submitLabel, onSubmit}: {
                     <Separator/>
 
                     <Collapsible>
-                        <CollapsibleTrigger type="button" className="flex w-full items-center justify-between text-sm font-semibold">
+                        <CollapsibleTrigger type="button" className="flex w-full items-center justify-between text-sm font-semibold [&[data-state=open]>svg]:rotate-180">
                             Working Schedule
-                            <ChevronDown className="h-4 w-4"/>
+                            <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200"/>
                         </CollapsibleTrigger>
                         <CollapsibleContent className="pt-3">
                             <p className="text-sm text-muted-foreground">Working schedule editing is coming soon.</p>

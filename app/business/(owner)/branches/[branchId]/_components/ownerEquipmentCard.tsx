@@ -13,14 +13,11 @@ export default function OwnerEquipmentCard({equipment, selected, onSelect}: {
             type="button"
             onClick={onSelect}
             className={cn(
-                "flex w-full flex-col gap-2 rounded-xl border bg-card p-4 text-left text-card-foreground shadow-sm transition-colors",
-                selected ? "border-primary bg-accent/40" : "hover:bg-accent/30"
+                "flex w-full flex-col gap-2 rounded-xl border bg-card p-4 text-left text-card-foreground shadow transition-colors",
+                selected ? "border-primary bg-accent/10" : "hover:bg-accent/10"
             )}
         >
-            <div className="flex items-center justify-between gap-2">
-                <span className="min-w-0 truncate text-sm font-semibold">{equipment.name}</span>
-                <span className="max-w-[8rem] shrink-0 truncate text-xs tabular-nums text-muted-foreground">#{equipment.id}</span>
-            </div>
+            <span className="truncate text-sm font-semibold">{equipment.name}</span>
 
             {equipment.type && <Badge variant="outline" className="self-start">{equipment.type}</Badge>}
 

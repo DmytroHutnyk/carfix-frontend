@@ -1,7 +1,7 @@
 'use client'
 
 import {useState} from "react";
-import {useForm} from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {ChevronDown} from "lucide-react";
 
@@ -18,15 +18,18 @@ import {Label} from "@/_components/shadcn/label";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/_components/shadcn/collapsible";
 import {Separator} from "@/_components/shadcn/separator";
 import FormErrorAlert from "@/_components/formErrorAlert";
+import CreatableSelect from "@/_components/creatableSelect";
 
-export default function EquipmentEditor({equipment, submitLabel, onSubmit}: {
+export default function EquipmentEditor({equipment, typeOptions, isNew, submitLabel, onSubmit}: {
     equipment: OwnerEquipment | null;
+    typeOptions: string[];
+    isNew: boolean;
     submitLabel: string;
     onSubmit: (form: EquipmentForm) => Promise<void>;
 }) {
     const [error, setError] = useState<string | null>(null);
 
-    const {register, handleSubmit, formState: {errors, isSubmitting, isDirty}} = useForm<EquipmentForm>({
+    const {register, control, handleSubmit, formState: {errors, isSubmitting, isDirty}} = useForm<EquipmentForm>({
         resolver: zodResolver(equipmentFormSchema),
         mode: "onSubmit",
         values: toEquipmentForm(equipment),
@@ -42,8 +45,8 @@ export default function EquipmentEditor({equipment, submitLabel, onSubmit}: {
     };
 
     return (
-        <Card>
-            <CardContent className="p-6">
+        <Card className={cn(isNew && "border-success-badge-foreground ring-2 ring-success-badge-foreground/40")}>
+            <CardContent className="p-4 lg:p-6">
                 <form onSubmit={handleSubmit(submit)} noValidate className="flex flex-col gap-4">
                     <div className="grid gap-4 sm:grid-cols-2">
                         <div className="flex flex-col gap-1.5">
@@ -51,11 +54,27 @@ export default function EquipmentEditor({equipment, submitLabel, onSubmit}: {
                             <Input {...register("name")} className={cn(errors.name && "border-destructive focus-visible:ring-destructive")}/>
                             {errors.name && <p className="text-xs text-destructive lg:text-sm">{errors.name.message}</p>}
                         </div>
-                        <div className="flex flex-col gap-1.5">
-                            <Label>Type</Label>
-                            <Input {...register("type")} placeholder="e.g. Lift" className={cn(errors.type && "border-destructive focus-visible:ring-destructive")}/>
-                            {errors.type && <p className="text-xs text-destructive lg:text-sm">{errors.type.message}</p>}
-                        </div>
+                        <Controller
+                            name="type"
+                            control={control}
+                            render={({field}) => (
+                                <div className="flex flex-col gap-1.5">
+                                    <Label>Type</Label>
+                                    <CreatableSelect
+                                        value={field.value}
+                                        options={typeOptions}
+                                        onChange={field.onChange}
+                                        onCreate={() => {}}
+                                        placeholder="Select or add a type"
+                                        maxNameLength={50}
+                                        ariaLabel="Type"
+                                        createLabel="Add type"
+                                        invalid={!!errors.type}
+                                    />
+                                    {errors.type && <p className="text-xs text-destructive lg:text-sm">{errors.type.message}</p>}
+                                </div>
+                            )}
+                        />
                     </div>
 
                     <div className="flex flex-col gap-1.5">
