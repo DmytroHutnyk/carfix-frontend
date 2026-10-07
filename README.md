@@ -1,53 +1,24 @@
-# CarFix frontend project
+# CarFix frontend
 
----
+CarFix helps customers find car repair workshops and book available visits online. Workshop owners use it to manage their branches and the resources needed for repairs.
 
-##  Prerequisites
+This repository contains the web interface. The [backend README](https://github.com/DmytroHutnyk/carfix-backend#readme) is the main project overview and explains the booking logic, backend architecture, database, and full CI/CD process.
 
-- [Node.js](https://nodejs.org/) **18 or newer**
-- [Git](https://git-scm.com/) (latest version)
-- npm
+## Features
 
----
+- Workshop search by location, car, services, and availability, with workshop details and maps.
+- A booking flow for up to three services in one visit.
+- Customer accounts, saved car profiles, bookings, cancellations, and reviews.
+- An owner dashboard for branches, services, employees, equipment, bays, and bookings.
 
-##  Setup
+## Stack
 
-1. **Clone the repository**
+Next.js 16, React 19, TypeScript, Tailwind CSS, and shadcn/ui. TanStack Query manages API data, Zustand stores client state, and React Hook Form with Zod handles forms and validation. Maps use the Google Maps JavaScript API.
 
-   ```bash
-   git clone <YOUR_REPO_URL>.git
-   ```
+## Checks and deployment
 
-2. **Enter the project folder**
+GitHub Actions checks TypeScript and builds the production application on pull requests and pushes to `dev`. A push to `main` or a manual release checks TypeScript, builds the production Docker image, publishes `latest` and commit-SHA tags to GitHub Container Registry, and triggers shared deployment.
 
-   ```bash
-   cd react-js-vite-tailwind-shadcn-starting-project
-   ```
+`NEXT_PUBLIC_API_BASE` and `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` are supplied during the Docker build. Production uses `/api` through the shared HTTPS entry point. Changing these values requires rebuilding the image.
 
-   > If your folder name differs, adjust the `cd` path accordingly.
-
-3. **Install dependencies**
-
-   ```bash
-   npm install
-   ```
-
-4. **Start the dev server**
-
-   ```bash
-   npm run dev
-   ```
-
-5. **Open in browser**
-
-   Visit the local URL printed in the terminal (typically [http://localhost:5173](http://localhost:5173)).
-
----
-
-##  Resources
-
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [shadcn/ui Documentation](https://ui.shadcn.com/)
-- [Vite Documentation](https://vitejs.dev/)
-
----
+See the [main CI/CD documentation](https://github.com/DmytroHutnyk/carfix-backend#cicd) for deployment steps and required configuration.
