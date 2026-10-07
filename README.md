@@ -1,5 +1,7 @@
 # CarFix frontend
 
+**Live app: [carfix.one](https://carfix.one)**
+
 CarFix helps customers find car repair workshops and book available visits online. Workshop owners use it to manage their branches and the resources needed for repairs.
 
 This repository contains the web interface. The [backend README](https://github.com/DmytroHutnyk/carfix-backend#readme) is the main project overview and explains the booking logic, backend architecture, database, and full CI/CD process.
